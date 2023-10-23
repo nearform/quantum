@@ -1,7 +1,7 @@
 {
-  "name": "hub-template",
-  "version": "1.0.0",
-  "description": "Template to start a new repository on the hub",
+  "name": "@nearform/quantum",
+  "version": "0.0.1",
+  "description": "Component library based on the Quantum Design System",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -11,15 +11,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nearform/hub-template.git"
+    "url": "git+https://github.com/nearform/quantum.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nearform/hub-template/issues"
+    "url": "https://github.com/nearform/quantum/issues"
   },
-  "homepage": "https://github.com/nearform/hub-template#readme",
+  "homepage": "https://github.com/nearform/quantum#readme",
+  "lint-staged": {
+    "*.{js,jsx}": "eslint --cache --fix"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.3.3"
+  },
   "devDependencies": {
     "@commitlint/cli": "^18.0.0",
     "@commitlint/config-conventional": "^18.0.0",
@@ -29,8 +35,5 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.0.2",
     "prettier": "^3.0.3"
-  },
-  "lint-staged": {
-    "*.{js,jsx}": "eslint --cache --fix"
   }
 }
