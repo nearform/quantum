@@ -2,7 +2,7 @@
 import colors from './src/colors'
 
 module.exports = {
-  content: ['./src/**/*.tsx'],
+  content: ['./src/**/*.{tsx,svg}'],
   theme: {
     colors: colors,
     extend: {
@@ -20,6 +20,9 @@ module.exports = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
       },
+      darkMode: 'class',
+      plugins: [],
+
       colors: {
         primary: {
           50: '#F5FAFF',
@@ -58,7 +61,7 @@ module.exports = {
         },
         border: {
           default: '#D1D5DB',
-          'default-hover': '#9CA3AF', //can I deeply nest this? Find out
+          'default-hover': '#9CA3AF',
           subtle: '#E5E7EB'
         },
         feedback: {
@@ -195,7 +198,5 @@ module.exports = {
         }
       }
     }
-  },
-  darkMode: 'class',
-  plugins: []
+  }
 }
