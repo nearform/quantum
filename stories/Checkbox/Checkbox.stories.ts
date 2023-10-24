@@ -11,7 +11,13 @@ const meta = {
     layout: 'centered'
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-  tags: ['autodocs']
+  tags: ['autodocs'],
+  argTypes: {
+    checked: {
+      options: [true, false, 'indeterminate'],
+      control: { type: 'radio' }
+    }
+  }
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
 } satisfies Meta<typeof CheckboxDemo>
 
@@ -27,5 +33,10 @@ export const CheckBoxUnchecked: Story = {
 export const CheckBoxChecked: Story = {
   args: {
     checked: true
+  }
+}
+export const CheckBoxIndeterminate: Story = {
+  args: {
+    checked: 'indeterminate'
   }
 }

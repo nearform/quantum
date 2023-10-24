@@ -6,6 +6,10 @@ module.exports = {
   theme: {
     colors: colors,
     extend: {
+      strokeWidth: {
+        3: '4px',
+        4: '6px'
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

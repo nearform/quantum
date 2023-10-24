@@ -10,7 +10,7 @@ const Checkbox = React.forwardRef<
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
-      'peer h-5 w-5 shrink-0 gap-0 p-0.5 border rounded data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-foreground-inverse data-[state=indeterminate]:text-red-500',
+      'peer h-5 w-5 p-0.5 shrink-0 gap-0 border rounded data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-foreground-inverse data-[state=indeterminate]:border-blue-600 data-[state=indeterminate]:bg-blue-600 data-[state=indeterminate]:text-foreground-inverse',
       className
     )}
     {...props}
@@ -18,7 +18,12 @@ const Checkbox = React.forwardRef<
     <CheckboxPrimitive.Indicator
       className={cn('flex items-center justify-center text-inherit')}
     >
-      <Check className="text-inherit stroke-current stroke-1 fill-current" />
+      {props.checked === true && (
+        <Check className="text-inherit stroke-current stroke-1 fill-current" />
+      )}
+      {props.checked === 'indeterminate' && (
+        <Minus className="text-inherit stroke-current stroke-3 fill-current" />
+      )}
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ))
