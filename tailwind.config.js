@@ -6,6 +6,10 @@ module.exports = {
   theme: {
     colors: colors,
     extend: {
+      strokeWidth: {
+        3: '4px',
+        4: '6px'
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
@@ -19,9 +23,9 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
-      }
+      },
+      darkMode: 'class',
+      plugins: []
     }
-  },
-  darkMode: 'class',
-  plugins: []
+  }
 }
