@@ -1,0 +1,47 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+import { colors, default as aliasColors } from '@/colors.ts';
+
+<Meta title="Colors" />
+
+# Colours
+
+Base colours provide a full colour spectrum of dark to light hues, and are used as aliases in the [brand theme](#brand-theme-and-ui-colours).
+
+## Base Colours
+#
+
+<ColorPalette>
+
+  {Object.keys(colors).map((token, index) => {
+    const color = colors[token];
+    return (
+      <ColorItem
+        index={index}
+        title={`${token}`}
+        colors={color}
+      />
+    );
+  })}
+
+</ColorPalette>
+
+## Brand Theme and UI Colours
+#
+
+<ColorPalette>
+
+  {Object.keys(aliasColors).map((token, index) => {
+    const color = aliasColors[token];
+    if (typeof color === 'object' && !colors[token]) {
+      return (
+        <ColorItem
+          index={index}
+          title={`${token}`}
+          colors={color}
+        />
+      )
+    }
+  })}
+
+</ColorPalette>
+

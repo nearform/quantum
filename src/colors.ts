@@ -1,58 +1,4 @@
-export default {
-  transparent: 'transparent',
-  current: 'currentColor',
-  primary: {
-    50: '#F5FAFF',
-    100: '#E1EFFE',
-    200: '#C3DDFD',
-    300: '#A4CAFE',
-    400: '#76A9FA',
-    500: '#3F83F8',
-    600: '#2165E3',
-    700: '#1A56DB',
-    800: '#1E429F',
-    900: '#233876'
-  },
-  secondary: {
-    50: '#FFF6F9',
-    100: '#FFF1F5',
-    200: '#FFE8EE',
-    300: '#FFD9E3',
-    400: '#FFBFD0',
-    500: '#FF9DB7',
-    600: '#FB7A9C',
-    700: '#D95477',
-    800: '#A02042',
-    900: '#731837'
-  },
-  foreground: {
-    default: '#1F2A37',
-    muted: '#6B7280',
-    subtle: '#9CA3AF',
-    inverse: '#FFF'
-  },
-  accent: {
-    default: '#1A56DB',
-    'default-hover': '#111928',
-    'default-focus': '#000'
-  },
-  border: {
-    default: '#D1D5DB',
-    'default-hover': '#9CA3AF',
-    subtle: '#E5E7EB'
-  },
-  feedback: {
-    green: '#31C48D',
-    yellow: '#FACA15',
-    orange: '#FF8A4C',
-    red: '#E02424'
-  },
-  button: {
-    active: '#1A56DB',
-    hover: '#111928',
-    focus: '#000',
-    disabled: '#F6F5FF'
-  },
+export const colors = {
   grey: {
     50: '#F9FAFB',
     100: '#F3F4F6',
@@ -140,8 +86,8 @@ export default {
   indigo: {
     50: '#F0F5FF',
     100: '#E5EDFF',
-    200: '#B4C6FC',
-    300: '#A4CAFE',
+    200: '#CDDBFE',
+    300: '#B4C6FC',
     400: '#8DA2FB',
     500: '#6875F5',
     600: '#5850EC',
@@ -164,8 +110,8 @@ export default {
   pink: {
     50: '#FFF6F9',
     100: '#FFF1F5',
-    200: '#FFD9E3',
-    300: '#FFE8EE',
+    200: '#FFE8EE',
+    300: '#FFD9E3',
     400: '#FFBFD0',
     500: '#FF9DB7',
     600: '#FB7A9C',
@@ -173,4 +119,40 @@ export default {
     800: '#A02042',
     900: '#731837'
   }
+};
+
+export default {
+  transparent: 'transparent',
+  current: 'currentColor',
+  primary: colors.blue,
+  secondary: colors.pink,
+  foreground: {
+    default: colors.grey['800'],
+    muted: colors.grey['500'],
+    subtle: colors.grey['400'],
+    inverse: '#FFF'
+  },
+  accent: {
+    default: colors.blue['700'],
+    'default-hover': colors.grey['900'],
+    'default-focus': '#000'
+  },
+  border: {
+    default: colors.grey['300'],
+    'default-hover': colors.grey['400'],
+    subtle: colors.grey['200']
+  },
+  feedback: {
+    green: colors.green['400'],
+    yellow: colors.yellow['300'],
+    orange: colors.orange['400'],
+    red: colors.red['600']
+  },
+  button: {
+    active: colors.blue['700'],
+    hover: colors.grey['900'],
+    focus: '#000',
+    disabled: colors.purple['50']
+  },
+  ...colors
 };
