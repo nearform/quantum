@@ -86,8 +86,8 @@ export const colors = {
   indigo: {
     50: '#F0F5FF',
     100: '#E5EDFF',
-    200: '#B4C6FC',
-    300: '#A4CAFE',
+    200: '#CDDBFE',
+    300: '#B4C6FC',
     400: '#8DA2FB',
     500: '#6875F5',
     600: '#5850EC',
