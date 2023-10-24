@@ -1,0 +1,22 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+import { colors } from '../src/colors.ts';
+
+# Colors
+
+<Meta title="Colors" />
+
+<ColorPalette>
+
+  {Object.keys(colors).map((token, index) => {
+    const color = colors[token];
+    return (
+      <ColorItem
+        index={index}
+        title={`${token}`}
+        colors={color}
+      />
+    )
+
+  })}
+
+</ColorPalette>
