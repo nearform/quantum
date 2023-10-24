@@ -8,12 +8,4 @@ export const CheckboxDemo = ({
   checked: CheckboxProps['checked']
 }): JSX.Element => {
   return <Checkbox checked={checked} />
-  // if (checked === 'indeterminate') {
-  //   return <Checkbox checked={checked} />
-  // } else {
-  //   if (checked === 'true') {
-  //     return <Checkbox checked={true} />
-  //   }
-  //   return <Checkbox checked={false} /> //Using CheckedState wasn't UI friendly on the Storybook
-  // }
 }
