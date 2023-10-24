@@ -21,7 +21,7 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag'
   },
-  async viteFinal(config, options) {
+  async viteFinal(config) {
     if (config && config.resolve) {
       config.resolve.alias = {
         ...config.resolve.alias,
