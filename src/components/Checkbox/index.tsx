@@ -18,7 +18,7 @@ const Checkbox = React.forwardRef<
     <CheckboxPrimitive.Indicator
       className={cn('flex items-center justify-center text-inherit')}
     >
-      {props.checked === true && (
+      {(props.checked === true || props.checked === undefined) && (
         <Check className="text-inherit stroke-current stroke-1 fill-current" />
       )}
       {props.checked === 'indeterminate' && (
