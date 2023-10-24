@@ -2,7 +2,7 @@
 import colors from './src/colors'
 
 module.exports = {
-  content: ['./src/**/*.{tsx,svg}'],
+  content: ['./src/**/*.tsx'],
   theme: {
     colors: colors,
     extend: {

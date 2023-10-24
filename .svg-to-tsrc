@@ -1,0 +1,18 @@
+{
+  "srcFiles": [
+    "./src/assets/svg-icons/*.svg"
+  ],
+  "tsx": true,
+  "objectName": "Icons",
+  "outputDirectory": "./src/assets/",
+  "interfaceName": "Icons",
+  "typeName": "Icons",
+  "prefix": "",
+  "fileName": "index",
+  "svgoConfig": {
+    "plugins": [
+      "cleanupAttrs"
+    ]
+  },
+  "compileSources": true
+}
