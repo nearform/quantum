@@ -110,8 +110,8 @@ export const colors = {
   pink: {
     50: '#FFF6F9',
     100: '#FFF1F5',
-    200: '#FFD9E3',
-    300: '#FFE8EE',
+    200: '#FFE8EE',
+    300: '#FFD9E3',
     400: '#FFBFD0',
     500: '#FF9DB7',
     600: '#FB7A9C',
