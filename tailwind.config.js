@@ -1,7 +1,10 @@
 /** @type {import('tailwindcss').Config} */
+import colors from './src/colors'
+
 module.exports = {
   content: ['./src/**/*.tsx'],
   theme: {
+    colors: colors,
     extend: {
       keyframes: {
         'accordion-down': {
