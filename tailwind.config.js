@@ -13,7 +13,7 @@ module.exports = {
       lg: '0px 4px 6px 0px',
       xl: '0 20px 25px -5px',
       '2xl': '0 25px 50px -12px',
-      none: '0 0'
+      none: '0px 0px'
     },
     extend: {
       fontFamily: {
