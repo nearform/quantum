@@ -15,14 +15,17 @@ module.exports = {
       '2xl': '0px 25px 50px -12px',
       none: '0px 0px'
     },
+    fontFamily: {
+      sans: ['"Inter"', ...defaultTheme.fontFamily.sans]
+    },
+    strokeWidth: {
+      0: '0px',
+      1: '1px',
+      2: '2px',
+      3: '4px',
+      4: '6px'
+    },
     extend: {
-      fontFamily: {
-        sans: ['"Inter"', ...defaultTheme.fontFamily.sans]
-      },
-      strokeWidth: {
-        3: '4px',
-        4: '6px'
-      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
