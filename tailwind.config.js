@@ -6,15 +6,18 @@ module.exports = {
   content: ['./src/**/*.tsx'],
   theme: {
     colors: colors,
+    boxShadow: {
+      sm: '0px 1px 2px 0px',
+      DEFAULT: '0px 1px 2px -1px',
+      md: '0px 2px 4px -2px',
+      lg: '0px 4px 6px 0px',
+      xl: '0 20px 25px -5px',
+      '2xl': '0 25px 50px -12px',
+      none: '0 0'
+    },
     extend: {
       fontFamily: {
         sans: ['"Inter"', ...defaultTheme.fontFamily.sans]
-      },
-      boxShadow: {
-        DEFAULT: '0px 1px 2px -1px',
-        md: '0px 2px 4px -2px',
-        lg: '0px 4px 6px 0px',
-        xl: '0 20px 25px -5px'
       },
       strokeWidth: {
         3: '4px',
