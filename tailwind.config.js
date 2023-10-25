@@ -1,11 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 import colors from './src/colors'
-
+import defaultTheme from 'tailwindcss/defaultTheme'
 module.exports = {
   content: ['./src/**/*.tsx'],
   theme: {
     colors: colors,
     extend: {
+      fontFamily: {
+        sans: ['"Inter"', ...defaultTheme.fontFamily.sans]
+      },
       strokeWidth: {
         3: '4px',
         4: '6px'
