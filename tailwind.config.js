@@ -8,7 +8,12 @@ module.exports = {
     colors: colors,
     extend: {
       fontFamily: {
-        sans: ['"Inter"', ...defaultTheme.fontFamily.sans]
+        sans: ['"Inter"', ...defaultTheme.fontFamily.sans],
+      boxShadow: {
+        DEFAULT: '0px 1px 2px -1px',
+        md: '0px 2px 4px -2px',
+        lg: '0px 4px 6px 0px',
+        xl: '0 20px 25px -5px'
       },
       strokeWidth: {
         3: '4px',
