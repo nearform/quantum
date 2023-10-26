@@ -25,9 +25,3 @@ export const DefaultSet: Story = {
     defaultValue: 'goodbye'
   }
 }
-export const HorizontallyOrientated: Story = {
-  args: {
-    defaultValue: 'hello',
-    orientation: 'horizontal'
-  }
-}

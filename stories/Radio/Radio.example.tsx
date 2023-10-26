@@ -14,23 +14,17 @@ export const RadioGroupDemo = ({
     setValue(newValue)
   }
   return (
-    <RadioGroup
-      defaultValue={defaultValue}
-      onValueChange={handleValueChange}
-      orientation={'vertical'}
-    >
-      <span className="flex" />
+    <RadioGroup defaultValue={defaultValue} onValueChange={handleValueChange}>
       <RadioWithLabel value="hello" />
       <RadioWithLabel value="world" />
       <RadioWithLabel value="goodbye" />
       <RadioWithLabel value="friend" />
-      <span />
     </RadioGroup>
   )
 }
 const RadioWithLabel = ({ value }: { value: string }) => {
   return (
-    <span className="space-x-1">
+    <span className="flex items-center space-x-1">
       <Radio value={value} />
       <Label htmlFor={value}>{value}</Label>
     </span>
