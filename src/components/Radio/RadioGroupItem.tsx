@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { cn } from '@/lib/utils'
-import { Check } from '@/assets'
+import { RadioSelected } from '@/assets'
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
@@ -16,7 +16,7 @@ const RadioGroupItem = React.forwardRef<
       {...props}
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <div className=" w-2 h-2 text-inherit stroke-current stroke-1 fill-current rounded-full bg-primary-50"></div>
+        <RadioSelected className="text-inherit stroke-current stroke-1 fill-current" />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   )

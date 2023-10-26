@@ -11,13 +11,7 @@ const meta = {
     layout: 'centered'
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-  tags: ['autodocs'],
-  argTypes: {
-    checked: {
-      options: [true, false, 'indeterminate'],
-      control: { type: 'radio' }
-    }
-  }
+  tags: ['autodocs']
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
 } satisfies Meta<typeof RadioGroupDemo>
 
@@ -25,12 +19,15 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const CheckBoxUnchecked: Story = {
-  args: {}
+export const NoDefault: Story = {}
+export const DefaultSet: Story = {
+  args: {
+    defaultValue: 'goodbye'
+  }
 }
-export const CheckBoxChecked: Story = {
-  args: {}
-}
-export const CheckBoxIndeterminate: Story = {
-  args: {}
+export const HorizontallyOrientated: Story = {
+  args: {
+    defaultValue: 'hello',
+    orientation: 'horizontal'
+  }
 }
