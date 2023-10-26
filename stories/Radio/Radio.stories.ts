@@ -30,8 +30,3 @@ export const RadioButtonDisabled: Story = {
     disabled: true
   }
 }
-export const KeyboardNavigationLoopArrowKeys: Story = {
-  args: {
-    loop: true
-  }
-}
