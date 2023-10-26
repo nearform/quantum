@@ -25,3 +25,13 @@ export const DefaultSet: Story = {
     defaultValue: 'goodbye'
   }
 }
+export const RadioButtonDisabled: Story = {
+  args: {
+    disabled: true
+  }
+}
+export const KeyboardNavigationLoopArrowKeys: Story = {
+  args: {
+    loop: true
+  }
+}

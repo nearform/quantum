@@ -3,10 +3,12 @@ import { Radio, RadioGroup } from '@/components/Radio'
 import { useState } from 'react'
 export const RadioGroupDemo = ({
   defaultValue,
-  orientation
+  disabled,
+  loop
 }: {
   defaultValue?: string
-  orientation?: 'horizontal' | 'vertical' | undefined
+  disabled?: boolean
+  loop?: boolean
 }): JSX.Element => {
   const [value, setValue] = useState(defaultValue)
   const handleValueChange = (newValue: string) => {
@@ -14,7 +16,12 @@ export const RadioGroupDemo = ({
     setValue(newValue)
   }
   return (
-    <RadioGroup defaultValue={defaultValue} onValueChange={handleValueChange}>
+    <RadioGroup
+      defaultValue={defaultValue}
+      onValueChange={handleValueChange}
+      disabled={disabled}
+      loop={loop}
+    >
       <RadioWithLabel value="hello" />
       <RadioWithLabel value="world" />
       <RadioWithLabel value="goodbye" />
