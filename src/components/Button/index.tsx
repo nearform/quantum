@@ -10,30 +10,30 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-primary-700 text-white ' +
-          'hover:bg-grey-900 ' +
-          'focus:bg-black ' +
-          'disabled:bg-purple-50 disabled:color-foreground-subtle',
+          'bg-button-active text-white ' +
+          'hover:bg-button-hover ' +
+          'focus:bg-button-focus ' +
+          'disabled:bg-button-disabled disabled:color-foreground-subtle',
         secondary:
-          'bg-white text-grey-900 border-2 border-grey-300 ' +
-          'hover:bg-purple-50 hover:border-grey-400 ' +
-          'focus:bg-primary-50 focus:border-grey-500 ' +
-          'disabled:bg-purple-50 disabled:border-grey-200',
+          'bg-white text-grey-900 border-2 border-border ' +
+          'hover:bg-button-disabled hover:border-border ' +
+          'focus:bg-primary-50 focus:border-foreground-muted ' +
+          'disabled:bg-button-disabled disabled:border-border-subtle',
         tertiary:
-          'bg-transparent text-grey-900 ' +
+          'bg-transparent text-foreground ' +
           'hover:bg-purple-50 ' +
           'focus:bg-blue-50 ' +
-          'disabled:text-grey-400',
+          'disabled:text-foreground-subtle',
         success:
           'bg-green-400 text-black ' +
           'hover:bg-green-500 ' +
           'focus:bg-green-600 ' +
-          'disabled:bg-purple-50 disabled:text-grey-400',
+          'disabled:bg-button-disabled disabled:text-grey-400',
         danger:
           'bg-red-600 text-white ' +
           'hover:bg-red-700 ' +
           'focus:bg-red-800 ' +
-          'disabled:bg-purple-50 disabled:border-grey-200',
+          'disabled:bg-button-disabled disabled:border-grey-200',
       },
       size: {
         lg: 'px-4 py-3 text-base',
