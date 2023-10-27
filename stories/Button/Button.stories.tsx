@@ -23,7 +23,7 @@ const meta = {
     },
     size: {
       control: 'radio',
-      options: ['icon', 'xs', 'sm', 'md', 'lg']
+      options: ['xs', 'sm', 'md', 'lg']
     },
     asChild: {
       table: {

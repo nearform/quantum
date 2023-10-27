@@ -40,7 +40,6 @@ const buttonVariants = cva(
         md: 'p-2.5 text-sm',
         sm: 'px-2.5 py-2 text-sm',
         xs: 'px-2 py-2.5 text-xs',
-        icon: 'px-1.5 py-2'
       }
     },
     defaultVariants: {
