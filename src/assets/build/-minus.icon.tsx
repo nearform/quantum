@@ -5,9 +5,9 @@ export const Minus = (props: any) => (
       <path
         id="Vector"
         d="M19 12L5 12"
-        stroke-width="inherit"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="inherit"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </g>
   </svg>

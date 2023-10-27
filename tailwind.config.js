@@ -4,6 +4,8 @@ import defaultTheme from 'tailwindcss/defaultTheme'
 
 module.exports = {
   content: ['./src/**/*.tsx'],
+  darkMode: 'class',
+  plugins: [],
   theme: {
     colors: colors,
     boxShadow: {
@@ -40,8 +42,6 @@ module.exports = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
       }
-    },
-    darkMode: 'class',
-    plugins: []
+    }
   }
 }
