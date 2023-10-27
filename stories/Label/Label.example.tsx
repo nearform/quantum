@@ -1,6 +1,6 @@
 import { Checkbox } from '@/components/Checkbox'
-import { Label } from '@/components/Label'
-import { LabelProps } from '@radix-ui/react-label'
+import { Label, LabelProps } from '@/components/Label'
+
 interface LabelDemoProps extends LabelProps {
   labelText: string
 }
