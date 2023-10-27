@@ -127,7 +127,7 @@ export default {
   primary: colors.blue,
   secondary: colors.pink,
   foreground: {
-    default: colors.grey['800'],
+    default: colors.grey['900'],
     muted: colors.grey['500'],
     subtle: colors.grey['400'],
     inverse: '#FFF'
