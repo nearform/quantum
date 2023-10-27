@@ -25,6 +25,9 @@ const meta = {
       control: 'radio',
       options: ['xs', 'sm', 'md', 'lg']
     },
+    disabled: {
+      control: 'boolean'
+    },
     asChild: {
       table: {
         disable: true
