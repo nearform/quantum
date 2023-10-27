@@ -16,6 +16,7 @@ Base colours provide a full colour spectrum of dark to light hues, and are used 
     const color = colors[token];
     return (
       <ColorItem
+        key={index}
         index={index}
         title={`${token}`}
         colors={color}
@@ -35,6 +36,7 @@ Base colours provide a full colour spectrum of dark to light hues, and are used 
     if (typeof color === 'object' && !colors[token]) {
       return (
         <ColorItem
+          key={index}
           index={index}
           title={`${token}`}
           colors={color}
