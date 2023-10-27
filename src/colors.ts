@@ -154,5 +154,11 @@ export default {
     focus: '#000',
     disabled: colors.purple['50']
   },
+  white: {
+    DEFAULT: '#fff'
+  },
+  black: {
+    DEFAULT: '#000'
+  },
   ...colors
 };
