@@ -127,19 +127,19 @@ export default {
   primary: colors.blue,
   secondary: colors.pink,
   foreground: {
-    default: colors.grey['800'],
+    DEFAULT: colors.grey['900'],
     muted: colors.grey['500'],
     subtle: colors.grey['400'],
     inverse: '#FFF'
   },
   accent: {
-    default: colors.blue['700'],
-    'default-hover': colors.grey['900'],
-    'default-focus': '#000'
+    DEFAULT: colors.blue['700'],
+    hover: colors.grey['900'],
+    focus: '#000'
   },
   border: {
-    default: colors.grey['300'],
-    'default-hover': colors.grey['400'],
+    DEFAULT: colors.grey['300'],
+    hover: colors.grey['400'],
     subtle: colors.grey['200']
   },
   feedback: {
@@ -153,6 +153,12 @@ export default {
     hover: colors.grey['900'],
     focus: '#000',
     disabled: colors.purple['50']
+  },
+  white: {
+    DEFAULT: '#fff'
+  },
+  black: {
+    DEFAULT: '#000'
   },
   ...colors
 };
