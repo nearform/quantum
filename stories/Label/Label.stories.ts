@@ -27,24 +27,24 @@ type Story = StoryObj<typeof meta>
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default: Story = {
   args: {
-    labelText: 'Here is a default label'
+    labelText: 'Default-sized'
   }
 }
-export const Small: Story = {
+export const Medium: Story = {
   args: {
-    labelText: 'Here is a small label',
-    size: 'sm'
+    labelText: 'Medium-sized',
+    size: 'md'
   }
 }
-export const LargeText: Story = {
+export const Large: Story = {
   args: {
-    labelText: 'Here is a large sized label',
+    labelText: 'Large-sized',
     size: 'lg'
   }
 }
 export const ExtraLarge: Story = {
   args: {
-    labelText: 'Here is an extra large label',
+    labelText: 'Extra-large-sized',
     size: 'xl'
   }
 }
