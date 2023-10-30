@@ -84,9 +84,14 @@ import * as React from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { cn } from '@/lib/utils'
 import { RadioSelected } from '@/assets'
+
+type RadioGroupItemProps = React.ComponentPropsWithoutRef<
+  typeof RadioGroupPrimitive.Item
+>
+
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
+  RadioGroupItemProps
 >(({ className, children, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Item
@@ -105,7 +110,8 @@ const RadioGroupItem = React.forwardRef<
 })
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
 
-export { RadioGroupItem as Radio }
+export { RadioGroupItem as Radio, RadioGroupItemProps }
+
 ```
 
 ## Radio Group
@@ -116,9 +122,12 @@ import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 
 import { cn } from '@/lib/utils'
 
+type RadioGroupProps = React.ComponentPropsWithoutRef<
+  typeof RadioGroupPrimitive.Root
+>
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
+  RadioGroupProps
 >(({ className, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Root
@@ -130,7 +139,8 @@ const RadioGroup = React.forwardRef<
 })
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
 
-export { RadioGroup }
+export { RadioGroup, type RadioGroupProps }
+
 
 ```
 
@@ -138,8 +148,7 @@ export { RadioGroup }
 
 ```ts
 import { Label } from '@/components/Label'
-import { Radio, RadioGroup } from '@/components/Radio'
-import { RadioGroupProps } from '@/components/Radio/RadioGroup'
+import { Radio, RadioGroup, RadioGroupProps } from '@/components/Radio'
 import { useState } from 'react'
 export const RadioGroupDemo = ({
   defaultValue,
@@ -172,6 +181,7 @@ const RadioWithLabel = ({ value }: { value: string }) => {
     </span>
   )
 }
+
 
 
 ```
