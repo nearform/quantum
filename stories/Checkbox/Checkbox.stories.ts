@@ -11,7 +11,6 @@ const meta = {
     layout: 'centered'
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-  tags: ['autodocs'],
   argTypes: {
     checked: {
       options: [true, false, 'indeterminate'],
@@ -49,6 +48,6 @@ export const CheckboxColourChange: Story = {
   args: {
     checked: true,
     className:
-      'data-[state=checked]:text-yellow-200 data-[state=checked]:bg-grey-900 data-[state=checked]:border-grey-900'
+      'data-[state=checked]:text-yellow-200 data-[state=checked]:bg-green-900 data-[state=checked]:border-border'
   }
 }
