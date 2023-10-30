@@ -16,6 +16,10 @@ const meta = {
     checked: {
       options: [true, false, 'indeterminate'],
       control: { type: 'radio' }
+    },
+    className: {
+      controle: 'text',
+      description: 'Alter the className to change the style'
     }
   }
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
@@ -38,5 +42,13 @@ export const CheckBoxChecked: Story = {
 export const CheckBoxIndeterminate: Story = {
   args: {
     checked: 'indeterminate'
+  }
+}
+
+export const CheckboxColourChange: Story = {
+  args: {
+    checked: true,
+    className:
+      'data-[state=checked]:text-yellow-200 data-[state=checked]:bg-grey-900'
   }
 }
