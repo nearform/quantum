@@ -1,15 +1,11 @@
 import { Label } from '@/components/Label'
-import { Radio, RadioGroup } from '@/components/Radio'
+import { Radio, RadioGroup, RadioGroupProps } from '@/components/Radio'
 import { useState } from 'react'
 export const RadioGroupDemo = ({
   defaultValue,
   disabled,
   loop
-}: {
-  defaultValue?: string
-  disabled?: boolean
-  loop?: boolean
-}): JSX.Element => {
+}: RadioGroupProps): JSX.Element => {
   const [value, setValue] = useState(defaultValue)
   const handleValueChange = (newValue: string) => {
     setValue(newValue)

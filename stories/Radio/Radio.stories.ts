@@ -29,3 +29,8 @@ export const RadioButtonDisabled: Story = {
     disabled: true
   }
 }
+export const RadioButtonHorizontalOrientation: Story = {
+  args: {
+    orientation: 'horizontal'
+  }
+}

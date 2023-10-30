@@ -139,16 +139,13 @@ export { RadioGroup }
 ```ts
 import { Label } from '@/components/Label'
 import { Radio, RadioGroup } from '@/components/Radio'
+import { RadioGroupProps } from '@/components/Radio/RadioGroup'
 import { useState } from 'react'
 export const RadioGroupDemo = ({
   defaultValue,
   disabled,
   loop
-}: {
-  defaultValue?: string
-  disabled?: boolean
-  loop?: boolean
-}): JSX.Element => {
+}: RadioGroupProps): JSX.Element => {
   const [value, setValue] = useState(defaultValue)
   const handleValueChange = (newValue: string) => {
     setValue(newValue)
@@ -175,5 +172,6 @@ const RadioWithLabel = ({ value }: { value: string }) => {
     </span>
   )
 }
+
 
 ```

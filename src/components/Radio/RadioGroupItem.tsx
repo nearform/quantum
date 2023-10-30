@@ -2,9 +2,14 @@ import * as React from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { cn } from '@/lib/utils'
 import { RadioSelected } from '@/assets'
+
+type RadioGroupItemProps = React.ComponentPropsWithoutRef<
+  typeof RadioGroupPrimitive.Item
+>
+
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
+  RadioGroupItemProps
 >(({ className, children, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Item
@@ -23,4 +28,4 @@ const RadioGroupItem = React.forwardRef<
 })
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
 
-export { RadioGroupItem as Radio }
+export { RadioGroupItem as Radio, RadioGroupItemProps }
