@@ -1,8 +1,8 @@
 {
   "name": "@nearform/quantum",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Component library based on the Quantum Design System",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsup",
     "lint": "eslint .",
@@ -11,6 +11,10 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "files": [
+    "dist/",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nearform/quantum.git"
