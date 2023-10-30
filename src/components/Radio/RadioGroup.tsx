@@ -20,4 +20,4 @@ const RadioGroup = React.forwardRef<
 })
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
 
-export { RadioGroup, RadioGroupProps }
+export { RadioGroup, type RadioGroupProps }
