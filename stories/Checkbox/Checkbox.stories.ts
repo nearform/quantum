@@ -49,6 +49,6 @@ export const CheckboxColourChange: Story = {
   args: {
     checked: true,
     className:
-      'data-[state=checked]:text-yellow-200 data-[state=checked]:bg-grey-900'
+      'data-[state=checked]:text-yellow-200 data-[state=checked]:bg-grey-900 data-[state=checked]:border-grey-900'
   }
 }
