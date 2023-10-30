@@ -12,7 +12,6 @@ export const RadioGroupDemo = ({
 }): JSX.Element => {
   const [value, setValue] = useState(defaultValue)
   const handleValueChange = (newValue: string) => {
-    console.log(newValue)
     setValue(newValue)
   }
   return (
