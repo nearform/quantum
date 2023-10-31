@@ -3,8 +3,8 @@ import { StepsIndicator } from '@/components/StepsIndicator'
 interface StepIndicatorDemoProps {
   stepNumber: number
   selectedIndex: number
-  className: string
-  childClassName: string
+  className?: string
+  childClassName?: string
 }
 
 export const StepIndicatorDemo = ({

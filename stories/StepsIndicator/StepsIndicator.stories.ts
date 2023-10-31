@@ -31,9 +31,3 @@ export const Medium: Story = {
     selectedIndex: 0
   }
 }
-export const Large: Story = {
-  args: {}
-}
-export const ExtraLarge: Story = {
-  args: {}
-}
