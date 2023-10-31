@@ -6,7 +6,7 @@ import { Step } from './Step'
 const stepsVariant = cva(['flex', 'text-grey-300', 'space-x-1'])
 
 interface StepsIndicatorProp {
-  selectedIndex: number
+  selectedIndex?: number
   length: number
   className?: string
   childClassName?: string
@@ -14,10 +14,14 @@ interface StepsIndicatorProp {
 }
 
 const StepsIndicator = React.forwardRef<HTMLDivElement, StepsIndicatorProp>(
-  ({ selectedIndex, length, className, childClassName, props }, ref) => {
+  (
+    { selectedIndex = 0, length = 1, className, childClassName, props },
+    ref
+  ) => {
     const Steps = Array(length).fill(
       <Step selected="false" className={childClassName} />
     )
+    console.log(Steps)
     Steps[selectedIndex] = <Step selected="true" className={childClassName} />
     return (
       <div ref={ref} className={cn(stepsVariant(), className)} {...props}>
