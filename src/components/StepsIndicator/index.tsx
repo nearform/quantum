@@ -21,11 +21,11 @@ interface StepsIndicatorProp {
 }
 
 const StepIndicator = React.forwardRef<HTMLDivElement, StepsIndicatorProp>(
-  ({ index, length, className, orientation, ...props }, ref) => {
+  ({ index, length, className, orientation }, ref) => {
     const Steps = Array(length).fill(<ProgressDefault />)
     Steps[index] = <ProgressCurrent />
     return (
-      <div className={cn(stepsVariant({ orientation }), className)}>
+      <div ref={ref} className={cn(stepsVariant({ orientation }), className)}>
         {Steps}
       </div>
     )
