@@ -6,7 +6,7 @@ const ProgressDefault = (props: any) => (
     fill="none"
     {...props}
   >
-    <circle cx={4} cy={4} r={4} fill="#D1D5DB" />
+    <circle cx={4} cy={4} r={4} />
   </svg>
 )
 export default ProgressDefault

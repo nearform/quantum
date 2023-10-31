@@ -21,11 +21,15 @@ type Story = StoryObj<typeof meta>
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default: Story = {
   args: {
-    orientation: 'horizontal'
+    stepNumber: 10,
+    selectedIndex: 5
   }
 }
 export const Medium: Story = {
-  args: {}
+  args: {
+    stepNumber: 1,
+    selectedIndex: 0
+  }
 }
 export const Large: Story = {
   args: {}

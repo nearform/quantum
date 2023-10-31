@@ -1,11 +1,15 @@
-import { StepIndicator } from '@/components/StepsIndicator'
+import { StepsIndicator } from '@/components/StepsIndicator'
 
-export const StepIndicatorDemo = ({ orientation }) => {
-  const numberOfSteps = 9
-  const items = Array(numberOfSteps)
-    .fill(undefined)
-    .map((el, i) => ({
-      selected: false
-    }))
-  return <StepIndicator length={2} index={1} orientation={orientation} />
+interface StepIndicatorDemoProps {
+  stepNumber: number
+  selectedIndex: number
+  className: string
+  childClassName: string
+}
+
+export const StepIndicatorDemo = ({
+  stepNumber,
+  selectedIndex
+}: StepIndicatorDemoProps) => {
+  return <StepsIndicator length={stepNumber} selectedIndex={selectedIndex} />
 }
