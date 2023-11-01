@@ -3,7 +3,6 @@ import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 
 interface StepProps {
-  idx?: string
   selected: 'true' | 'false'
   className?: string
 }
@@ -16,14 +15,13 @@ const stepVariant = cva([
   'dark:data-[selected=true]:text-white'
 ])
 
-const Step = ({ idx, selected, className }: StepProps) => {
+const Step = ({ selected, className }: StepProps) => {
   return (
     <ProgressDefault
-      key={idx}
       data-selected={selected}
       className={cn(stepVariant(), className)}
     />
   )
 }
 
-export { Step, StepProps }
+export { Step, type StepProps }

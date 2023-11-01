@@ -31,17 +31,32 @@ const StepsIndicator = React.forwardRef<HTMLDivElement, StepsIndicatorProp>(
     },
     ref
   ) => {
+    // const Steps = Array(length)
+    //   .fill(null)
+    //   .map((_, i) => {
+    //     return i === selectedIndex ? (
+    //       <Step
+    //         key={`${i}-step-${name}`}
+    //         selected="true"
+    //         className={childClassName}
+    //       />
+    //     ) : (
+    //       <Step
+    //         key={`${i}-step-${name}`}
+    //         selected="false"
+    //         className={childClassName} //better way of doing this.
+    //       />
+    //     )
+    //   })
     const Steps = Array(length)
       .fill(null)
       .map((_, i) => {
-        return i === selectedIndex ? (
+        return (
           <Step
             key={`${i}-step-${name}`}
-            selected="true"
+            selected={i === selectedIndex ? 'true' : 'false'}
             className={childClassName}
           />
-        ) : (
-          <Step selected="false" className={childClassName} />
         )
       })
     return (

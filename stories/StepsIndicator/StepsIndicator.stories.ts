@@ -21,7 +21,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     length: 10,
-    selectedIndex: 5
+    selectedIndex: 1
   }
 }
 export const Customised: Story = {
@@ -30,6 +30,6 @@ export const Customised: Story = {
     childClassName:
       'data-[selected=true]:text-red-600 data-[selected=true]:h-5 data-[selected=true]:w-5',
     length: 5,
-    selectedIndex: 3
+    selectedIndex: 1
   }
 }
