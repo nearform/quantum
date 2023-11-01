@@ -1,5 +1,4 @@
-import { Checkbox } from '@/components/Checkbox'
-import { CheckboxProps } from '@radix-ui/react-checkbox'
+import { Checkbox, CheckboxProps } from '@/components/Checkbox'
 import { useState } from 'react'
 export const CheckboxDemo = ({
   checked,
