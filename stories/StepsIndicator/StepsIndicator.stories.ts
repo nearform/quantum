@@ -29,7 +29,7 @@ export const Customised: Story = {
   args: {
     length: 5,
     selectedIndex: 3,
-    className: 'border m-5',
-    childClassName: 'data-[selected=true]:text-red-600'
+    className: 'border border-4 p-5',
+    childClassName: 'data-[selected=true]:text-red-600 h-5 w-5 '
   }
 }

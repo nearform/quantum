@@ -11,18 +11,35 @@ interface StepsIndicatorProp {
   className?: string
   childClassName?: string
   props?: any
+  name?: string
 }
 
 const StepsIndicator = React.forwardRef<HTMLDivElement, StepsIndicatorProp>(
   (
-    { selectedIndex = 0, length = 1, className, childClassName, props },
+    {
+      className,
+      childClassName,
+      name = '',
+      selectedIndex = 0,
+      length = 1,
+      props
+    },
     ref
   ) => {
-    const Steps = Array(length).fill(
-      <Step selected="false" className={childClassName} />
-    )
+    const Steps = Array(length)
+      .fill(null)
+      .map((_, i) => {
+        return i === selectedIndex ? (
+          <Step
+            key={`${i}-step-${name}`}
+            selected="true"
+            className={childClassName}
+          />
+        ) : (
+          <Step selected="false" className={childClassName} />
+        )
+      })
     console.log(Steps)
-    Steps[selectedIndex] = <Step selected="true" className={childClassName} />
     return (
       <div ref={ref} className={cn(stepsVariant(), className)} {...props}>
         {Steps}

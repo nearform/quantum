@@ -54,7 +54,7 @@ An array of length `length` contains `<Step>` components, the colour of which is
 For example, if you wanted the border of the `<div>` container to be grey, and the colour of the selected dot to be red, you would write:
 
 ```ts
-<StepsIndicator length={5} selectedIndex={3} className="border-grey-300" childClassName="data-[selected=true]:text-red-600">
+<StepsIndicator length={5} selectedIndex={3} className="border-grey-300 border-4 p-5 " childClassName="data-[selected=true]:text-red-600 h-5 w-5">
 ```
 
 <Canvas of={StepsStories.Customised} />
