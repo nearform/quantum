@@ -8,7 +8,6 @@ const ProgressDefault = (props: any) => (
     width="8px"
     height="8px"
     fill="none"
-    key={props.key}
     {...props}
   >
     <circle cx="50%" cy="50%" r="50%" />
