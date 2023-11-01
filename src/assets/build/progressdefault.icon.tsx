@@ -1,12 +1,12 @@
 const ProgressDefault = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={8}
-    height={8}
+    width="8px"
+    height="8px"
     fill="none"
     {...props}
   >
-    <circle cx={4} cy={4} r={4} />
+    <circle cx="50%" cy="50%" r="50%" />
   </svg>
 )
 export default ProgressDefault

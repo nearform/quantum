@@ -3,7 +3,12 @@ import { cva } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { Step } from './Step'
 
-const stepsVariant = cva(['flex', 'text-grey-300', 'space-x-1'])
+const stepsVariant = cva([
+  'flex',
+  'text-grey-300',
+  'space-x-1 ',
+  'content-center items-center'
+])
 
 interface StepsIndicatorProp {
   selectedIndex?: number

@@ -10,9 +10,7 @@ interface StepProps {
 const stepVariant = cva([
   'text-inherit',
   'fill-current',
-  'data-[selected=true]:text-primary-700',
-  'w-5 h-5',
-  'content-center justify-center'
+  'data-[selected=true]:text-primary-700'
 ])
 
 const Step = ({ selected, className }: StepProps) => {
