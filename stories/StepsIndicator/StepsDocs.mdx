@@ -51,10 +51,96 @@ The attributes that can be passed through are listed below.
 
 An array of length `length` contains `<Step>` components, the colour of which is controlled by the `selected` data attribute (`true | false`). By default we use `selectedIndex` to point to the component that requires this attribute to be true. For higher customisability, we also include the `className` and `childClassName`. These respectively refer to the `<div>` containing all the Steps, and the `<Step/>` themselves.
 
-For example, if you wanted the border of the `<div>` container to be grey, and the colour of the selected dot to be red, you would write:
-
-```ts
-<StepsIndicator length={5} selectedIndex={3} className="border-grey-300 border-4 p-5 " childClassName="data-[selected=true]:text-red-600 h-5 w-5">
-```
+For example, if you wanted the border of the `<div>` container to be grey, and the colour of the selected dot to be a large red:
 
 <Canvas of={StepsStories.Customised} />
+
+## Step
+
+```ts
+import ProgressDefault from '@/assets/build/progressdefault.icon'
+import { cn } from '@/lib/utils'
+import { cva } from 'class-variance-authority'
+
+interface StepProps {
+  selected: 'true' | 'false'
+  className?: string
+}
+
+const stepVariant = cva([
+  'text-inherit',
+  'fill-current',
+  'data-[selected=true]:text-primary-700'
+])
+
+const Step = ({ selected, className }: StepProps) => {
+  return (
+    <ProgressDefault
+      data-selected={selected}
+      className={cn(stepVariant(), className)}
+    />
+  )
+}
+
+export { Step, StepProps }
+
+```
+
+## Steps Indicator
+
+```ts
+import * as React from 'react'
+import { cva } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
+import { Step } from './Step'
+
+const stepsVariant = cva([
+  'flex',
+  'text-grey-300',
+  'space-x-1 ',
+  'content-center items-center'
+])
+
+interface StepsIndicatorProp {
+  selectedIndex?: number
+  length?: number
+  className?: string
+  childClassName?: string
+  props?: any
+  name?: string
+}
+
+const StepsIndicator = React.forwardRef<HTMLDivElement, StepsIndicatorProp>(
+  (
+    {
+      className,
+      childClassName,
+      name = '',
+      selectedIndex = 0,
+      length = 1,
+      props
+    },
+    ref
+  ) => {
+    const Steps = Array(length)
+      .fill(null)
+      .map((_, i) => {
+        return i === selectedIndex ? (
+          <Step
+            key={`${i}-step-${name}`}
+            selected="true"
+            className={childClassName}
+          />
+        ) : (
+          <Step selected="false" className={childClassName} />
+        )
+      })
+    return (
+      <div ref={ref} className={cn(stepsVariant(), className)} {...props}>
+        {Steps}
+      </div>
+    )
+  }
+)
+export { StepsIndicator, StepsIndicatorProp }
+```
