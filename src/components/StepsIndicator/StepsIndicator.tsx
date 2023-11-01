@@ -5,7 +5,7 @@ import { Step } from './Step'
 
 const stepsVariant = cva([
   'flex',
-  'text-grey-300',
+  'text-accent-alt',
   'space-x-1 ',
   'content-center items-center'
 ])
