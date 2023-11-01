@@ -1,0 +1,46 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as LabelStories from './Label.stories'
+
+<Meta of={LabelStories} />
+
+# Label
+
+## Sizes
+
+### Default
+
+<Canvas of={LabelStories.Default} />
+
+### Medium
+
+<Canvas of={LabelStories.Medium} />
+### Large
+<Canvas of={LabelStories.Large} />
+### Extra Large
+<Canvas of={LabelStories.ExtraLarge} />
+## Attributes
+
+<table>
+  <tr>
+    <td>Attribute</td>
+    <td>Type</td>
+    <td>Default</td>
+  </tr>
+  <tr>
+    <td>size</td>
+    <td>`"sm" | "md" | "lg" | "xl"`</td>
+    <td>`"sm"`</td>
+  </tr>
+  <tr>
+    <td>htmlFor</td>
+    <td>`string`</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>asChild</td>
+    <td>boolean</td>
+    <td>`false`</td>
+  </tr>
+
+</table>

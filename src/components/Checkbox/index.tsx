@@ -2,6 +2,34 @@ import * as React from 'react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { cn } from '@/lib/utils'
 import { Check, Minus } from '@/assets/index'
+import { cva } from 'class-variance-authority'
+const checkboxVariants = cva([
+  [
+    'peer',
+    'h-5 w-5',
+    'p-0.5',
+    'shrink-0',
+    'gap-0',
+    'rounded',
+    'border',
+    'border-border'
+  ],
+  [
+    'data-[state=checked]:border-blue-600',
+    'data-[state=checked]:bg-blue-600',
+    'data-[state=checked]:text-foreground-inverse',
+    'data-[state=indeterminate]:border-blue-600',
+    'data-[state=indeterminate]:bg-blue-600',
+    'data-[state=indeterminate]:text-foreground-inverse'
+  ],
+  [
+    'dark:data-[state=unchecked]:bg-grey-700',
+    'dark:data-[state=unchecked]:border-grey-500'
+  ]
+])
+
+interface CheckboxProps
+  extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {}
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
@@ -9,10 +37,7 @@ const Checkbox = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <CheckboxPrimitive.Root
     ref={ref}
-    className={cn(
-      'peer h-5 w-5 p-0.5 shrink-0 gap-0 rounded border border-border-default data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-foreground-inverse data-[state=indeterminate]:border-blue-600 data-[state=indeterminate]:bg-blue-600 data-[state=indeterminate]:text-foreground-inverse',
-      className
-    )}
+    className={cn(checkboxVariants(), className)}
     {...props}
   >
     <CheckboxPrimitive.Indicator
@@ -29,4 +54,4 @@ const Checkbox = React.forwardRef<
 ))
 Checkbox.displayName = CheckboxPrimitive.Root.displayName
 
-export { Checkbox }
+export { Checkbox, type CheckboxProps }

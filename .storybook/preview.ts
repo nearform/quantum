@@ -10,6 +10,6 @@ export const parameters = {
     light: { ...themes.normal }
   },
   docs: {
-    container: DocsContainer,
-  },
+    container: DocsContainer
+  }
 }

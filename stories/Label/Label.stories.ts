@@ -11,7 +11,12 @@ const meta = {
     layout: 'centered'
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-  tags: ['autodocs']
+  argTypes: {
+    size: {
+      options: ['xs', 'sm', 'md', 'lg', 'xl '],
+      control: 'radio'
+    }
+  }
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
 } satisfies Meta<typeof LabelDemo>
 
@@ -21,7 +26,24 @@ type Story = StoryObj<typeof meta>
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default: Story = {
   args: {
-    labelText: 'A Label with a Checkbox',
-    htmlFor: 'checkbox'
+    labelText: 'Default-sized'
+  }
+}
+export const Medium: Story = {
+  args: {
+    labelText: 'Medium-sized',
+    size: 'md'
+  }
+}
+export const Large: Story = {
+  args: {
+    labelText: 'Large-sized',
+    size: 'lg'
+  }
+}
+export const ExtraLarge: Story = {
+  args: {
+    labelText: 'Extra-large-sized',
+    size: 'xl'
   }
 }
