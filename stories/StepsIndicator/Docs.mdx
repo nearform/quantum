@@ -65,6 +65,7 @@ import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 
 interface StepProps {
+  idx?: string
   selected: 'true' | 'false'
   className?: string
 }
@@ -72,12 +73,14 @@ interface StepProps {
 const stepVariant = cva([
   'text-inherit',
   'fill-current',
-  'data-[selected=true]:text-primary-700'
+  'data-[selected=true]:text-primary-700',
+  'dark:data-[selected=true]:text-white'
 ])
 
-const Step = ({ selected, className }: StepProps) => {
+const Step = ({ idx, selected, className }: StepProps) => {
   return (
     <ProgressDefault
+      key={idx}
       data-selected={selected}
       className={cn(stepVariant(), className)}
     />
@@ -86,63 +89,39 @@ const Step = ({ selected, className }: StepProps) => {
 
 export { Step, StepProps }
 
+
 ```
 
 ## Steps Indicator
 
 ```ts
-import * as React from 'react'
-import { cva } from 'class-variance-authority'
+import ProgressDefault from '@/assets/build/progressdefault.icon'
 import { cn } from '@/lib/utils'
-import { Step } from './Step'
+import { cva } from 'class-variance-authority'
 
-const stepsVariant = cva([
-  'flex',
-  'text-grey-300',
-  'space-x-1 ',
-  'content-center items-center'
-])
-
-interface StepsIndicatorProp {
-  selectedIndex?: number
-  length?: number
+interface StepProps {
+  idx?: string
+  selected: 'true' | 'false'
   className?: string
-  childClassName?: string
-  props?: any
-  name?: string
 }
 
-const StepsIndicator = React.forwardRef<HTMLDivElement, StepsIndicatorProp>(
-  (
-    {
-      className,
-      childClassName,
-      name = '',
-      selectedIndex = 0,
-      length = 1,
-      props
-    },
-    ref
-  ) => {
-    const Steps = Array(length)
-      .fill(null)
-      .map((_, i) => {
-        return i === selectedIndex ? (
-          <Step
-            key={`${i}-step-${name}`}
-            selected="true"
-            className={childClassName}
-          />
-        ) : (
-          <Step selected="false" className={childClassName} />
-        )
-      })
-    return (
-      <div ref={ref} className={cn(stepsVariant(), className)} {...props}>
-        {Steps}
-      </div>
-    )
-  }
-)
-export { StepsIndicator, StepsIndicatorProp }
+const stepVariant = cva([
+  'text-inherit',
+  'fill-current',
+  'data-[selected=true]:text-primary-700',
+  'dark:data-[selected=true]:text-white'
+])
+
+const Step = ({ idx, selected, className }: StepProps) => {
+  return (
+    <ProgressDefault
+      key={idx}
+      data-selected={selected}
+      className={cn(stepVariant(), className)}
+    />
+  )
+}
+
+export { Step, StepProps }
+
 ```
