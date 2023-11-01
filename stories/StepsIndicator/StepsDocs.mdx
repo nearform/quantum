@@ -17,36 +17,38 @@ Used primarily to indicate the current step or inline page a user is on. We expo
 The attributes that can be passed through are listed below.
 
 <table>
-  <tr>
-    <td>Attribute</td>
-    <td>Type</td>
-    <td>Default</td>
-  </tr>
-  <tr>
-    <td>selectedIndex</td>
-    <td>`number`</td>
-    <td>0</td>
-  </tr>
-  <tr>
-    <td>length</td>
-    <td>`number`</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>className</td>
-    <td>`string`</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>childClassName</td>
-    <td>`string`</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>props</td>
-    <td>`any`</td>
-    <td>-</td>
-  </tr>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>selectedIndex</td>
+      <td>`number`</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>length</td>
+      <td>`number`</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>className</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>childClassName</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>props</td>
+      <td>`any`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
 </table>
 
 An array of length `length` contains `<Step>` components, the colour of which is controlled by the `selected` data attribute (`true | false`). By default we use `selectedIndex` to point to the component that requires this attribute to be true. For higher customisability, we also include the `className` and `childClassName`. These respectively refer to the `<div>` containing all the Steps, and the `<Step/>` themselves.
