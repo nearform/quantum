@@ -26,9 +26,9 @@ export const RadioGroupDemo = ({
 }
 const RadioWithLabel = ({ value }: { value: string }) => {
   return (
-    <span className="flex items-center space-x-1">
+    <div className="flex space-x-1">
       <Radio value={value} />
       <Label htmlFor={value}>{value}</Label>
-    </span>
+    </div>
   )
 }
