@@ -119,7 +119,7 @@ export const colors = {
     800: '#A02042',
     900: '#731837'
   }
-};
+}
 
 export default {
   transparent: 'transparent',
@@ -135,7 +135,9 @@ export default {
   accent: {
     DEFAULT: colors.blue['700'],
     hover: colors.grey['900'],
-    focus: '#000'
+    focus: '#000',
+    alt: colors.grey['300'],
+    'alt-dark': colors.grey['600']
   },
   border: {
     DEFAULT: colors.grey['300'],
@@ -161,4 +163,4 @@ export default {
     DEFAULT: '#000'
   },
   ...colors
-};
+}
