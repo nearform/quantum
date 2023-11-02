@@ -48,6 +48,7 @@ const TableHeader = React.forwardRef<
   />
 ))
 TableHeader.displayName = 'TableHeader'
+
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
   React.ThHTMLAttributes<HTMLTableCellElement>
@@ -70,7 +71,7 @@ const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ className, variant, ...props }, ref) => (
     <tbody
       ref={ref}
-      className={cn(tableBodyVariants({ variant: 'line' }), className)}
+      className={cn(tableBodyVariants({ variant }), className)}
       {...props}
     />
   )
@@ -111,11 +112,7 @@ const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,
   React.HTMLAttributes<HTMLTableCaptionElement>
 >(({ className, ...props }, ref) => (
-  <caption
-    ref={ref}
-    className={cn('mt-4 text-sm text-muted-foreground', className)}
-    {...props}
-  />
+  <caption ref={ref} className={cn('mt-4', className)} {...props} />
 ))
 TableCaption.displayName = 'TableCaption'
 
@@ -140,3 +137,4 @@ export {
   TableCell,
   TableCaption
 }
+export type { TableBodyProps }

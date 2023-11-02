@@ -4,13 +4,17 @@ import * as TableStories from './Table.stories'
 
 <Meta of={TableStories} />
 
-# Checkbox
+# Table
 
-A checkbox is a small box that users can click or tap to select or deselect an option. It's commonly used to allow users to make multiple choices from a list of options and is often accompanied by a label describing the option.
+A table column is a vertical division within a table that organises and displays a specific type of data. Each column typically has a header at the top, describing the content it contains. Users can sort, filter, or organise the table's information based on the data in these columns, making it easier to find and analyze the data they need.
 
-## Unchecked
+## Default (Line)
 
-<Canvas of={TableStories.TableDefault} />
+<Canvas of={TableStories.Default} />
+
+## Zebra (zebra)
+
+<Canvas of={TableStories.Zebra} />
 
 ## Attributes
 
@@ -22,141 +26,258 @@ A checkbox is a small box that users can click or tap to select or deselect an o
       <td>Default</td>
     </tr>
     <tr>
-      <td>checked</td>
-      <td>`true | false | "indeterminate"`</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>defaultChecked</td>
-      <td>boolean</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>disabled</td>
-      <td>boolean</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>required</td>
-      <td>boolean</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>name</td>
-      <td>`string`</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>value</td>
-      <td>`string`</td>
-      <td>-</td>
+      <td>variant</td>
+      <td>`line | "zebra"`</td>
+      <td>`line`</td>
     </tr>
   </tbody>
 </table>
 
-You can control the styling by using the Data-attributes in the className. For example, if you wanted to change the colour of the tick to red, then you can write:
+The Table component is built up of several components, the general structure of which is shown below.
 
-```ts
-<Checkbox checked=true className = "data-[state=checked]:text-yellow-200 data-[state=checked]:bg-grey-900 data-[state=checked]:border-grey-900">
+```bash
+└── Table
+    ├── 1.TableHeader
+    │   └── TableRow
+    │       └── TableHead
+    ├── 2.TableBody
+    │   └── TableRow
+    │       └── TableCell
+    ├── 3.TableFooter
+    │   └── TableRow
+    │       └── TableCell
+    └── 4.TableCaption
 ```
 
-And you can see the change:
+See the example below for further clarification.
 
-You can do the same for the indeterminate style by using `data-[state=indeterminate]`.
-Note that the colour of the SVG's stroke and fill (in this case, a tick or a minus) is inherited from the parents text colour.
+## Table
 
-## Checkbox
-
-```ts
-import * as React from 'react'
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
-import { cn } from '@/lib/utils'
-import { Check, Minus } from '@/assets/index'
-import { cva } from 'class-variance-authority'
-const checkboxVariants = cva([
-  [
-    'peer',
-    'h-5 w-5',
-    'p-0.5',
-    'shrink-0',
-    'gap-0',
-    'rounded',
-    'border',
-    'border-border'
-  ],
-  [
-    'data-[state=checked]:border-blue-600',
-    'data-[state=checked]:bg-blue-600',
-    'data-[state=checked]:text-foreground-inverse',
-    'data-[state=indeterminate]:border-blue-600',
-    'data-[state=indeterminate]:bg-blue-600',
-    'data-[state=indeterminate]:text-foreground-inverse'
-  ],
-  [
-    'dark:data-[state=unchecked]:bg-grey-700',
-    'dark:data-[state=unchecked]:border-grey-500'
-  ]
-])
-
-interface CheckboxProps
-  extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {}
-
-const Checkbox = React.forwardRef<
-  React.ElementRef<typeof CheckboxPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
+```tsx
+const Table = React.forwardRef<
+  HTMLTableElement,
+  React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <CheckboxPrimitive.Root
-    ref={ref}
-    className={cn(checkboxVariants(), className)}
-    {...props}
-  >
-    <CheckboxPrimitive.Indicator
-      className={cn('flex items-center justify-center text-inherit')}
-    >
-      {(props.checked === true || props.checked === undefined) && (
-        <Check className="text-inherit stroke-current stroke-1 fill-current" />
-      )}
-      {props.checked === 'indeterminate' && (
-        <Minus className="text-inherit stroke-current stroke-3 fill-current" />
-      )}
-    </CheckboxPrimitive.Indicator>
-  </CheckboxPrimitive.Root>
+  <div className="relative w-full overflow-auto">
+    <table
+      ref={ref}
+      className={cn('caption-bottom text-sm dark:text-white', className)}
+      {...props}
+    />
+  </div>
 ))
-Checkbox.displayName = CheckboxPrimitive.Root.displayName
-
-export { Checkbox, CheckboxProps }
-
+Table.displayName = 'Table'
 ```
 
-## Example Usage
+## TableHeader
 
-To control the state of whether it's checked, we pass through the `checked` attribute to the `<Checkbox>` component. We can also pass through a `onCheckedChange` callback function in order to update the `checked` state.
+```tsx
+const TableHeader = React.forwardRef<
+  HTMLTableSectionElement,
+  React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  <thead
+    ref={ref}
+    className={cn('bg-grey-50 dark:bg-grey-700', className)}
+    {...props}
+  />
+))
+TableHeader.displayName = 'TableHeader'
+```
 
-The `checked` variable passed in must be of the type `CheckboxProps["checked"]` which can be one of the following: `true | false | "indeterminate"`. You can see a list of the possible attributes you can use with the `<Checkbox>` component below.
+## TableHead
 
-```ts
-import { Checkbox, CheckboxProps } from '@/components/Checkbox'
-import { useState } from 'react'
-export const CheckboxDemo = ({
-  checked,
-  className
-}: {
-  checked: CheckboxProps['checked']
-  className?: string
-}): JSX.Element => {
-  const [check, setCheck] = useState<typeof checked>(checked)
-  const handleOnCheckChanged = () => {
-    if (check !== 'indeterminate') {
-      setCheck(!check)
+```tsx
+const TableHead = React.forwardRef<
+  HTMLTableCellElement,
+  React.ThHTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => (
+  <th
+    ref={ref}
+    className={cn(
+      'px-4 leading-[21px] font-bold [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+      className
+    )}
+    {...props}
+  />
+))
+TableHead.displayName = 'TableHead'
+```
+
+## TableBody
+
+```tsx
+const tableBodyVariants = cva(['dark:bg-grey-900'], {
+  variants: {
+    variant: {
+      line: [],
+      zebra: [
+        '[&>*:nth-child(odd)]:bg-purple-50',
+        'dark:[&>*:nth-child(odd)]:bg-grey-800'
+      ]
     }
-  }
-  return (
-    <Checkbox
-      checked={check}
-      onCheckedChange={handleOnCheckChanged}
-      className={className}
+  },
+  defaultVariants: {
+    variant: 'line'
+  },
+  compoundVariants: [
+    {
+      variant: 'line'
+    }
+  ]
+})
+
+const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
+  ({ className, variant, ...props }, ref) => (
+    <tbody
+      ref={ref}
+      className={cn(tableBodyVariants({ variant }), className)}
+      {...props}
     />
   )
-}
+)
+TableBody.displayName = 'TableBody'
+```
 
+## TableRow
+
+```tsx
+const TableRow = React.forwardRef<
+  HTMLTableRowElement,
+  React.HTMLAttributes<HTMLTableRowElement>
+>(({ className, ...props }, ref) => (
+  <tr
+    ref={ref}
+    className={cn(
+      'h-[50px] border-b-[1px] border-accent-alt dark:border-grey-500 self-stretch items-center gap-2 font-normal',
+      className
+    )}
+    {...props}
+  />
+))
+TableRow.displayName = 'TableRow'
+```
+
+## TableCell
+
+```tsx
+const TableCell = React.forwardRef<
+  HTMLTableCellElement,
+  React.TdHTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => (
+  <td
+    ref={ref}
+    className={cn(
+      ' px-4 py-4 [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] ',
+      className
+    )}
+    {...props}
+  />
+))
+TableCell.displayName = 'TableCell'
+```
+
+## TableFooter
+
+```tsx
+const TableFooter = React.forwardRef<
+  HTMLTableSectionElement,
+  React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  <tfoot
+    ref={ref}
+    className={cn('bg-primary text-primary-foreground', className)}
+    {...props}
+  />
+))
+```
+
+## Caption
+
+```tsx
+const TableCaption = React.forwardRef<
+  HTMLTableCaptionElement,
+  React.HTMLAttributes<HTMLTableCaptionElement>
+>(({ className, ...props }, ref) => (
+  <caption ref={ref} className={cn('mt-4', className)} {...props} />
+))
+TableCaption.displayName = 'TableCaption'
+```
+
+## Example
+
+```tsx
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableBodyProps
+} from '@/components/Table'
+import { Checkbox } from '@/components/Checkbox'
+import { Label } from '@/components/Label'
+import User from '@/assets/build/user.icon'
+export const TableDemo = ({ variant }: TableBodyProps) => {
+  return (
+    <Table>
+      <TableCaption>A list of recent invoices.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Header Cell</TableHead>
+          <TableHead>
+            <div className="flex items-center">
+              <User className="fill-white" /> User
+            </div>
+          </TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead>Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody variant={variant}>
+        <TableRow>
+          <TableCell>Data Cell</TableCell>
+          <TableCell>Freeman</TableCell>
+          <TableCell>Credit Card</TableCell>
+          <TableCell>$250.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className="space-x-2">
+            <Checkbox />
+            <Label>Click me? Maybe....</Label>
+          </TableCell>
+          <TableCell>Vance</TableCell>
+          <TableCell>Credit Card</TableCell>
+          <TableCell>$250.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Data Cell</TableCell>
+          <TableCell>Kleiner</TableCell>
+          <TableCell>Credit Card</TableCell>
+          <TableCell>$250.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Data Cell</TableCell>
+          <TableCell>Mossman</TableCell>
+          <TableCell>Credit Card</TableCell>
+          <TableCell>$250.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Data Cell</TableCell>
+          <TableCell>Breen</TableCell>
+          <TableCell>Credit Card</TableCell>
+          <TableCell>$250.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Data Cell</TableCell>
+          <TableCell>Calhoun</TableCell>
+          <TableCell>Credit Card</TableCell>
+          <TableCell>$250.00</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  )
+}
 ```
