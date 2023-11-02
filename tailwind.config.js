@@ -18,7 +18,7 @@ module.exports = {
       none: '0px 0px'
     },
     fontFamily: {
-      sans: ['"Inter"', ...defaultTheme.fontFamily.sans]
+      sans: ["'Inter'", ...defaultTheme.fontFamily.sans]
     },
     strokeWidth: {
       0: '0px',
