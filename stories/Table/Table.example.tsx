@@ -37,7 +37,7 @@ export const TableDemo = ({ variant }: TableBodyProps) => {
         <TableRow>
           <TableCell className="space-x-2">
             <Checkbox />
-            <Label>Click me? Maybe....</Label>
+            <Label>Insert a checkbox</Label>
           </TableCell>
           <TableCell>Vance</TableCell>
           <TableCell>Credit Card</TableCell>

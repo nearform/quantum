@@ -8,7 +8,7 @@ import * as TableStories from './Table.stories'
 
 A table column is a vertical division within a table that organises and displays a specific type of data. Each column typically has a header at the top, describing the content it contains. Users can sort, filter, or organise the table's information based on the data in these columns, making it easier to find and analyze the data they need.
 
-## Default (Line)
+## Default (line)
 
 <Canvas of={TableStories.Default} />
 
@@ -17,6 +17,8 @@ A table column is a vertical division within a table that organises and displays
 <Canvas of={TableStories.Zebra} />
 
 ## Attributes
+
+The attributes associated with the table below are only specific to this package, however, you may pass through props accepted by e.g. `<HTMLTableElement>`, and its React counterpart. See the source code for the desired components prop types.
 
 <table>
   <tbody>
@@ -223,7 +225,7 @@ import User from '@/assets/build/user.icon'
 export const TableDemo = ({ variant }: TableBodyProps) => {
   return (
     <Table>
-      <TableCaption>A list of recent invoices.</TableCaption>
+      <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Header Cell</TableHead>
@@ -246,7 +248,7 @@ export const TableDemo = ({ variant }: TableBodyProps) => {
         <TableRow>
           <TableCell className="space-x-2">
             <Checkbox />
-            <Label>Click me? Maybe....</Label>
+            <Label>Insert a checkbox</Label>
           </TableCell>
           <TableCell>Vance</TableCell>
           <TableCell>Credit Card</TableCell>
