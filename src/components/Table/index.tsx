@@ -1,6 +1,27 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import { VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
+const tableBodyVariants = cva(['dark:bg-grey-900'], {
+  variants: {
+    variant: {
+      line: [],
+      zebra: [
+        '[&>*:nth-child(odd)]:bg-purple-50',
+        'dark:[&>*:nth-child(odd)]:bg-grey-800'
+      ]
+    }
+  },
+  defaultVariants: {
+    variant: 'line'
+  },
+  compoundVariants: [
+    {
+      variant: 'line'
+    }
+  ]
+})
 
 const Table = React.forwardRef<
   HTMLTableElement,
@@ -40,14 +61,20 @@ const TableHead = React.forwardRef<
     {...props}
   />
 ))
-
 TableHead.displayName = 'TableHead'
-const TableBody = React.forwardRef<
-  HTMLTableSectionElement,
-  React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <tbody ref={ref} className={cn('dark:bg-grey-900', className)} {...props} />
-))
+interface TableBodyProps
+  extends React.HTMLAttributes<HTMLTableSectionElement>,
+    VariantProps<typeof tableBodyVariants> {}
+
+const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
+  ({ className, variant, ...props }, ref) => (
+    <tbody
+      ref={ref}
+      className={cn(tableBodyVariants({ variant: 'line' }), className)}
+      {...props}
+    />
+  )
+)
 TableBody.displayName = 'TableBody'
 
 const TableRow = React.forwardRef<
@@ -57,7 +84,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      'h-[50px] border-b-[1px] border-accent-alt self-stretch items-center gap-2 font-normal',
+      'h-[50px] border-b-[1px] border-accent-alt dark:border-grey-500 self-stretch items-center gap-2 font-normal',
       className
     )}
     {...props}
@@ -72,7 +99,7 @@ const TableCell = React.forwardRef<
   <td
     ref={ref}
     className={cn(
-      ' px-4 py-4 [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+      ' px-4 py-4 [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] ',
       className
     )}
     {...props}
