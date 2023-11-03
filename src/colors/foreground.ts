@@ -4,7 +4,7 @@ export const foreground = {
   DEFAULT: colors.grey['900'],
   dark: '#FFF',
   muted: {
-    DEFAULT: colors.grey['900'],
+    DEFAULT: colors.grey['500'],
     dark: colors.grey['300']
   },
   subtle: {

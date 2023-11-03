@@ -176,6 +176,7 @@ export default {
 
   background: {
     DEFAULT: '#FFF',
+    dark: colors.grey['900'],
     alt: {
       DEFAULT: colors.grey['50'],
       dark: colors.grey['700']
@@ -233,7 +234,6 @@ export default {
     primary: {
       DEFAULT: colors.blue['700'], //replace active with this
       dark: '#FFF',
-      active: colors.blue['700'],
       hover: {
         DEFAULT: colors.grey['900'],
         dark: colors.grey['300']

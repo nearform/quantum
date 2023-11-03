@@ -1,97 +1,87 @@
 import { colors } from './base'
+import { accent } from './accent'
+import { background } from './background'
+import { border } from './border'
+import { feedback } from './feedback'
+
 export const button = {
   primary: {
-    DEFAULT: colors.blue['700'], //replace active with this
+    DEFAULT: colors.blue['700'],
     dark: '#FFF',
-    active: colors.blue['700'],
     hover: {
-      DEFAULT: colors.grey['900'],
-      dark: colors.grey['300']
+      DEFAULT: accent.hover.DEFAULT,
+      dark: accent.hover.dark
     },
     focus: {
-      DEFAULT: '#000',
-      dark: colors.grey['300']
+      DEFAULT: accent.focus.DEFAULT,
+      dark: accent.focus.dark
     },
     disabled: {
-      DEFAULT: colors.purple['50'],
-      dark: colors.grey['800']
+      DEFAULT: background.subtle.DEFAULT,
+      dark: background.subtle.dark
     }
   },
   secondary: {
     DEFAULT: '#FFF',
     dark: '#000',
     hover: {
-      DEFAULT: '',
-      dark: ''
+      DEFAULT: background.subtle.DEFAULT,
+      dark: background.subtle.dark
     },
 
     focus: {
-      DEFAULT: '',
-      dark: ''
+      DEFAULT: colors.blue['50'],
+      dark: colors['inverted-blue']['50']
     },
 
     disabled: {
-      DEFAULT: '',
-      dark: ''
+      DEFAULT: background.subtle.DEFAULT,
+      dark: background.subtle.dark
     },
 
     border: {
-      DEFAULT: '',
-      dark: '',
+      DEFAULT: border.DEFAULT,
+      dark: border.dark,
       hover: {
-        DEFAULT: '',
-        dark: ''
+        DEFAULT: background.subtle.DEFAULT,
+        dark: background.subtle.dark
       },
       focus: {
-        DEFAULT: '',
-        dark: ''
+        DEFAULT: border.focus.DEFAULT,
+        dark: border.focus.dark
       },
       disabled: {
-        DEFAULT: '',
-        dark: ''
+        DEFAULT: border.subtle.DEFAULT,
+        dark: border.subtle.dark
       }
     }
   },
   tertiary: {
     hover: {
-      DEFAULT: '',
-      dark: ''
+      DEFAULT: background.subtle.DEFAULT,
+      dark: background.subtle.dark
     },
     focus: {
-      DEFAULT: '',
-      dark: ''
+      DEFAULT: colors.blue['50'],
+      dark: colors['inverted-blue']['50']
     }
   },
   success: {
-    DEFAULT: '',
-    dark: '',
+    DEFAULT: feedback.green,
     hover: {
-      DEFAULT: '',
-      dark: ''
+      DEFAULT: colors.green['500']
     },
     focus: {
-      DEFAULT: '',
-      dark: ''
+      DEFAULT: colors.green['600']
     }
   },
   danger: {
-    DEFAULT: '',
-    dark: '',
+    DEFAULT: feedback.red,
     hover: {
-      DEFAULT: '',
-      dark: ''
+      DEFAULT: colors.red['700']
     },
     focus: {
-      DEFAULT: '',
-      dark: ''
+      DEFAULT: colors.red['800']
     }
-  },
-  DEFAULT: colors.blue['700'], //replace active with this
-  'default-dark': '#FFF',
-  active: colors.blue['700'],
-  hover: colors.grey['900'],
-  'hover-dark': colors.grey['300'],
-  focus: '#000',
-  'focus-dark': colors.grey['100'],
-  disabled: colors.purple['50']
+  }
 }

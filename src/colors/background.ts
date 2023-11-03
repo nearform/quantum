@@ -2,6 +2,7 @@ import { colors } from './base'
 
 export const background = {
   DEFAULT: '#FFF',
+  dark: '#000',
   alt: {
     DEFAULT: colors.grey['50'],
     dark: colors.grey['700']
