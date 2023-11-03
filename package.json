@@ -7,7 +7,7 @@
     "build": "tsup",
     "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 0",
-    "prepare": "husky install && npm run build",
+    "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
