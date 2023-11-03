@@ -132,6 +132,12 @@ export default {
     subtle: colors.grey['400'],
     inverse: '#FFF'
   },
+  background: {
+    DEFAULT: '#FFF',
+    alt: colors.grey['50'],
+    subtle: colors.purple['50'],
+    inverse: colors.grey['900']
+  },
   accent: {
     DEFAULT: colors.blue['700'],
     hover: colors.grey['900'],
