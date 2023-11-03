@@ -128,9 +128,13 @@ export default {
   secondary: colors.pink,
   foreground: {
     DEFAULT: colors.grey['900'],
+    white: '#FFF',
     muted: colors.grey['500'],
+    'muted-dark': colors.grey['300'],
     subtle: colors.grey['400'],
-    inverse: '#FFF'
+    'subtle-dark': colors.grey['500'],
+    inverse: '#FFF',
+    'inverse-dark': colors.grey['900']
   },
   background: {
     DEFAULT: '#FFF',
@@ -160,8 +164,11 @@ export default {
     red: colors.red['600']
   },
   button: {
+    DEFAULT: colors.blue['700'], //replace active with this
+    'default-dark': '#FFF',
     active: colors.blue['700'],
     hover: colors.grey['900'],
+    'hover-dark': colors.grey['300'],
     focus: '#000',
     disabled: colors.purple['50']
   },
