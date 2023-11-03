@@ -135,8 +135,11 @@ export default {
   background: {
     DEFAULT: '#FFF',
     alt: colors.grey['50'],
+    'alt-dark': colors.grey['700'],
     subtle: colors.purple['50'],
-    inverse: colors.grey['900']
+    'subtle-dark': colors.grey['800'],
+    inverse: colors.grey['900'],
+    'inverse-dark': '#FFF'
   },
   accent: {
     DEFAULT: colors.blue['700'],

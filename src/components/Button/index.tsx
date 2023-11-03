@@ -21,7 +21,7 @@ const buttonVariants = cva(
           'disabled:bg-button-disabled disabled:border-border-subtle disabled:text-foreground-subtle',
         tertiary:
           'bg-transparent border-transparent text-foreground ' +
-          'hover:bg-purple-50 hover:border-purple-50 ' +
+          'hover:bg-background-subtle hover:border-background-subtle ' +
           'focus:bg-blue-50 focus:border-blue-50 ' +
           'disabled:text-foreground-subtle',
         success:
@@ -33,13 +33,13 @@ const buttonVariants = cva(
           'bg-red-600 border-red-600 text-white ' +
           'hover:bg-red-700 hover:border-red-700 ' +
           'focus:bg-red-800 focus:border-red-800 ' +
-          'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle',
+          'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle'
       },
       size: {
         lg: 'px-4 py-3 text-base',
         md: 'p-2.5 text-sm',
         sm: 'px-2.5 py-2 text-sm',
-        xs: 'px-2 py-2.5 text-xs',
+        xs: 'px-2 py-2.5 text-xs'
       }
     },
     defaultVariants: {
@@ -51,7 +51,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-  VariantProps<typeof buttonVariants> {
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 

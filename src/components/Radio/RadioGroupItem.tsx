@@ -14,7 +14,7 @@ const radioVariant = cva([
     'rounded-full',
     'border-[0.533px]',
     'border-border',
-    'bg-grey-50',
+    'bg-background-alt',
     'disabled:opacity-50',
     'text-foreground-inverse'
   ],
