@@ -1,8 +1,8 @@
 ---
-name: Tailwind Config Customisation Issue
+name: Tailwind Customisation Issue Template
 about: Issue template for making a Tailwind customisation
 title: ''
-labels: ''
+labels: tailwind
 assignees: ''
 
 ---
