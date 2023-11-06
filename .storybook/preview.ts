@@ -1,21 +1,15 @@
-import type { Preview } from '@storybook/react'
-import '../stories/global.css'
+import { DocsContainer } from './DocsContainer'
+import { themes } from '@storybook/theming'
 
-const preview: Preview = {
-  globalTypes: {
-    darkMode: {
-      defaultValue: false
-    }
+import './global.css'
+
+export const parameters = {
+  backgrounds: { disable: true },
+  darkMode: {
+    dark: { ...themes.dark },
+    light: { ...themes.normal }
   },
-  parameters: {
-    actions: { argTypesRegex: '^on[A-Z].*' },
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i
-      }
-    }
+  docs: {
+    container: DocsContainer
   }
 }
-
-export default preview
