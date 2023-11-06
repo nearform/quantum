@@ -25,14 +25,14 @@ const buttonVariants = cva(
           'focus:bg-button-tertiary-focus focus:-button-tertiary-focus ' +
           'disabled:text-foreground-subtle',
         success:
-          'bg-green-400 border-green-400 text-black ' +
-          'hover:bg-green-500 hover:border-green-500 ' +
-          'focus:bg-green-600 focus:border-green-600 ' +
+          'bg-button-success border-button-success text-black ' +
+          'hover:bg-button-success-hover hover:border-button-success-hover ' +
+          'focus:bg-button-success-focus focus:border-button-success-focus ' +
           'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle',
         danger:
-          'bg-red-600 border-red-600 text-white ' +
-          'hover:bg-red-700 hover:border-red-700 ' +
-          'focus:bg-red-800 focus:border-red-800 ' +
+          'bg-button-danger border-button-danger text-white ' +
+          'hover:bg-button-danger-hover hover:border-button-danger-hover ' +
+          'focus:bg-button-danger-focus focus:border-red-800 ' +
           'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle'
       },
       size: {
