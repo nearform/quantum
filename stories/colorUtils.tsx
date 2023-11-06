@@ -4,12 +4,6 @@ type DarkMode = {
   DEFAULT?: string
   dark?: string
 }
-type Colors =
-  | string[]
-  | {
-      [key: string]: string
-    }
-
 type ColorPaletteType = {
   DEFAULT?: string
   dark?: string
