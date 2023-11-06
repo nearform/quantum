@@ -7,9 +7,11 @@ import { cn } from '@/lib/utils'
 const ButtonGroup = React.forwardRef<HTMLDivElement>(
   ({ children, className, ...props }) => {
     return (
-      <div className={className} {...props}>
-        {children}
+      <div className={cn(buttonGroupVariants, className)} {...props}>
+        <Button />
       </div>
     )
   }
 )
+ButtonGroup.displayName = 'Button Group'
+export { ButtonGroup }
