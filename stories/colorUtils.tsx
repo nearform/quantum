@@ -4,10 +4,15 @@ type DarkMode = {
   DEFAULT?: string
   dark?: string
 }
+type Colors =
+  | string[]
+  | {
+      [key: string]: string
+    }
 
 type ColorPaletteType = {
-  DEFAULT: string
-  dark: string
+  DEFAULT?: string
+  dark?: string
   focus?: DarkMode
   hover?: DarkMode
   alt?: DarkMode
@@ -16,34 +21,47 @@ type ColorPaletteType = {
 }
 
 export const ColorWrapper = ({
-  colorPalette
+  colorPalette,
+  darkMode
 }: {
   colorPalette: ColorPaletteType
+  darkMode: boolean
 }) => {
   return (
     <ColorPalette>
       <ColorItem
-        key={'-2'}
-        title={`DEFAULT`}
+        key={1}
         subtitle={``}
-        colors={{
-          DEFAULT: colorPalette.DEFAULT,
-          dark: colorPalette.dark
-        }}
+        title={'Light'}
+        colors={remap({ mode: 'DEFAULT', colorPalette })}
       />
-      {Object.keys(colorPalette).map((token: string, index: number) => {
-        const color = colorPalette[token as keyof typeof colorPalette]
-        if (typeof color === 'object' && token !== 'border') {
-          return (
-            <ColorItem
-              key={index}
-              subtitle={``}
-              title={`${token}`}
-              colors={color}
-            />
-          )
-        }
-      })}
+      {darkMode ? (
+        <ColorItem
+          key={2}
+          subtitle={``}
+          title={'Dark'}
+          colors={remap({ mode: 'dark', colorPalette })}
+        />
+      ) : null}
     </ColorPalette>
   )
+}
+
+const remap = ({
+  mode,
+  colorPalette
+}: {
+  mode: keyof DarkMode
+  colorPalette: ColorPaletteType
+}) => {
+  const r = Object.keys(colorPalette).reduce((acc: any, token) => {
+    const color = colorPalette[token as keyof typeof colorPalette]
+    if (typeof color === 'object') {
+      acc[token as keyof ColorPaletteType] = color[`${mode}`]
+    } else if (token === mode) {
+      acc[mode] = color
+    }
+    return acc
+  }, {})
+  return r
 }
