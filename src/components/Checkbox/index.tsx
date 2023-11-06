@@ -24,7 +24,7 @@ const checkboxVariants = cva([
   ],
   [
     'dark:data-[state=unchecked]:bg-background-alt-dark',
-    'dark:data-[state=unchecked]:border-grey-500'
+    'dark:data-[state=unchecked]:border-border-dark'
   ]
 ])
 
