@@ -118,18 +118,6 @@ export const colors = {
     700: '#D95477',
     800: '#A02042',
     900: '#731837'
-  },
-  'inverted-pink': {
-    900: '#FFF6F9',
-    800: '#FFF1F5',
-    700: '#FFE8EE',
-    600: '#FFD9E3',
-    500: '#FFBFD0',
-    400: '#FF9DB7',
-    300: '#FB7A9C',
-    200: '#D95477',
-    100: '#A02042',
-    50: '#731837'
   }
 }
 export const inverted = {
