@@ -12,21 +12,16 @@ Base colours provide a full colour spectrum of dark to light hues, and are used 
 ## Base Colours
 
 <ColorPalette>
-
-{Object.keys(colors).map((token, index) => {
-const color = colors[token];
-return (
-
-<ColorItem key={index} index={index} title={`${token}`} colors={color} />
-); })}
-
+  {Object.keys(colors).map((token, index) => {
+    const color = colors[token]
+    return (
+      <ColorItem key={index} index={index} title={`${token}`} colors={color} />
+    )
+  })}
 </ColorPalette>
-## Brand Theme and UI Colours
-### Accent
+## Brand Theme and UI Colours ### Accent
 
 <ColorWrapper colorPalette={aliasColors.accent} />
-
-#
 
 ### Feedback
 

@@ -17,11 +17,8 @@ export default {
     DEFAULT: colors.pink,
     dark: colors['inverted-pink']
   },
-
   foreground: foreground,
-
   background: background,
-
   accent: accent,
   border: border,
   feedback: feedback,
