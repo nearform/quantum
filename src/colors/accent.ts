@@ -11,7 +11,7 @@ export const accent = {
     dark: colors.grey['300']
   },
   focus: {
-    DEFAULT: '#FFF',
+    DEFAULT: '#000',
     dark: colors.grey['100']
   }
 }
