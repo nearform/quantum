@@ -10,29 +10,29 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-button-primary border-button-primary text-white ' +
-          'hover:bg-button-primary-hover hover:border-button-primary-hover ' +
-          'focus:bg-button-primary-focus focus:border-button-primary-focus ' +
-          'disabled:bg-button-primary-disabled disabled:text-foreground-subtle disabled:border-button-primary-disabled',
+          'bg-button-primary border-button-active text-white ' +
+          'hover:bg-button-hover hover:border-button-hover ' +
+          'focus:bg-button-focus focus:border-button-focus ' +
+          'disabled:bg-button-disabled disabled:text-foreground-subtle disabled:border-button-disabled',
         secondary:
-          'bg-white text-foreground border-button-secondary-border ' +
-          'hover:bg-button-secondary-hover hover:border-button-secondary-border ' +
-          'focus:bg-button-secondary-focus focus:border-button-secondary-border-focus ' +
-          'disabled:bg-button-secondary-disabled disabled:border-button-secondary-border-disabled disabled:text-foreground-subtle',
+          'bg-white text-grey-900 border-border ' +
+          'hover:bg-button-disabled hover:border-border ' +
+          'focus:bg-primary-50 focus:border-foreground-muted ' +
+          'disabled:bg-button-disabled disabled:border-border-subtle disabled:text-foreground-subtle',
         tertiary:
           'bg-transparent border-transparent text-foreground ' +
-          'hover:bg-button-tertiary-hover hover:border-button-tertiary-hover ' +
-          'focus:bg-button-tertiary-focus focus:-button-tertiary-focus ' +
+          'hover:bg-purple-50 hover:border-purple-50 ' +
+          'focus:bg-blue-50 focus:border-blue-50 ' +
           'disabled:text-foreground-subtle',
         success:
-          'bg-button-success border-button-success text-black ' +
-          'hover:bg-button-success-hover hover:border-button-success-hover ' +
-          'focus:bg-button-success-focus focus:border-button-success-focus ' +
+          'bg-green-400 border-green-400 text-black ' +
+          'hover:bg-green-500 hover:border-green-500 ' +
+          'focus:bg-green-600 focus:border-green-600 ' +
           'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle',
         danger:
-          'bg-button-danger border-button-danger text-white ' +
-          'hover:bg-button-danger-hover hover:border-button-danger-hover ' +
-          'focus:bg-button-danger-focus focus:border-red-800 ' +
+          'bg-red-600 border-red-600 text-white ' +
+          'hover:bg-red-700 hover:border-red-700 ' +
+          'focus:bg-red-800 focus:border-red-800 ' +
           'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle'
       },
       size: {

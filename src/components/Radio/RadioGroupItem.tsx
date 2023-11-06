@@ -19,9 +19,9 @@ const radioVariant = cva([
     'text-foreground-inverse'
   ],
   [
-    'data-[state=checked]:border-primary-DEFAULT-600',
-    'data-[state=checked]:bg-primary-DEFAULT-600',
-    'data-[state=checked]:bg-primary-DEFAULT-600'
+    'data-[state=checked]:border-primary-600',
+    'data-[state=checked]:bg-primary-600',
+    'data-[state=checked]:bg-primary-600'
   ],
   ['dark:bg-background-alt-dark', 'dark:border-border-dark']
 ])

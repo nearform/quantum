@@ -3,7 +3,7 @@ import { accent } from './accent'
 import { background } from './background'
 import { border } from './border'
 import { feedback } from './feedback'
-
+import { inverted } from './base'
 export const button = {
   primary: {
     DEFAULT: colors.blue['700'],
@@ -31,7 +31,7 @@ export const button = {
 
     focus: {
       DEFAULT: colors.blue['50'],
-      dark: colors['inverted-blue']['50']
+      dark: inverted.blue['50']
     },
 
     disabled: {
@@ -63,7 +63,7 @@ export const button = {
     },
     focus: {
       DEFAULT: colors.blue['50'],
-      dark: colors['inverted-blue']['50']
+      dark: inverted.blue['50']
     }
   },
   success: {
