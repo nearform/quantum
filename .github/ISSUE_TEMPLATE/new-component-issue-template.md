@@ -2,8 +2,7 @@
 name: New Component Issue Template
 about: Issue template for creating a new component for the library
 title: "[Component] - Name"
-labels: ["enhancement", "new-component"]
-projects: ["quantum"]
+labels: enhancement, new-component
 assignees: ''
 
 ---
