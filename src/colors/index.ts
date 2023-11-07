@@ -1,4 +1,4 @@
-import { colors, inverted } from './base'
+import { colors } from './base'
 import { foreground } from './foreground'
 import { background } from './background'
 import { button } from './button'
@@ -10,9 +10,7 @@ export default {
   transparent: 'transparent',
   current: 'currentColor',
   primary: colors.blue,
-  'primary-dark': inverted.blue,
   secondary: colors.pink,
-  'secondary-dark': inverted.pink,
   foreground: foreground,
   background: background,
   accent: accent,
