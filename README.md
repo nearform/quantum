@@ -18,13 +18,15 @@ Inclue or extend our colour configuration and add our components to Tailwind's c
 
 ```js
 // tailwind.config.js
-import colors from '@nearform/quantum/colors'
+import colors from '@nearform/quantum/dist/colors'
 
 module.exports = {
-    colors,
     content: [
         "./node_modules/@nearform/quantum/**/*.js"
-    ]
+    ],
+    theme: {
+        colors,
+    }
 };
 ```
 
