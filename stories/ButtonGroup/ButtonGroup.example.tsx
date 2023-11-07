@@ -3,9 +3,12 @@ import { ButtonGroupItem } from '@/components/ButtonGroup/ButtonGroupItem'
 export const ButtonGroupDemo = () => {
   return (
     <ButtonGroup>
-      <ButtonGroupItem>Button 1</ButtonGroupItem>
-      <ButtonGroupItem>Button 2</ButtonGroupItem>
-      <ButtonGroupItem>ButtonGroupItem 3</ButtonGroupItem>
+      <ButtonGroupItem>One</ButtonGroupItem>
+      <ButtonGroupItem>Two</ButtonGroupItem>
+      <ButtonGroupItem>Three</ButtonGroupItem>
+      <ButtonGroupItem>Four</ButtonGroupItem>
+      <ButtonGroupItem>Five</ButtonGroupItem>
+      <ButtonGroupItem>Six</ButtonGroupItem>
     </ButtonGroup>
   )
 }
