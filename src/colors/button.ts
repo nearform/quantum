@@ -43,8 +43,8 @@ export const button = {
       DEFAULT: border.DEFAULT,
       dark: border.dark,
       hover: {
-        DEFAULT: background.subtle.DEFAULT,
-        dark: background.subtle.dark
+        DEFAULT: border.hover.DEFAULT,
+        dark: border.hover.dark
       },
       focus: {
         DEFAULT: border.focus.DEFAULT,

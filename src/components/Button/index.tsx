@@ -10,19 +10,19 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-button-primary border-button-active text-white ' +
-          'hover:bg-button-hover hover:border-button-hover ' +
-          'focus:bg-button-focus focus:border-button-focus ' +
+          'bg-button-primary border-button-primary text-white ' +
+          'hover:bg-button-primary-hover hover:border-button-primary-hover ' +
+          'focus:bg-button-primary-focus focus:border-button-primary-focus ' +
           'disabled:bg-button-disabled disabled:text-foreground-subtle disabled:border-button-disabled',
         secondary:
           'bg-white text-grey-900 border-border ' +
-          'hover:bg-button-disabled hover:border-border ' +
-          'focus:bg-primary-50 focus:border-foreground-muted ' +
-          'disabled:bg-button-disabled disabled:border-border-subtle disabled:text-foreground-subtle',
+          'hover:bg-button-secondary-hover hover:border-button-secondary-border-hover ' +
+          'focus:bg-button-secondary-focus focus:border-button-secondary-border-focus ' +
+          'disabled:bg-button-secondary-disabled disabled:border-button-secondary-border-disabled disabled:text-foreground-subtle',
         tertiary:
           'bg-transparent border-transparent text-foreground ' +
-          'hover:bg-purple-50 hover:border-purple-50 ' +
-          'focus:bg-blue-50 focus:border-blue-50 ' +
+          'hover:bg-button-tertiary-hover hover:border-button-tertiary-hover ' +
+          'focus:bg-button-tertiary-focus focus:border-button-tertiary-focus ' +
           'disabled:text-foreground-subtle',
         success:
           'bg-green-400 border-green-400 text-black ' +
