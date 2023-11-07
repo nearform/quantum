@@ -1,14 +1,15 @@
 import { ButtonGroup } from '@/index'
 import { ButtonGroupItem } from '@/components/ButtonGroup/ButtonGroupItem'
+import { Button } from '@/index'
 export const ButtonGroupDemo = () => {
   return (
     <ButtonGroup>
-      <ButtonGroupItem>One</ButtonGroupItem>
-      <ButtonGroupItem>Two</ButtonGroupItem>
-      <ButtonGroupItem>Three</ButtonGroupItem>
-      <ButtonGroupItem>Four</ButtonGroupItem>
-      <ButtonGroupItem>Five</ButtonGroupItem>
-      <ButtonGroupItem>Six</ButtonGroupItem>
+      <Button>One</Button>
+      <Button>Two</Button>
+      <Button>Three</Button>
+      <Button>Four</Button>
+      <Button>Five</Button>
+      <Button>Six</Button>
     </ButtonGroup>
   )
 }

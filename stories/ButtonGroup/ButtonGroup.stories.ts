@@ -4,7 +4,7 @@ import { ButtonGroupDemo } from './ButtonGroup.example'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
-  title: 'Components/Checkbox2',
+  title: 'Components/ButtonGroup',
   component: ButtonGroupDemo,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
@@ -19,4 +19,4 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const CheckBoxUnchecked1: Story = {}
+export const ButtonGroupPrimaryDefault: Story = {}
