@@ -1,4 +1,4 @@
-export { colors } from './colors'
+export { default as colors } from './colors'
 export * from './components/Button'
 export * from './components/Checkbox'
 export * from './components/Label'

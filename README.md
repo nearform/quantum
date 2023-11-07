@@ -14,10 +14,14 @@ npm install --save @nearform/quantum
 
 #### With Tailwind
 
+Inclue or extend our colour configuration and add our components to Tailwind's content configuration.
+
 ```js
 // tailwind.config.js
+import colors from '@nearform/quantum/colors'
 
 module.exports = {
+    colors,
     content: [
         "./node_modules/@nearform/quantum/**/*.js"
     ]
@@ -27,6 +31,6 @@ module.exports = {
 #### Without Tailwind
 
 ```js
-import '@nearform/quantum/dist/library.css';
+import '@nearform/quantum/dist/global.css';
 import { Navbar } from '@nearform/quantum';
 ```
