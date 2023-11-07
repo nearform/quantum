@@ -1,5 +1,7 @@
-import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
-import { colors, default as aliasColors } from '@/colors.ts';
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks'
+import aliasColors from '@/colors'
+import { colors } from '@/colors/base'
+import { ColorWrapper } from './colorUtils.tsx'
 
 <Meta title="Colors" />
 
@@ -8,42 +10,60 @@ import { colors, default as aliasColors } from '@/colors.ts';
 Base colours provide a full colour spectrum of dark to light hues, and are used as aliases in the [brand theme](#brand-theme-and-ui-colours).
 
 ## Base Colours
-#
 
 <ColorPalette>
-
   {Object.keys(colors).map((token, index) => {
-    const color = colors[token];
+    const color = colors[token]
     return (
-      <ColorItem
-        key={index}
-        index={index}
-        title={`${token}`}
-        colors={color}
-      />
-    );
+      <ColorItem key={index} index={index} title={`${token}`} colors={color} />
+    )
   })}
-
 </ColorPalette>
-
 ## Brand Theme and UI Colours
-#
+
+### Accent
+
+<ColorWrapper darkMode={true} colorPalette={aliasColors.accent} />
+
+### Feedback
 
 <ColorPalette>
-
-  {Object.keys(aliasColors).map((token, index) => {
-    const color = aliasColors[token];
-    if (typeof color === 'object' && !colors[token]) {
-      return (
-        <ColorItem
-          key={index}
-          index={index}
-          title={`${token}`}
-          colors={color}
-        />
-      )
-    }
-  })}
+{<ColorItem
+  key={0}
+  index={0}
+  title={'feedback'}
+  colors={aliasColors.feedback}
+/>}
 
 </ColorPalette>
+### Background
+<ColorWrapper darkMode={true} colorPalette={aliasColors.background} />
 
+### Foreground
+
+<ColorWrapper darkMode={true} colorPalette={aliasColors.foreground} />
+### Border
+
+<ColorWrapper darkMode={true} colorPalette={aliasColors.border} />
+## Button
+
+### Primary
+
+<ColorWrapper darkMode={true} colorPalette={aliasColors.button.primary} />
+
+### Secondary
+
+<ColorWrapper darkMode={true} colorPalette={aliasColors.button.secondary} />
+### Secondary Borders
+<ColorWrapper
+  darkMode={true}
+  colorPalette={aliasColors.button.secondary.border}
+/>
+### Tertiary
+<ColorWrapper darkMode={true} colorPalette={aliasColors.button.tertiary} />
+### Success
+<ColorWrapper darkMode={false} colorPalette={aliasColors.button.success} />
+
+### Danger
+
+<ColorWrapper darkMode={false} colorPalette={aliasColors.button.danger} />
