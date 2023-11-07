@@ -31,6 +31,6 @@ module.exports = {
 #### Without Tailwind
 
 ```js
-import '@nearform/quantum/dist/library.css';
+import '@nearform/quantum/dist/global.css';
 import { Navbar } from '@nearform/quantum';
 ```
