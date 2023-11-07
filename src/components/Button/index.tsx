@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-button-primary border-primary-600 text-white ' +
+          'bg-button-primary border-button-primary text-white ' +
           'hover:bg-button-primary-hover hover:border-button-primary-hover ' +
           'focus:bg-button-primary-focus focus:border-button-primary-focus ' +
           'disabled:bg-button-disabled disabled:text-foreground-subtle disabled:border-button-disabled',
