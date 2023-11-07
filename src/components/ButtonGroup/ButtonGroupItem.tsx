@@ -8,9 +8,9 @@ const buttonGroupItemVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-button-active border-button-active text-white ' +
-          'hover:bg-button-hover hover:border-button-hover ' +
-          'focus:bg-button-focus focus:border-button-focus ' +
+          'bg-primary-600 border-button-white text-white ' +
+          'hover:bg-button-primary-hover hover:border-button-primary-hover ' +
+          'focus:bg-button-primary-focus focus:border-button-primary-focus ' +
           'disabled:bg-button-disabled disabled:text-foreground-subtle disabled:border-button-disabled',
         secondary:
           'bg-white text-grey-900 border-border ' +
@@ -39,7 +39,7 @@ const ButtonGroupItem = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     return (
       <button
-        className={cn(buttonGroupItemVariants({ variant, size, className }))}
+        className={cn(buttonGroupItemVariants({ variant, size }), className)}
         ref={ref}
         {...props}
       />
