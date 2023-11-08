@@ -15,6 +15,10 @@ const meta = {
     orientation: {
       options: ['vertical', 'horizontal'],
       control: 'radio'
+    },
+    variant: {
+      options: ['primary', 'secondary'],
+      control: 'radio'
     }
   }
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
@@ -24,13 +28,27 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const ButtonGroupPrimaryDefault: Story = {
+export const ButtonGroupPrimaryHorizontal: Story = {
   args: {
-    orientation: 'horizontal'
+    orientation: 'horizontal',
+    variant: 'primary'
   }
 }
 export const ButtonGroupPrimaryVertical: Story = {
   args: {
-    orientation: 'vertical'
+    orientation: 'vertical',
+    variant: 'primary'
+  }
+}
+export const ButtonGroupSecondaryHorizontal: Story = {
+  args: {
+    orientation: 'horizontal',
+    variant: 'secondary'
+  }
+}
+export const ButtonGroupSecondaryVertical: Story = {
+  args: {
+    orientation: 'vertical',
+    variant: 'secondary'
   }
 }
