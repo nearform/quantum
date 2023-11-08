@@ -45,9 +45,7 @@ const buttonGroupVariants = cva(
 
 interface ButtonGroupProps
   extends React.ComponentPropsWithoutRef<'div'>,
-    VariantProps<typeof buttonGroupVariants> {
-  variant?: 'primary' | 'secondary'
-}
+    VariantProps<typeof buttonGroupVariants> {}
 
 const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
   ({ className, orientation, variant, ...props }, ref) => {
