@@ -1,9 +1,9 @@
-import { ButtonGroup } from '@/index'
-import { ButtonGroupItem } from '@/components/ButtonGroup/ButtonGroupItem'
+import { ButtonGroup, type ButtonGroupProps } from '@/index'
 import { Button } from '@/index'
-export const ButtonGroupDemo = () => {
+
+export const ButtonGroupDemo = ({ orientation }: ButtonGroupProps) => {
   return (
-    <ButtonGroup>
+    <ButtonGroup orientation={orientation}>
       <Button>One</Button>
       <Button>Two</Button>
       <Button>Three</Button>
