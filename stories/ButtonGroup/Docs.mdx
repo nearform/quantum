@@ -1,6 +1,52 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as ButtonGroupStories from './ButtonGroup.stories'
+
+<Meta of={ButtonGroupStories} />
+
+# Button Group
+
+A button group in is a collection of related buttons grouped together, visually connected, to represent a set of choices or actions. Users can select one option from the group, making it a convenient way to present mutually exclusive options or actions in a compact layout.
+
+## Primary Horizontal
+
+<Canvas of={ButtonGroupStories.ButtonGroupPrimaryHorizontal} />
+## Primary Vertical
+<Canvas of={ButtonGroupStories.ButtonGroupPrimaryVertical} />
+## Secondary Horizontal
+<Canvas of={ButtonGroupStories.ButtonGroupSecondaryHorizontal} />
+## Secondary Vertical
+<Canvas of={ButtonGroupStories.ButtonGroupSecondaryVertical} />
+## Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>orientation</td>
+      <td>`"horizontal" | "vertical"`</td>
+      <td>`"horizontal`</td>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`"primary" | "secondary"`</td>
+      <td>`"primary"`</td>
+    </tr>
+  </tbody>
+</table>
+
+## ButtonGroup
+
+```ts
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
+
 
 const buttonGroupVariants = cva(
   ['flex', '[&>*]:rounded-none', '[&>*]:border-0 divide-border-subtle'],
@@ -41,6 +87,7 @@ const buttonGroupVariants = cva(
     }
   }
 )
+import { cn } from '@/lib/utils'
 
 interface ButtonGroupProps
   extends React.ComponentPropsWithoutRef<'div'>,
@@ -61,3 +108,21 @@ const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
 )
 ButtonGroup.displayName = 'ButtonGroup'
 export { ButtonGroup, type ButtonGroupProps }
+```
+
+## Example
+
+```tsx
+export const ButtonGroupDemo = ({ orientation, variant }: ButtonGroupProps) => {
+  return (
+    <ButtonGroup orientation={orientation} variant={variant}>
+      <Button>One</Button>
+      <Button>Two</Button>
+      <Button>Three</Button>
+      <Button>Four</Button>
+      <Button>Five</Button>
+      <Button>Six</Button>
+    </ButtonGroup>
+  )
+}
+```
