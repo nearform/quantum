@@ -9,7 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 0",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "template": "mkdir -p ./src/components/$npm_config_name ./stories/$npm_config_name && touch ./src/components/$npm_config_name/index.tsx && cd ./stories/$npm_config_name && touch $npm_config_name.example.tsx $npm_config_name.story.ts"
   },
   "files": [
     "dist/",
