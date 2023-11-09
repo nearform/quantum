@@ -15,7 +15,7 @@ const checkboxVariants = cva([
     'border-border'
   ],
   [
-    'data-[state=checked]:border-primary-600',
+    'data-[state=checked]:border-primary-700',
     'data-[state=checked]:bg-primary-600',
     'data-[state=checked]:text-foreground-inverse',
     'data-[state=indeterminate]:border-primary-600',
