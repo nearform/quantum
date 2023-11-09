@@ -9,7 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 0",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "chromatic --exit-zero-on-changes"
   },
   "files": [
     "dist/",
@@ -41,6 +42,7 @@
     "@storybook/react-vite": "7.5.2",
     "@storybook/testing-library": "^0.2.2",
     "autoprefixer": "^10.4.16",
+    "chromatic": "^7.6.0",
     "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
@@ -68,5 +70,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "tailwind-merge": "^2.0.0"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "@nearform/quantum@0.1.3"
 }
