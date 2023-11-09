@@ -21,18 +21,24 @@ Inclue or extend our colour configuration and add our components to Tailwind's c
 import colors from '@nearform/quantum/dist/colors'
 
 module.exports = {
-    content: [
-        "./node_modules/@nearform/quantum/**/*.js"
-    ],
-    theme: {
-        colors,
-    }
-};
+  content: ['./node_modules/@nearform/quantum/**/*.js'],
+  theme: {
+    colors
+  }
+}
 ```
 
 #### Without Tailwind
 
 ```js
-import '@nearform/quantum/dist/global.css';
-import { Navbar } from '@nearform/quantum';
+import '@nearform/quantum/dist/global.css'
+import { Navbar } from '@nearform/quantum'
+```
+
+### Scripts
+
+To create a new component, a template command has been created to help. Running the command below will generate your `index.tsx` file where your component will be stored, and the example and story files. Use the `--name` parameter to name your directories and files.
+
+```bash
+npm run template --name=Button
 ```
