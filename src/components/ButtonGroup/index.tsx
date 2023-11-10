@@ -3,12 +3,31 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonGroupVariants = cva(
-  ['flex', '[&>*]:rounded-none', '[&>*]:border-0 divide-border-subtle'],
+  [
+    'inline-flex',
+    '[&>*]:flex',
+    '[&>*]:rounded-none',
+    '[&>*]:border-0',
+    'divide-border-subtle',
+    'p-0',
+    '[&>*]:gap-[10px]',
+    '[&>*]:items-center',
+    '[&>*]:justify-center',
+    '[&>*]:px-3',
+    'items-start',
+    'rounded-xl',
+    'overflow-hidden'
+  ],
   {
     variants: {
       variant: {
-        primary: [],
+        primary: [
+          'dark:divide-border-subtle-dark',
+          'dark:[&>*]:bg-button-primary-dark',
+          'dark:[&>*]:text-foreground-inverse-dark'
+        ],
         secondary: [
+          'bg-background',
           'border-[1px] border-border-subtle',
           '[&>*]:bg-white [&>*]:text-grey-900',
           '[&>*:focus]:bg-button-secondary-focus',
@@ -18,27 +37,28 @@ const buttonGroupVariants = cva(
       },
       orientation: {
         horizontal: [
-          'flex-row',
-          'divide-x-[1px]',
-          'rounded-l-lg',
-          'rounded-r-lg',
-          '[&>*:first-child]:rounded-l-lg',
-          '[&>*:last-child]:rounded-r-lg'
+          'inline-flex',
+          'divide-x-[1px]'
+          // '[&>*:first-child]:rounded-l-lg',
+          // '[&>*:last-child]:rounded-r-lg'
         ],
         vertical: [
           'flex-col',
           'divide-y-[1px]',
-          'rounded-t-lg',
-          'rounded-b-lg',
-          '[&>*:first-child]:border-0',
-          '[&>*:first-child]:rounded-t-lg',
-          '[&>*:last-child]:rounded-b-lg'
+          // '[&>*:first-child]:rounded-t-lg',
+          // '[&>*:last-child]:rounded-b-lg',
+          '[&>*]:self-stretch'
         ]
+      },
+      size: {
+        md: ['[&>*]:py-2.5'],
+        sm: ['[&>*]:py-2']
       }
     },
     defaultVariants: {
       orientation: 'horizontal',
-      variant: 'primary'
+      variant: 'primary',
+      size: 'md'
     }
   }
 )
