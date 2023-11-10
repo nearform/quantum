@@ -15,7 +15,7 @@ const buttonGroupVariants = cva(
     '[&>*]:justify-center',
     '[&>*]:px-3',
     'items-start',
-    'rounded-xl',
+    'rounded-lg',
     'overflow-hidden'
   ],
   {
