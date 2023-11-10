@@ -24,7 +24,9 @@ const buttonGroupVariants = cva(
         primary: [
           'dark:divide-border-subtle-dark',
           'dark:[&>*]:bg-button-primary-dark',
-          'dark:[&>*]:text-foreground-inverse-dark'
+          'dark:[&>*]:text-foreground-inverse-dark',
+          'dark:[&>*:hover]:bg-button-secondary-hover',
+          'dark:[&>*:focus]:bg-button-secondary-focus'
         ],
         secondary: [
           'bg-background',
