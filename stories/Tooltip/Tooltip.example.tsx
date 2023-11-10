@@ -6,17 +6,22 @@ import {
   TooltipArrow
 } from '@/index'
 import { Button } from '@/index'
+type TooltipDemoProps = {
+  side?: 'left' | 'right' | 'bottom' | 'top'
+}
 
-export const ToolTipDemo = () => {
+export const ToolTipDemo = ({ side }: TooltipDemoProps) => {
   return (
-    <div className="h-40 w-40 bg-white flex items-center justify-center">
+    <div className="h-40 w-40 bg-transparent flex items-center justify-center">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Button>Tooltip test</Button>
+            <Button variant={'secondary'}>
+              {side ? side + ' side' : 'default'}
+            </Button>
           </TooltipTrigger>
-          <TooltipContent>
-            <p>Add to library</p>
+          <TooltipContent side={side} data-side={'left'}>
+            <p>The tooltip content</p>
             <TooltipArrow />
           </TooltipContent>
         </Tooltip>
