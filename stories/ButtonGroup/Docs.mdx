@@ -1,0 +1,155 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as ButtonGroupStories from './ButtonGroup.stories'
+
+<Meta of={ButtonGroupStories} />
+
+# Button Group
+
+A button group in is a collection of related buttons grouped together, visually connected, to represent a set of choices or actions. Users can select one option from the group, making it a convenient way to present mutually exclusive options or actions in a compact layout.
+
+## Primary Horizontal
+
+<Canvas of={ButtonGroupStories.ButtonGroupPrimaryHorizontal} />
+## Primary Vertical
+<Canvas of={ButtonGroupStories.ButtonGroupPrimaryVertical} />
+## Secondary Horizontal
+<Canvas of={ButtonGroupStories.ButtonGroupSecondaryHorizontal} />
+## Secondary Vertical
+<Canvas of={ButtonGroupStories.ButtonGroupSecondaryVertical} />
+
+## Small
+
+<Canvas of={ButtonGroupStories.ButtonGroupSmallHorizontal} />
+
+<Canvas of={ButtonGroupStories.ButtonGroupSmallVertical} />
+
+## Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>orientation</td>
+      <td>`"horizontal" | "vertical"`</td>
+      <td>`"horizontal`</td>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`"primary" | "secondary"`</td>
+      <td>`"primary"`</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`"md" | "sm"`</td>
+      <td>`"md"`</td>
+    </tr>
+  </tbody>
+</table>
+
+## ButtonGroup
+
+```ts
+import React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
+
+const buttonGroupVariants = cva(
+  [
+    'inline-flex',
+    '[&>*]:flex',
+    '[&>*]:rounded-none',
+    '[&>*]:border-0',
+    'divide-border-subtle',
+    'p-0',
+    '[&>*]:gap-[10px]',
+    '[&>*]:items-center',
+    '[&>*]:justify-center',
+    '[&>*]:px-3',
+    'items-start',
+    'rounded-xl',
+    'overflow-hidden'
+  ],
+  {
+    variants: {
+      variant: {
+        primary: [
+          'dark:divide-border-subtle-dark',
+          'dark:[&>*]:bg-button-primary-dark',
+          'dark:[&>*]:text-foreground-inverse-dark'
+        ],
+        secondary: [
+          'bg-background',
+          'border-[1px] border-border-subtle',
+          '[&>*]:bg-white [&>*]:text-grey-900',
+          '[&>*:focus]:bg-button-secondary-focus',
+          '[&>*:hover]:bg-button-secondary-hover',
+          '[&>*:disabled]:bg-button-secondary-disabled [&>*:disabled]:border-button-secondary-border-disabled [&>*:disabled]:text-foreground-subtle'
+        ]
+      },
+      orientation: {
+        horizontal: ['inline-flex', 'divide-x-[1px]'],
+        vertical: ['flex-col', 'divide-y-[1px]', '[&>*]:self-stretch']
+      },
+      size: {
+        md: ['[&>*]:py-2.5'],
+        sm: ['[&>*]:py-2']
+      }
+    },
+    defaultVariants: {
+      orientation: 'horizontal',
+      variant: 'primary',
+      size: 'md'
+    }
+  }
+)
+
+interface ButtonGroupProps
+  extends React.ComponentPropsWithoutRef<'div'>,
+    VariantProps<typeof buttonGroupVariants> {}
+
+const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
+  ({ className, orientation, variant, size, ...props }, ref) => {
+    return (
+      <div
+        className={cn(
+          buttonGroupVariants({ orientation, variant, size }),
+          className
+        )}
+        {...props}
+        ref={ref}
+      ></div>
+    )
+  }
+)
+ButtonGroup.displayName = 'ButtonGroup'
+export { ButtonGroup, type ButtonGroupProps }
+
+```
+
+## Example
+
+```tsx
+export const ButtonGroupDemo = ({
+  orientation,
+  variant,
+  size
+}: ButtonGroupProps) => {
+  return (
+    <ButtonGroup orientation={orientation} variant={variant} size={size}>
+      <Button>One</Button>
+      <Button>Two</Button>
+      <Button>Three</Button>
+      <Button>Four</Button>
+      <Button>Five</Button>
+      <Button>Six</Button>
+    </ButtonGroup>
+  )
+}
+```
