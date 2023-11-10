@@ -52,3 +52,15 @@ export const ButtonGroupSecondaryVertical: Story = {
     variant: 'secondary'
   }
 }
+export const ButtonGroupSmallHorizontal: Story = {
+  args: {
+    orientation: 'horizontal',
+    size: 'sm'
+  }
+}
+export const ButtonGroupSmallVertical: Story = {
+  args: {
+    orientation: 'vertical',
+    size: 'sm'
+  }
+}

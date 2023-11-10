@@ -17,6 +17,13 @@ A button group in is a collection of related buttons grouped together, visually 
 <Canvas of={ButtonGroupStories.ButtonGroupSecondaryHorizontal} />
 ## Secondary Vertical
 <Canvas of={ButtonGroupStories.ButtonGroupSecondaryVertical} />
+
+## Small
+
+<Canvas of={ButtonGroupStories.ButtonGroupSmallHorizontal} />
+
+<Canvas of={ButtonGroupStories.ButtonGroupSmallVertical} />
+
 ## Attributes
 
 <table>
@@ -38,6 +45,11 @@ A button group in is a collection of related buttons grouped together, visually 
       <td>`"primary" | "secondary"`</td>
       <td>`"primary"`</td>
     </tr>
+    <tr>
+      <td>size</td>
+      <td>`"md" | "sm"`</td>
+      <td>`"md"`</td>
+    </tr>
   </tbody>
 </table>
 
@@ -46,15 +58,34 @@ A button group in is a collection of related buttons grouped together, visually 
 ```ts
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-
+import { cn } from '@/lib/utils'
 
 const buttonGroupVariants = cva(
-  ['flex', '[&>*]:rounded-none', '[&>*]:border-0 divide-border-subtle'],
+  [
+    'inline-flex',
+    '[&>*]:flex',
+    '[&>*]:rounded-none',
+    '[&>*]:border-0',
+    'divide-border-subtle',
+    'p-0',
+    '[&>*]:gap-[10px]',
+    '[&>*]:items-center',
+    '[&>*]:justify-center',
+    '[&>*]:px-3',
+    'items-start',
+    'rounded-xl',
+    'overflow-hidden'
+  ],
   {
     variants: {
       variant: {
-        primary: [],
+        primary: [
+          'dark:divide-border-subtle-dark',
+          'dark:[&>*]:bg-button-primary-dark',
+          'dark:[&>*]:text-foreground-inverse-dark'
+        ],
         secondary: [
+          'bg-background',
           'border-[1px] border-border-subtle',
           '[&>*]:bg-white [&>*]:text-grey-900',
           '[&>*:focus]:bg-button-secondary-focus',
@@ -63,43 +94,34 @@ const buttonGroupVariants = cva(
         ]
       },
       orientation: {
-        horizontal: [
-          'flex-row',
-          'divide-x-[1px]',
-          'rounded-l-lg',
-          'rounded-r-lg',
-          '[&>*:first-child]:rounded-l-lg',
-          '[&>*:last-child]:rounded-r-lg'
-        ],
-        vertical: [
-          'flex-col',
-          'divide-y-[1px]',
-          'rounded-t-lg',
-          'rounded-b-lg',
-          '[&>*:first-child]:border-0',
-          '[&>*:first-child]:rounded-t-lg',
-          '[&>*:last-child]:rounded-b-lg'
-        ]
+        horizontal: ['inline-flex', 'divide-x-[1px]'],
+        vertical: ['flex-col', 'divide-y-[1px]', '[&>*]:self-stretch']
+      },
+      size: {
+        md: ['[&>*]:py-2.5'],
+        sm: ['[&>*]:py-2']
       }
     },
     defaultVariants: {
-      orientation: 'horizontal'
+      orientation: 'horizontal',
+      variant: 'primary',
+      size: 'md'
     }
   }
 )
-import { cn } from '@/lib/utils'
 
 interface ButtonGroupProps
   extends React.ComponentPropsWithoutRef<'div'>,
-    VariantProps<typeof buttonGroupVariants> {
-  variant?: 'primary' | 'secondary'
-}
+    VariantProps<typeof buttonGroupVariants> {}
 
 const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
-  ({ className, orientation, variant, ...props }, ref) => {
+  ({ className, orientation, variant, size, ...props }, ref) => {
     return (
       <div
-        className={cn(buttonGroupVariants({ orientation, variant }), className)}
+        className={cn(
+          buttonGroupVariants({ orientation, variant, size }),
+          className
+        )}
         {...props}
         ref={ref}
       ></div>
@@ -108,14 +130,19 @@ const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
 )
 ButtonGroup.displayName = 'ButtonGroup'
 export { ButtonGroup, type ButtonGroupProps }
+
 ```
 
 ## Example
 
 ```tsx
-export const ButtonGroupDemo = ({ orientation, variant }: ButtonGroupProps) => {
+export const ButtonGroupDemo = ({
+  orientation,
+  variant,
+  size
+}: ButtonGroupProps) => {
   return (
-    <ButtonGroup orientation={orientation} variant={variant}>
+    <ButtonGroup orientation={orientation} variant={variant} size={size}>
       <Button>One</Button>
       <Button>Two</Button>
       <Button>Three</Button>

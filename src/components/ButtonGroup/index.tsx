@@ -36,19 +36,8 @@ const buttonGroupVariants = cva(
         ]
       },
       orientation: {
-        horizontal: [
-          'inline-flex',
-          'divide-x-[1px]'
-          // '[&>*:first-child]:rounded-l-lg',
-          // '[&>*:last-child]:rounded-r-lg'
-        ],
-        vertical: [
-          'flex-col',
-          'divide-y-[1px]',
-          // '[&>*:first-child]:rounded-t-lg',
-          // '[&>*:last-child]:rounded-b-lg',
-          '[&>*]:self-stretch'
-        ]
+        horizontal: ['inline-flex', 'divide-x-[1px]'],
+        vertical: ['flex-col', 'divide-y-[1px]', '[&>*]:self-stretch']
       },
       size: {
         md: ['[&>*]:py-2.5'],
@@ -68,10 +57,13 @@ interface ButtonGroupProps
     VariantProps<typeof buttonGroupVariants> {}
 
 const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
-  ({ className, orientation, variant, ...props }, ref) => {
+  ({ className, orientation, variant, size, ...props }, ref) => {
     return (
       <div
-        className={cn(buttonGroupVariants({ orientation, variant }), className)}
+        className={cn(
+          buttonGroupVariants({ orientation, variant, size }),
+          className
+        )}
         {...props}
         ref={ref}
       ></div>

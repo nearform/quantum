@@ -1,9 +1,13 @@
 import { ButtonGroup, type ButtonGroupProps } from '@/index'
 import { Button } from '@/index'
 
-export const ButtonGroupDemo = ({ orientation, variant }: ButtonGroupProps) => {
+export const ButtonGroupDemo = ({
+  orientation,
+  variant,
+  size
+}: ButtonGroupProps) => {
   return (
-    <ButtonGroup orientation={orientation} variant={variant}>
+    <ButtonGroup orientation={orientation} variant={variant} size={size}>
       <Button>One</Button>
       <Button>Two</Button>
       <Button>Three</Button>
