@@ -1,6 +1,5 @@
 import { Tooltip, TooltipProps } from '@/index'
 import { Button } from '@/index'
-import { ComponentsTable } from '@storybook/blocks'
 
 interface TooltipDemoProps extends TooltipProps {
   componentAsContent?: boolean
