@@ -22,7 +22,9 @@ export const ToolTipDemo = ({
         sideOffset={sideOffset}
         className={className}
       >
-        <Button>Hover over me</Button>
+        <Button className="dark:hover:bg-white dark:hover:text-foreground-inverse-dark">
+          Hover over me
+        </Button>
       </Tooltip>
     </div>
   )
