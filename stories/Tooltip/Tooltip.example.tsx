@@ -1,31 +1,45 @@
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-  TooltipArrow
-} from '@/index'
+import { Tooltip, TooltipProps } from '@/index'
 import { Button } from '@/index'
-type TooltipDemoProps = {
-  side?: 'left' | 'right' | 'bottom' | 'top'
+import { ComponentsTable } from '@storybook/blocks'
+
+interface TooltipDemoProps extends TooltipProps {
+  componentAsContent?: boolean
 }
 
-export const ToolTipDemo = ({ side }: TooltipDemoProps) => {
+export const ToolTipDemo = ({
+  side,
+  sideOffset,
+  className,
+  componentAsContent
+}: TooltipDemoProps) => {
   return (
     <div className="h-40 w-40 bg-transparent flex items-center justify-center">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            <Button variant={'secondary'}>
-              {side ? side + ' side' : 'default'}
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side={side} data-side={'left'}>
-            <p>The tooltip content</p>
-            <TooltipArrow />
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Tooltip
+        content={
+          componentAsContent ? TooltipContentComponent() : 'here is a tooltip'
+        }
+        side={side}
+        sideOffset={sideOffset}
+        className={className}
+      >
+        <Button>Hover over me</Button>
+      </Tooltip>
     </div>
+  )
+}
+
+export const TooltipContentComponent = () => {
+  //Demonstrating that components can be passed in to the content of the Tooltip.
+
+  return (
+    <p>
+      Here is a{' '}
+      <a
+        className="text-secondary-400 underline"
+        href={'https://www.example.com/'}
+      >
+        link
+      </a>
+    </p>
   )
 }

@@ -24,71 +24,36 @@ const tooltipVariants = cva([
     'dark:fill-accent-dark'
   ]
 ])
-type TooltopP
-const TooltipProvider = TooltipPrimitive.Provider
-const Tooltip = TooltipPrimitive.Root
-const TooltipTrigger = TooltipPrimitive.Trigger
 
-const TooltipArrow = React.forwardRef<
-  React.ElementRef<typeof TooltipPrimitive.Arrow>,
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Arrow>
->(({ className, ...props }, ref) => {
+interface TooltipProps {
+  children?: React.ReactNode
+  side?: TooltipPrimitive.TooltipContentProps['side']
+  content?: React.ReactNode
+  sideOffset?: number
+  className?: string
+}
+
+const Tooltip = React.forwardRef<
+  React.ElementRef<typeof TooltipPrimitive.Content>,
+  TooltipProps
+>(({ children, side, content, sideOffset, className }, ref) => {
   return (
-    <TooltipPrimitive.Arrow
-      className={cn('fill-inherit', className)}
-      {...props}
-      ref={ref}
-    />
+    <TooltipPrimitive.Provider>
+      <TooltipPrimitive.Root>
+        <TooltipPrimitive.Trigger>{children}</TooltipPrimitive.Trigger>
+        <TooltipPrimitive.Content
+          side={side ?? 'top'}
+          sideOffset={sideOffset ?? 4}
+          className={cn(tooltipVariants(), className)}
+          ref={ref}
+        >
+          {content}
+          <TooltipPrimitive.Arrow className={'fill-inherit'} />
+        </TooltipPrimitive.Content>
+      </TooltipPrimitive.Root>
+    </TooltipPrimitive.Provider>
   )
 })
 
-const TooltipContent = React.forwardRef<
-  React.ElementRef<typeof TooltipPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
-  <TooltipPrimitive.Content
-    ref={ref}
-    sideOffset={sideOffset}
-    className={cn(tooltipVariants(), className)}
-    {...props}
-  />
-))
-TooltipContent.displayName = TooltipPrimitive.Content.displayName
-
-interface SimpleTooltipProps {
-  children?: React.ReactNode
-  className?: string
-  side: TooltipPrimitive.TooltipContentProps['side']
-  text: string
-}
-
-const SimpleTooltip = ({
-  children,
-  side,
-  text,
-  ...props
-}: SimpleTooltipProps) => {
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger>{children}</TooltipTrigger>
-        <TooltipContent side={side}>
-          <p>{text}</p>
-          <TooltipArrow />
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  )
-}
-
-export {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-  TooltipArrow,
-  SimpleTooltip
-}
-export type {
-
-}
+export { Tooltip }
+export type { TooltipProps }
