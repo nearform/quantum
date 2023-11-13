@@ -31,7 +31,8 @@ export const RightSideNoOffset: Story = {
 export const BottomChangeColour: Story = {
   args: {
     side: 'bottom',
-    className: 'fill-secondary-700 bg-secondary-700'
+    className:
+      'fill-secondary-700 bg-secondary-700 dark:fill-secondary-700 dark:bg-secondary-700 dark:text-foreground-inverse'
   }
 }
 export const PassComponentIntoContent: Story = {
