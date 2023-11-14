@@ -1,0 +1,160 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as TooltipStories from './Tooltip.stories'
+
+<Meta of={TooltipStories} />
+
+# Tooltip
+
+Tooltips are small, pop-up text boxes that appear when a user hovers over or clicks on an element like a button or icon. They provide brief explanations, additional information, or labels to clarify the purpose or function of the element, helping users better understand its functionality or context.
+
+## Default
+
+<Canvas of={TooltipStories.Default} />
+
+By default, the colour of the tooltip will be `primary-700`, above the child element, and with a side offset of 4px.
+
+## Change Side
+
+<Canvas of={TooltipStories.LeftSide} />
+
+## Right side, no offset
+
+<Canvas of={TooltipStories.RightSideNoOffset} />
+## Bottom side, different colour
+<Canvas of={TooltipStories.BottomChangeColour} />
+
+## Pass a Component into the Tooltip
+
+<Canvas of={TooltipStories.PassComponentIntoContent} />
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>children</td>
+      <td>`React.ReactNode`</td>
+      <td>`-`</td>
+    </tr>
+    <tr>
+      <td>side</td>
+      <td>`"top" | "bottom" | "right" | "left"`</td>
+      <td>`"top"`</td>
+    </tr>
+    <tr>
+      <td>content</td>
+      <td>`React.ReactNode`</td>
+      <td>`-`</td>
+    </tr>
+        <tr>
+      <td>sideOffset</td>
+      <td>`number`</td>
+      <td>`4`</td>
+    </tr>
+    <tr>
+      <td>className</td>
+      <td>`string`</td>
+      <td>`-`</td>
+    </tr>
+
+  </tbody>
+</table>
+
+The Tooltip Content is comprised of the `content` node passed in, and an arrow (an SVG component). To style both components with the same colour, A `fill` property is set in the `Content`, such that the Arrow can use the `fill-inherit`. To change the colour of the Tooltip, the background colour and the fill colour must be redeclared:
+
+```tsx
+className={'fill-orange-300 bg-orange-300'}
+```
+
+This puts some limitations on placing an SVG within the Tooltip.
+
+## Tooltip
+
+```tsx
+const tooltipVariants = cva([
+  [
+    'fill-accent',
+    'bg-accent',
+    'z-50',
+    'overflow-hidden',
+    'rounded',
+    'p-2',
+    'text-xs',
+    'text-center',
+    'text-foreground-inverse',
+    'font-semibold'
+  ],
+  [
+    'dark:text-foreground-inverse-dark',
+    'dark:bg-accent-dark',
+    'dark:fill-accent-dark'
+  ]
+])
+
+interface TooltipProps {
+  children?: React.ReactNode
+  side?: TooltipPrimitive.TooltipContentProps['side']
+  content?: React.ReactNode
+  sideOffset?: number
+  className?: string
+}
+
+const Tooltip = React.forwardRef<
+  React.ElementRef<typeof TooltipPrimitive.Content>,
+  TooltipProps
+>(({ children, side, content, sideOffset, className }, ref) => {
+  return (
+    <TooltipPrimitive.Provider>
+      <TooltipPrimitive.Root>
+        <TooltipPrimitive.Trigger>{children}</TooltipPrimitive.Trigger>
+        <TooltipPrimitive.Content
+          side={side ?? 'top'}
+          sideOffset={sideOffset ?? 4}
+          className={cn(tooltipVariants(), className)}
+          ref={ref}
+        >
+          {content}
+          <TooltipPrimitive.Arrow className={'fill-inherit'} />
+        </TooltipPrimitive.Content>
+      </TooltipPrimitive.Root>
+    </TooltipPrimitive.Provider>
+  )
+})
+```
+
+## Usage
+
+```tsx
+
+export const TooltipContentComponent = () => {
+  //Demonstrating that components can be passed in to the content of the Tooltip.
+
+  return (
+    <p>
+      Here is a{' '}
+      <a
+        className="text-secondary-400 underline"
+        href={'https://www.example.com/'}
+      >
+        link
+      </a>
+    </p>
+  )
+}
+
+...
+<Tooltip
+  content={componentAsContent ? TooltipContentComponent() : 'here is a tooltip'}
+  side={side}
+  sideOffset={sideOffset}
+  className={className}
+>
+  <Button>Hover over me</Button>
+</Tooltip>
+```
