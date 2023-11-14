@@ -1,10 +1,8 @@
 import React from 'react'
 import SearchOutline from '@/assets/build/search-outline.icon'
+import X from '@/assets/build/x-outline.icon'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
-import { prefixer } from '@/lib/utils'
-
-const WEBKIT_INPUT_CANCEL_SELECTOR = '[&>*::-webkit-search-cancel-button]'
 
 const searchVariants = cva([
   [
@@ -26,15 +24,6 @@ const searchVariants = cva([
     'dark:focus-within:border-border-focus-dark',
     'dark:focus-within:hover:border-border-focus-dark'
   ],
-  prefixer(WEBKIT_INPUT_CANCEL_SELECTOR, [
-    'appearance-none',
-    'bg-clip-content',
-    'bg-x-outline',
-    'h-3',
-    'w-3',
-    'ml-6',
-    'dark:bg-x-outline-dark'
-  ]),
   [
     '[&>*]:bg-transparent',
     '[&>input:focus]:outline-none',
@@ -42,23 +31,32 @@ const searchVariants = cva([
     '[&>input]:text-foreground',
     '[&>input]:items-center',
     '[&>input]:px-1',
-    '[&>input]:text-inherit'
+    '[&>input]:text-inherit',
+    '[&>input:not(:valid)button]:text-transparent'
   ],
   ['[&>span]:text-foreground-muted', 'dark:[&>span]:text-foreground-muted-dark']
 ])
 
-const SearchInput = React.forwardRef<
-  HTMLInputElement,
-  React.ComponentPropsWithRef<'input'>
->(({ className, ...props }, ref) => {
-  return (
-    <div className={cn(searchVariants(), className)}>
-      <span>
-        <SearchOutline />
-      </span>
-      <input type="search" className="grow" ref={ref} {...props} />
-    </div>
-  )
-})
+// If we wet the containing form to have no styling, we can focus on stying the search input directly. that's better.
+//
+//
+
+interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {}
+
+const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <form className={cn(searchVariants(), className)}>
+        <span>
+          <SearchOutline />
+        </span>
+        <input type="text" className="grow" ref={ref} {...props} />
+        <button type="reset">
+          <X className="text-inherit" />
+        </button>
+      </form>
+    )
+  }
+)
 
 export { SearchInput }
