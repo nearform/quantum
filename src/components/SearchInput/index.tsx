@@ -2,8 +2,11 @@ import React from 'react'
 import SearchOutline from '@/assets/build/search-outline.icon'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
+import { prefixer } from '@/lib/utils'
 
-const otherSearchVariants = cva([
+const WEBKIT_INPUT_CANCEL_SELECTOR = '[&>*::-webkit-search-cancel-button]'
+
+const searchVariants = cva([
   [
     'flex',
     'border border-[1px]',
@@ -23,18 +26,15 @@ const otherSearchVariants = cva([
     'dark:focus-within:border-border-focus-dark',
     'dark:focus-within:hover:border-border-focus-dark'
   ],
-  [
-    '[&>*::-webkit-search-decoration]:appearance-none',
-    '[&>*::-webkit-search-cancel-button]:appearance-none',
-    '[&>*::-webkit-search-cancel-button]:bg-clip-content',
-    '[&>*::-webkit-search-cancel-button]:bg-x-outline',
-    'dark:[&>*::-webkit-search-cancel-button]:bg-x-outline-dark',
-    '[&>*::-webkit-search-cancel-button]:h-3',
-    '[&>*::-webkit-search-cancel-button]:w-3',
-    '[&>*::-webkit-search-cancel-button]:ml-6',
-    '[&>*::-webkit-search-results-button]:appearance-none',
-    '[&>*::-webkit-search-results-decoration]:appearance-none'
-  ],
+  prefixer(WEBKIT_INPUT_CANCEL_SELECTOR, [
+    'appearance-none',
+    'bg-clip-content',
+    'bg-x-outline',
+    'h-3',
+    'w-3',
+    'ml-6',
+    'dark:bg-x-outline-dark'
+  ]),
   [
     '[&>*]:bg-transparent',
     '[&>input:focus]:outline-none',
@@ -52,7 +52,7 @@ const SearchInput = React.forwardRef<
   React.ComponentPropsWithRef<'input'>
 >(({ className, ...props }, ref) => {
   return (
-    <div className={cn(otherSearchVariants())}>
+    <div className={cn(searchVariants(), className)}>
       <span>
         <SearchOutline />
       </span>
