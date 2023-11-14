@@ -1,0 +1,46 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as DatePickerStories from './DatePicker.stories'
+
+<Meta of={DatePickerStories} />
+
+# DatePicker
+
+## Sizes
+
+### Default
+
+<Canvas of={DatePickerStories.Default} />
+
+### Medium
+
+<Canvas of={DatePickerStories.Medium} />
+### Large
+<Canvas of={DatePickerStories.Large} />
+### Extra Large
+<Canvas of={DatePickerStories.ExtraLarge} />
+## Attributes
+
+<table>
+  <tr>
+    <td>Attribute</td>
+    <td>Type</td>
+    <td>Default</td>
+  </tr>
+  <tr>
+    <td>size</td>
+    <td>`"sm" | "md" | "lg" | "xl"`</td>
+    <td>`"sm"`</td>
+  </tr>
+  <tr>
+    <td>htmlFor</td>
+    <td>`string`</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>asChild</td>
+    <td>boolean</td>
+    <td>`false`</td>
+  </tr>
+
+</table>
