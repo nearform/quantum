@@ -29,7 +29,8 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        'x-outline': "url('./src/assets/svgs/x-outline.svg')"
+        'x-outline': "url('./src/assets/svgs/x-outline-light.svg')",
+        'x-outline-dark': "url('./src/assets/svgs/x-outline-dark.svg')"
       }
     }
   }

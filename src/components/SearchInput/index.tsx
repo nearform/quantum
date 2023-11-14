@@ -15,15 +15,23 @@ const otherSearchVariants = cva([
     'hover:border-border-hover',
     'focus-within:hover:border-border-focus',
     'bg-background-alt',
-    'gap-[6px]'
+    'gap-[6px]',
+    'dark:text-foreground-muted-dark',
+    'dark:border-border-subtle-dark',
+    'dark:bg-background-alt-dark',
+    'dark:hover:border-border-hover-dark',
+    'dark:focus-within:border-border-focus-dark',
+    'dark:focus-within:hover:border-border-focus-dark'
   ],
   [
     '[&>*::-webkit-search-decoration]:appearance-none',
     '[&>*::-webkit-search-cancel-button]:appearance-none',
+    '[&>*::-webkit-search-cancel-button]:bg-clip-content',
     '[&>*::-webkit-search-cancel-button]:bg-x-outline',
+    'dark:[&>*::-webkit-search-cancel-button]:bg-x-outline-dark',
     '[&>*::-webkit-search-cancel-button]:h-3',
     '[&>*::-webkit-search-cancel-button]:w-3',
-    '[&>*::-webkit-search-cancel-button]:ml-[24px]',
+    '[&>*::-webkit-search-cancel-button]:ml-6',
     '[&>*::-webkit-search-results-button]:appearance-none',
     '[&>*::-webkit-search-results-decoration]:appearance-none'
   ],
@@ -33,9 +41,10 @@ const otherSearchVariants = cva([
     '[&>input]:self-stretch',
     '[&>input]:text-foreground',
     '[&>input]:items-center',
-    '[&>input]:px-1'
+    '[&>input]:px-1',
+    '[&>input]:text-inherit'
   ],
-  ['[&>span]:text-foreground-muted']
+  ['[&>span]:text-foreground-muted', 'dark:[&>span]:text-foreground-muted-dark']
 ])
 
 const SearchInput = React.forwardRef<
@@ -47,7 +56,7 @@ const SearchInput = React.forwardRef<
       <span>
         <SearchOutline />
       </span>
-      <input type="search" ref={ref} {...props} />
+      <input type="search" className="grow" ref={ref} {...props} />
     </div>
   )
 })
