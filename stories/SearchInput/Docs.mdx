@@ -137,10 +137,10 @@ export const SearchInputDemo = () => {
         value={value}
         buttonOnClick={clearText}
         onChange={onValueChange}
-        className="peer"
+        className="peer" // <-----Note that we use `peer` here.
         ref={focused}
       />
-
+      {//Below you can see we use the peer-focus-within attribute. That's because the SearchInput is not a pure input, but a div that contains the input element. }
       <div className="z-2 bg-background-alt p-1 border border-border [&>a:hover]:bg-background-subtle hidden peer-focus-within:flex peer-focus-within:flex-col hover:flex hover:flex-col">
         {dropdownTags}
       </div>
