@@ -10,7 +10,9 @@ A search is a user interface element that includes a search bar or input field, 
 
 <Canvas of={SearchInputStories.Default} />
 
-The attributes for the Search Input are identical to that of the `<HTMLInputElement>` type. A caveat is that, if one were to pass in the `value` attribute, the clear button would not be able to clear the text area.
+The attributes for the Search Input are identical to that of the `<HTMLInputElement>` type, with the addition of `buttonOnClick`, which allows the user to control how the clear button should work. By default it does nothing.
+
+When accessing the focused state of the Search Input, users should use the `peer` class on the `<SearchInput>` component, and then use `peer-focus-within:visible`, as shown in the example below.
 
 ## SearchInput
 
