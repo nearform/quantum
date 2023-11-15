@@ -31,7 +31,9 @@ const searchVariants = cva([
     '[&>input]:px-7',
     '[&>input]:flex',
     '[&>input]:flex-grow'
-  ]
+  ],
+  ['[&>span]:absolute', '[&>span]:top-6', '[&>span]:left-5'],
+  ['[&>button>*]:absolute', '[&>button>*]:top-7', '[&>button>*]:right-5']
 ])
 
 interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {}
@@ -41,11 +43,11 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
     return (
       <form className={cn(searchVariants(), className)}>
         <input required type="text" ref={ref} {...props} className="peer" />
-        <span className="absolute top-6 left-5">
+        <span>
           <SearchOutline />
         </span>
-        <button type="reset" className="peer-invalid:hidden text-current">
-          <ClearIcon className="text-inherit absolute top-7 right-5" />
+        <button type="reset" className="peer-invalid:hidden">
+          <ClearIcon />
         </button>
       </form>
     )
