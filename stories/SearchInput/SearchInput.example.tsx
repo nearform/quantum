@@ -1,6 +1,14 @@
 import { useState, useRef } from 'react'
 import { SearchInput } from '@/index'
-export const SearchInputDemo = () => {
+
+type SearchInputDemoProps = {
+  variant: 'default' | 'example'
+}
+
+export const SearchInputDemo = ({ variant }: SearchInputDemoProps) => {
+  if (variant === 'default') {
+    return <SearchInput />
+  }
   const [value, setValue] = useState('')
   const focused = useRef<HTMLInputElement>(null)
   const dropdownList = [

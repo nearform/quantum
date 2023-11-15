@@ -14,7 +14,7 @@ The attributes for the Search Input are identical to that of the `<HTMLInputElem
 
 ## SearchInput
 
-```ts
+```tsx
 import React from 'react'
 import SearchOutline from '@/assets/build/search-outline.icon'
 import ClearIcon from '@/assets/build/x-outline.icon'
@@ -52,25 +52,97 @@ const searchVariants = cva([
   ['[&>button]:ml-6']
 ])
 
-interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {}
+interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {
+  buttonOnClick?: () => void
+}
 
 const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, buttonOnClick, ...props }, ref) => {
     return (
-      <form className={cn(searchVariants(), className)}>
+      <div className={cn(searchVariants(), className)}>
         <span>
           <SearchOutline />
         </span>
         <input required type="text" ref={ref} {...props} className="peer" />
-        <button type="reset" className="peer-invalid:invisible">
+        <button onClick={buttonOnClick} className="peer-invalid:invisible">
           <ClearIcon />
         </button>
-      </form>
+      </div>
     )
   }
 )
 
 export { SearchInput, SearchInputProps }
+```
 
+## Example
 
+<Canvas of={SearchInputStories.Example} />
+
+```tsx
+import { useState, useRef } from 'react'
+import { SearchInput } from '@/index'
+export const SearchInputDemo = () => {
+  const [value, setValue] = useState('')
+  const focused = useRef<HTMLInputElement>(null)
+  const dropdownList = [
+    'About',
+    'Base',
+    'Blog',
+    'Contact',
+    'Custom',
+    'Support',
+    'Tools'
+  ]
+
+  const clearText = () => {
+    setValue('')
+    if (focused.current) {
+      focused.current.focus()
+    }
+  }
+
+  const dropdownTags = dropdownList.map(item => {
+    if (!value || value.length === 0) {
+      return (
+        <a
+          key={item}
+          onClick={() => {
+            setValue(item)
+          }}
+          href={`#${item.toLowerCase()}`}
+        >
+          {item}
+        </a>
+      )
+    }
+    const valueRegex = new RegExp(`${value}`, 'i')
+    if (valueRegex.test(item)) {
+      return (
+        <a key={item} href={`#${item.toLowerCase()}`}>
+          {item}
+        </a>
+      )
+    }
+  })
+  const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value)
+  }
+
+  return (
+    <div className="flex flex-col space-y-1">
+      <SearchInput
+        value={value}
+        buttonOnClick={clearText}
+        onChange={onValueChange}
+        className="peer"
+        ref={focused}
+      />
+
+      <div className="z-2 bg-background-alt p-1 border border-border [&>a:hover]:bg-background-subtle hidden peer-focus-within:flex peer-focus-within:flex-col hover:flex hover:flex-col">
+        {dropdownTags}
+      </div>
+    </div>
+  )
+}
 ```
