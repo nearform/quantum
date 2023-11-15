@@ -1,4 +1,4 @@
-const X = (props: any) => (
+const ClearIcon = (props: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={12} height={12} {...props}>
     <path
       className="stroke-current"
@@ -7,4 +7,4 @@ const X = (props: any) => (
     />
   </svg>
 )
-export default X
+export default ClearIcon
