@@ -35,20 +35,22 @@ const searchVariants = cva([
   ['[&>button]:ml-6']
 ])
 
-interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {}
+interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {
+  buttonOnClick?: () => void
+}
 
 const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, buttonOnClick, ...props }, ref) => {
     return (
-      <form className={cn(searchVariants(), className)}>
+      <div className={cn(searchVariants(), className)}>
         <span>
           <SearchOutline />
         </span>
         <input required type="text" ref={ref} {...props} className="peer" />
-        <button type="reset" className="peer-invalid:invisible">
+        <button onClick={buttonOnClick} className="peer-invalid:invisible">
           <ClearIcon />
         </button>
-      </form>
+      </div>
     )
   }
 )
