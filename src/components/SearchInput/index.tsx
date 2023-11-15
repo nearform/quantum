@@ -31,14 +31,40 @@ const searchVariants = cva([
     '[&>input]:text-foreground',
     '[&>input]:items-center',
     '[&>input]:px-1',
-    '[&>input]:text-inherit',
     '[&>input:not(:valid)button]:text-transparent'
   ],
   ['[&>span]:text-foreground-muted', 'dark:[&>span]:text-foreground-muted-dark']
 ])
 
+const inputVariants = cva([
+  [
+    'flex',
+    'w-[500px]',
+    'focus:outline-none',
+    'self-stretch',
+    'text-foreground',
+    'items-center',
+    'border border-[1px]',
+    'border-border-subtle',
+    'rounded-lg',
+    'dark:text-foreground-muted-dark',
+    'bg-background-alt',
+    'dark:bg-background-alt-dark',
+    'focus:border-border-focus',
+    'hover:border-border-hover',
+    'focus:hover:border-border-focus',
+    'p-3',
+    'px-10',
+    'peer',
+    '[&~span]:text-foreground-muted',
+    '[&~span]:absolute',
+    '[&~span]:top-6',
+    '[&~span]:left-5'
+  ]
+])
+
 // If we wet the containing form to have no styling, we can focus on stying the search input directly. that's better.
-//
+// TRy and get those svgs in.
 //
 
 interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {}
@@ -46,13 +72,19 @@ interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {}
 const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
   ({ className, ...props }, ref) => {
     return (
-      <form className={cn(searchVariants(), className)}>
-        <span>
+      <form className="flex">
+        <input
+          required
+          type="text"
+          className={cn(inputVariants(), 'peer')}
+          ref={ref}
+          {...props}
+        />
+        <span className="absolute top-6 left-5 group-">
           <SearchOutline />
         </span>
-        <input type="text" className="grow" ref={ref} {...props} />
-        <button type="reset">
-          <X className="text-inherit" />
+        <button type="reset" className="peer-invalid:hidden text-current">
+          <X className="text-inherit absolute top-7 right-5" />
         </button>
       </form>
     )
