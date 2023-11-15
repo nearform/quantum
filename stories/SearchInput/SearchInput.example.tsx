@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { SearchInput } from '@/index'
 export const SearchInputDemo = () => {
   const [value, setValue] = useState('')
+  const focused = useRef<HTMLInputElement>(null)
   const dropdownList = [
     'About',
     'Base',
@@ -14,6 +15,9 @@ export const SearchInputDemo = () => {
 
   const clearText = () => {
     setValue('')
+    if (focused.current) {
+      focused.current.focus()
+    }
   }
 
   const dropdownTags = dropdownList.map(item => {
@@ -23,7 +27,6 @@ export const SearchInputDemo = () => {
           key={item}
           onClick={() => {
             setValue(item)
-            console.log('set value')
           }}
           href={`#${item.toLowerCase()}`}
         >
@@ -51,9 +54,10 @@ export const SearchInputDemo = () => {
         buttonOnClick={clearText}
         onChange={onValueChange}
         className="peer"
+        ref={focused}
       />
 
-      <div className=" bg-background-alt p-1 border border-border [&>a:hover]:bg-background-subtle hidden peer-focus-within:flex peer-focus-within:flex-col hover:flex hover:flex-col">
+      <div className="z-2 bg-background-alt p-1 border border-border [&>a:hover]:bg-background-subtle hidden peer-focus-within:flex peer-focus-within:flex-col hover:flex hover:flex-col">
         {dropdownTags}
       </div>
     </div>
