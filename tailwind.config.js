@@ -41,13 +41,6 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
-      },
-      backgroundImage: {
-        'user-icon-light':
-          'url("./src/assets/svgs/user-circle-outline-light.icon.svg")'
-      },
-      backgroundPosition: {
-        'input-icon': 'center'
       }
     }
   }
