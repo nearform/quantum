@@ -33,7 +33,12 @@ const buttonVariants = cva(
           'bg-red-600 border-red-600 text-white ' +
           'hover:bg-red-700 hover:border-red-700 ' +
           'focus:bg-red-800 focus:border-red-800 ' +
-          'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle'
+          'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle',
+        input:
+          'bg-grey-50 border-grey-200 text-black ' +
+          'hover:bg-green-500 hover:border-green-500 ' +
+          'focus:bg-green-600 focus:border-green-600 ' +
+          'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle',
       },
       size: {
         lg: 'px-4 py-3 text-base',
