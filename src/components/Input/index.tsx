@@ -11,12 +11,12 @@ const formVariants = cva(
   [
     'flex',
     'border',
-    'border-[2px]',
+    'border-2',
     'rounded-lg',
     'overflow-hidden',
     'p-3',
     'items-center',
-    'gap-[6px]',
+    'gap-1.5',
     '[&:has(:disabled)]:border-none'
   ],
   {
@@ -118,4 +118,3 @@ const Input = ({
 }
 
 export { Input, InputProps }
-;('use client')

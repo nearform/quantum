@@ -10,7 +10,7 @@ import {
 } from '@/components/Table'
 import { Checkbox } from '@/components/Checkbox'
 import { Label } from '@/components/Label'
-import User from '@/assets/build/user.icon'
+import { User } from '@/assets'
 export const TableDemo = ({ variant }: TableBodyProps) => {
   return (
     <Table>
