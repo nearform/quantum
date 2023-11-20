@@ -35,6 +35,11 @@ This component accepts all attributes for the input component of type text.
 ## Input
 
 ```tsx
+import React from 'react'
+import { cn } from '@/lib/utils'
+import { cva } from 'class-variance-authority'
+import { ClearButton, User, SearchOutline } from '@/assets'
+
 const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 
 const rightSideVariants = cva(['flex', 'self-center text-inherit'])
@@ -43,12 +48,12 @@ const formVariants = cva(
   [
     'flex',
     'border',
-    'border-[2px]',
+    'border-2',
     'rounded-lg',
     'overflow-hidden',
     'p-3',
     'items-center',
-    'gap-[6px]',
+    'gap-1.5',
     '[&:has(:disabled)]:border-none'
   ],
   {
@@ -150,5 +155,4 @@ const Input = ({
 }
 
 export { Input, InputProps }
-;('use client')
 ```
