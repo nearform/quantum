@@ -15,6 +15,9 @@ module.exports = {
       lg: '0px 4px 6px 0px',
       xl: '0px 20px 25px -5px',
       '2xl': '0px 25px 50px -12px',
+      blue: '0px 0px 0px 4px rgb(118,169,250)',
+      red: '0px 0px 0px 4px rgb(249,128,128)',
+      green: '0px 0px 0px 4px rgb(49,196,141,1)',
       none: '0px 0px'
     },
     fontFamily: {
