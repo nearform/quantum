@@ -24,7 +24,7 @@ const toggleVariants = cva(
       'disabled:opacity-50',
       'fill-white'
     ],
-    ['data-[state=off]:bg-foreground-subtle', 'data-[state=on]:bg-accent'],
+    ['data-[state=off]:bg-grey-200', 'data-[state=on]:bg-accent'], //TODO: wait for designer to choose default bg color
     [
       'dark:data-[state=on]:bg-blue-300', //TODO: change to accent/default after design update
       'dark:[&>svg]:fill-foreground-inverse-dark'
