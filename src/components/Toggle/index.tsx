@@ -8,25 +8,32 @@ import { cn } from '@/lib/utils'
 
 const toggleVariants = cva(
   [
-    'flex',
-    'justify-start',
-    'items-center',
-    'rounded-[40px]',
-    'py-[2px]',
-    'px-[2.5px]',
-    'ring-offset-background',
-    'focus-visible:outline-none',
-    'focus-visible:ring-2',
-    'focus-visible:ring-ring',
-    'focus-visible:ring-offset-2',
-    'disabled:pointer-events-none',
-    'disabled:opacity-50',
-    'data-[state=off]:bg-foreground-subtle',
-    'data-[state=on]:bg-accent',
-    'data-[state=on]:text-accent-foreground',
-    '[&>*]:transition-all',
-    '[&>*]:ease-in-out',
-    '[&>.toggle-push]:data-[state=on]:flex-grow'
+    [
+      'flex',
+      'justify-start',
+      'items-center',
+      'rounded-[40px]',
+      'py-[2px]',
+      'px-[2.5px]',
+      'ring-offset-background',
+      'focus-visible:outline-none',
+      'focus-visible:ring-2',
+      'focus-visible:ring-ring',
+      'focus-visible:ring-offset-2',
+      'disabled:pointer-events-none',
+      'disabled:opacity-50',
+      'fill-white'
+    ],
+    ['data-[state=off]:bg-foreground-subtle', 'data-[state=on]:bg-accent'],
+    [
+      'dark:data-[state=on]:bg-blue-300', //TODO: change to accent/default after design update
+      'dark:[&>svg]:fill-foreground-inverse-dark'
+    ],
+    [
+      '[&>*]:transition-all',
+      '[&>*]:ease-in-out',
+      '[&>.toggle-push]:data-[state=on]:flex-grow'
+    ]
   ],
   {
     variants: {
@@ -60,9 +67,9 @@ const Toggle = React.forwardRef<
       width="17"
       height="16"
       viewBox="0 0 17 16"
-      fill="none"
+      fill="inherit"
     >
-      <circle cx="8.5" cy="8" r="8" fill="white" />
+      <circle cx="8.5" cy="8" r="8" fill="inherit" />
     </svg>
   </TogglePrimitive.Root>
 ))

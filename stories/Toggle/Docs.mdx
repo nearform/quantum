@@ -4,36 +4,39 @@ import * as ToggleStories from './Toggle.stories'
 
 <Meta of={ToggleStories} />
 
-# Label
-
-## Sizes
-
-### Default
+# Toggle
 
 <Canvas of={ToggleStories.Default} />
 
 ## Attributes
 
 <table>
+
   <tr>
-    <td>Attribute</td>
-    <td>Type</td>
-    <td>Default</td>
+    <th>Attribute</th>
+    <th>Type</th>
+    <th>Default</th>
   </tr>
   <tr>
-    <td>size</td>
-    <td>`"sm" | "md" | "lg" | "xl"`</td>
-    <td>`"sm"`</td>
-  </tr>
-  <tr>
-    <td>htmlFor</td>
-    <td>`string`</td>
+    <td>defaultPressed</td>
+    <td>`boolean`</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>asChild</td>
-    <td>boolean</td>
-    <td>`false`</td>
+    <td>pressed</td>
+    <td>`boolean`</td>
+    <td>-</td>
   </tr>
-
+  <tr>
+    <td>onPressedChange</td>
+    <td>`function`</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>disabled</td>
+    <td>`boolean`</td>
+    <td>-</td>
+  </tr>
 </table>
+
+## Data Attributes
