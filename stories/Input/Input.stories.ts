@@ -54,3 +54,9 @@ export const Disabled: Story = {
     disabled: true
   }
 }
+export const Search: Story = {
+  args: {
+    variant: 'primary',
+    type: 'search'
+  }
+}

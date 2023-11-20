@@ -13,16 +13,13 @@ const formVariants = cva(
   [
     'flex',
     'border',
-    'border-[2px] rounded-lg',
+    'border-[2px]',
+    'rounded-lg',
     'overflow-hidden',
     'p-3',
     'items-center',
     'gap-[6px]',
-    'disabled:border-0',
-    'disabled:bg-background-alt',
-    'disabled:hover:border-0',
-    'disabled:hover:focus-within:border-0',
-    'disabled:focus-within:border-0'
+    '[&:has(:disabled)]:border-none'
   ],
   {
     variants: {
@@ -35,7 +32,7 @@ const formVariants = cva(
           'hover:border-border-hover',
           'hover:focus-within:border-border-focus',
           'dark:hover:focus-within:border-border-focus-dark',
-          'focus-within:shadow-[0_0_0_4px_rgba(118,169,250,1)]',
+          'focus-within:shadow-[0_0_0_4px_rgba(118,169,250,1)]', //add this & other shadow colors to tailwind config
           'text-foreground-muted',
           'dark:text-foreground-muted-dark'
         ],
@@ -50,19 +47,10 @@ const formVariants = cva(
           'border-feedback-green',
           'text-feedback-green',
           'bg-green-50',
-          'disabled:bg-red-500',
           'hover:border-green-700',
           'focus-within:shadow-[0_0_0_4px_rgba(49,196,141,1)]'
         ]
-      },
-      type: {
-        text: [],
-        date: [],
-        search: []
       }
-    },
-    defaultVariants: {
-      type: 'text'
     }
   }
 )
@@ -75,10 +63,6 @@ const inputVariants = cva(
         primary: ['text-foreground', 'dark:text-foreground-dark'],
         error: ['text-feedback-red'],
         success: ['text-green-700']
-      },
-      type: {
-        date: [],
-        search: []
       }
     },
     defaultVariants: {
@@ -123,7 +107,7 @@ const Input = ({
         {leftSideComponent}
       </div>
       <input
-        type="text"
+        type="text" //for now only accept text
         className={cn(inputVariants({ variant }), className)}
         {...props}
       />
