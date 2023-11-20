@@ -1,4 +1,4 @@
-const User = (props: any) => (
+export const User = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={20}
@@ -14,4 +14,3 @@ const User = (props: any) => (
     />
   </svg>
 )
-export default User

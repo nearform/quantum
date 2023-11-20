@@ -1,4 +1,4 @@
-const ClearButton = (props: any) => (
+export const ClearButton = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={12}
@@ -16,4 +16,3 @@ const ClearButton = (props: any) => (
     />
   </svg>
 )
-export default ClearButton

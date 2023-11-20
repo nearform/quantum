@@ -1,4 +1,4 @@
-const SearchOutline = (props: any) => (
+export const SearchOutline = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={16}
@@ -16,4 +16,3 @@ const SearchOutline = (props: any) => (
     />
   </svg>
 )
-export default SearchOutline

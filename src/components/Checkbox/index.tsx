@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { cn } from '@/lib/utils'
-import { Check, Minus } from '@/assets/index'
+import { Check, Minus } from '@/assets'
 import { cva } from 'class-variance-authority'
 const checkboxVariants = cva([
   [

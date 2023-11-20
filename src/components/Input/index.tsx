@@ -1,9 +1,7 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
-import ClearButton from '@/assets/build/clear.icon' //why cant I export from index?
-import User from '@/assets/build/user.icon'
-import SearchOutline from '@/assets/build/search.icon'
+import { ClearButton, User, SearchOutline } from '@/assets'
 
 const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 
