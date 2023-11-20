@@ -1,0 +1,67 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as InputStories from './Input.stories'
+
+<Meta of={InputStories} />
+
+# Input (Text / Search)
+
+A search is a user interface element that includes a search bar or input field, often accompanied by a search button or icon. It enables users to enter keywords or queries and initiate a search for specific content or information within an application or website. The search component helps users quickly find relevant data or resources by matching their input with the available content.
+
+## Primary Text
+
+<Canvas of={InputStories.PrimaryInput} />
+
+## Error Text
+
+<Canvas of={InputStories.ErrorInput} />
+
+## Success Text
+
+<Canvas of={InputStories.SuccessInput} />
+
+## Disabled Text
+
+<Canvas of={InputStories.Disabled} />
+
+## Attributes
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>checked</td>
+      <td>`true | false | "indeterminate"`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>defaultChecked</td>
+      <td>boolean</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>boolean</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>required</td>
+      <td>boolean</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>

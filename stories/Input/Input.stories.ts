@@ -34,3 +34,23 @@ export const PrimaryInput: Story = {
     type: 'text'
   }
 }
+export const ErrorInput: Story = {
+  args: {
+    variant: 'error',
+    type: 'text'
+  }
+}
+
+export const SuccessInput: Story = {
+  args: {
+    variant: 'success',
+    type: 'text'
+  }
+}
+export const Disabled: Story = {
+  args: {
+    variant: 'primary',
+    type: 'text',
+    disabled: true
+  }
+}
