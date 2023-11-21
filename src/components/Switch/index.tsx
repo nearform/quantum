@@ -4,9 +4,6 @@ import * as SwitchPrimitives from '@radix-ui/react-switch'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 
-// radius is the same. y padding is 2px. Hence, the distance from the sides should be 2px for consistency.
-// diameter of circle is 16px, center at 8px (x). Container is 40px. Need circle center at 30px, therefore 22px translation.
-
 const switchVariants = cva([
   [
     'peer',
