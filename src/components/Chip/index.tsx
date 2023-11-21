@@ -7,28 +7,32 @@ const chipVariants = cva(
   [
     'inline-flex',
     'rounded-full',
-    'gap-1',
+    'gap-[4px]',
     'shrink-0',
     'items-center',
     'justify-center',
     'px-[10px]',
-    'py-[8px]',
     'border border-[2px]',
-    'font-semibold'
+    'font-semibold',
+    'leading-normal',
+    'text-foreground',
+    'data-[disabled]:border-none',
+    'data-[disabled]:text-foreground-subtle',
+    'data-[disabled]:bg-background-subtle'
   ],
   {
     variants: {
       variant: {
-        default: ['bg-background', 'border-border-subtle', 'text-foreground'],
-        warning: [],
-        success: [],
-        error: [],
-        info: [],
-        active: []
+        default: ['bg-background', 'border-border-subtle'],
+        warning: ['bg-yellow-50', 'border-feedback-yellow'],
+        success: ['bg-green-50', 'border-feedback-green'],
+        error: ['bg-red-50', 'border-feedback-red'],
+        info: ['bg-blue-50', 'border-primary-600'],
+        active: ['bg-foreground', 'border-none', 'text-foreground-inverse']
       },
       size: {
-        default: ['h-[26px] text-xs'],
-        lg: ['h-[33px]']
+        default: ['text-xs'],
+        lg: []
       }
     },
     defaultVariants: {
@@ -40,22 +44,31 @@ const chipVariants = cva(
 
 interface ChipProps
   extends React.ComponentPropsWithRef<'div'>,
-    VariantProps<typeof chipVariants> {}
+    VariantProps<typeof chipVariants> {
+  disabled?: boolean
+  onClick: () => void
+}
 
 const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
-  ({ className, variant, size, children, ...props }, ref) => {
+  (
+    { className, variant, size, children, disabled, onClick, ...props },
+    ref
+  ) => {
     return (
       <div
-        className={cn(chipVariants({ variant, size, className }))}
+        data-disabled={disabled}
+        className={cn(chipVariants({ variant, size }), className)}
         ref={ref}
         {...props}
       >
-        Hello, this is a chip
+        <div className="py-[8px]">
+          {children}
+          Hello, this is a chip
+        </div>
         <button
-          className="flex p-[10px] flex-col justify-center items-center gap-[10px]"
-          onClick={() => {
-            console.log('hello')
-          }}
+          disabled={disabled}
+          className="flex h-full flex-col justify-center items-center gap-[10px] p-[10px]"
+          onClick={onClick}
         >
           <Plus className="stroke-current" />
         </button>
