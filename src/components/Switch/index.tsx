@@ -2,23 +2,65 @@ import * as React from 'react'
 import * as SwitchPrimitives from '@radix-ui/react-switch'
 
 import { cn } from '@/lib/utils'
+import { cva } from 'class-variance-authority'
+
+// radius is the same. y padding is 2px. Hence, the distance from the sides should be 2px for consistency.
+// diameter of circle is 16px, center at 8px (x). Container is 40px. Need circle center at 30px, therefore 22px translation.
+
+const switchVariants = cva([
+  [
+    'peer',
+    'inline-flex',
+    'h-5',
+    'py-0.5',
+    'w-10',
+    'gap-[8px]',
+    'shrink-0',
+    'cursor-pointer',
+    'items-center',
+    'rounded-full',
+    'border-none',
+    'transition-colors ',
+    'focus-visible:outline-none',
+    'focus-visible:shadow-blue',
+    'disabled:cursor-not-allowed'
+  ],
+  [
+    'dark:data-[state=checked]:bg-blue-300', //TODO: change to accent/dark when colour changes are made
+    'dark:bg-foreground-subtle-dark',
+    'dark:disabled:bg-grey-200'
+  ],
+  [
+    'data-[state=checked]:bg-accent',
+    'data-[state=unchecked]:bg-foreground-subtle'
+  ]
+])
 
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
 >(({ className, ...props }, ref) => (
   <SwitchPrimitives.Root
-    className={cn(
-      'peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input',
-      className
-    )}
+    className={cn(switchVariants(), className)}
     {...props}
     ref={ref}
   >
     <SwitchPrimitives.Thumb
-      className={cn(
-        'pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0'
-      )}
+      className={cn([
+        'pointer-events-none',
+        'block',
+        'h-4',
+        'w-4',
+        'rounded-full',
+        'bg-background',
+        'ring-0',
+        'transition-transform ',
+        'data-[state=checked]:translate-x-[22px]',
+        'data-[state=unchecked]:translate-x-[2px]',
+        'data-[disabled]:bg-grey-300',
+        'dark:bg-black',
+        'dark:data-[disabled]:bg-grey-300'
+      ])}
     />
   </SwitchPrimitives.Root>
 ))
