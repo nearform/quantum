@@ -85,36 +85,42 @@ const convertTypeToComponent = {
   }
 }
 
-const Input = ({
-  type,
-  className,
-  formClassName,
-  leftSideClassName,
-  variant,
-  leftSideChild,
-  rightSideChild,
-  ...props
-}: InputProps) => {
-  const leftSideComponent =
-    leftSideChild ?? convertTypeToComponent.left[`${type}`]
-  const rightSideComponent = rightSideChild ?? <ClearButton />
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      type,
+      className,
+      formClassName,
+      leftSideClassName,
+      variant,
+      leftSideChild,
+      rightSideChild,
+      ...props
+    },
+    ref
+  ) => {
+    const leftSideComponent =
+      leftSideChild ?? convertTypeToComponent.left[`${type}`]
+    const rightSideComponent = rightSideChild ?? <ClearButton />
 
-  return (
-    <form className={cn(formVariants({ variant }), formClassName)}>
-      <div className={cn(leftSideVariants(), leftSideClassName)}>
-        {leftSideComponent}
-      </div>
-      <input
-        type="text" //for now only accept text
-        className={cn(inputVariants({ variant }), className)}
-        {...props}
-      />
-      <div className="input-right-side"></div>
-      <button className={rightSideVariants()} type="reset">
-        {rightSideComponent}
-      </button>
-    </form>
-  )
-}
+    return (
+      <form className={cn(formVariants({ variant }), formClassName)}>
+        <div className={cn(leftSideVariants(), leftSideClassName)}>
+          {leftSideComponent}
+        </div>
+        <input
+          type="text" //for now only accept text
+          className={cn(inputVariants({ variant }), className)}
+          ref={ref}
+          {...props}
+        />
+        <div className="input-right-side"></div>
+        <button className={rightSideVariants()} type="reset">
+          {rightSideComponent}
+        </button>
+      </form>
+    )
+  }
+)
 
 export { Input, InputProps }
