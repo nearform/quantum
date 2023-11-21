@@ -29,7 +29,8 @@ const switchVariants = cva([
   ],
   [
     'data-[state=checked]:bg-accent',
-    'data-[state=unchecked]:bg-foreground-subtle'
+    'data-[state=unchecked]:bg-foreground-subtle',
+    'data-[disabled]:bg-grey-200'
   ]
 ])
 
