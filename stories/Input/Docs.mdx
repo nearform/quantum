@@ -30,7 +30,7 @@ A search is a user interface element that includes a search bar or input field, 
 
 ## Attributes
 
-This component accepts all attributes for the input component of type text.
+This component accepts all attributes for the input component of type text, with the addition of `onClear` function which declares the clear button functionality.
 
 ## Input
 
@@ -113,6 +113,7 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   leftSideClassName?: string
   leftSideChild?: React.ReactNode
   rightSideChild?: React.ReactNode
+  onClear: () => void
 }
 
 const convertTypeToComponent = {
@@ -122,37 +123,72 @@ const convertTypeToComponent = {
   }
 }
 
-const Input = ({
-  type,
-  className,
-  formClassName,
-  leftSideClassName,
-  variant,
-  leftSideChild,
-  rightSideChild,
-  ...props
-}: InputProps) => {
-  const leftSideComponent =
-    leftSideChild ?? convertTypeToComponent.left[`${type}`]
-  const rightSideComponent = rightSideChild ?? <ClearButton />
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      type,
+      className,
+      formClassName,
+      leftSideClassName,
+      variant,
+      leftSideChild,
+      rightSideChild,
+      onClear,
+      ...props
+    },
+    ref
+  ) => {
+    const leftSideComponent =
+      leftSideChild ?? convertTypeToComponent.left[`${type}`]
+    const rightSideComponent = rightSideChild ?? <ClearButton />
 
-  return (
-    <form className={cn(formVariants({ variant }), formClassName)}>
-      <div className={cn(leftSideVariants(), leftSideClassName)}>
-        {leftSideComponent}
-      </div>
-      <input
-        type="text" //for now only accept text
-        className={cn(inputVariants({ variant }), className)}
-        {...props}
-      />
-      <div className="input-right-side"></div>
-      <button className={rightSideVariants()} type="reset">
-        {rightSideComponent}
-      </button>
-    </form>
-  )
-}
+    return (
+      <form className={cn(formVariants({ variant }), formClassName)}>
+        <div className={cn(leftSideVariants(), leftSideClassName)}>
+          {leftSideComponent}
+        </div>
+        <input
+          type="text" //for now only accept text
+          className={cn(inputVariants({ variant }), className)}
+          ref={ref}
+          {...props}
+        />
+        <div className="input-right-side"></div>
+        <button type="button" onClick={onClear} className={rightSideVariants()}>
+          {rightSideComponent}
+        </button>
+      </form>
+    )
+  }
+)
 
 export { Input, InputProps }
+```
+
+## Usage
+
+```tsx
+import { useState } from 'react'
+import { Input, InputProps } from '@/index'
+
+const InputDemo = ({ variant, type, disabled }: InputProps) => {
+  const [value, setValue] = useState('')
+  const handleOnClear = () => {
+    setValue('')
+  }
+  const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setValue(e.currentTarget.value)
+  }
+  return (
+    <Input
+      value={value}
+      variant={variant}
+      type={type}
+      onClear={handleOnClear}
+      onChange={handleOnChange}
+      disabled={disabled}
+    />
+  )
+}
+export { InputDemo }
 ```

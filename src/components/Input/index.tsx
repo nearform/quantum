@@ -76,6 +76,7 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   leftSideClassName?: string
   leftSideChild?: React.ReactNode
   rightSideChild?: React.ReactNode
+  onClear: () => void
 }
 
 const convertTypeToComponent = {
@@ -95,6 +96,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       variant,
       leftSideChild,
       rightSideChild,
+      onClear,
       ...props
     },
     ref
@@ -115,7 +117,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         <div className="input-right-side"></div>
-        <button className={rightSideVariants()} type="reset">
+        <button type="button" onClick={onClear} className={rightSideVariants()}>
           {rightSideComponent}
         </button>
       </form>
