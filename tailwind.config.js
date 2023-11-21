@@ -15,6 +15,9 @@ module.exports = {
       lg: '0px 4px 6px 0px',
       xl: '0px 20px 25px -5px',
       '2xl': '0px 25px 50px -12px',
+      blue: '0px 0px 0px 4px rgb(118,169,250)',
+      red: '0px 0px 0px 4px rgb(249,128,128)',
+      green: '0px 0px 0px 4px rgb(49,196,141,1)',
       none: '0px 0px'
     },
     fontFamily: {
@@ -27,21 +30,5 @@ module.exports = {
       3: '4px',
       4: '6px'
     }
-    // extend: {
-    //   keyframes: {
-    //     'accordion-down': {
-    //       from: { height: '0' },
-    //       to: { height: 'var(--radix-accordion-content-height)' }
-    //     },
-    //     'accordion-up': {
-    //       from: { height: 'var(--radix-accordion-content-height)' },
-    //       to: { height: '0' }
-    //     }
-    //   },
-    //   animation: {
-    //     'accordion-down': 'accordion-down 0.2s ease-out',
-    //     'accordion-up': 'accordion-up 0.2s ease-out'
-    //   }
-    // }
   }
 }

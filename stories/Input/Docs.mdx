@@ -1,0 +1,194 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as InputStories from './Input.stories'
+
+<Meta of={InputStories} />
+
+# Input (Text / Search)
+
+A search is a user interface element that includes a search bar or input field, often accompanied by a search button or icon. It enables users to enter keywords or queries and initiate a search for specific content or information within an application or website. The search component helps users quickly find relevant data or resources by matching their input with the available content. This only supports search and text inputs currently. ß
+
+## Primary Text
+
+<Canvas of={InputStories.PrimaryInput} />
+
+## Error Text
+
+<Canvas of={InputStories.ErrorInput} />
+
+## Success Text
+
+<Canvas of={InputStories.SuccessInput} />
+
+## Disabled Text
+
+<Canvas of={InputStories.Disabled} />
+
+## Search
+
+<Canvas of={InputStories.Search} />
+
+## Attributes
+
+This component accepts all attributes for the input component of type text, with the addition of `onClear` function which declares the clear button functionality.
+
+## Input
+
+```tsx
+import React from 'react'
+import { cn } from '@/lib/utils'
+import { cva } from 'class-variance-authority'
+import { ClearButton, User, SearchOutline } from '@/assets'
+
+const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
+
+const rightSideVariants = cva(['flex', 'self-center text-inherit'])
+
+const formVariants = cva(
+  [
+    'flex',
+    'border',
+    'border-2',
+    'rounded-lg',
+    'overflow-hidden',
+    'p-3',
+    'items-center',
+    'gap-1.5',
+    '[&:has(:disabled)]:border-none'
+  ],
+  {
+    variants: {
+      variant: {
+        primary: [
+          'border-border-subtle',
+          'dark:border-border-subtle-dark',
+          'bg-background-alt',
+          'dark:bg-background-alt-dark',
+          'hover:border-border-hover',
+          'hover:focus-within:border-border-focus',
+          'dark:hover:focus-within:border-border-focus-dark',
+          'focus-within:shadow-blue',
+          'text-foreground-muted',
+          'dark:text-foreground-muted-dark'
+        ],
+        error: [
+          'border-feedback-red',
+          'text-feedback-red',
+          'bg-red-50',
+          'hover:border-red-700',
+          'focus-within:shadow-red'
+        ],
+        success: [
+          'border-feedback-green',
+          'text-feedback-green',
+          'bg-green-50',
+          'hover:border-green-700',
+          'focus-within:shadow-green'
+        ]
+      }
+    }
+  }
+)
+
+const inputVariants = cva(
+  ['flex', 'flex-grow', 'items-center', 'outline-none', 'bg-transparent'],
+  {
+    variants: {
+      variant: {
+        primary: ['text-foreground', 'dark:text-foreground-dark'],
+        error: ['text-feedback-red'],
+        success: ['text-green-700']
+      }
+    },
+    defaultVariants: {
+      variant: 'primary'
+    }
+  }
+)
+
+interface InputProps extends React.HTMLProps<HTMLInputElement> {
+  variant: 'primary' | 'error' | 'success'
+  type: 'text' | 'search'
+  formClassName?: string
+  leftSideClassName?: string
+  leftSideChild?: React.ReactNode
+  rightSideChild?: React.ReactNode
+  onClear: () => void
+}
+
+const convertTypeToComponent = {
+  left: {
+    text: <User />,
+    search: <SearchOutline />
+  }
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      type,
+      className,
+      formClassName,
+      leftSideClassName,
+      variant,
+      leftSideChild,
+      rightSideChild,
+      onClear,
+      ...props
+    },
+    ref
+  ) => {
+    const leftSideComponent =
+      leftSideChild ?? convertTypeToComponent.left[`${type}`]
+    const rightSideComponent = rightSideChild ?? <ClearButton />
+
+    return (
+      <form className={cn(formVariants({ variant }), formClassName)}>
+        <div className={cn(leftSideVariants(), leftSideClassName)}>
+          {leftSideComponent}
+        </div>
+        <input
+          type="text" //for now only accept text
+          className={cn(inputVariants({ variant }), className)}
+          ref={ref}
+          {...props}
+        />
+        <div className="input-right-side"></div>
+        <button type="button" onClick={onClear} className={rightSideVariants()}>
+          {rightSideComponent}
+        </button>
+      </form>
+    )
+  }
+)
+
+export { Input, InputProps }
+```
+
+## Usage
+
+```tsx
+import { useState } from 'react'
+import { Input, InputProps } from '@/index'
+
+const InputDemo = ({ variant, type, disabled }: InputProps) => {
+  const [value, setValue] = useState('')
+  const handleOnClear = () => {
+    setValue('')
+  }
+  const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setValue(e.currentTarget.value)
+  }
+  return (
+    <Input
+      value={value}
+      variant={variant}
+      type={type}
+      onClear={handleOnClear}
+      onChange={handleOnChange}
+      disabled={disabled}
+    />
+  )
+}
+export { InputDemo }
+```
