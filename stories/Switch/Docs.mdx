@@ -1,0 +1,158 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as SwitchStories from './Switch.stories'
+
+<Meta of={SwitchStories} />
+
+# Switch
+
+A switch is a small, typically toggleable element that allows users to turn a specific setting or feature on or off. It's often represented as a sliding button that visually switches between two states. Switches provide a simple and intuitive way for users to control various options in digital interfaces.
+
+## Default
+
+<Canvas of={SwitchStories.Default} />
+
+## Disabled
+
+<Canvas of={SwitchStories.Disabled} />
+
+## Attributes
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>defaultChecked</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>checked</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onCheckedChange</td>
+      <td>`function`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>required</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td>`string`</td>
+      <td>"on"</td>
+    </tr>
+  </tbody>
+</table>
+
+## Data states
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>`[data-state]`</td>
+      <td>`"checked" | "unchecked"`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>`[data-disabled]`</td>
+      <td>Present when disabled</td>
+      <td>-</td>
+    </tr>
+
+  </tbody>
+</table>
+
+## Switch
+
+```tsx
+import * as React from 'react'
+import * as SwitchPrimitives from '@radix-ui/react-switch'
+
+import { cn } from '@/lib/utils'
+import { cva } from 'class-variance-authority'
+
+const switchVariants = cva([
+  [
+    'peer',
+    'inline-flex',
+    'h-5',
+    'py-0.5',
+    'w-10',
+    'gap-[8px]',
+    'shrink-0',
+    'cursor-pointer',
+    'items-center',
+    'rounded-full',
+    'border-none',
+    'transition-colors ',
+    'focus-visible:outline-none',
+    'focus-visible:shadow-blue',
+    'disabled:cursor-not-allowed'
+  ],
+  [
+    'dark:data-[state=checked]:bg-blue-300',
+    'dark:bg-foreground-subtle-dark',
+    'dark:disabled:bg-grey-200'
+  ],
+  [
+    'data-[state=checked]:bg-accent',
+    'data-[state=unchecked]:bg-foreground-subtle'
+  ]
+])
+
+const Switch = React.forwardRef<
+  React.ElementRef<typeof SwitchPrimitives.Root>,
+  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
+>(({ className, ...props }, ref) => (
+  <SwitchPrimitives.Root
+    className={cn(switchVariants(), className)}
+    {...props}
+    ref={ref}
+  >
+    <SwitchPrimitives.Thumb
+      className={cn([
+        'pointer-events-none',
+        'block',
+        'h-4',
+        'w-4',
+        'rounded-full',
+        'bg-background',
+        'ring-0',
+        'transition-transform ',
+        'data-[state=checked]:translate-x-[22px]',
+        'data-[state=unchecked]:translate-x-[2px]',
+        'data-[disabled]:bg-grey-300',
+        'dark:bg-black',
+        'dark:data-[disabled]:bg-grey-300'
+      ])}
+    />
+  </SwitchPrimitives.Root>
+))
+Switch.displayName = SwitchPrimitives.Root.displayName
+
+export { Switch }
+```
