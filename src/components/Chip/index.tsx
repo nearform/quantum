@@ -22,6 +22,13 @@ const chipVariants = cva(
       'disabled:bg-background-subtle',
       'dark:disabled:bg-background-subtle-dark',
       'dark:disabled:text-foreground-subtle-dark'
+    ],
+    [
+      'data-[active]:bg-foreground',
+      'data-[active]:border-none',
+      'data-[active]:text-foreground-inverse',
+      'dark:data-[active]:bg-foreground-dark',
+      'dark:data-[active]:text-foreground-inverse-dark'
     ]
   ],
   {
@@ -37,14 +44,7 @@ const chipVariants = cva(
         warning: ['bg-yellow-50', 'border-feedback-yellow'],
         success: ['bg-green-50', 'border-feedback-green'],
         error: ['bg-red-50', 'border-feedback-red'],
-        info: ['bg-blue-50', 'border-primary-600', 'dark:border-primary-600'],
-        active: [
-          'bg-foreground',
-          'border-none',
-          'text-foreground-inverse',
-          'dark:bg-foreground-dark',
-          'dark:text-foreground-inverse-dark'
-        ]
+        info: ['bg-blue-50', 'border-primary-600', 'dark:border-primary-600']
       },
       size: {
         default: ['text-xs', 'px-[10px]', 'py-[8px] h-[26px]', 'gap-[4px]'],
@@ -67,16 +67,19 @@ const chipVariants = cva(
 
 interface ChipProps
   extends React.ComponentPropsWithRef<'button'>,
-    VariantProps<typeof chipVariants> {}
+    VariantProps<typeof chipVariants> {
+  active?: boolean
+}
 
 const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
   (
-    { className, variant, size, children, disabled, onClick, ...props },
+    { className, variant, size, children, disabled, onClick, active, ...props },
     ref
   ) => {
     return (
       <button
         onClick={onClick}
+        data-active={active}
         className={cn(chipVariants({ variant, size }))}
         disabled={disabled}
         ref={ref}

@@ -56,7 +56,7 @@ export const Success: Story = {
 }
 export const Active: Story = {
   args: {
-    variant: 'active',
+    active: true,
     children: 'Hello, this is a chip'
   }
 }
@@ -75,7 +75,7 @@ export const LargeDefault: Story = {
 }
 export const LargeActive: Story = {
   args: {
-    variant: 'active',
+    active: true,
     size: 'lg',
     children: 'Hello, this is a chip'
   }
