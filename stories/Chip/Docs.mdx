@@ -1,0 +1,205 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as ChipStories from './Chip.stories'
+
+<Meta of={ChipStories} />
+
+# Chip
+
+A chip is a compact, often rectangular element that displays a piece of information, such as a label or a small icon. It's commonly used to represent a discrete piece of data or a selectable item, making it a convenient way to present and interact with individual pieces of content or actions in a user interface.
+
+### Default
+
+<Canvas of={ChipStories.Default} />
+### Warning
+<Canvas of={ChipStories.Warning} />
+### Error
+<Canvas of={ChipStories.Error} />
+### Active
+<Canvas of={ChipStories.Active} />
+### Info
+<Canvas of={ChipStories.Info} />
+### Success
+<Canvas of={ChipStories.Success} />
+### Disabled
+<Canvas of={ChipStories.Disabled} />
+
+All the default sized chips above can be enlarged as shown below:
+
+### Large Default
+
+<Canvas of={ChipStories.LargeDefault} />
+### Large Active
+<Canvas of={ChipStories.LargeActive} />
+
+## Attributes
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`"default" | "warning" | "success" | "error" | "info"`</td>
+      <td>`"sm"`</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`"default" | "lg"`</td>
+      <td>`"default"` </td>
+    </tr>
+    <tr>
+      <td>active</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>children</td>
+      <td>`React.ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>boolean</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>onClick</td>
+      <td>function</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>boolean</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Data Attributes
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>[data-active]</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+
+  </tbody>
+</table>
+
+## Chip
+
+```tsx
+import React from 'react'
+import { cva, VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
+import { Plus } from '@/assets'
+
+const chipVariants = cva(
+  [
+    [
+      'inline-flex',
+      'rounded-full',
+      'shrink-0',
+      'items-center',
+      'justify-center',
+      'border border-[2px]',
+      'font-semibold',
+      'leading-normal',
+      'text-foreground'
+    ],
+    [
+      'disabled:border-none',
+      'disabled:text-foreground-subtle',
+      'disabled:bg-background-subtle',
+      'dark:disabled:bg-background-subtle-dark',
+      'dark:disabled:text-foreground-subtle-dark'
+    ],
+    [
+      'data-[active]:bg-foreground',
+      'data-[active]:border-none',
+      'data-[active]:text-foreground-inverse',
+      'dark:data-[active]:bg-foreground-dark',
+      'dark:data-[active]:text-foreground-inverse-dark'
+    ]
+  ],
+  {
+    variants: {
+      variant: {
+        default: [
+          'bg-background',
+          'border-border-subtle',
+          'dark:bg-background-dark',
+          'dark:border-border-subtle-dark',
+          'dark:text-foreground-dark'
+        ],
+        warning: ['bg-yellow-50', 'border-feedback-yellow'],
+        success: ['bg-green-50', 'border-feedback-green'],
+        error: ['bg-red-50', 'border-feedback-red'],
+        info: ['bg-blue-50', 'border-primary-600', 'dark:border-primary-600']
+      },
+      size: {
+        default: ['text-xs', 'px-[10px]', 'py-[8px] h-[26px]', 'gap-[4px]'],
+        lg: [
+          'text-sm',
+          'pl-[16px]',
+          'pr-[12px]',
+          'py-[6px]',
+          'h-[33px]',
+          'gap-[6px]'
+        ]
+      }
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default'
+    }
+  }
+)
+
+interface ChipProps
+  extends React.ComponentPropsWithRef<'button'>,
+    VariantProps<typeof chipVariants> {
+  active?: boolean
+}
+
+const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
+  (
+    { className, variant, size, children, disabled, onClick, active, ...props },
+    ref
+  ) => {
+    return (
+      <button
+        onClick={onClick}
+        data-active={active}
+        className={cn(chipVariants({ variant, size }))}
+        disabled={disabled}
+        ref={ref}
+        {...props}
+      >
+        {children}
+        <div className="flex items-center justify-center w-[24px] h-[24px] p-[10px]">
+          <Plus
+            className={cn(
+              size == 'lg' ? 'h-[16px] w-[16px]' : 'h-[12px] w-[12px]',
+              ['stroke-current', 'shrink-0']
+            )}
+          />
+        </div>
+      </button>
+    )
+  }
+)
+
+export { Chip, ChipProps }
+```
