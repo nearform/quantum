@@ -24,37 +24,59 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Default: Story = {}
+export const Default: Story = {
+  args: {
+    children: 'Hello, this is a chip'
+  }
+}
 
 export const Warning: Story = {
   args: {
-    variant: 'warning'
+    variant: 'warning',
+    children: 'Hello, this is a chip'
   }
 }
 export const Error: Story = {
   args: {
-    variant: 'error'
+    variant: 'error',
+    children: 'Hello, this is a chip'
   }
 }
 export const Info: Story = {
   args: {
-    variant: 'info'
+    variant: 'info',
+    children: 'Hello, this is a chip'
   }
 }
 export const Success: Story = {
   args: {
-    variant: 'success'
+    variant: 'success',
+    children: 'Hello, this is a chip'
   }
 }
 export const Active: Story = {
   args: {
-    variant: 'active'
+    variant: 'active',
+    children: 'Hello, this is a chip'
   }
 }
 export const Disabled: Story = {
   args: {
-    disabled: true
+    disabled: true,
+    children: 'Hello, this is a chip'
   }
 }
 
-//todo sizes
+export const LargeDefault: Story = {
+  args: {
+    size: 'lg',
+    children: 'Hello, this is a chip'
+  }
+}
+export const LargeActive: Story = {
+  args: {
+    variant: 'active',
+    size: 'lg',
+    children: 'Hello, this is a chip'
+  }
+}

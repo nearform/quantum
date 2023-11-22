@@ -5,34 +5,57 @@ import { Plus } from '@/assets'
 
 const chipVariants = cva(
   [
-    'inline-flex',
-    'rounded-full',
-    'gap-[4px]',
-    'shrink-0',
-    'items-center',
-    'justify-center',
-    'px-[10px]',
-    'border border-[2px]',
-    'font-semibold',
-    'leading-normal',
-    'text-foreground',
-    'data-[disabled]:border-none',
-    'data-[disabled]:text-foreground-subtle',
-    'data-[disabled]:bg-background-subtle'
+    [
+      'inline-flex',
+      'rounded-full',
+      'shrink-0',
+      'items-center',
+      'justify-center',
+      'border border-[2px]',
+      'font-semibold',
+      'leading-normal',
+      'text-foreground'
+    ],
+    [
+      'disabled:border-none',
+      'disabled:text-foreground-subtle',
+      'disabled:bg-background-subtle',
+      'dark:disabled:bg-background-subtle-dark',
+      'dark:disabled:text-foreground-subtle-dark'
+    ]
   ],
   {
     variants: {
       variant: {
-        default: ['bg-background', 'border-border-subtle'],
+        default: [
+          'bg-background',
+          'border-border-subtle',
+          'dark:bg-background-dark',
+          'dark:border-border-subtle-dark',
+          'dark:text-foreground-dark'
+        ],
         warning: ['bg-yellow-50', 'border-feedback-yellow'],
         success: ['bg-green-50', 'border-feedback-green'],
         error: ['bg-red-50', 'border-feedback-red'],
-        info: ['bg-blue-50', 'border-primary-600'],
-        active: ['bg-foreground', 'border-none', 'text-foreground-inverse']
+        info: ['bg-blue-50', 'border-primary-600', 'dark:border-primary-600'],
+        active: [
+          'bg-foreground',
+          'border-none',
+          'text-foreground-inverse',
+          'dark:bg-foreground-dark',
+          'dark:text-foreground-inverse-dark'
+        ]
       },
       size: {
-        default: ['text-xs'],
-        lg: []
+        default: ['text-xs', 'px-[10px]', 'py-[8px] h-[26px]', 'gap-[4px]'],
+        lg: [
+          'text-sm',
+          'pl-[16px]',
+          'pr-[12px]',
+          'py-[6px]',
+          'h-[33px]',
+          'gap-[6px]'
+        ]
       }
     },
     defaultVariants: {
@@ -43,36 +66,32 @@ const chipVariants = cva(
 )
 
 interface ChipProps
-  extends React.ComponentPropsWithRef<'div'>,
-    VariantProps<typeof chipVariants> {
-  disabled?: boolean
-  onClick: () => void
-}
+  extends React.ComponentPropsWithRef<'button'>,
+    VariantProps<typeof chipVariants> {}
 
-const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
+const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
   (
     { className, variant, size, children, disabled, onClick, ...props },
     ref
   ) => {
     return (
-      <div
-        data-disabled={disabled}
-        className={cn(chipVariants({ variant, size }), className)}
+      <button
+        onClick={onClick}
+        className={cn(chipVariants({ variant, size }))}
+        disabled={disabled}
         ref={ref}
         {...props}
       >
-        <div className="py-[8px]">
-          {children}
-          Hello, this is a chip
+        {children}
+        <div className="flex items-center justify-center w-[24px] h-[24px] p-[10px]">
+          <Plus
+            className={cn(
+              size == 'lg' ? 'h-[16px] w-[16px]' : 'h-[12px] w-[12px]',
+              ['stroke-current', 'shrink-0']
+            )}
+          />
         </div>
-        <button
-          disabled={disabled}
-          className="flex h-full flex-col justify-center items-center gap-[10px] p-[10px]"
-          onClick={onClick}
-        >
-          <Plus className="stroke-current" />
-        </button>
-      </div>
+      </button>
     )
   }
 )
