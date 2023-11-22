@@ -11,7 +11,7 @@ const chipVariants = cva(
       'shrink-0',
       'items-center',
       'justify-center',
-      'border border-[2px]',
+      'border border-2',
       'font-semibold',
       'leading-normal',
       'text-foreground',
@@ -49,15 +49,8 @@ const chipVariants = cva(
         info: ['bg-blue-50', 'border-primary-600', 'dark:border-primary-600']
       },
       size: {
-        default: ['text-xs', 'px-[10px]', 'py-[8px] h-[26px]', 'gap-[4px]'],
-        lg: [
-          'text-sm',
-          'pl-[16px]',
-          'pr-[12px]',
-          'py-[6px]',
-          'h-[33px]',
-          'gap-[6px]'
-        ]
+        default: ['text-xs', 'px-2.5', 'py-2 h-[26px]', 'gap-1'],
+        lg: ['text-sm', 'pl-4', 'pr-3', 'py-1.5', 'h-[33px]', 'gap-1.5']
       }
     },
     defaultVariants: {
@@ -88,12 +81,12 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         {...props}
       >
         {children}
-        <div className="flex items-center justify-center w-[24px] h-[24px] p-[10px]">
+        <div className="flex items-center justify-center w-6 h-6 p-2.5">
           <Plus
-            className={cn(
-              size == 'lg' ? 'h-[16px] w-[16px]' : 'h-[12px] w-[12px]',
-              ['stroke-current', 'shrink-0']
-            )}
+            className={cn(size == 'lg' ? 'h-4 w-4' : 'h-3 w-3', [
+              'stroke-current',
+              'shrink-0'
+            ])}
           />
         </div>
       </button>
