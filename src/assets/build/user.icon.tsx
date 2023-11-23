@@ -6,6 +6,7 @@ export const User = (props: any) => (
     fill="none"
     color="inherit"
     stroke="currentColor"
+    viewBox="0 0 20 20"
     {...props}
   >
     <path
