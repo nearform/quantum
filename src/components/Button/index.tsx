@@ -12,28 +12,28 @@ const buttonVariants = cva(
         primary:
           'bg-button-primary border-button-primary text-white ' +
           'hover:bg-button-primary-hover hover:border-button-primary-hover ' +
-          'focus:bg-button-primary-focus focus:border-button-primary-focus ' +
-          'disabled:bg-button-disabled disabled:text-foreground-subtle disabled:border-button-disabled',
+          'focus:bg-button-primary-focus focus:border-button-primary-focus focus:shadow-blue ' +
+          'disabled:bg-button-primary-disabled disabled:text-foreground-subtle disabled:border-button-primary-disabled ',
         secondary:
           'bg-white text-grey-900 border-border ' +
           'hover:bg-button-secondary-hover hover:border-button-secondary-border-hover ' +
-          'focus:bg-button-secondary-focus focus:border-button-secondary-border-focus ' +
+          'focus:border-button-secondary-border-focus focus:shadow-blue ' +
           'disabled:bg-button-secondary-disabled disabled:border-button-secondary-border-disabled disabled:text-foreground-subtle',
         tertiary:
           'bg-transparent border-transparent text-foreground ' +
           'hover:bg-button-tertiary-hover hover:border-button-tertiary-hover ' +
-          'focus:bg-button-tertiary-focus focus:border-button-tertiary-focus ' +
+          'focus:bg-button-tertiary-focus focus:border-button-tertiary-focus focus:shadow-blue ' +
           'disabled:text-foreground-subtle',
         success:
-          'bg-green-400 border-green-400 text-black ' +
-          'hover:bg-green-500 hover:border-green-500 ' +
-          'focus:bg-green-600 focus:border-green-600 ' +
-          'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle',
+          'bg-green-500 border-green-500 text-white ' +
+          'hover:bg-green-600 hover:border-green-600 ' +
+          'focus:bg-green-500 focus:border-green-500 focus:shadow-green ' +
+          'disabled:bg-grey-50 disabled:border-grey-50 disabled:text-foreground-subtle',
         danger:
           'bg-red-600 border-red-600 text-white ' +
           'hover:bg-red-700 hover:border-red-700 ' +
-          'focus:bg-red-800 focus:border-red-800 ' +
-          'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle'
+          'focus:bg-red-600 focus:border-red-600 focus:shadow-red ' +
+          'disabled:bg-grey-50 disabled:border-grey-50 disabled:text-foreground-subtle'
       },
       size: {
         lg: 'px-4 py-3 text-base',
