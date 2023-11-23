@@ -7,14 +7,14 @@ import * as Icons from '@/assets'
 
 The current list below shows the usable icons from this package. Their names denote how one should import them i.e. `import {UserGroupOutline} from ...`.
 
-<div className="flex justify-evenly gap-4">
+<div className="grid grid-cols-7 gap-2">
   {Object.keys(Icons).map(Icon => {
     const IconComponent = Icons[`${Icon}`]
     return (
       <div className="flex  p-2 flex-col h-32 w-32 items-center border border-border-subtle rounded-md">
         {' '}
         <IconComponent
-          className="stroke-current w-10 h-10 border border-border bg-grey-50 "
+          className="stroke-current w-10 h-10 border border-border bg-grey-50"
           key="1"
         />
         <p className="font-bold">{Icon}</p>
