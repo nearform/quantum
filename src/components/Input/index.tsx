@@ -1,7 +1,7 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
-import { ClearButton, User, SearchOutline } from '@/assets'
+import { ClearButton, User, SearchOutline } from '@/index'
 
 const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 

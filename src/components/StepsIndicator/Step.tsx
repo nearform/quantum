@@ -1,4 +1,4 @@
-import ProgressDefault from '@/assets/build/progress-default.icon'
+import { ProgressDefault } from '@/index'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 

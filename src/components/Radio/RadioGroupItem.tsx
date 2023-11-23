@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
-import { RadioSelected } from '@/assets'
+import { RadioSelected } from '@/index'
 
 type RadioGroupItemProps = React.ComponentPropsWithoutRef<
   typeof RadioGroupPrimitive.Item
