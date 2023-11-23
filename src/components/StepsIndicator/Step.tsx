@@ -1,4 +1,4 @@
-import { ProgressDefault } from '@/index'
+import { CircleOutlineIcon } from '@/assets'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 
@@ -17,7 +17,7 @@ const stepVariant = cva([
 
 const Step = ({ selected, className }: StepProps) => {
   return (
-    <ProgressDefault
+    <CircleOutlineIcon
       data-selected={selected}
       className={cn(stepVariant(), className)}
     />

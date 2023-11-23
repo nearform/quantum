@@ -1,4 +1,4 @@
-const AngleDown = (props: any) => (
+export const AngleDownIcon = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={12}
@@ -14,4 +14,3 @@ const AngleDown = (props: any) => (
     />
   </svg>
 )
-export default AngleDown

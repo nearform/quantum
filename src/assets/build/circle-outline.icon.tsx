@@ -1,4 +1,4 @@
-export const ProgressDefault = (props: any) => (
+export const CircleOutlineIcon = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="8px"

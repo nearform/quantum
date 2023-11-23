@@ -1,4 +1,4 @@
-export const Check = (props: any) => (
+export const CheckIcon = (props: any) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
