@@ -1,17 +1,14 @@
 export const AngleDownIcon = (props: any) => (
   <svg
+    className="w-6 h-6 text-gray-800 dark:text-white"
+    aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    stroke="currentColor"
-    {...props}
+    fill="none"
+    viewBox="0 0 20 20"
   >
     <path
-      fill="inherit"
-      stroke="inherit"
-      d="M11.372 15.248a.938.938 0 0 0 .645.252l-.645-.252Zm0 0-5.6-5.323m5.6 5.323-5.6-5.323m0 0-.006-.006m.006.006-.006-.006m0 0a.831.831 0 0 1-.197-.27.774.774 0 0 1-.005-.625.828.828 0 0 1 .19-.272.907.907 0 0 1 .297-.187.964.964 0 0 1 .713.006c.111.046.21.111.292.192m-1.29 1.156 1.29-1.156m0 0 .007.006m-.007-.006.007.006m0 0 4.61 4.381.344.328m-4.954-4.71 4.954 4.71m0 0 .345-.328m-.345.328.345-.328m0 0 4.606-4.378a.94.94 0 0 1 .64-.24.938.938 0 0 1 .637.253.799.799 0 0 1 .255.571.796.796 0 0 1-.241.573l-5.597 5.319m-.3-2.098.3 2.098m0 0a.938.938 0 0 1-.645.252l.646-.252Z"
+      fill="currentColor"
+      d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"
     />
   </svg>
 )
