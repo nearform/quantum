@@ -73,6 +73,9 @@ export const button = {
     },
     focus: {
       DEFAULT: colors.green['600']
+    },
+    disabled: {
+      DEFAULT: colors.grey['50']
     }
   },
   danger: {
@@ -81,7 +84,10 @@ export const button = {
       DEFAULT: colors.red['700']
     },
     focus: {
-      DEFAULT: colors.red['800']
+      DEFAULT: colors.red['600']
+    },
+    disabled: {
+      DEFAULT: colors.grey['50']
     }
   }
 }
