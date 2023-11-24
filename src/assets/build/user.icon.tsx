@@ -1,4 +1,4 @@
-export const User = (props: any) => (
+export const UserIcon = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={20}
@@ -6,6 +6,7 @@ export const User = (props: any) => (
     fill="none"
     color="inherit"
     stroke="currentColor"
+    viewBox="0 0 20 20"
     {...props}
   >
     <path

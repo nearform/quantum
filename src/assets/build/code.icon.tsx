@@ -1,9 +1,9 @@
-export const PlusIcon = (props: any) => (
+export const CodeIcon = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 12 12"
     width={24}
     height={24}
+    viewBox="0 0 24 24"
     fill="none"
     {...props}
   >
@@ -11,7 +11,8 @@ export const PlusIcon = (props: any) => (
       stroke="inherit"
       strokeLinecap="round"
       strokeLinejoin="round"
-      d="M6 2.5V6m0 0v3.5M6 6h3.5M6 6H2.5"
+      strokeWidth={2}
+      d="m7 8-4 4 4 4m10-8 4 4-4 4M13 5l-2 14"
     />
   </svg>
 )
