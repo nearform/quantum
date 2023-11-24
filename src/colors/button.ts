@@ -9,15 +9,15 @@ export const button = {
     DEFAULT: colors.blue['700'],
     dark: '#FFF',
     hover: {
-      DEFAULT: accent.hover.DEFAULT,
+      DEFAULT: colors.blue['800'],
       dark: accent.hover.dark
     },
     focus: {
-      DEFAULT: accent.focus.DEFAULT,
+      DEFAULT: accent.DEFAULT,
       dark: accent.focus.dark
     },
     disabled: {
-      DEFAULT: background.subtle.DEFAULT,
+      DEFAULT: colors.grey['50'],
       dark: background.subtle.dark
     }
   },
@@ -25,7 +25,7 @@ export const button = {
     DEFAULT: '#FFF',
     dark: '#000',
     hover: {
-      DEFAULT: background.subtle.DEFAULT,
+      DEFAULT: colors.grey['50'],
       dark: background.subtle.dark
     },
 
@@ -35,7 +35,7 @@ export const button = {
     },
 
     disabled: {
-      DEFAULT: background.subtle.DEFAULT,
+      DEFAULT: colors.grey['50'],
       dark: background.subtle.dark
     },
 
@@ -47,7 +47,7 @@ export const button = {
         dark: border.hover.dark
       },
       focus: {
-        DEFAULT: border.focus.DEFAULT,
+        DEFAULT: border.DEFAULT,
         dark: border.focus.dark
       },
       disabled: {
@@ -58,11 +58,11 @@ export const button = {
   },
   tertiary: {
     hover: {
-      DEFAULT: background.subtle.DEFAULT,
+      DEFAULT: colors.grey['50'],
       dark: background.subtle.dark
     },
     focus: {
-      DEFAULT: colors.blue['50'],
+      DEFAULT: background.DEFAULT,
       dark: colors.blue['900']
     }
   },
@@ -73,6 +73,9 @@ export const button = {
     },
     focus: {
       DEFAULT: colors.green['600']
+    },
+    disabled: {
+      DEFAULT: colors.grey['50']
     }
   },
   danger: {
@@ -81,7 +84,10 @@ export const button = {
       DEFAULT: colors.red['700']
     },
     focus: {
-      DEFAULT: colors.red['800']
+      DEFAULT: colors.red['600']
+    },
+    disabled: {
+      DEFAULT: colors.grey['50']
     }
   }
 }

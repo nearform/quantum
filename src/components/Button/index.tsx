@@ -5,41 +5,92 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none border-2',
+  [
+    'inline-flex',
+    'items-center',
+    'justify-center',
+    'whitespace-nowrap',
+    'rounded-lg',
+    'transition-colors',
+    'focus-visible:outline-none',
+    'focus-visible:ring-1',
+    'focus-visible:ring-ring',
+    'disabled:pointer-events-none',
+    'border-2 '
+  ],
   {
     variants: {
       variant: {
-        primary:
-          'bg-button-primary border-button-primary text-white ' +
-          'hover:bg-button-primary-hover hover:border-button-primary-hover ' +
-          'focus:bg-button-primary-focus focus:border-button-primary-focus ' +
-          'disabled:bg-button-disabled disabled:text-foreground-subtle disabled:border-button-disabled',
-        secondary:
-          'bg-white text-grey-900 border-border ' +
-          'hover:bg-button-secondary-hover hover:border-button-secondary-border-hover ' +
-          'focus:bg-button-secondary-focus focus:border-button-secondary-border-focus ' +
-          'disabled:bg-button-secondary-disabled disabled:border-button-secondary-border-disabled disabled:text-foreground-subtle',
-        tertiary:
-          'bg-transparent border-transparent text-foreground ' +
-          'hover:bg-button-tertiary-hover hover:border-button-tertiary-hover ' +
-          'focus:bg-button-tertiary-focus focus:border-button-tertiary-focus ' +
+        primary: [
+          'bg-button-primary',
+          'border-button-primary',
+          'text-white',
+          'hover:bg-button-primary-hover',
+          'hover:border-button-primary-hover',
+          'focus:bg-button-primary-focus',
+          'focus:border-button-primary-focus',
+          'focus-visible:shadow-blue',
+          'disabled:bg-button-primary-disabled',
           'disabled:text-foreground-subtle',
-        success:
-          'bg-green-400 border-green-400 text-black ' +
-          'hover:bg-green-500 hover:border-green-500 ' +
-          'focus:bg-green-600 focus:border-green-600 ' +
-          'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle',
-        danger:
-          'bg-red-600 border-red-600 text-white ' +
-          'hover:bg-red-700 hover:border-red-700 ' +
-          'focus:bg-red-800 focus:border-red-800 ' +
-          'disabled:bg-button-disabled disabled:border-button-disabled disabled:text-foreground-subtle'
+          'disabled:border-button-primary-disabled'
+        ],
+        secondary: [
+          'bg-white',
+          'text-grey-900',
+          'border-border',
+          'hover:bg-button-secondary-hover',
+          'hover:border-button-secondary-border-hover',
+          'focus:border-button-secondary-border-focus',
+          'focus-visible:shadow-blue',
+          'disabled:bg-button-secondary-disabled',
+          'disabled:border-button-secondary-border-disabled',
+          'disabled:text-foreground-subtle'
+        ],
+        tertiary: [
+          'bg-transparent border-transparent',
+          'text-foreground',
+          'dark:text-white',
+          'hover:bg-button-tertiary-hover',
+          'hover:border-button-tertiary-hover',
+          'hover:dark:text-button-tertiary-hover-dark',
+          'focus:bg-button-tertiary-focus',
+          'focus:border-button-tertiary-focus',
+          'focus-visible:shadow-blue',
+          'disabled:text-foreground-subtle',
+          'dark:text-white'
+        ],
+        success: [
+          'bg-button-success',
+          'border-button-success',
+          'text-white',
+          'hover:bg-button-success-hover',
+          'hover:border-button-success-hover',
+          'focus:bg-button-success-focus',
+          'focus:border-button-success-focus',
+          'focus-visible:shadow-green',
+          'disabled:bg-button-success-disabled',
+          'disabled:border-button-success-disabled',
+          'disabled:text-foreground-subtle'
+        ],
+        danger: [
+          'bg-button-danger',
+          'border-button-danger',
+          'text-white',
+          'hover:bg-button-danger-hover',
+          'hover:border-button-danger-hover',
+          'focus:bg-button-danger-focus',
+          'focus:border-button-danger-focus',
+          'focus-visible::shadow-red',
+          'disabled:bg-button-danger-disabled',
+          'disabled:border-button-danger-disabled',
+          'disabled:text-foreground-subtle'
+        ]
       },
       size: {
-        lg: 'px-4 py-3 text-base',
-        md: 'p-2.5 text-sm',
-        sm: 'px-2.5 py-2 text-sm',
-        xs: 'px-2 py-2.5 text-xs'
+        lg: ['px-4', 'py-3', 'text-base'],
+        md: ['p-2.5', 'text-sm'],
+        sm: ['px-2.5', 'py-2', 'text-sm'],
+        xs: ['px-2', 'py-2.5', 'text-xs']
       }
     },
     defaultVariants: {
