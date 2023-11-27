@@ -22,11 +22,13 @@ const buttonGroupVariants = cva(
     variants: {
       variant: {
         primary: [
+          'hover:[&>*]:bg-button-primary-hover-group',
           'dark:divide-border-subtle-dark',
-          'dark:[&>*]:bg-button-primary-dark',
+          'dark:[&>*]:bg-button-primary-group',
           'dark:[&>*]:text-foreground-inverse-dark',
           'dark:[&>*:hover]:bg-button-secondary-hover',
-          'dark:[&>*:focus]:bg-button-secondary-focus'
+          'dark:bg-button-secondary-focus',
+          'focus:[&>*]:bg-button-primary'
         ],
         secondary: [
           'bg-background',

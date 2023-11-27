@@ -8,9 +8,11 @@ export const button = {
   primary: {
     DEFAULT: colors.blue['700'],
     dark: '#FFF',
+    group: colors.blue['300'],
     hover: {
       DEFAULT: accent.hover.DEFAULT,
-      dark: accent.hover.dark
+      dark: accent.hover.dark,
+      group: colors.blue['800']
     },
     focus: {
       DEFAULT: accent.focus.DEFAULT,
