@@ -34,6 +34,5 @@ module.exports = {
 ```js
 //root component
 import '@nearform/quantum/dist/global.css'
-import { Button } from '@nearform/quantum' // NodeNext / Node16
-const { Checkbox } = require('@nearform/quantum') //commonjs
+import { Button } from '@nearform/quantum'
 ```
