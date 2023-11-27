@@ -10,7 +10,7 @@ import {
 } from '@/components/Table'
 import { Checkbox } from '@/components/Checkbox'
 import { Label } from '@/components/Label'
-import { User } from '@/assets'
+import { UserIcon } from '@/assets'
 export const TableDemo = ({ variant }: TableBodyProps) => {
   return (
     <Table>
@@ -20,7 +20,7 @@ export const TableDemo = ({ variant }: TableBodyProps) => {
           <TableHead>Header Cell</TableHead>
           <TableHead>
             <div className="flex items-center">
-              <User className="fill-white" /> User
+              <UserIcon className="fill-white" /> User
             </div>
           </TableHead>
           <TableHead>Method</TableHead>

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { cn } from '@/lib/utils'
-import { Check, Minus } from '@/assets'
+import { CheckIcon, MinusIcon } from '@/assets'
 import { cva } from 'class-variance-authority'
 const checkboxVariants = cva([
   [
@@ -44,10 +44,10 @@ const Checkbox = React.forwardRef<
       className={cn('flex items-center justify-center text-inherit')}
     >
       {(props.checked === true || props.checked === undefined) && (
-        <Check className="text-inherit stroke-current stroke-1 fill-current" />
+        <CheckIcon className="text-inherit stroke-current stroke-1 fill-current" />
       )}
       {props.checked === 'indeterminate' && (
-        <Minus className="text-inherit stroke-current stroke-3 fill-current" />
+        <MinusIcon className="text-inherit stroke-current stroke-3 fill-current" />
       )}
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
