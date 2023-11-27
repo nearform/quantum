@@ -18,21 +18,22 @@ Inclue or extend our colour configuration and add our components to Tailwind's c
 
 ```js
 // tailwind.config.js
-import colors from '@nearform/quantum/dist/colors'
 
 module.exports = {
-    content: [
-        "./node_modules/@nearform/quantum/**/*.js"
-    ],
-    theme: {
-        colors,
-    }
-};
+  content: [
+    //your content files...
+    './node_modules/@nearform/quantum/**/*.js'
+  ],
+  // The rest of your config... ,
+  plugins: [require('@nearform/quantum/plugin')]
+}
 ```
 
 #### Without Tailwind
 
 ```js
-import '@nearform/quantum/dist/global.css';
-import { Navbar } from '@nearform/quantum';
+//root component
+import '@nearform/quantum/dist/global.css'
+import { Button } from '@nearform/quantum' // NodeNext / Node16
+const { Checkbox } = require('@nearform/quantum') //commonjs
 ```
