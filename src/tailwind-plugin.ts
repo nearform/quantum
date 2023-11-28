@@ -3,7 +3,7 @@ import plugin from 'tailwindcss/plugin'
 import path from 'path'
 import { Config } from 'tailwindcss'
 
-const quantumPlugin = plugin(
+export default plugin(
   ({ config }: { config: () => Config }) => {
     const twConfig = config()
     let quantumPkgLoc = path.join(__dirname, 'index.js')
@@ -24,5 +24,3 @@ const quantumPlugin = plugin(
     }
   }
 )
-
-module.exports = quantumPlugin
