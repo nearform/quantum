@@ -47,12 +47,10 @@ describe('Plugin can add index.js to content', () => {
     ]
     const filesLength = testContent.length
     const twConfig = await run(testContent)
-    console.log(twConfig)
     const [msgs, msgsLength] = [twConfig.messages, twConfig.messages.length]
     expect(msgsLength).toBe(filesLength)
     expect(
       msgs.reduce((acc, msg) => {
-        console.log(msg)
         return msg.file?.includes('index.js') ? acc + 1 : acc
       }, 0)
     ).toBe(1)
