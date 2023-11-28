@@ -24,7 +24,6 @@ module.exports = {
     //your content files...
     './node_modules/@nearform/quantum/**/*.js'
   ],
-  // The rest of your config... ,
   plugins: [require('@nearform/quantum/plugin')]
 }
 ```
