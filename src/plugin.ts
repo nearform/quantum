@@ -7,12 +7,12 @@ const quantumPlugin = (node_modules_path?: string) => {
     ({ config }: any) => {
       const twConfig = config()
       let quantumPkgLoc = './node_modules/@nearform/quantum/dist/index.js'
-      if (node_modules_path) {
-        quantumPkgLoc = path.join(
-          node_modules_path,
-          './node_modules/@nearform/quantum/dist/index.js'
-        )
-      }
+
+      quantumPkgLoc = path.join(
+        node_modules_path ?? '',
+        './node_modules/@nearform/quantum/dist/index.js'
+      )
+
       if (!twConfig.content.files.includes(quantumPkgLoc)) {
         twConfig.content.files.push(quantumPkgLoc)
       }
