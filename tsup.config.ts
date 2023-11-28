@@ -5,7 +5,7 @@ export default defineConfig({
     'src/index.ts',
     'src/global.css',
     'src/colors/index.ts',
-    'src/plugin.js'
+    'src/plugin.ts'
   ],
   dts: { entry: ['src/index.ts'] },
   clean: true,

@@ -14,17 +14,28 @@ npm install --save @nearform/quantum
 
 #### With Tailwind
 
-Inclue or extend our colour configuration and add our components to Tailwind's content configuration.
+Inclue or extend our colour configuration and add our components to Tailwind's content configuration. The quantumPlugin is a function that can accept a `node_modules_path` string variable, but is only required if your tailwind configs `content.relative` is set to true.
 
 ```js
 // tailwind.config.js
-
+const quantumPlugin = require('@nearform/quantum/plugin')
 module.exports = {
-  content: [
-    //your content files...
-    './node_modules/@nearform/quantum/**/*.js'
-  ],
-  plugins: [require('@nearform/quantum/plugin')]
+  //...tailwind config
+  plugins: [quantumPlugin()]
+}
+```
+
+In the example below, `tailwind.config.js` is in a child directory of the root directory. Therefore we pass in `../` into `quantumPlugin` to indicate so.
+
+```js
+// tailwind.config.js
+const quantumPlugin = require('@nearform/quantum/plugin')
+module.exports = {
+  content: {
+    relative: true,
+    files: ['...']
+  }
+  plugins: [quantumPlugin('../')]
 }
 ```
 
