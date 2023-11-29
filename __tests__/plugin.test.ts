@@ -24,31 +24,32 @@ describe('Plugin can add index.js to content', () => {
       relative: false
     }
     const filesLength = testContent.files.length
-    const twConfig = await run(testContent)
-    const [msgs, msgsLength] = [twConfig.messages, twConfig.messages.length]
-    expect(msgsLength).toBe(filesLength + 1)
-    expect(msgs.some(msg => msg.file.includes('src/index.js'))).toBe(true)
+    const { messages } = await run(testContent)
+    expect(messages.length).toBe(filesLength + 1)
+    expect(
+      messages.some(message => message.file.includes('src/index.js'))
+    ).toBe(true)
   })
 
   it('Can add to the content if array', async () => {
     const testContent: ContentConfig = ['./src/content.js', './stories/**/*']
-    const twConfig = await run(testContent)
-    const msgs = twConfig.messages
-    expect(msgs.some(msg => msg.file.includes('src/index.js'))).toBe(true)
+    const { messages } = await run(testContent)
+    expect(
+      messages.some(message => message.file.includes('src/index.js'))
+    ).toBe(true)
   })
 
   it('Uses the right path to the package if relative', async () => {
     //pass in string path to dummy config
-    const msgs = (await run('./__mocks__/plugin/tailwind.mock.config.ts'))
-      .messages
+    const { messages } = await run('./__mocks__/plugin/tailwind.mock.config.ts')
 
-    const { index_exists, relative_mock_exists } = msgs.reduce(
-      (acc, msg) => {
+    const { index_exists, relative_mock_exists } = messages.reduce(
+      (acc, message) => {
         //check index.js path added correctly
-        if (msg.file.includes('src/index.js')) {
+        if (message.file.includes('src/index.js')) {
           return { ...acc, index_exists: acc.index_exists + 1 }
           //check we're using relative paths.
-        } else if (msg.file.includes('__mocks__/plugin/content.js')) {
+        } else if (message.file.includes('__mocks__/plugin/content.js')) {
           return {
             ...acc,
             relative_mock_exists: acc.relative_mock_exists + 1
@@ -70,12 +71,11 @@ describe('Plugin can add index.js to content', () => {
       pkgLoc
     ]
     const filesLength = testContent.length
-    const twConfig = await run(testContent)
-    const [msgs, msgsLength] = [twConfig.messages, twConfig.messages.length]
-    expect(msgsLength).toBe(filesLength)
+    const { messages } = await run(testContent)
+    expect(messages.length).toBe(filesLength)
     expect(
-      msgs.reduce((acc, msg) => {
-        return msg.file?.includes('src/index.js') ? acc + 1 : acc
+      messages.reduce((acc, message) => {
+        return message.file?.includes('src/index.js') ? acc + 1 : acc
       }, 0)
     ).toBe(1)
   })
