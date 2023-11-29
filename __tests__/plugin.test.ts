@@ -36,29 +36,29 @@ describe('Plugin can add index.js to content', () => {
     expect(msgs.some(msg => msg.file.includes('src/index.js'))).toBe(true)
   })
   it('Uses the right path to the package if relative', async () => {
-    const testContent = './__mocks__/plugin/tailwind.mock.config.ts'
-    const twConfig = await run(testContent)
-    const [msgs, msgsLength] = [twConfig.messages, twConfig.messages.length]
-    expect(
-      msgs.reduce(
-        (acc, msg) => {
-          //check index.js path added correctly
-          if (msg.file.includes('src/index.js')) {
-            return { ...acc, index_exists: acc.index_exists + 1 }
-            //check we're using relative paths.
-          } else if (msg.file.includes('__mocks__/plugin/content.js')) {
-            return {
-              ...acc,
-              relative_mock_exists: acc.relative_mock_exists + 1
-            }
-          }
-          return acc
-        },
-        { index_exists: 0, relative_mock_exists: 0 }
-      )
-    ).toStrictEqual({ index_exists: 1, relative_mock_exists: 1 })
+    //pass in string path to dummy config
+    const msgs = (await run('./__mocks__/plugin/tailwind.mock.config.ts'))
+      .messages
 
-    console.log(twConfig)
+    const { index_exists, relative_mock_exists } = msgs.reduce(
+      (acc, msg) => {
+        //check index.js path added correctly
+        if (msg.file.includes('src/index.js')) {
+          return { ...acc, index_exists: acc.index_exists + 1 }
+          //check we're using relative paths.
+        } else if (msg.file.includes('__mocks__/plugin/content.js')) {
+          return {
+            ...acc,
+            relative_mock_exists: acc.relative_mock_exists + 1
+          }
+        }
+        return acc
+      },
+      { index_exists: 0, relative_mock_exists: 0 }
+    )
+
+    expect(index_exists).toBe(1)
+    expect(relative_mock_exists).toBe(1)
   })
   it('Doesnt add the path if already there', async () => {
     const pkgLoc = path.join(__dirname, '../src/index.js') //where index.js is wrt this test file
