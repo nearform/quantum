@@ -8,7 +8,6 @@ import path from 'path'
 function run(testContent: ContentConfig) {
   return postcss(
     tailwindcss({
-      //is this how tailwind executes?
       content: testContent,
       plugins: [qPlugin]
     })
@@ -24,7 +23,7 @@ describe('Plugin can add index.js to content', () => {
       relative: false
     }
     const filesLength = testContent.files.length
-    const twConfig = await run(testContent) //.then(t => {
+    const twConfig = await run(testContent)
     const [msgs, msgsLength] = [twConfig.messages, twConfig.messages.length]
     expect(msgsLength).toBe(filesLength + 1)
     expect(msgs.some(msg => msg.file.includes('index.js'))).toBe(true)
