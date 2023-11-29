@@ -3,7 +3,10 @@ import {
   SelectTrigger,
   SelectValue,
   SelectContent,
-  SelectItem
+  SelectItem,
+  SelectSeparator,
+  SelectGroup,
+  SelectPortal
 } from '@/components/Select'
 
 export const SelectDemo = () => {
@@ -12,11 +15,16 @@ export const SelectDemo = () => {
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Theme" />
       </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="light">Light</SelectItem>
-        <SelectItem value="dark">Dark</SelectItem>
-        <SelectItem value="system">System</SelectItem>
-      </SelectContent>
+      <SelectPortal>
+        <SelectContent>
+          <SelectGroup>
+            <SelectItem value="light">Light</SelectItem>
+            <SelectItem value="dark">Dark</SelectItem>
+          </SelectGroup>
+          <SelectSeparator />
+          <SelectItem value="system">System</SelectItem>
+        </SelectContent>
+      </SelectPortal>
     </Select>
   )
 }

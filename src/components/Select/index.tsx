@@ -14,6 +14,8 @@ const SelectGroup = SelectPrimitive.Group
 
 const SelectValue = SelectPrimitive.Value
 
+const SelectPortal = SelectPrimitive.Portal
+
 const triggerVariants = cva([
   'flex',
   'h-10',
@@ -27,7 +29,9 @@ const triggerVariants = cva([
   'bg-background-alt',
   'px-3',
   'py-2 ',
-  'text-sm ',
+  'text-sm',
+  'focus:outline-none',
+  'focus-visible:shadow-blue',
   'placeholder:text-muted-foreground',
   'disabled:cursor-not-allowed',
   'disabled:opacity-50',
@@ -45,7 +49,7 @@ const SelectTrigger = React.forwardRef<
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <AngleDownIcon className="h-3 w-3 opacity-50" />
+      <AngleDownIcon className="h-3 w-3" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))
@@ -88,15 +92,15 @@ SelectScrollDownButton.displayName =
 
 const contentVariants = cva([
   'relative',
-  ' z-50',
+  'z-50',
   'max-h-96',
   'min-w-[8rem]',
+  'bg-background',
   'overflow-hidden',
-  'rounded-md',
+  'rounded-lg',
   'border border-[2px]',
   'border-border-subtle',
-  'bg-popover',
-  'text-popover-foreground',
+  'text-foreground',
   'shadow',
   'data-[side=bottom]:slide-in-from-top-2',
   'data-[side=left]:slide-in-from-right-2',
@@ -147,16 +151,31 @@ const SelectLabel = React.forwardRef<
 ))
 SelectLabel.displayName = SelectPrimitive.Label.displayName
 
+const itemVariants = cva([
+  'relative',
+  'flex',
+  'w-full',
+  'cursor-default',
+  'select-none',
+  'items-center',
+  'py-2',
+  'px-4',
+  'text-sm',
+  'outline-none',
+  'data-[disabled]:pointer-events-none',
+  'data-[disabled]:opacity-50',
+  'hover:bg-background-alt',
+  'focus-visible:shadow-blue',
+  'overflow-x'
+])
+
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Item
     ref={ref}
-    className={cn(
-      'relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-      className
-    )}
+    className={cn(itemVariants(), className)}
     {...props}
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
@@ -176,7 +195,7 @@ const SelectSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
     ref={ref}
-    className={cn('-mx-1 my-1 h-px bg-muted', className)}
+    className={cn('-mx-1 my-1 h-px bg-border-subtle', className)}
     {...props}
   />
 ))
@@ -192,5 +211,6 @@ export {
   SelectItem,
   SelectSeparator,
   SelectScrollUpButton,
-  SelectScrollDownButton
+  SelectScrollDownButton,
+  SelectPortal
 }
