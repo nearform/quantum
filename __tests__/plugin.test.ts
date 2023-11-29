@@ -29,12 +29,14 @@ describe('Plugin can add index.js to content', () => {
     expect(msgsLength).toBe(filesLength + 1)
     expect(msgs.some(msg => msg.file.includes('src/index.js'))).toBe(true)
   })
+
   it('Can add to the content if array', async () => {
     const testContent: ContentConfig = ['./src/content.js', './stories/**/*']
     const twConfig = await run(testContent)
-    const [msgs, msgsLength] = [twConfig.messages, twConfig.messages.length]
+    const msgs = twConfig.messages
     expect(msgs.some(msg => msg.file.includes('src/index.js'))).toBe(true)
   })
+
   it('Uses the right path to the package if relative', async () => {
     //pass in string path to dummy config
     const msgs = (await run('./__mocks__/plugin/tailwind.mock.config.ts'))
@@ -56,10 +58,10 @@ describe('Plugin can add index.js to content', () => {
       },
       { index_exists: 0, relative_mock_exists: 0 }
     )
-
     expect(index_exists).toBe(1)
     expect(relative_mock_exists).toBe(1)
   })
+
   it('Doesnt add the path if already there', async () => {
     const pkgLoc = path.join(__dirname, '../src/index.js') //where index.js is wrt this test file
     const testContent: ContentConfig = [
