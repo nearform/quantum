@@ -9,11 +9,14 @@ import {
   SelectLabel
 } from '@/components/Select'
 
-export const SelectDemo = () => {
+import { TriggerProps } from '@/components/Select'
+
+export const SelectDemo = ({ variant }: TriggerProps) => {
   return (
     <Select>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Theme" />
+      <SelectTrigger variant={variant} className="w-[180px]">
+        <SelectValue placeholder="Choose" />
+        {/* Something going wrong with placement of select value when it overflows */}
       </SelectTrigger>
 
       <SelectContent side="top" className="overflow-visible">

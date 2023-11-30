@@ -19,8 +19,16 @@ type Story = StoryObj<typeof meta>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default: Story = {
+  args: {}
+}
+export const Success: Story = {
   args: {
-    length: 10,
-    selectedIndex: 1
+    variant: 'success'
+  }
+}
+
+export const Error: Story = {
+  args: {
+    variant: 'error'
   }
 }

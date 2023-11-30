@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 
 import { cn } from '@/lib/utils'
-import { cva } from 'class-variance-authority'
+import { VariantProps, cva } from 'class-variance-authority'
 import { AngleDownIcon, CheckIcon } from '@/assets'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 
@@ -16,42 +16,74 @@ const SelectValue = SelectPrimitive.Value
 
 const SelectPortal = SelectPrimitive.Portal
 
-const triggerVariants = cva([
+const triggerVariants = cva(
   [
-    'flex',
-    'h-10',
-    'w-full',
-    'text-foreground',
-    'items-center',
-    'justify-between',
-    'rounded-lg',
-    'border border-[2px]',
-    'border-border-subtle',
-    'bg-background-alt',
-    'px-3',
-    'py-2 ',
-    'text-sm',
-    'focus:outline-none',
-    'focus-visible:shadow-blue',
-    'placeholder:text-muted-foreground',
-    'disabled:cursor-not-allowed',
-    'disabled:opacity-50',
-    '[&>span]:line-clamp-1'
+    [
+      'flex',
+      'h-10',
+      'w-full',
+      'border border-[2px]',
+      'text-foreground',
+      'items-center',
+      'justify-between',
+      'rounded-lg',
+      'px-3',
+      'py-2',
+      'text-sm',
+      'focus:outline-none',
+      'focus-visible:shadow-blue',
+      'disabled:cursor-not-allowed',
+      'disabled:opacity-50',
+      '[&>span]:line-clamp-1'
+    ]
   ],
-  [
-    'dark:bg-background-alt-dark',
-    'dark:border-border-subtle-dark',
-    'dark:text-foreground-muted-dark'
-  ]
-])
+  {
+    variants: {
+      variant: {
+        default: [
+          'text-foreground',
+          'border-border-subtle',
+          'hover:border-border-hover',
+          'hover:text-foreground',
+          'focus-visible:shadow-blue',
+          'dark:bg-background-alt-dark',
+          'dark:border-border-subtle-dark',
+          'dark:text-foreground-muted-dark',
+          'data-[placeholder]:text-foreground-muted'
+        ],
+        error: [
+          'bg-red-50',
+          'border-feedback-red',
+          'hover:border-red-700',
+          'focus-visible:shadow-red',
+          'text-red-700'
+        ],
+        success: [
+          'bg-green-50',
+          'border-feedback-green',
+          'hover:border-green-700',
+          'focus-visible:shadow-green',
+          'text-green-700'
+        ]
+      }
+    },
+    defaultVariants: {
+      variant: 'default'
+    }
+  }
+)
+
+export interface TriggerProps
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
+    VariantProps<typeof triggerVariants> {}
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  TriggerProps
+>(({ variant, className, children, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
-    className={cn(triggerVariants(), className)}
+    className={cn(triggerVariants({ variant }), className)}
     {...props}
   >
     {children}
@@ -65,7 +97,7 @@ SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 const contentVariants = cva([
   'relative',
   'z-50',
-  'max-h-[var(--radix-select-content-available-height)]',
+  'max-h-96',
   'min-w-[8rem]',
   'bg-background',
   'rounded-lg',
@@ -97,13 +129,13 @@ const SelectContent = React.forwardRef<
       position={position}
       {...props}
     >
-      <ScrollArea.Root className="w-full h-full" type="auto">
+      <ScrollArea.Root className="h-[var(--radix-)]" type="auto">
         <SelectPrimitive.Viewport
           asChild
           className={cn(
-            'p-1 w-full h-full',
+            'p-1 h-96',
             position === 'popper' &&
-              'h-[var(--radix-select-content-available-height)] w-full min-w-[var(--radix-select-trigger-width)]'
+              'w-full min-w-[var(--radix-select-trigger-width)]'
           )}
         >
           <ScrollArea.Viewport>{children}</ScrollArea.Viewport>
@@ -144,6 +176,7 @@ const itemVariants = cva([
   'data-[disabled]:opacity-50',
   'hover:bg-background-alt',
   'focus-visible:shadow-blue',
+  'dark:focus-visible:shadow-blue',
   'dark:hover:bg-background-alt-dark'
 ])
 
@@ -173,7 +206,10 @@ const SelectSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
     ref={ref}
-    className={cn('-mx-1 my-1 h-px bg-border-subtle', className)}
+    className={cn(
+      '-mx-1 my-1 h-px bg-border-subtle dark:bg-border-subtle-dark',
+      className
+    )}
     {...props}
   />
 ))
