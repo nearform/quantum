@@ -6,7 +6,7 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 import { AngleDownIcon, CheckIcon } from '@/assets'
-import AngleUpIcon from '@/assets/build/angle-up.icon'
+import * as ScrollArea from '@radix-ui/react-scroll-area'
 
 const Select = SelectPrimitive.Root
 
@@ -17,25 +17,32 @@ const SelectValue = SelectPrimitive.Value
 const SelectPortal = SelectPrimitive.Portal
 
 const triggerVariants = cva([
-  'flex',
-  'h-10',
-  'w-full',
-  'text-foreground',
-  'items-center',
-  'justify-between',
-  'rounded-lg',
-  'border border-[2px]',
-  'border-border-subtle',
-  'bg-background-alt',
-  'px-3',
-  'py-2 ',
-  'text-sm',
-  'focus:outline-none',
-  'focus-visible:shadow-blue',
-  'placeholder:text-muted-foreground',
-  'disabled:cursor-not-allowed',
-  'disabled:opacity-50',
-  '[&>span]:line-clamp-1'
+  [
+    'flex',
+    'h-10',
+    'w-full',
+    'text-foreground',
+    'items-center',
+    'justify-between',
+    'rounded-lg',
+    'border border-[2px]',
+    'border-border-subtle',
+    'bg-background-alt',
+    'px-3',
+    'py-2 ',
+    'text-sm',
+    'focus:outline-none',
+    'focus-visible:shadow-blue',
+    'placeholder:text-muted-foreground',
+    'disabled:cursor-not-allowed',
+    'disabled:opacity-50',
+    '[&>span]:line-clamp-1'
+  ],
+  [
+    'dark:bg-background-alt-dark',
+    'dark:border-border-subtle-dark',
+    'dark:text-foreground-muted-dark'
+  ]
 ])
 
 const SelectTrigger = React.forwardRef<
@@ -49,54 +56,18 @@ const SelectTrigger = React.forwardRef<
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <AngleDownIcon className="h-3 w-3" />
+      <AngleDownIcon className="h-2 w-2" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 
-const SelectScrollUpButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.ScrollUpButton
-    ref={ref}
-    className={cn(
-      'flex cursor-default items-center justify-center py-1',
-      className
-    )}
-    {...props}
-  >
-    <AngleUpIcon className="h-4 w-4" />
-  </SelectPrimitive.ScrollUpButton>
-))
-SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName
-
-const SelectScrollDownButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.ScrollDownButton
-    ref={ref}
-    className={cn(
-      'flex cursor-default items-center justify-center py-1',
-      className
-    )}
-    {...props}
-  >
-    <AngleDownIcon className="h-4 w-4" />
-  </SelectPrimitive.ScrollDownButton>
-))
-SelectScrollDownButton.displayName =
-  SelectPrimitive.ScrollDownButton.displayName
-
 const contentVariants = cva([
   'relative',
   'z-50',
-  'max-h-96',
+  'max-h-[var(--radix-select-content-available-height)]',
   'min-w-[8rem]',
   'bg-background',
-  'overflow-hidden',
   'rounded-lg',
   'border border-[2px]',
   'border-border-subtle',
@@ -105,7 +76,10 @@ const contentVariants = cva([
   'data-[side=bottom]:slide-in-from-top-2',
   'data-[side=left]:slide-in-from-right-2',
   'data-[side=right]:slide-in-from-left-2',
-  'data-[side=top]:slide-in-from-bottom-2'
+  'data-[side=top]:slide-in-from-bottom-2',
+  'dark:bg-background-dark',
+  'dark:border-border-subtle-dark',
+  'dark:text-foreground-dark'
 ])
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
@@ -123,17 +97,21 @@ const SelectContent = React.forwardRef<
       position={position}
       {...props}
     >
-      <SelectScrollUpButton />
-      <SelectPrimitive.Viewport
-        className={cn(
-          'p-1',
-          position === 'popper' &&
-            'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]'
-        )}
-      >
-        {children}
-      </SelectPrimitive.Viewport>
-      <SelectScrollDownButton />
+      <ScrollArea.Root className="w-full h-full" type="auto">
+        <SelectPrimitive.Viewport
+          asChild
+          className={cn(
+            'p-1 w-full h-full',
+            position === 'popper' &&
+              'h-[var(--radix-select-content-available-height)] w-full min-w-[var(--radix-select-trigger-width)]'
+          )}
+        >
+          <ScrollArea.Viewport>{children}</ScrollArea.Viewport>
+        </SelectPrimitive.Viewport>
+        <ScrollArea.Scrollbar orientation="vertical" className="w-3 pr-1 py-2">
+          <ScrollArea.Thumb className="bg-grey-200 w-2 rounded-lg" />
+        </ScrollArea.Scrollbar>
+      </ScrollArea.Root>
     </SelectPrimitive.Content>
   </SelectPrimitive.Portal>
 ))
@@ -145,7 +123,7 @@ const SelectLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Label
     ref={ref}
-    className={cn('py-1.5 pl-8 pr-2 text-sm font-semibold', className)}
+    className={cn('py-2 px-4 text-sm font-semibold', className)}
     {...props}
   />
 ))
@@ -166,7 +144,7 @@ const itemVariants = cva([
   'data-[disabled]:opacity-50',
   'hover:bg-background-alt',
   'focus-visible:shadow-blue',
-  'overflow-x'
+  'dark:hover:bg-background-alt-dark'
 ])
 
 const SelectItem = React.forwardRef<
@@ -178,9 +156,9 @@ const SelectItem = React.forwardRef<
     className={cn(itemVariants(), className)}
     {...props}
   >
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+    <span className="absolute left-2 flex h-3.5 w-3.5  items-center justify-center">
       <SelectPrimitive.ItemIndicator>
-        <CheckIcon className="h-4 w-4" />
+        <CheckIcon className="h-3 w-3" />
       </SelectPrimitive.ItemIndicator>
     </span>
 
@@ -210,7 +188,5 @@ export {
   SelectLabel,
   SelectItem,
   SelectSeparator,
-  SelectScrollUpButton,
-  SelectScrollDownButton,
   SelectPortal
 }
