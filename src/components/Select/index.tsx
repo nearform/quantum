@@ -97,7 +97,6 @@ SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 const contentVariants = cva([
   'relative',
   'z-50',
-  'max-h-96',
   'min-w-[8rem]',
   'bg-background',
   'rounded-lg',
@@ -133,9 +132,9 @@ const SelectContent = React.forwardRef<
         <SelectPrimitive.Viewport
           asChild
           className={cn(
-            'p-1 h-96',
+            'p-1',
             position === 'popper' &&
-              'w-full min-w-[var(--radix-select-trigger-width)]'
+              'h-[var(--radix-select-content-available-height)] max-h-96 w-full min-w-[var(--radix-select-trigger-width)]'
           )}
         >
           <ScrollArea.Viewport>{children}</ScrollArea.Viewport>
