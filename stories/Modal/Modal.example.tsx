@@ -2,14 +2,14 @@ import {
   Dialog,
   DialogContent,
   DialogClose,
-  DialogCloseFooter,
+  DialogFooter,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '@/components/Modal'
 import { Button } from '@/components'
-import { CloseIcon } from '@/assets'
+import { CloseModal } from '@/assets'
 
 export const ModalDemo = () => {
   return (
@@ -18,17 +18,14 @@ export const ModalDemo = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Title</DialogTitle>
-          <DialogClose>
-            <CloseIcon className="w-6 h-6 fill-current" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
+          <DialogClose />
         </DialogHeader>
         <DialogDescription>Content</DialogDescription>
-        <DialogCloseFooter>
-          <Button size="md" variant="primary">
+        <DialogFooter>
+          <Button size="sm" variant="primary">
             Button Text
           </Button>
-        </DialogCloseFooter>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
