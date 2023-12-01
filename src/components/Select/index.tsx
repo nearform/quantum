@@ -134,7 +134,7 @@ const SelectContent = React.forwardRef<
           className={cn(
             'p-1',
             position === 'popper' &&
-              'h-[var(--radix-select-content-available-height)] max-h-96 w-full min-w-[var(--radix-select-trigger-width)]'
+              'max-h-[var(--radix-select-content-available-height)] w-full min-w-[var(--radix-select-trigger-width)]'
           )}
         >
           <ScrollArea.Viewport>{children}</ScrollArea.Viewport>
@@ -161,22 +161,23 @@ const SelectLabel = React.forwardRef<
 SelectLabel.displayName = SelectPrimitive.Label.displayName
 
 const itemVariants = cva([
-  'relative',
-  'flex',
-  'w-full',
-  'cursor-default',
-  'select-none',
-  'items-center',
-  'py-2',
-  'px-4',
-  'text-sm',
-  'outline-none',
-  'data-[disabled]:pointer-events-none',
-  'data-[disabled]:opacity-50',
-  'hover:bg-background-alt',
-  'focus-visible:shadow-blue',
-  'dark:focus-visible:shadow-blue',
-  'dark:hover:bg-background-alt-dark'
+  [
+    'relative',
+    'flex',
+    'w-full',
+    'cursor-default',
+    'select-none',
+    'items-center',
+    'py-2',
+    'px-4',
+    'text-sm',
+    'outline-none',
+    'data-[disabled]:pointer-events-none',
+    'data-[disabled]:opacity-50',
+    'hover:bg-background-alt',
+    'focus-visible:shadow-blue'
+  ],
+  ['dark:focus-visible:shadow-blue', 'dark:hover:bg-background-alt-dark']
 ])
 
 const SelectItem = React.forwardRef<
