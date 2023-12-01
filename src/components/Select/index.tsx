@@ -128,7 +128,7 @@ const SelectContent = React.forwardRef<
       position={position}
       {...props}
     >
-      <ScrollArea.Root type="auto">
+      <ScrollArea.Root className="w-full h-full" type="auto">
         <SelectPrimitive.Viewport
           asChild
           className={cn(
@@ -137,7 +137,9 @@ const SelectContent = React.forwardRef<
               'max-h-[var(--radix-select-content-available-height)] w-full min-w-[var(--radix-select-trigger-width)]'
           )}
         >
-          <ScrollArea.Viewport>{children}</ScrollArea.Viewport>
+          <ScrollArea.Viewport className="w-full h-full">
+            {children}
+          </ScrollArea.Viewport>
         </SelectPrimitive.Viewport>
         <ScrollArea.Scrollbar orientation="vertical" className="w-3 pr-1 py-2">
           <ScrollArea.Thumb className="bg-grey-200 w-2 rounded-lg" />
