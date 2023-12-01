@@ -87,7 +87,7 @@ const SelectTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <SelectPrimitive.Icon asChild>
+    <SelectPrimitive.Icon asChild className="ml-1">
       <AngleDownIcon className="h-2 w-2" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
@@ -128,7 +128,7 @@ const SelectContent = React.forwardRef<
       position={position}
       {...props}
     >
-      <ScrollArea.Root className="h-[var(--radix-)]" type="auto">
+      <ScrollArea.Root type="auto">
         <SelectPrimitive.Viewport
           asChild
           className={cn(
@@ -189,12 +189,6 @@ const SelectItem = React.forwardRef<
     className={cn(itemVariants(), className)}
     {...props}
   >
-    <span className="absolute left-2 flex h-3.5 w-3.5  items-center justify-center">
-      <SelectPrimitive.ItemIndicator>
-        <CheckIcon className="h-3 w-3" />
-      </SelectPrimitive.ItemIndicator>
-    </span>
-
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
   </SelectPrimitive.Item>
 ))

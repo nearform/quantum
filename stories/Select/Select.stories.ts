@@ -41,3 +41,9 @@ export const Long: Story = {
     example: 'long'
   }
 }
+
+export const ItemAligned: Story = {
+  args: {
+    example: 'item-aligned'
+  }
+}

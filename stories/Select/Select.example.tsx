@@ -19,7 +19,7 @@ export const SelectDemo = ({ variant, example }: DemoProps) => {
   if (example === 'small') {
     return (
       <Select>
-        <SelectTrigger>
+        <SelectTrigger variant={variant}>
           <SelectValue placeholder="Small List" />
         </SelectTrigger>
         <SelectContent>
@@ -83,7 +83,6 @@ export const SelectDemo = ({ variant, example }: DemoProps) => {
     <Select>
       <SelectTrigger variant={variant} className="w-[180px]">
         <SelectValue placeholder="Choose" />
-        {/* Something going wrong with placement of select value when it overflows */}
       </SelectTrigger>
 
       <SelectContent side="top" className="overflow-visible">
