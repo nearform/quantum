@@ -75,7 +75,6 @@ const linkColumnVariants = cva(
 
 interface WebsiteFooterProps
   extends React.ComponentPropsWithoutRef<'div'>,
-    React.ComponentPropsWithoutRef<'div'>,
     VariantProps<typeof websiteFooterVariants> {}
 {
 }
@@ -138,5 +137,8 @@ export {
   FooterStatement,
   LinkColumn,
   LinkRow,
-  type WebsiteFooterProps
+  type WebsiteFooterProps,
+  type FooterStatementProps,
+  type LinkColumnProps,
+  type LinkRowProps
 }
