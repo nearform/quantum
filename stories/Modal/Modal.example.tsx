@@ -1,36 +1,36 @@
 import {
-  Dialog,
-  DialogContent,
-  DialogClose,
-  DialogCloseFooter,
-  DialogFooter,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  Modal,
+  ModalContent,
+  ModalClose,
+  ModalCloseFooter,
+  ModalFooter,
+  ModalDescription,
+  ModalHeader,
+  ModalTitle,
+  ModalTrigger
 } from '@/components/Modal'
 import { Button } from '@/components'
 
 export const ModalDemo = () => {
   return (
-    <Dialog>
-      <DialogTrigger className="p-52">
+    <Modal>
+      <ModalTrigger className="p-52">
         <Button size="sm" variant="primary">
           Open
         </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Title</DialogTitle>
-          <DialogClose />
-        </DialogHeader>
-        <DialogDescription>
+      </ModalTrigger>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>Title</ModalTitle>
+          <ModalClose />
+        </ModalHeader>
+        <ModalDescription>
           <div className="bg-blue-50 h-40 text-lg font-semibold items-center flex justify-center">
             Replace this component with your content
           </div>
-        </DialogDescription>
-        <DialogFooter>
-          <DialogCloseFooter className="w-full grid gap-2">
+        </ModalDescription>
+        <ModalFooter>
+          <ModalCloseFooter className="w-full grid gap-2">
             <Button
               size="sm"
               variant="primary"
@@ -46,9 +46,9 @@ export const ModalDemo = () => {
                 Additional text line
               </div>
             </div>
-          </DialogCloseFooter>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </ModalCloseFooter>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   )
 }
