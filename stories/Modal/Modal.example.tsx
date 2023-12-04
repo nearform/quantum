@@ -14,7 +14,7 @@ import { Button } from '@/components'
 export const ModalDemo = () => {
   return (
     <Modal>
-      <ModalTrigger className="p-52">
+      <ModalTrigger>
         <Button size="sm" variant="primary">
           Open
         </Button>
@@ -25,7 +25,7 @@ export const ModalDemo = () => {
           <ModalClose />
         </ModalHeader>
         <ModalDescription>
-          <div className="bg-blue-50 h-40 text-lg font-semibold items-center flex justify-center">
+          <div className="bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 text-lg font-semibold items-center flex justify-center">
             Replace this component with your content
           </div>
         </ModalDescription>
