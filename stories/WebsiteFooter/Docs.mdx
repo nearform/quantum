@@ -6,17 +6,23 @@ import * as WebsiteFooterStories from './WebsiteFooter.stories'
 
 # Website Footer
 
-A website footer is the bottom section of a web page that typically contains important information and links. It often includes elements like copyright notices, contact details, links to privacy policies, terms of use, and sitemaps. The footer provides users with quick access to key information and helps navigate or understand the website better.
+A Website Footer is the bottom section of a web page that typically contains important information and links. It often includes elements like copyright notices, contact details, links to privacy policies, terms of use, and sitemaps. The footer provides users with quick access to key information and helps navigate or understand the website better.
 
 ## Standard Website Footer
+
+The standard variant of the Website Footer is responsive to screen size, and will shrink to a mobile friendly view when the screen is small.
 
 <Canvas of={WebsiteFooterStories.WebsiteFooterStandard} />
 
 ## Complex Website Footer
 
+A more complex example of the standard variant Website Footer, using the medium sized Link Columns to fit more on screen. This component is reponsive to screen size.
+
 <Canvas of={WebsiteFooterStories.WebsiteFooterComplex} />
 
 ## Mobile Website Footer
+
+This is the small variant of the website footer, designed for mobile viewports.
 
 <Canvas of={WebsiteFooterStories.WebsiteFooterSmall} />
 
@@ -35,7 +41,7 @@ A website footer is the bottom section of a web page that typically contains imp
   <tbody>
     <tr>
       <td>size</td>
-      <td>`"standard" | "small"`</td>
+      <td>`"standard" | "sm"`</td>
       <td>`"standard"`</td>
     </tr>
   </tbody>
@@ -82,11 +88,10 @@ const websiteFooterVariants = cva(
   {
     variants: {
       size: {
-        standard: [],
+        standard: ['sm:[&>div]:flex-row', '[&>div]:flex-col'],
         sm: [
           '[&>div]:flex-col',
           '[&>div]:items-center',
-          '[&>div]:gap-4',
           '[&>div]:[&>div]:items-center'
         ]
       }
@@ -97,7 +102,6 @@ const websiteFooterVariants = cva(
 
 interface WebsiteFooterProps
   extends React.ComponentPropsWithoutRef<'div'>,
-    React.ComponentPropsWithoutRef<'div'>,
     VariantProps<typeof websiteFooterVariants> {}
 {
 }
@@ -117,12 +121,20 @@ const WebsiteFooter = React.forwardRef<HTMLDivElement, WebsiteFooterProps>(
 
 ```tsx
 const footerStatementVariants = cva(
-  ['flex', 'flex-col', 'gap-1', 'items-center', 'text-foreground-subtle'],
+  [
+    'flex',
+    'flex-col',
+    'gap-1',
+    'items-center',
+    'text-foreground-subtle',
+    'py-4',
+    'text-sm'
+  ],
   {
     variants: {
       size: {
-        standard: ['py-8'],
-        sm: ['py-4', 'text-sm']
+        standard: [, 'sm:py-8', 'sm:text-base'],
+        sm: []
       }
     },
     defaultVariants: { size: 'standard' }
@@ -135,11 +147,13 @@ interface FooterStatementProps
 
 const FooterStatement = React.forwardRef<HTMLDivElement, FooterStatementProps>(
   ({ className, size, ...props }, ref) => (
-    <div
-      className={cn(footerStatementVariants({ size }), className)}
-      {...props}
-      ref={ref}
-    ></div>
+    <div>
+      <div
+        className={cn(footerStatementVariants({ size }), className)}
+        {...props}
+        ref={ref}
+      ></div>
+    </div>
   )
 )
 ```
@@ -147,7 +161,14 @@ const FooterStatement = React.forwardRef<HTMLDivElement, FooterStatementProps>(
 ## LinkRow
 
 ```tsx
-const linkRowVariants = cva(['flex', 'w-full', 'justify-between'])
+const linkRowVariants = cva([
+  'flex',
+  'w-full',
+  'justify-between',
+  '[&>div]:text-xl',
+  '[&>*]:font-normal',
+  '[&>*]:text-sm'
+])
 
 interface LinkRowProps extends React.ComponentPropsWithoutRef<'div'> {}
 
@@ -170,20 +191,29 @@ const linkColumnVariants = cva(
     'flex',
     'flex-col',
     'px-8',
+    'pb-6',
     'gap-2',
     'dark:text-white',
     '[&>div]:font-semibold',
     '[&>div]:mb-2',
     '[&>div]:text-xl',
     '[&>*]:font-normal',
-    '[&>*]:text-sm'
+    '[&>*]:text-sm',
+    'items-center'
   ],
   {
     variants: {
       size: {
-        lg: ['gap-3', '[&>div]:text-2xl', '[&>*]:font-normal', '[&>*]:text-sm'],
-        md: [],
-        sm: ['items-center' ]
+        lg: [
+          'sm:gap-3',
+          'sm:[&>div]:text-2xl',
+          'sm:[&>*]:font-normal',
+          'sm:[&>*]:text-sm',
+          'sm:pb-0',
+          'sm:items-start'
+        ],
+        md: ['sm:items-start', 'sm:pb-0'],
+        sm: []
       }
     },
     defaultVariants: {
@@ -250,7 +280,7 @@ export const WebsiteFooterDemo = () => {
           <a href="#">Accessibility</a>
         </LinkColumn>
       </LinkRow>
-      <FooterStatement>Copyright © 2023 Nearform.<FooterStatement/>
+      <FooterStatement size="sm">Copyright © 2023 Nearform.<FooterStatement/>
     <WebsiteFooter/>
   )
 }
