@@ -2,7 +2,7 @@
 import colors from './src/colors'
 import defaultTheme from 'tailwindcss/defaultTheme'
 
-module.exports = {
+export default {
   content: ['./src/**/*.tsx'],
   darkMode: 'class',
   plugins: [],
