@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
+import { ChevronLeftOutlineIcon, ChevronRightOutlineIcon } from '@/assets'
 
 const PaginationVariants = cva([
   'inline-flex',
@@ -95,8 +96,8 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     }
     return (
       <nav className={cn(PaginationVariants(), className)} {...props}>
-        <ul className="pagination justify-between items-center flex">
-          <li className="page-item">
+        <ul>
+          <li>
             <button
               className={cn(
                 'page-link flex font-semibold leading-5 p-2 md:p-3',
@@ -105,17 +106,16 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
             >
-              {/* <ArrowLeft className="w-5 h-5" /> */}
-              <span className="sr-only lg:not-sr-only lg:ml-1">Previous</span>
+              <ChevronLeftOutlineIcon className="w-5 h-5" />
             </button>
           </li>
 
-          <div className="flex justify-around gap-x-2 sm:gap-x-4 md:gap-x-8">
+          <div>
             {pageNumbers.map(pgNumber => (
               <React.Fragment key={pgNumber}>
                 {pgNumber === totalPages && showRightDots ? (
-                  <div className="flex p-2 md:p-3 justify-center items-center flex-shrink-0 self-stretch">
-                    <div className="font-semibold leading-5">...</div>
+                  <div>
+                    <div>...</div>
                   </div>
                 ) : null}
 
@@ -125,30 +125,27 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                     currentPage === pgNumber && 'active'
                   )}
                 >
-                  <button
-                    onClick={() => setCurrentPage(pgNumber)}
-                    className="page-link"
-                  >
+                  <button onClick={() => setCurrentPage(pgNumber)}>
                     <div
                       className={`flex p-2 md:p-3 justify-center items-center flex-shrink-0 self-stretch rounded-lg mt-4 ${
                         currentPage === pgNumber ? 'bg-background' : ''
                       }`}
                     >
-                      <div className="font-semibold leading-5 ">{pgNumber}</div>
+                      <div>{pgNumber}</div>
                     </div>
                   </button>
                 </li>
 
                 {pgNumber === 1 && showLeftDots ? (
-                  <div className="flex p-2 md:p-3 justify-center items-center flex-shrink-0 self-stretch">
-                    <div className="font-semibold leading-5">...</div>
+                  <div>
+                    <div>...</div>
                   </div>
                 ) : null}
               </React.Fragment>
             ))}
           </div>
 
-          <li className="page-item">
+          <li>
             <button
               className={cn(
                 'page-link flex font-semibold leading-5 p-2 md:p-3',
@@ -158,8 +155,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
             >
-              <span className="sr-only lg:not-sr-only lg:mr-1">Next</span>
-              {/* <ArrowRight className="w-5 h-5" /> */}
+              <ChevronRightOutlineIcon className="w-5 h-5" />
             </button>
           </li>
         </ul>
