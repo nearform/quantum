@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { WebsiteFooterDemo } from './WebsiteFooter.example'
 
 const meta = {
-  title: 'Components/WebsiteFooter',
+  title: 'Components/Website Footer',
   component: WebsiteFooterDemo,
   parameters: {
     layout: 'centered'
