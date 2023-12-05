@@ -99,14 +99,12 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         <ul>
           <li>
             <button
-              className={cn(
-                'page-link flex font-semibold leading-5 p-2 md:p-3',
-                (currentPage === 1 || totalPages === 0) && 'text-grey-400'
-              )}
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
             >
-              <ChevronLeftOutlineIcon className="w-5 h-5" />
+              <ChevronLeftOutlineIcon
+                className={'w-10 h-10 stroke-foreground'}
+              />
             </button>
           </li>
 
@@ -147,15 +145,12 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
 
           <li>
             <button
-              className={cn(
-                'page-link flex font-semibold leading-5 p-2 md:p-3',
-                (currentPage === totalPages || totalPages === 0) &&
-                  'text-grey-400'
-              )}
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
             >
-              <ChevronRightOutlineIcon className="w-5 h-5" />
+              <ChevronRightOutlineIcon
+                className={'w-10 h-10 stroke-foreground'}
+              />
             </button>
           </li>
         </ul>
