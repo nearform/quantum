@@ -96,8 +96,8 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     }
     return (
       <nav className={cn(PaginationVariants(), className)} {...props}>
-        <ul>
-          <li>
+        <ul className="">
+          <li className="px-5 py-5  hover:bg-background-alt">
             <button
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
@@ -108,42 +108,35 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             </button>
           </li>
 
-          <div>
+          <div className="flex flex-row items-center">
             {pageNumbers.map(pgNumber => (
               <React.Fragment key={pgNumber}>
                 {pgNumber === totalPages && showRightDots ? (
-                  <div>
-                    <div>...</div>
-                  </div>
+                  <div className="px-5 py-5">...</div>
                 ) : null}
 
-                <li
-                  className={cn(
-                    'page-item',
-                    currentPage === pgNumber && 'active'
-                  )}
-                >
-                  <button onClick={() => setCurrentPage(pgNumber)}>
-                    <div
-                      className={`flex p-2 md:p-3 justify-center items-center flex-shrink-0 self-stretch rounded-lg mt-4 ${
-                        currentPage === pgNumber ? 'bg-background' : ''
-                      }`}
-                    >
-                      <div>{pgNumber}</div>
-                    </div>
+                <li>
+                  <button
+                    onClick={() => setCurrentPage(pgNumber)}
+                    className={cn(
+                      'px-5 py-5 hover:bg-background-alt text-sm rounded-sm active:bg-accent active:text-primary-50',
+                      currentPage === pgNumber && 'bg-accent text-primary-50'
+                    )}
+                  >
+                    <div>{pgNumber}</div>
                   </button>
                 </li>
 
                 {pgNumber === 1 && showLeftDots ? (
                   <div>
-                    <div>...</div>
+                    <div className="px-5 py-5">...</div>
                   </div>
                 ) : null}
               </React.Fragment>
             ))}
           </div>
 
-          <li>
+          <li className="px-5 py-5  hover:bg-background-alt">
             <button
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
