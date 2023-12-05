@@ -6,11 +6,10 @@ import { DateRange } from 'react-day-picker'
 import * as React from 'react'
 import { Calendar, CalendarProps } from '@/index'
 
-type CalendarDemoProps = {
-  mode?: CalendarProps['mode']
-}
-
-export function CalendarDemo({ mode = 'single' }: CalendarDemoProps) {
+export function CalendarDemo({
+  mode = 'single',
+  numberOfMonths = 1
+}: CalendarProps) {
   if (mode === 'single' || mode === 'default') {
     const [date, setDate] = React.useState<Date | undefined>(new Date())
 
@@ -25,6 +24,13 @@ export function CalendarDemo({ mode = 'single' }: CalendarDemoProps) {
       to: addDays(today, 7)
     }
     const [range, setRange] = useState<DateRange | undefined>(defaultSelected)
-    return <Calendar mode={mode} selected={range} onSelect={setRange} />
+    return (
+      <Calendar
+        mode={mode}
+        selected={range}
+        onSelect={setRange}
+        numberOfMonths={numberOfMonths}
+      />
+    )
   }
 }

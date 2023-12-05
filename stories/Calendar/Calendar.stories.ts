@@ -32,3 +32,9 @@ export const Range: Story = {
     mode: 'range'
   }
 }
+export const TwoMonths: Story = {
+  args: {
+    mode: 'range',
+    numberOfMonths: 2
+  }
+}
