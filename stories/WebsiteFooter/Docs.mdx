@@ -168,33 +168,25 @@ const LinkRow = React.forwardRef<HTMLDivElement, LinkRowProps>(
 const linkColumnVariants = cva(
   ['flex', 'flex-col', 'px-8', 'dark:text-white'],
   {
+    const linkColumnVariants = cva(
+  [
+    'flex',
+    'flex-col',
+    'px-8',
+    'gap-2',
+    'dark:text-white',
+    '[&>div]:font-semibold',
+    '[&>div]:mb-2',
+    '[&>div]:text-xl',
+    '[&>*]:font-normal',
+    '[&>*]:text-sm'
+  ],
+  {
     variants: {
       size: {
-        lg: [
-          'gap-3',
-          '[&>div]:font-semibold',
-          '[&>div]:mb-2',
-          '[&>div]:text-2xl',
-          '[&>*]:font-normal',
-          '[&>*]:text-md'
-        ],
-        md: [
-          'gap-2',
-          '[&>div]:font-semibold',
-          '[&>div]:mb-2',
-          '[&>div]:text-xl',
-          '[&>*]:font-normal',
-          '[&>*]:text-sm'
-        ],
-        sm: [
-          'items-center',
-          'gap-2',
-          '[&>div]:font-semibold',
-          '[&>div]:mb-2',
-          '[&>div]:text-xl',
-          '[&>*]:font-normal',
-          '[&>*]:text-sm'
-        ]
+        lg: ['gap-3', '[&>div]:text-2xl', '[&>*]:font-normal', '[&>*]:text-sm'],
+        md: [],
+        sm: ['items-center' ]
       }
     },
     defaultVariants: {
