@@ -4,21 +4,11 @@ import { cn } from '@/lib/utils'
 import { ChevronLeftOutlineIcon, ChevronRightOutlineIcon } from '@/assets'
 
 const PaginationVariants = cva([
-  'inline-flex',
   '[&>*]:flex',
-  '[&>*]:rounded-none',
-  '[&>*]:border-0',
-  'divide-border-subtle',
-  'p-0',
-  '[&>*]:gap-[10px]',
   '[&>*]:items-center',
   '[&>*]:justify-center',
-  '[&>*]:px-3',
-  'items-start',
-  'rounded-lg',
-  'overflow-hidden',
-  'inline-flex',
-  'divide-x-[1px'
+  'bg-background',
+  'w-fit'
 ])
 
 interface PaginationProps
@@ -96,30 +86,28 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     }
     return (
       <nav className={cn(PaginationVariants(), className)} {...props}>
-        <ul className="">
-          <li className="px-5 py-5  hover:bg-background-alt">
+        <ul>
+          <li className="hover:bg-background-subtle-dark px-4 border-r border-border-subtle">
             <button
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
             >
-              <ChevronLeftOutlineIcon
-                className={'w-10 h-10 stroke-foreground'}
-              />
+              <ChevronLeftOutlineIcon className={'w-3 h-3'} />
             </button>
           </li>
 
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row items-center px-0">
             {pageNumbers.map(pgNumber => (
               <React.Fragment key={pgNumber}>
                 {pgNumber === totalPages && showRightDots ? (
-                  <div className="px-4 py-2">...</div>
+                  <div className="px-4 text-foreground-muted">...</div>
                 ) : null}
 
                 <li>
                   <button
                     onClick={() => setCurrentPage(pgNumber)}
                     className={cn(
-                      'px-4 py-2 rounded-sm active:bg-accent active:text-primary-50  hover:bg-background-alt',
+                      'px-4 py-2 rounded-sm text-foreground-muted active:bg-accent active:text-primary-50  hover:bg-background-alt',
                       currentPage === pgNumber &&
                         'bg-accent text-primary-50 hover:bg-accent hover:text-primary-50'
                     )}
@@ -130,21 +118,19 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
 
                 {pgNumber === 1 && showLeftDots ? (
                   <div>
-                    <div className="px-4 py-2">...</div>
+                    <div className="px-4 text-foreground-muted">...</div>
                   </div>
                 ) : null}
               </React.Fragment>
             ))}
           </div>
 
-          <li className="px-5 py-5  hover:bg-background-alt">
+          <li className="hover:bg-background-alt px-4 border-l border-border-subtle">
             <button
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
             >
-              <ChevronRightOutlineIcon
-                className={'w-10 h-10 stroke-foreground'}
-              />
+              <ChevronRightOutlineIcon className={'w-3 h-3'} />
             </button>
           </li>
         </ul>
