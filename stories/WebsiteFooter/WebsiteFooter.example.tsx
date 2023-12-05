@@ -1,4 +1,4 @@
-import { SubtractIcon } from '@/assets/build/subtract.icon'
+import { OpenSourceIcon } from '@/assets/build/open-source.icon'
 import {
   WebsiteFooter,
   FooterStatement,
@@ -15,7 +15,7 @@ const WebsiteFooterStandard = () => {
   return (
     <WebsiteFooter size="standard">
       <FooterStatement>
-        <SubtractIcon className="h-[24px] w-[24px]" />
+        <OpenSourceIcon className="h-[24px] w-[24px]" />
         Quantum is an open source community project
       </FooterStatement>
       <LinkRow>
@@ -48,7 +48,7 @@ const WebsiteFooterComplex = () => {
   return (
     <WebsiteFooter size="standard">
       <FooterStatement>
-        <SubtractIcon className="h-[24px] w-[24px]" />
+        <OpenSourceIcon className="h-[24px] w-[24px]" />
         Quantum is an open source community project
       </FooterStatement>
       <LinkRow>
@@ -90,7 +90,7 @@ const WebsiteFooterSmall = () => {
   return (
     <WebsiteFooter size="sm">
       <FooterStatement size="sm">
-        <SubtractIcon className="h-[24px] w-[24px]" />
+        <OpenSourceIcon className="h-[24px] w-[24px]" />
         Quantum is an open source community project
       </FooterStatement>
       <LinkRow>
