@@ -112,24 +112,25 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             {pageNumbers.map(pgNumber => (
               <React.Fragment key={pgNumber}>
                 {pgNumber === totalPages && showRightDots ? (
-                  <div className="px-5 py-5">...</div>
+                  <div className="px-4 py-2">...</div>
                 ) : null}
 
                 <li>
                   <button
                     onClick={() => setCurrentPage(pgNumber)}
                     className={cn(
-                      'px-5 py-5 hover:bg-background-alt text-sm rounded-sm active:bg-accent active:text-primary-50',
-                      currentPage === pgNumber && 'bg-accent text-primary-50'
+                      'px-4 py-2 rounded-sm active:bg-accent active:text-primary-50  hover:bg-background-alt',
+                      currentPage === pgNumber &&
+                        'bg-accent text-primary-50 hover:bg-accent hover:text-primary-50'
                     )}
                   >
-                    <div>{pgNumber}</div>
+                    <div className="text-sm">{pgNumber}</div>
                   </button>
                 </li>
 
                 {pgNumber === 1 && showLeftDots ? (
                   <div>
-                    <div className="px-5 py-5">...</div>
+                    <div className="px-4 py-2">...</div>
                   </div>
                 ) : null}
               </React.Fragment>
