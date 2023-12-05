@@ -13,7 +13,7 @@ interface Props extends WebsiteFooterProps {
 
 const WebsiteFooterStandard = () => {
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <WebsiteFooter size="standard">
         <FooterStatement>
           <SubtractIcon className="h-[24px] w-[24px]" />
@@ -48,7 +48,7 @@ const WebsiteFooterStandard = () => {
 
 const WebsiteFooterComplex = () => {
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <WebsiteFooter size="standard">
         <FooterStatement>
           <SubtractIcon className="h-[24px] w-[24px]" />
@@ -92,7 +92,7 @@ const WebsiteFooterComplex = () => {
 }
 const WebsiteFooterSmall = () => {
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <WebsiteFooter size="sm">
         <FooterStatement>
           <SubtractIcon className="h-[24px] w-[24px]" />
