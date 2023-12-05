@@ -15,14 +15,8 @@ const calendarVariants = cva([], {
       month: ['flex', 'flex-col', 'gap-2'],
       caption: ['flex justify-center py-0.5 relative items-center'],
       caption_label: ['text-sm', 'font-medium'],
-      nav: ['h-7 w-7', 'bg-transparent', 'opacity-50', 'hover:opacity-100'],
-      nav_button: [
-        'h-7',
-        'w-7',
-        'bg-transparent',
-        'p-0 opacity-50',
-        'hover:opacity-100'
-      ],
+      nav: ['h-7 w-7', 'bg-transparent', 'dark:text-foreground-muted-dark'],
+      nav_button: ['h-7', 'w-7', 'bg-transparent', 'p-0'],
       head_cell: [
         'text-foreground-muted',
         'dark:text-foreground-muted-dark',
@@ -47,7 +41,6 @@ const calendarVariants = cva([], {
           'relative'
         ],
         [
-          'dark:[&:has([aria-selected])]:bg-blue-400',
           'focus-within:relative',
           'focus-within:z-20',
           'focus-visible:shadow-blue'
@@ -56,6 +49,7 @@ const calendarVariants = cva([], {
       day: cn([
         'rounded-lg',
         'aria-selected:bg-accent',
+        'dark:aria-selected:bg-blue-400',
         'px-1',
         'w-full',
         'py-2',
@@ -113,14 +107,13 @@ function Calendar({
         day_selected: calendarVariants({ component: 'day_selected' }),
         day_outside: calendarVariants({ component: 'day_outside' }),
         day_disabled: 'text-muted-foreground opacity-50',
-        day_range_middle:
-          'day-range-middle aria-selected:bg-accent dark:aria-selected:bg-blue-400 rounded-none',
+        day_range_middle: 'day-range-middle rounded-none',
         day_hidden: 'invisible',
         ...classNames
       }}
       components={{
-        IconLeft: () => <ArrowLeftIcon className="h-5 w-5" />,
-        IconRight: () => <ArrowRightIcon className="h-5 w-5" />
+        IconLeft: () => <ArrowLeftIcon className="h-5 w-5 fill-current" />,
+        IconRight: () => <ArrowRightIcon className="h-5 w-5 fill-current" />
       }}
       {...props}
     />
