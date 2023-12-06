@@ -15,7 +15,7 @@ const calendarVariants = cva([], {
       month: ['flex', 'flex-col', 'gap-2'],
       caption: ['flex justify-center py-0.5 relative items-center'],
       caption_label: ['text-sm', 'font-medium'],
-      nav: ['h-7 w-7', 'bg-transparent', 'dark:text-foreground-muted-dark'],
+      nav: ['h-7', 'bg-transparent', 'dark:text-foreground-muted-dark'],
       nav_button: ['h-7', 'w-7', 'bg-transparent', 'p-0'],
       head_cell: [
         'text-foreground-muted',
@@ -47,8 +47,8 @@ const calendarVariants = cva([], {
         ]
       ],
       day: cn([
-        'rounded-lg',
         'aria-selected:bg-accent',
+        'rounded-lg',
         'dark:aria-selected:bg-blue-400',
         'px-1',
         'w-full',
@@ -95,19 +95,22 @@ function Calendar({
         nav: calendarVariants({ component: 'nav' }),
         nav_button: calendarVariants({ component: 'nav_button' }),
         nav_button_previous: 'absolute left-1',
-        nav_button_next: 'absolute right-1',
+        nav_button_next: 'absolute right-0',
         table: 'w-full border-collapse space-y-0',
         head_row: 'flex',
         head_cell: calendarVariants({ component: 'head_cell' }),
         row: 'flex w-full',
         cell: calendarVariants({ component: 'cell' }),
         day: calendarVariants({ component: 'day' }),
-        day_range_end: 'day-range-end rounded-r-full',
-        day_range_start: 'day-range-start rounded-l-full',
+        day_range_end:
+          'day-range-end bg-accent dark:bg-blue-[400] rounded-r-full',
+        day_range_start:
+          'day-range-start rounded-l-full bg-accent dark:bg-blue-[400] text-foreground-inverse',
         day_selected: calendarVariants({ component: 'day_selected' }),
         day_outside: calendarVariants({ component: 'day_outside' }),
         day_disabled: 'text-muted-foreground opacity-50',
-        day_range_middle: 'day-range-middle rounded-none',
+        day_range_middle:
+          'day-range-middle aria-selected:bg-accent-alt dark:aria-selected:bg-accent-alt rounded-none bg-grey-400 text-grey-900',
         day_hidden: 'invisible',
         ...classNames
       }}

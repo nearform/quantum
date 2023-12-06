@@ -81,7 +81,7 @@ A Calendar component that can represent days, weeks and months. It can run on th
   </tbody>
 </table>
 
-There are no extensions from React Day Pickers props to our own. In this sense, it is recommended to rely on the React Day Picker library for up to date information on the component.
+There are no extensions from React Day Pickers props to our own. In this sense, it is recommended to rely on the React Day Picker library for up to date information on the component. However it is recommended for a user to disable
 
 ## Calendar
 
@@ -134,12 +134,7 @@ const calendarVariants = cva([], {
           'text-sm',
           'relative'
         ],
-        [
-          'dark:[&:has([aria-selected])]:bg-blue-400',
-          'focus-within:relative',
-          'focus-within:z-20',
-          'focus-visible:shadow-blue'
-        ]
+        ['focus-within:relative', 'focus-within:z-20']
       ],
       day: cn([
         'rounded-lg',
@@ -162,7 +157,7 @@ const calendarVariants = cva([], {
       day_outside: [
         'day-outside',
         'text-muted-foreground',
-        'opacity-50 aria-selected:bg-accent-alt'
+        'aria-selected:bg-accent-alt'
       ]
     }
   }
@@ -202,7 +197,7 @@ function Calendar({
         day_outside: calendarVariants({ component: 'day_outside' }),
         day_disabled: 'text-muted-foreground opacity-50',
         day_range_middle:
-          'day-range-middle aria-selected:bg-accent dark:aria-selected:bg-blue-400 rounded-none',
+          'day-range-middle aria-selected:bg-accent-alt rounded-none',
         day_hidden: 'invisible',
         ...classNames
       }}

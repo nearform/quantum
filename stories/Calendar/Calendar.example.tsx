@@ -30,6 +30,7 @@ export function CalendarDemo({
         selected={range}
         onSelect={setRange}
         numberOfMonths={numberOfMonths}
+        showOutsideDays={false}
       />
     )
   }
