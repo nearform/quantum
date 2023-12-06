@@ -119,12 +119,14 @@ const ModalClose = React.forwardRef<
   <DialogPrimitive.Close
     ref={ref}
     className={cn(
-      'rounded-sm opacity-70 ring-offset-background transition-opacity disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground',
+      'rounded-sm opacity-70 ring-offset-background transition-opacity disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-foreground-muted',
       className
     )}
     {...props}
   >
-    <CloseModal />
+    <div className="text-foreground dark:text-foreground-inverse">
+      <CloseIcon className="w-5 h-5" strokeWidth={0.833} />
+    </div>
     <span className="sr-only">Close</span>
   </DialogPrimitive.Close>
 ))
@@ -139,7 +141,7 @@ const ModalDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn('text-sm px-6 text-muted-foreground', className)}
+    className={cn('text-sm px-6 text-foreground-muted', className)}
     {...props}
   />
 ))
