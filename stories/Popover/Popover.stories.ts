@@ -13,4 +13,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const Default: Story = { args: { example: 'list' } }
+
+export const ScrollableList: Story = { args: { example: 'scrollableList' } }
+
+export const Radio: Story = { args: { example: 'radio' } }
+
