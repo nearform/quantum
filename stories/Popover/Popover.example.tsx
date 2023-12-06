@@ -5,13 +5,7 @@ import {
   PopoverSeparator,
   PopoverProps
 } from '@/components/Popover'
-import {
-  Button,
-  Label,
-  PlusIcon,
-  Radio,
-  RadioGroup,
-} from '@/index'
+import { Button, Label, PlusIcon, Radio, RadioGroup } from '@/index'
 
 const RadioWithLabel = ({ value }: { value: string }) => {
   return (
@@ -33,7 +27,7 @@ const PopoverDemoRadio = () => {
           How often would you like to recieve notifications?
         </div>
         <PopoverSeparator />
-        <RadioGroup className="flex flex-col gap-4" defaultValue="Never">
+        <RadioGroup className="flex flex-col gap-4 my-2" defaultValue="Never">
           <RadioWithLabel value="Daily"></RadioWithLabel>
           <RadioWithLabel value="Weekly"></RadioWithLabel>
           <RadioWithLabel value="Monthly"></RadioWithLabel>
