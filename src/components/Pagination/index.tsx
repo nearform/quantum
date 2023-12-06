@@ -7,12 +7,13 @@ const PaginationVariants = cva([
   '[&>*]:flex',
   '[&>*]:items-center',
   '[&>*]:justify-center',
-  'bg-background',
-  'w-fit',
-  'dark:bg-background-dark'
+  'w-fit'
 ])
 
 const PageNumberStyles = cva([
+  'min-w-40',
+  'max-w-40',
+  'h-10',
   'px-4',
   'py-2',
   'rounded-sm',
@@ -100,13 +101,15 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     return (
       <nav className={cn(PaginationVariants(), className)} {...props}>
         <ul>
-          <li className="hover:bg-background-subtle-dark px-4 border-r border-border-subtle">
+          <li className="hover:bg-background-alt px-4">
             <button
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
             >
               <ChevronLeftOutlineIcon
-                className={'w-3 h-3 text-foreground dark:text-foreground-dark'}
+                className={
+                  'w-3 h-9 py-3 text-foreground dark:text-foreground-dark'
+                }
               />
             </button>
           </li>
@@ -115,7 +118,9 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             {pageNumbers.map(pgNumber => (
               <React.Fragment key={pgNumber}>
                 {pgNumber === totalPages && showRightDots ? (
-                  <div className="px-4 text-foreground-muted">...</div>
+                  <div className="px-4 min-w-40 max-w-40 text-foreground-muted">
+                    ...
+                  </div>
                 ) : null}
 
                 <li>
@@ -133,20 +138,24 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
 
                 {pgNumber === 1 && showLeftDots ? (
                   <div>
-                    <div className="px-4 text-foreground-muted">...</div>
+                    <div className="px-4 max-w-40 min-w-40 text-foreground-muted">
+                      ...
+                    </div>
                   </div>
                 ) : null}
               </React.Fragment>
             ))}
           </div>
 
-          <li className="hover:bg-background-alt px-4 border-l border-border-subtle">
+          <li className="hover:bg-background-alt px-4">
             <button
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
             >
               <ChevronRightOutlineIcon
-                className={'w-3 h-3 text-foreground dark:text-foreground-dark'}
+                className={
+                  'w-3 h-9 py-3 text-foreground dark:text-foreground-dark'
+                }
               />
             </button>
           </li>
