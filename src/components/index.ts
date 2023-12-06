@@ -9,5 +9,5 @@ export * from './Input'
 export * from './Switch'
 export * from './Chip'
 export * from './Modal'
+export * from './WebsiteFooter'
 export * from './Select'
-
