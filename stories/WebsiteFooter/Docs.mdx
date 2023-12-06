@@ -1,0 +1,287 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as WebsiteFooterStories from './WebsiteFooter.stories'
+
+<Meta of={WebsiteFooterStories} />
+
+# Website Footer
+
+A Website Footer is the bottom section of a web page that typically contains important information and links. It often includes elements like copyright notices, contact details, links to privacy policies, terms of use, and sitemaps. The footer provides users with quick access to key information and helps navigate or understand the website better.
+
+## Standard Website Footer
+
+The standard variant of the Website Footer is responsive to screen size, and will shrink to a mobile friendly view when the screen is small.
+
+<Canvas of={WebsiteFooterStories.WebsiteFooterStandard} />
+
+## Complex Website Footer
+
+A more complex example of the standard variant Website Footer, using the medium sized Link Columns to fit more on screen. This component is reponsive to screen size.
+
+<Canvas of={WebsiteFooterStories.WebsiteFooterComplex} />
+
+## Mobile Website Footer
+
+This is the small variant of the website footer, designed for mobile viewports.
+
+<Canvas of={WebsiteFooterStories.WebsiteFooterSmall} />
+
+## Attributes
+
+### Website Footer
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>size</td>
+      <td>`"standard" | "sm"`</td>
+      <td>`"standard"`</td>
+    </tr>
+  </tbody>
+</table>
+
+### Link Column
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>size</td>
+      <td>`"sm" | "mg" | "lg"`</td>
+      <td>`"lg"`</td>
+    </tr>
+    <tr>
+      <td>title</td>
+      <td>`string`</td>
+      <td>`-`</td>
+    </tr>
+  </tbody>
+</table>
+
+The Website Footer component is built up of several components, the general structure of which is show below.
+
+```bash
+└── WebsiteFooter
+    ├── 1.FooterStatement
+    └── 2.LinkRow
+        └── LinkColumn
+```
+
+## WebsiteFooter
+
+```tsx
+const websiteFooterVariants = cva(
+  ['flex', 'flex-col', 'w-full', 'items-center', 'px-16', 'py-4'],
+  {
+    variants: {
+      size: {
+        standard: ['sm:[&>div]:flex-row', '[&>div]:flex-col'],
+        sm: [
+          '[&>div]:flex-col',
+          '[&>div]:items-center',
+          '[&>div]:[&>div]:items-center'
+        ]
+      }
+    },
+    defaultVariants: { size: 'standard' }
+  }
+)
+
+interface WebsiteFooterProps
+  extends React.ComponentPropsWithoutRef<'div'>,
+    VariantProps<typeof websiteFooterVariants> {}
+{
+}
+
+const WebsiteFooter = React.forwardRef<HTMLDivElement, WebsiteFooterProps>(
+  ({ className, size, ...props }, ref) => (
+    <div
+      className={cn(websiteFooterVariants({ size }), className)}
+      {...props}
+      ref={ref}
+    ></div>
+  )
+)
+```
+
+## FooterStatement
+
+```tsx
+const footerStatementVariants = cva(
+  [
+    'flex',
+    'flex-col',
+    'gap-1',
+    'items-center',
+    'text-foreground-subtle',
+    'py-4',
+    'text-sm'
+  ],
+  {
+    variants: {
+      size: {
+        standard: [, 'sm:py-8', 'sm:text-base'],
+        sm: []
+      }
+    },
+    defaultVariants: { size: 'standard' }
+  }
+)
+
+interface FooterStatementProps
+  extends React.ComponentPropsWithoutRef<'div'>,
+    VariantProps<typeof footerStatementVariants> {}
+
+const FooterStatement = React.forwardRef<HTMLDivElement, FooterStatementProps>(
+  ({ className, size, ...props }, ref) => (
+    <div>
+      <div
+        className={cn(footerStatementVariants({ size }), className)}
+        {...props}
+        ref={ref}
+      ></div>
+    </div>
+  )
+)
+```
+
+## LinkRow
+
+```tsx
+const linkRowVariants = cva([
+  'flex',
+  'w-full',
+  'justify-between',
+  '[&>div]:text-xl',
+  '[&>*]:font-normal',
+  '[&>*]:text-sm'
+])
+
+interface LinkRowProps extends React.ComponentPropsWithoutRef<'div'> {}
+
+const LinkRow = React.forwardRef<HTMLDivElement, LinkRowProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      className={cn(linkRowVariants(), className)}
+      {...props}
+      ref={ref}
+    ></div>
+  )
+)
+```
+
+## LinkColumn
+
+```tsx
+const linkColumnVariants = cva(
+  [
+    'flex',
+    'flex-col',
+    'px-8',
+    'pb-6',
+    'gap-2',
+    'dark:text-white',
+    '[&>div]:font-semibold',
+    '[&>div]:mb-2',
+    '[&>div]:text-xl',
+    '[&>*]:font-normal',
+    '[&>*]:text-sm',
+    'items-center'
+  ],
+  {
+    variants: {
+      size: {
+        lg: [
+          'sm:gap-3',
+          'sm:[&>div]:text-2xl',
+          'sm:[&>*]:font-normal',
+          'sm:[&>*]:text-sm',
+          'sm:pb-0',
+          'sm:items-start'
+        ],
+        md: ['sm:items-start', 'sm:pb-0'],
+        sm: []
+      }
+    },
+    defaultVariants: {
+      size: 'lg'
+    }
+  }
+)
+
+interface LinkColumnProps
+  extends React.ComponentPropsWithoutRef<'div'>,
+    VariantProps<typeof linkColumnVariants> {}
+
+const LinkColumn = React.forwardRef<HTMLDivElement, LinkColumnProps>(
+  ({ className, size, title, children, ...props }, ref) => (
+    <div
+      className={cn(linkColumnVariants({ size }), className)}
+      {...props}
+      ref={ref}
+    >
+      {title && <div>{title}</div>}
+      {children}
+    </div>
+  )
+)
+```
+
+## Example
+
+```tsx
+import {
+  WebsiteFooter,
+  FooterStatement,
+  LinkColumn,
+  LinkRow
+} from '@nearform/quantum'
+
+import { SubtractIcon } from '@/assets/build/subtract.icon'
+
+export const WebsiteFooterDemo = () => {
+  return (
+    <WebsiteFooter size="standard">
+      <FooterStatement>
+        <SubtractIcon className="h-[24px] w-[24px]" />
+        Quantum is an open source community project
+      </FooterStatement>
+      <LinkRow>
+        <LinkColumn title="Social Media">
+          <a href="#">Twitter/X</a>
+          <a href="#">Facebook</a>
+          <a href="#">Instagram</a>
+        </LinkColumn>
+        <LinkColumn title="Our Website">
+          <a href="#">Homepage</a>
+          <a href="#">About us</a>
+        </LinkColumn>
+        <LinkColumn title="Your Account">
+          <a href="#">Manage Your Account</a>
+          <a href="#">Privacy</a>
+          <a href="#">Log Out</a>
+        </LinkColumn>
+        <LinkColumn title="About us">
+          <a href="#">About us</a>
+          <a href="#">Security</a>
+          <a href="#">Accessibility</a>
+        </LinkColumn>
+      </LinkRow>
+      <FooterStatement size="sm">Copyright © 2023 Nearform.<FooterStatement/>
+    <WebsiteFooter/>
+  )
+}
+```
