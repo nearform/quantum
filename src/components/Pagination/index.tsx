@@ -20,9 +20,20 @@ const PageNumberStyles = cva([
   'text-foreground-muted',
   'active:bg-accent',
   'active:text-primary-50',
-  'hover:bg-background-alt',
+  'dark:hover:bg-background-dark',
   'dark:active:bg-primary-300',
   'dark:active:text-grey-900'
+])
+
+const PageNumberActiveStyles = cva([
+  'bg-accent',
+  'text-primary-50',
+  'hover:bg-accent',
+  'hover:text-primary-50',
+  'dark:bg-primary-300',
+  'dark:text-grey-900',
+  'dark:hover:bg-primary-300',
+  'dark:hover:text-grey-900'
 ])
 
 interface PaginationProps
@@ -101,14 +112,14 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     return (
       <nav className={cn(PaginationVariants(), className)} {...props}>
         <ul>
-          <li className="hover:bg-background-alt px-4">
+          <li className="hover:bg-background px-4 dark:hover:bg-background-dark">
             <button
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
             >
               <ChevronLeftOutlineIcon
                 className={
-                  'w-3 h-9 py-3 text-foreground dark:text-foreground-dark'
+                  'w-3 h-9 pt-3 pb-3 text-foreground dark:text-foreground-dark'
                 }
               />
             </button>
@@ -128,8 +139,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                     onClick={() => setCurrentPage(pgNumber)}
                     className={cn(
                       PageNumberStyles(),
-                      currentPage === pgNumber &&
-                        'bg-accent text-primary-50 hover:bg-accent hover:text-primary-50'
+                      currentPage === pgNumber && PageNumberActiveStyles()
                     )}
                   >
                     <div className="text-sm">{pgNumber}</div>
@@ -147,7 +157,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             ))}
           </div>
 
-          <li className="hover:bg-background-alt px-4">
+          <li className="hover:bg-background px-4 dark:hover:bg-background-dark">
             <button
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
