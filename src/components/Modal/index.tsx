@@ -3,6 +3,7 @@
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { CloseModal } from '@/assets'
+import { CloseIcon } from '@/assets'
 
 import { cn } from '@/lib/utils'
 
@@ -101,7 +102,9 @@ const ModalClose = React.forwardRef<
     )}
     {...props}
   >
-    <CloseModal />
+    <div className="text-foreground dark:text-foreground-inverse">
+      <CloseIcon className="w-5 h-5" strokeWidth={0.833} />
+    </div>
     <span className="sr-only">Close</span>
   </DialogPrimitive.Close>
 ))
