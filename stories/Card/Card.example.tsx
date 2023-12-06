@@ -1,9 +1,16 @@
-import { Card } from '@/components/Card'
+import { Card, CardProps } from '@/components/Card'
 
-export const CardDemo = (): JSX.Element => {
+export const CardDemo = ({
+  variant,
+  headingText,
+  description
+}: CardProps): JSX.Element => {
   return (
-    <Card className="w-64 h-64">
-      <div className="p-4">Hello World</div>
-    </Card>
+    <Card
+      className="max-w-md"
+      variant={variant}
+      headingText={headingText}
+      description={description}
+    />
   )
 }

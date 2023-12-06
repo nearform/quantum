@@ -9,21 +9,26 @@ const meta = {
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'centered'
-  },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-  argTypes: {
-    className: {
-      controle: 'text',
-      description: 'Alter the className to change the style'
-    }
   }
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
 } satisfies Meta<typeof CardDemo>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Default: Story = {
-  args: {}
+export const Option: Story = {
+  args: {
+    variant: 'option',
+    headingText: 'Header',
+    description:
+      'This is an example of a card that is selectable via clicking on a checkbox, or the card itself'
+  }
+}
+
+export const Simple: Story = {
+  args: {
+    variant: 'simple',
+    headingText: 'Header',
+    description: 'Description'
+  }
 }
