@@ -28,6 +28,171 @@ The Modal component is built up of several components, the general structure of 
             └── Modal Close Footer
 ```
 
+### Component Attributes
+
+#### Modal
+
+Contains all parts of the modal
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>defaultOpen</td>
+      <td>boolean</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>boolean</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onOpenChange</td>
+      <td>function</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>modal</td>
+      <td>boolean</td>
+      <td>true</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Modal Trigger
+
+The button that opens the modal.
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Modal Content
+
+Contains content to be rendered in the open modal
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>forceMount</td>
+      <td>boolean</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onOpenAutoFocus</td>
+      <td>function</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onCloseAutoFocus</td>
+      <td>function</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onEscapeKeyDown</td>
+      <td>function</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onPointerDownOutside</td>
+      <td>function</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onInteractOutside</td>
+      <td>function</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Close/Close Footer
+
+The button that opens the modal.
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
+
+### Title
+
+An accessible title to be announced when the modal is opened.
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
+
+### Description
+
+An optional accessible description to be announced when the modal is opened. To remove the description entirely, pass `aria-describedby={undefined}` to the Modal Content component.
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
+
+To hide the title or description you can wrap it inside a Visual Hidden utility like this `<VisuallyHidden asChild>`. More info about this [here](https://www.radix-ui.com/primitives/docs/utilities/visually-hidden).
+
+You can control the styling by using the Data-attributes in the className. The values are either "open" or "closed".
+
 See the example below for further clarification.
 
 ## Modal Content
