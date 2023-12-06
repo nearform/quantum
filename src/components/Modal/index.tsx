@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { CloseModal } from '@/assets'
 import { CloseIcon } from '@/assets'
 
 import { cn } from '@/lib/utils'
