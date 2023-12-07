@@ -32,3 +32,9 @@ export const Simple: Story = {
     description: 'Description'
   }
 }
+
+export const Toggie: Story = {
+  args: {
+    variant: 'toggle'
+  }
+}
