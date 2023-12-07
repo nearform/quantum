@@ -103,7 +103,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const leftSideComponent =
       leftSideChild ?? convertTypeToComponent.left[`${type}`]
-    const rightSideComponent = rightSideChild ?? <CloseIcon />
+    const rightSideComponent = rightSideChild ?? <CloseIcon strokeWidth={0.6} />
 
     return (
       <form className={cn(formVariants({ variant }), formClassName)}>

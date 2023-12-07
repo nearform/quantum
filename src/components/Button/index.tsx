@@ -56,8 +56,7 @@ const buttonVariants = cva(
           'focus:bg-button-tertiary-focus',
           'focus:border-button-tertiary-focus',
           'focus-visible:shadow-blue',
-          'disabled:text-foreground-subtle',
-          'dark:text-white'
+          'disabled:text-foreground-subtle'
         ],
         success: [
           'bg-button-success',
