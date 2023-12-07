@@ -11,26 +11,14 @@ import { cn } from '@/lib/utils'
 
 const popoverVariants = cva([
   'z-50',
-  'border border-[1px] border-border-subtle dark:border-border-dark',
+  'border border-[2px] border-border-subtle dark:border-border-dark',
   'rounded-lg',
   'bg-background dark:bg-background-dark',
   'text-foreground text-sm font-normal dark:text-white',
   'shadow',
   'outline-none',
-  'overflow-scroll',
-  'data-[state=open]:animate-in',
-  'data-[state=closed]:animate-out',
-  'data-[state=closed]:fade-out-0',
-  'data-[state=open]:fade-in-0',
-  'data-[state=closed]:zoom-out-95',
-  'data-[state=open]:zoom-in-95',
-  'data-[side=bottom]:slide-in-from-top-2',
-  'data-[side=left]:slide-in-from-right-2',
-  'data-[side=right]:slide-in-from-left-2',
-  'data-[side=top]:slide-in-from-bottom-2'
+  'overflow-scroll'
 ])
-
-const separatorVariants = cva([])
 
 const Popover = PopoverPrimitive.Root
 
@@ -41,8 +29,7 @@ export interface PopoverProps
     VariantProps<typeof popoverVariants> {}
 
 export interface SeparatorProps
-  extends React.ComponentPropsWithoutRef<typeof Separator.Root>,
-    VariantProps<typeof separatorVariants> {}
+  extends React.ComponentPropsWithoutRef<typeof Separator.Root> {}
 
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
@@ -80,14 +67,17 @@ PopoverContent.displayName = PopoverPrimitive.Content.displayName
 const PopoverSeparator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
->(({ className, ...props }, ref) => (
+>(({ className, orientation = 'horizontal', ...props }, ref) => (
   <div className="w-full -my-2 ">
     <SeparatorPrimitive.Root
       ref={ref}
       decorative
-      orientation="horizontal"
+      orientation={orientation}
       className={cn(
-        'shrink-0 bg-border-subtle dark:bg-border-dark h-[1px] w-[full] -mx-4',
+        'shrink-0 bg-border-subtle dark:bg-border-dark',
+        orientation === 'horizontal'
+          ? 'h-[1px] w-fill -mx-4'
+          : 'h-fill w-[1px]',
         className
       )}
       {...props}

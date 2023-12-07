@@ -45,7 +45,7 @@ const PopoverDemoList = () => {
       </PopoverTrigger>
       <PopoverContent className="w-72">
         <div className="flex font-semibold justify-center">Shopping List</div>
-        <PopoverSeparator />
+        <PopoverSeparator/>
         <li>Bananas</li>
         <li>Bread</li>
         <li>Butter</li>
