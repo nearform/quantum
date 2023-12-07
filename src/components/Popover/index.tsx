@@ -48,7 +48,7 @@ const PopoverContent = React.forwardRef<
         {...props}
       >
         <ScrollArea.Root className="w-full h-full" type="auto">
-          <ScrollArea.Viewport className="w-full h-full gap-3 [&>*]:[&>*]:py-2 [&>*]:[&>*]:px-4">
+          <ScrollArea.Viewport className="w-full h-full gap-3 [&>*>*]:py-2 [&>*>*]:px-4">
             {children}
           </ScrollArea.Viewport>
           <ScrollArea.Scrollbar
