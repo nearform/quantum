@@ -27,8 +27,11 @@ const PopoverDemoRadio = () => {
           <div className="font-semibold pt-2">
             How often would you like to recieve notifications?
           </div>
-          <PopoverSeparator />
-          <RadioGroup className="flex flex-col gap-4 my-2 pb-2" defaultValue="Never">
+          <PopoverSeparator className="-mx-4"/>
+          <RadioGroup
+            className="flex flex-col gap-4 my-2 pb-2"
+            defaultValue="Never"
+          >
             <RadioWithLabel value="Daily"></RadioWithLabel>
             <RadioWithLabel value="Weekly"></RadioWithLabel>
             <RadioWithLabel value="Monthly"></RadioWithLabel>
@@ -50,7 +53,7 @@ const PopoverDemoList = () => {
           <div className="flex font-semibold justify-center pt-2">
             Shopping List
           </div>
-          <PopoverSeparator />
+          <PopoverSeparator className="-mx-4" />
           <li>Bananas</li>
           <li>Bread</li>
           <li>Butter</li>
@@ -58,7 +61,7 @@ const PopoverDemoList = () => {
           <li>Icing Sugar</li>
           <li>Eggs</li>
           <li>Baking Powder</li>
-          <PopoverSeparator />
+          <PopoverSeparator className="-mx-4" />
           <div className="flex items-center gap-2 font-semibold pb-2">
             <PlusIcon className="stroke-current" />
             Add new item
@@ -79,7 +82,7 @@ const PopoverDemoScrollableList = () => {
           <div className="flex font-semibold justify-center pt-2">
             Shopping List
           </div>
-          <PopoverSeparator />
+          <PopoverSeparator className="-mx-4" />
           <li>Bananas</li>
           <li>Bread</li>
           <li>Butter</li>
@@ -87,7 +90,7 @@ const PopoverDemoScrollableList = () => {
           <li>Icing Sugar</li>
           <li>Eggs</li>
           <li>Baking Powder</li>
-          <PopoverSeparator />
+          <PopoverSeparator className="-mx-4" />
           <div className="flex items-center gap-2 font-semibold pb-2">
             <PlusIcon className="stroke-current" />
             Add new item
