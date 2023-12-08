@@ -1,0 +1,100 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as PopoverStories from './Popover.stories'
+
+<Meta of={PopoverStories} />
+
+# Popover
+
+A popover overlay is a temporary, expandable menu that appears on top of the main content when activated. It typically displays a list of options or additional controls when a user clicks or hovers over a specific element, such as a button, icon or select input. This design element helps conserve screen space and provides a clean, unobtrusive way to present additional choices or information to users.
+
+## Default
+
+<Canvas of={PopoverStories.Default} />
+
+## Default with Scrolling
+
+<Canvas of={PopoverStories.ScrollableList} />
+
+## With Radio Group
+
+<Canvas of={PopoverStories.Radio} />
+
+### \<Popover>
+
+The root of the component.
+
+### \<PopoverTrigger>
+
+The button that triggers the popover to open and reveal its contents.
+
+### \<PopoverContent>
+
+The content contained in the popover. Style or className is ignored.
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>align</td>
+      <td>`'center' | 'start' | 'end`</td>
+      <td>`'center'`</td>
+    </tr>
+    <tr>
+      <td>sideOffset</td>
+      <td>`number`</td>
+      <td>`4`</td>
+    </tr>
+  </tbody>
+</table>
+
+### \<PopoverSeparator>
+
+Used to visually separate items in the popover. Can be used to create Headers or Footers.
+
+## Example
+
+```tsx
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  PopoverSeparator,
+  PopoverProps,
+  Button
+} from '@nearform/quantum'
+
+import { PlusIcon } from '@/assets/build'
+
+const ShoppingList = () => (
+  <Popover>
+      <PopoverTrigger>
+        <Button>Open Shopping List</Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-72">
+        <div className="flex flex-col gap-3 px-4">
+          <div className="flex font-semibold justify-center pt-2">
+            Shopping List
+          </div>
+          <PopoverSeparator className="-mx-4" />
+          <li>Bananas</li>
+          <li>Bread</li>
+          <li>Butter</li>
+          <li>Sugar</li>
+          <li>Icing Sugar</li>
+          <li>Eggs</li>
+          <li>Baking Powder</li>
+          <PopoverSeparator className="-mx-4" />
+          <div className="flex items-center gap-2 font-semibold pb-2">
+            <PlusIcon className="stroke-current" />
+            Add new item
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+)
+```
