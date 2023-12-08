@@ -23,16 +23,18 @@ const PopoverDemoRadio = () => {
         <Button>Open Options</Button>
       </PopoverTrigger>
       <PopoverContent className="w-72">
-        <div className="font-semibold">
-          How often would you like to recieve notifications?
+        <div className="flex flex-col gap-3 px-4">
+          <div className="font-semibold pt-2">
+            How often would you like to recieve notifications?
+          </div>
+          <PopoverSeparator />
+          <RadioGroup className="flex flex-col gap-4 my-2 pb-2" defaultValue="Never">
+            <RadioWithLabel value="Daily"></RadioWithLabel>
+            <RadioWithLabel value="Weekly"></RadioWithLabel>
+            <RadioWithLabel value="Monthly"></RadioWithLabel>
+            <RadioWithLabel value="Never"></RadioWithLabel>
+          </RadioGroup>
         </div>
-        <PopoverSeparator />
-        <RadioGroup className="flex flex-col gap-4 my-2" defaultValue="Never">
-          <RadioWithLabel value="Daily"></RadioWithLabel>
-          <RadioWithLabel value="Weekly"></RadioWithLabel>
-          <RadioWithLabel value="Monthly"></RadioWithLabel>
-          <RadioWithLabel value="Never"></RadioWithLabel>
-        </RadioGroup>
       </PopoverContent>
     </Popover>
   )
@@ -44,19 +46,23 @@ const PopoverDemoList = () => {
         <Button>Open Shopping List</Button>
       </PopoverTrigger>
       <PopoverContent className="w-72">
-        <div className="flex font-semibold justify-center">Shopping List</div>
-        <PopoverSeparator/>
-        <li>Bananas</li>
-        <li>Bread</li>
-        <li>Butter</li>
-        <li>Sugar</li>
-        <li>Icing Sugar</li>
-        <li>Eggs</li>
-        <li>Baking Powder</li>
-        <PopoverSeparator />
-        <div className="flex items-center gap-2 font-semibold">
-          <PlusIcon className="stroke-current" />
-          Add new item
+        <div className="flex flex-col gap-3 px-4">
+          <div className="flex font-semibold justify-center pt-2">
+            Shopping List
+          </div>
+          <PopoverSeparator />
+          <li>Bananas</li>
+          <li>Bread</li>
+          <li>Butter</li>
+          <li>Sugar</li>
+          <li>Icing Sugar</li>
+          <li>Eggs</li>
+          <li>Baking Powder</li>
+          <PopoverSeparator />
+          <div className="flex items-center gap-2 font-semibold pb-2">
+            <PlusIcon className="stroke-current" />
+            Add new item
+          </div>
         </div>
       </PopoverContent>
     </Popover>
@@ -69,19 +75,23 @@ const PopoverDemoScrollableList = () => {
         <Button>Open Shopping List</Button>
       </PopoverTrigger>
       <PopoverContent className="w-72 h-60">
-        <div className="flex font-semibold justify-center">Shopping List</div>
-        <PopoverSeparator />
-        <li>Bananas</li>
-        <li>Bread</li>
-        <li>Butter</li>
-        <li>Sugar</li>
-        <li>Icing Sugar</li>
-        <li>Eggs</li>
-        <li>Baking Powder</li>
-        <PopoverSeparator />
-        <div className="flex items-center gap-2 font-semibold">
-          <PlusIcon className="stroke-current" />
-          Add new item
+        <div className="flex flex-col gap-3 px-4">
+          <div className="flex font-semibold justify-center pt-2">
+            Shopping List
+          </div>
+          <PopoverSeparator />
+          <li>Bananas</li>
+          <li>Bread</li>
+          <li>Butter</li>
+          <li>Sugar</li>
+          <li>Icing Sugar</li>
+          <li>Eggs</li>
+          <li>Baking Powder</li>
+          <PopoverSeparator />
+          <div className="flex items-center gap-2 font-semibold pb-2">
+            <PlusIcon className="stroke-current" />
+            Add new item
+          </div>
         </div>
       </PopoverContent>
     </Popover>

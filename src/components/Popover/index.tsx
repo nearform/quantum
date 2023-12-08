@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils'
 
 const popoverVariants = cva([
   'z-50',
-  'border border-[2px] border-border-subtle dark:border-border-dark',
+  'border border-2 border-border-subtle dark:border-border-dark',
   'rounded-lg',
   'bg-background dark:bg-background-dark',
   'text-foreground text-sm font-normal dark:text-white',
@@ -48,7 +48,7 @@ const PopoverContent = React.forwardRef<
         {...props}
       >
         <ScrollArea.Root className="w-full h-full" type="auto">
-          <ScrollArea.Viewport className="w-full h-full gap-3 [&>*>*]:py-2 [&>*>*]:px-4">
+          <ScrollArea.Viewport className="w-full h-full">
             {children}
           </ScrollArea.Viewport>
           <ScrollArea.Scrollbar
@@ -74,10 +74,8 @@ const PopoverSeparator = React.forwardRef<
       decorative
       orientation={orientation}
       className={cn(
-        'shrink-0 bg-border-subtle dark:bg-border-dark',
-        orientation === 'horizontal'
-          ? 'h-[1px] w-fill -mx-4'
-          : 'h-fill w-[1px]',
+        'shrink-0 bg-border-subtle dark:bg-border-dark my-2',
+        orientation === 'horizontal' ? 'h-[1px] w-fill' : 'h-fill w-[1px]',
         className
       )}
       {...props}
