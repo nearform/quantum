@@ -68,13 +68,13 @@ const PopoverSeparator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
 >(({ className, orientation = 'horizontal', ...props }, ref) => (
-  <div className="w-full -my-2 ">
+  <div className="w-full">
     <SeparatorPrimitive.Root
       ref={ref}
       decorative
       orientation={orientation}
       className={cn(
-        'shrink-0 bg-border-subtle dark:bg-border-dark my-2',
+        'shrink-0 bg-border-subtle dark:bg-border-dark',
         orientation === 'horizontal' ? 'h-[1px] w-fill' : 'h-fill w-[1px]',
         className
       )}
