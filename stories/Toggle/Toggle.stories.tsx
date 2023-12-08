@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { FolderIcon, Toggle } from '@/index'
+import { TrashIcon, Toggle } from '@/index'
 
 const meta = {
   title: 'Form/Toggle',
@@ -16,7 +16,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     label: 'Some Label Text',
-    children: <FolderIcon />,
+    children: <TrashIcon className="h-[36px] w-[36px]" />,
     className: 'w-96'
   }
 }

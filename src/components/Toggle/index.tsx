@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils'
 import { VariantProps, cva } from 'class-variance-authority'
 import React from 'react'
 import { Label, Switch } from '@/index'
+import { SwitchProps } from '@radix-ui/react-switch'
 
 const toggleVariants = cva([
   'flex',
@@ -24,13 +25,36 @@ interface ToggleProps
   extends React.ComponentPropsWithoutRef<'div'>,
     VariantProps<typeof toggleVariants> {
   label?: string
+  disabled?: boolean
+  checked?: boolean
+  required?: boolean
+  onCheckedChange?: () => void
 }
 
 const Toggle = React.forwardRef<HTMLDivElement, ToggleProps>(
-  ({ className, label, children, ...props }, ref) => (
+  (
+    {
+      className,
+      label,
+      children,
+      disabled,
+      defaultChecked,
+      checked,
+      required,
+      onCheckedChange,
+      ...props
+    },
+    ref
+  ) => (
     <div className={cn(toggleVariants(), className)} {...props} ref={ref}>
       <div>
-        <Switch />
+        <Switch
+          disabled={disabled}
+          defaultChecked={defaultChecked}
+          checked={checked}
+          required={required}
+          onCheckedChange={onCheckedChange}
+        />
         <Label>{label}</Label>
       </div>
       {children}
