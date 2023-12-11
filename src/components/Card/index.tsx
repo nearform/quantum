@@ -5,6 +5,7 @@ import { cva } from 'class-variance-authority'
 import { Checkbox } from '../Checkbox'
 import { Switch } from '../Switch'
 import { Label } from '../Label'
+import { TrashIcon } from '@/assets/build/trash-outline.icon'
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant: 'option' | 'simple' | 'custom' | 'toggle'
@@ -39,18 +40,14 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     >
       <div className="flex gap-2">
         {variant === 'option' && <Checkbox checked={selected} />}
-        {variant !== 'toggle' && (
-          <div>
-            <div className={cn(headerVariants({ variant }))}>{headingText}</div>
-            <div>{description}</div>
-          </div>
-        )}
-        {variant === 'toggle' && (
+
+        <div>
           <div className="flex gap-2">
-            <Switch />
-            <div className="font-medium text-sm">Label</div>
+            {variant === 'toggle' && <Switch />}
+            <div className={cn(headerVariants({ variant }))}>{headingText}</div>
           </div>
-        )}
+          {variant !== 'toggle' && <div>{description}</div>}
+        </div>
       </div>
     </div>
   )
