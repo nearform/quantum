@@ -1,6 +1,6 @@
 {
   "name": "@nearform/quantum",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Component library based on the Quantum Design System",
   "main": "dist/index.js",
   "exports": {
