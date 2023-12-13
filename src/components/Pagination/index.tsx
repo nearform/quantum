@@ -3,6 +3,13 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { ChevronLeftOutlineIcon, ChevronRightOutlineIcon } from '@/assets'
 
+interface PaginationProps {
+  currentPage: number
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  numberOfItemsPerPage: number
+  totalNumberOfFilteredItems: number
+}
+
 const PaginationVariants = cva([
   '[&>*]:flex',
   '[&>*]:items-center',
