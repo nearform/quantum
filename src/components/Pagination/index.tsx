@@ -112,14 +112,14 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     return (
       <nav className={cn(PaginationVariants(), className)} {...props}>
         <ul>
-          <li className="hover:bg-background px-4 dark:hover:bg-background-dark">
+          <li className="hover:bg-background px-4 dark:hover:bg-background-dark rounded-sm">
             <button
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
             >
               <ChevronLeftOutlineIcon
                 className={
-                  'w-3 h-9 pt-3 pb-3 text-foreground dark:text-foreground-dark'
+                  'w-3 h-9 pt-3 pb-3 -mb-1 text-foreground dark:text-foreground-dark'
                 }
               />
             </button>
@@ -157,14 +157,14 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             ))}
           </div>
 
-          <li className="hover:bg-background px-4 dark:hover:bg-background-dark">
+          <li className="hover:bg-background px-4  dark:hover:bg-background-dark rounded-sm">
             <button
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
             >
               <ChevronRightOutlineIcon
                 className={
-                  'w-3 h-9 py-3 text-foreground dark:text-foreground-dark'
+                  'w-3 h-9 py-3 -mb-1 text-foreground dark:text-foreground-dark'
                 }
               />
             </button>
