@@ -2,10 +2,10 @@ export default {
     keyframes: {
         slideDown: {
             from: { height: 0 },
-            to: { height: 'var(--radix-accordion-content-height)' },
+            to: { height: 100 },
         },
         slideUp: {
-            from: { height: 'var(--radix-accordion-content-height)' },
+            from: { height:  0},
             to: { height: 0 },
         },
     },
