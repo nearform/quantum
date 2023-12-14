@@ -3,6 +3,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   PopoverSeparator,
+  PopoverClose,
   PopoverProps
 } from '@/components/Popover'
 import { Button, Label, PlusIcon, Radio, RadioGroup } from '@/index'
@@ -27,7 +28,7 @@ const PopoverDemoRadio = () => {
           <div className="font-semibold pt-2">
             How often would you like to recieve notifications?
           </div>
-          <PopoverSeparator className="-mx-4"/>
+          <PopoverSeparator className="-mx-4" />
           <RadioGroup
             className="flex flex-col gap-4 my-2 pb-2"
             defaultValue="Never"
@@ -101,6 +102,26 @@ const PopoverDemoScrollableList = () => {
   )
 }
 
+const PopoverDemoWithCloseButton = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>Open Popover</Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-72 h-30 p-5">
+        <div className="flex flex-col">
+          <div className="font-semibold pt-2">
+            Press the button below to close the popover
+          </div>
+          <PopoverClose className="justify-center items-center">
+            <Button>Close Popover</Button>
+          </PopoverClose>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
 interface DemoProps extends PopoverProps {
   example: string
 }
@@ -111,6 +132,7 @@ const PopoverDemo = ({ example }: DemoProps) => {
       {example === 'list' && <PopoverDemoList />}
       {example === 'radio' && <PopoverDemoRadio />}
       {example === 'scrollableList' && <PopoverDemoScrollableList />}
+      {example === 'popoverClose' && <PopoverDemoWithCloseButton />}
     </>
   )
 }

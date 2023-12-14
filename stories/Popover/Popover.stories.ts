@@ -19,3 +19,4 @@ export const ScrollableList: Story = { args: { example: 'scrollableList' } }
 
 export const Radio: Story = { args: { example: 'radio' } }
 
+export const CloseButton: Story = { args: { example: 'popoverClose' } }
