@@ -11,7 +11,7 @@ const Accordion = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Root
-    className={cn('bg-white w-[300px] rounded-md shadow-[0_2px_10px] shadow-black/5', className)}
+    className={cn('dark:bg-grey-900 bg-white px-5 w-[300px] rounded-md shadow-[0_2px_10px] shadow-black/5', className)}
     {...props}
     ref={ref}
   >{children}
@@ -24,7 +24,7 @@ const AccordionItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Item
-    className={cn('focus-within:shadow-black/5 mt-px overflow-hidden first:mt-0 first:rounded-t last:rounded-b focus-within:relative focus-within:z-10 focus-within:shadow-[0_0_0_2px]', className)}
+    className={cn('overflow-hidden first:mt-0 first:rounded-t last:rounded-b border-b border-grey-200 dark:border-grey-700 last:border-0', className)}
     {...props}
     ref={ref}
   >{children}
@@ -51,7 +51,7 @@ const AccordionTrigger = React.forwardRef<
 >(({ children, className, ...props }, ref) => (
   <AccordionHeader>
     <AccordionPrimitive.Trigger
-      className={cn('hover:bg-grey-50 group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white px-5 text-[15px] leading-none outline outline-1 outline-grey-300', className)}
+      className={cn('dark:bg-grey-900 dark:text-white group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white text-[15px] leading-none', className)}
       {...props}
       ref={ref}
     >
@@ -67,11 +67,11 @@ const AccordionContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Content
-    className={cn('data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]', className)}
+    className={cn('dark:text-white data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]', className)}
     {...props}
     ref={ref}
   >
-    <div className='py-[15px] px-5'>{children}</div>
+    <div className='py-[15px]'>{children}</div>
   </AccordionPrimitive.Content>
 ));
 AccordionContent.displayName = AccordionPrimitive.Content.displayName
