@@ -20,6 +20,10 @@ A popover overlay is a temporary, expandable menu that appears on top of the mai
 
 <Canvas of={PopoverStories.Radio} />
 
+## With Close Button
+
+<Canvas of={PopoverStories.CloseButton} />
+
 ### \<Popover>
 
 The root of the component.
@@ -56,6 +60,10 @@ The content contained in the popover. Style or className is ignored.
 
 Used to visually separate items in the popover. Can be used to create Headers or Footers.
 
+### \<PopoverClose>
+
+The button that closes the popover.
+
 ## Example
 
 ```tsx
@@ -72,29 +80,29 @@ import { PlusIcon } from '@/assets/build'
 
 const ShoppingList = () => (
   <Popover>
-      <PopoverTrigger>
-        <Button>Open Shopping List</Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-72">
-        <div className="flex flex-col gap-3 px-4">
-          <div className="flex font-semibold justify-center pt-2">
-            Shopping List
-          </div>
-          <PopoverSeparator className="-mx-4" />
-          <li>Bananas</li>
-          <li>Bread</li>
-          <li>Butter</li>
-          <li>Sugar</li>
-          <li>Icing Sugar</li>
-          <li>Eggs</li>
-          <li>Baking Powder</li>
-          <PopoverSeparator className="-mx-4" />
-          <div className="flex items-center gap-2 font-semibold pb-2">
-            <PlusIcon className="stroke-current" />
-            Add new item
-          </div>
+    <PopoverTrigger>
+      <Button>Open Shopping List</Button>
+    </PopoverTrigger>
+    <PopoverContent className="w-72">
+      <div className="flex flex-col gap-3 px-4">
+        <div className="flex font-semibold justify-center pt-2">
+          Shopping List
         </div>
-      </PopoverContent>
-    </Popover>
+        <PopoverSeparator className="-mx-4" />
+        <li>Bananas</li>
+        <li>Bread</li>
+        <li>Butter</li>
+        <li>Sugar</li>
+        <li>Icing Sugar</li>
+        <li>Eggs</li>
+        <li>Baking Powder</li>
+        <PopoverSeparator className="-mx-4" />
+        <div className="flex items-center gap-2 font-semibold pb-2">
+          <PlusIcon className="stroke-current" />
+          Add new item
+        </div>
+      </div>
+    </PopoverContent>
+  </Popover>
 )
 ```
