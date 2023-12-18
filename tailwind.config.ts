@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import colors from './src/colors'
 import defaultTheme from 'tailwindcss/defaultTheme'
+import animations from './src/animations'
 
 export default {
   content: ['./src/**/*.tsx'],
@@ -29,6 +30,10 @@ export default {
       2: '2px',
       3: '4px',
       4: '6px'
+    },
+    extend: {
+      keyframes: animations.keyframes,
+      animation: animations.animation
     }
   }
 }
