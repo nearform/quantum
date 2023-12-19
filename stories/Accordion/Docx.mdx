@@ -1,0 +1,250 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as AccordionStories from './Accordion.stories'
+
+<Meta of={AccordionStories} />
+
+# Accordion
+
+An Accordion is a vertically stacked set of interactive headings that each reveal an associated section of content.
+
+## Default
+
+<Canvas of={AccordionStories.Default} />
+
+## Attributes
+
+#### Accordion
+
+Contains all the parts of an accordion
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>enum</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td>string</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>defaultValue</td>
+      <td>string</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onValueChange</td>
+      <td>function</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td>sting[]</td>
+      <td>[]</td>
+    </tr>
+    <tr>
+      <td>defaultValue</td>
+      <td>sting[]</td>
+      <td>[]</td>
+    </tr>
+    <tr>
+      <td>onValueChange</td>
+      <td>function</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>collapsible</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>dir</td>
+      <td>enum</td>
+      <td>"ltr"</td>
+    </tr>
+    <tr>
+      <td>orientation</td>
+      <td>enum</td>
+      <td>"vertical"</td>
+    </tr>
+  </tbody>
+</table>
+
+#### AccordionItem
+
+Contains all the parts of a collapsible section
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>value*</td>
+      <td>string</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+#### AccordionItem
+
+Contains header & content of a item the Accordion
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>value*</td>
+      <td>string</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+#### AccordionHeader
+
+Wraps an Accordion.Trigger. Use the asChild prop to update it to the appropriate heading level for your page.
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
+
+#### AccordionTrigger
+
+Toggles the collapsed state of its associated item. It should be nested inside of an Accordion.Header.
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
+
+#### AccordionContent
+
+Contains the collapsible content for an item.
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>boolean</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>forceMount</td>
+      <td>boolean</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+import {
+    Accordion,
+    AccordionItem,
+    AccordionHeader,
+    AccordionTrigger,
+    AccordionContent
+} from '@/components/Accordion'
+
+export const AccordionDemo = () => (
+    <Accordion type="single" defaultValue="item-1" collapsible>
+        <AccordionItem value="item-1">
+            <AccordionTrigger>Item 1</AccordionTrigger>
+            <AccordionContent>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis ac ligula ut luctus. Nulla sed tortor tempor, auctor mi at, mollis nulla.
+            </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="item-2" className=''>
+            <AccordionTrigger>Item 2</AccordionTrigger>
+            <AccordionContent>
+                <div className="text-sm px-6 text-foreground-muted bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 text-lg font-semibold items-center flex justify-center">
+                    Replace this component with your content
+                </div>
+            </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="item-3">
+            <AccordionTrigger>Item 3</AccordionTrigger>
+            <AccordionContent>
+                <div className="bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 text-lg font-semibold items-center flex justify-center text-sm px-6 text-foreground-muted">
+                    Replace this component with your content
+                </div>
+            </AccordionContent>
+        </AccordionItem>
+    </Accordion>
+);
+```

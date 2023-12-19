@@ -24,6 +24,8 @@ const Popover = PopoverPrimitive.Root
 
 const PopoverTrigger = PopoverPrimitive.Trigger
 
+const PopoverClose = PopoverPrimitive.Close
+
 export interface PopoverProps
   extends React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>,
     VariantProps<typeof popoverVariants> {}
@@ -84,4 +86,10 @@ const PopoverSeparator = React.forwardRef<
 ))
 PopoverSeparator.displayName = SeparatorPrimitive.Root.displayName
 
-export { Popover, PopoverTrigger, PopoverContent, PopoverSeparator }
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverSeparator,
+  PopoverClose
+}
