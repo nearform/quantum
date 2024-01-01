@@ -84,7 +84,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "date-fns": "^2.30.0",
+    "date-fns": "^3.0.6",
     "react-day-picker": "^8.9.1",
     "tailwind-merge": "^2.0.0"
   }
