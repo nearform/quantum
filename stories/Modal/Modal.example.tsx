@@ -32,16 +32,14 @@ export const ModalDemo = () => {
         <ModalFooter>
           <ModalCloseFooter className="w-full grid gap-2">
             <Button
-              size="sm"
+              size="lg"
               variant="primary"
               className="w-full dark:bg-blue-300 dark:border-blue-300 dark:text-foreground"
             >
               Close
             </Button>
             <div className="flex justify-center gap-4">
-              <div className="dark:text-foreground-muted">
-                Additional text line
-              </div>
+              <div className="text-foreground-muted">Additional text line</div>
               <div className="dark:text-primary-300 underline text-primary-600">
                 Additional text line
               </div>
