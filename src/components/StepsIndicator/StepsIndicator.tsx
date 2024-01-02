@@ -13,37 +13,28 @@ const stepsVariant = cva([
 interface StepsIndicatorProp {
   selectedIndex?: number
   length?: number
-  className?: string
-  childClassName?: string
   props?: any
   name?: string
+  onClick?: (i: number) => void
 }
 
 const StepsIndicator = React.forwardRef<HTMLDivElement, StepsIndicatorProp>(
-  (
-    {
-      className,
-      childClassName,
-      name = '',
-      selectedIndex = 0,
-      length = 1,
-      props
-    },
-    ref
-  ) => {
+  ({ name = '', selectedIndex = 0, length = 1, onClick, props }, ref) => {
     const Steps = Array(length)
       .fill(null)
       .map((_, i) => {
         return (
-          <Step
+          <button
             key={`${i}-step-${name}`}
-            selected={i === selectedIndex ? 'true' : 'false'}
-            className={childClassName}
-          />
+            className="flex h-6 w-6 items-center justify-center m-0"
+            onClick={() => onClick?.(i)}
+          >
+            <Step selected={i === selectedIndex ? 'true' : 'false'} />
+          </button>
         )
       })
     return (
-      <div ref={ref} className={cn(stepsVariant(), className)} {...props}>
+      <div ref={ref} className={cn(stepsVariant())} {...props}>
         {Steps}
       </div>
     )
