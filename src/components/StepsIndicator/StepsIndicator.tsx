@@ -26,7 +26,7 @@ const StepsIndicator = React.forwardRef<HTMLDivElement, StepsIndicatorProp>(
         return (
           <button
             key={`${i}-step-${name}`}
-            className="flex h-6 w-6 items-center justify-center m-0"
+            className="flex h-6 w-6 items-center justify-center m-0 outline-none"
             onClick={() => onClick?.(i)}
           >
             <Step selected={i === selectedIndex ? 'true' : 'false'} />
