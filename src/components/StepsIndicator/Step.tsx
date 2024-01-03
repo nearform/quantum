@@ -10,11 +10,14 @@ interface StepProps {
 const stepVariant = cva([
   'text-inherit',
   'fill-current',
-  'data-[selected=true]:text-primary-700',
+  'text-accent-alt',
   'dark:text-accent-alt-dark',
-  'dark:data-[selected=true]:text-primary-300',
   'hover:text-foreground-subtle',
-  'active:text-foreground-muted'
+  'dark:hover:text-foreground-subtle-dark',
+  'active:text-foreground-muted',
+  'dark:active:text-foreground-muted-dark',
+  'data-[selected=true]:text-accent',
+  'dark:data-[selected=true]:text-accent-dark'
 ])
 
 const Step = ({ selected, className }: StepProps) => {
