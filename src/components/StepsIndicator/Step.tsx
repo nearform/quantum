@@ -12,7 +12,9 @@ const stepVariant = cva([
   'fill-current',
   'data-[selected=true]:text-primary-700',
   'dark:text-accent-alt-dark',
-  'dark:data-[selected=true]:text-white'
+  'dark:data-[selected=true]:text-primary-300',
+  'hover:text-foreground-subtle',
+  'active:text-foreground-muted'
 ])
 
 const Step = ({ selected, className }: StepProps) => {
