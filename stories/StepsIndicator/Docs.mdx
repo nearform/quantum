@@ -34,6 +34,11 @@ The attributes that can be passed through are listed below.
       <td>1</td>
     </tr>
     <tr>
+      <td>onClick</td>
+      <td>`function`</td>
+      <td>-</td>
+    </tr>
+    <tr>
       <td>props</td>
       <td>`any`</td>
       <td>-</td>
@@ -42,6 +47,25 @@ The attributes that can be passed through are listed below.
 </table>
 
 An array of length `length` contains `<Step>` components, the colour of which is controlled by the `selected` data attribute (`true | false`). We use `selectedIndex` to point to the component that requires this attribute to be true.
+
+The `onClick` function has access to the index of the `<Step>` component that was just clicked and can use that to update the props passed to `<StepIndicator>`.
+
+## Example usage
+
+```ts
+export const StepsIndicatorDemo: React.FC = () => {
+  const [selectedIndex, setSelectedIndex] = useState<number>(1)
+  const onClick = (i: number) => setSelectedIndex(i)
+
+  return (
+    <StepsIndicator
+      length={10}
+      selectedIndex={selectedIndex}
+      onClick={onClick}
+    />
+  )
+}
+```
 
 ## Step
 
@@ -75,39 +99,5 @@ const Step = ({ idx, selected, className }: StepProps) => {
 
 export { Step, StepProps }
 
-
-```
-
-## Steps Indicator
-
-```ts
-import ProgressDefault from '@/assets/build/progressdefault.icon'
-import { cn } from '@/lib/utils'
-import { cva } from 'class-variance-authority'
-
-interface StepProps {
-  idx?: string
-  selected: 'true' | 'false'
-  className?: string
-}
-
-const stepVariant = cva([
-  'text-inherit',
-  'fill-current',
-  'data-[selected=true]:text-primary-700',
-  'dark:data-[selected=true]:text-white'
-])
-
-const Step = ({ idx, selected, className }: StepProps) => {
-  return (
-    <ProgressDefault
-      key={idx}
-      data-selected={selected}
-      className={cn(stepVariant(), className)}
-    />
-  )
-}
-
-export { Step, StepProps }
 
 ```
