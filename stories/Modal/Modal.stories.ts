@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { ModalDemo } from './Modal.example'
+import { ModalFormDemo } from './ModalForm.example'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
   title: 'Components/Modal',
-  component: ModalDemo,
+  component: ModalFormDemo,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'centered'
@@ -18,7 +18,7 @@ const meta = {
     }
   }
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-} satisfies Meta<typeof ModalDemo>
+} satisfies Meta<typeof ModalFormDemo>
 
 export default meta
 type Story = StoryObj<typeof meta>

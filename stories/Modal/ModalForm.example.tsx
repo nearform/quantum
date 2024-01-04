@@ -11,7 +11,7 @@ import {
 } from '@/components/Modal'
 import { Button } from '@/components'
 
-export const ModalDemo = () => {
+export const ModalFormDemo = () => {
   return (
     <Modal>
       <Button size="sm" variant="primary" asChild>
