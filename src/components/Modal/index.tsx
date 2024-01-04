@@ -2,8 +2,9 @@
 
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { CloseIcon } from '@/assets'
+import { cva, type VariantProps } from 'class-variance-authority'
 
+import { CloseIcon } from '@/assets'
 import { cn } from '@/lib/utils'
 
 const Modal = DialogPrimitive.Root
@@ -35,7 +36,7 @@ const ModalContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        'fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 shadow-lg bg-background dark:bg-foreground duration-200 sm:rounded-lg',
+        'fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-6 shadow-lg bg-background dark:bg-foreground duration-200 sm:rounded-lg',
         className
       )}
       {...props}
@@ -46,31 +47,41 @@ const ModalContent = React.forwardRef<
 ))
 ModalContent.displayName = DialogPrimitive.Content.displayName
 
+const headerVariants = cva(
+  [
+    'flex',
+    'items-center',
+    'justify-between',
+    'p-6',
+    'space-y-1.5',
+    'text-center',
+    'sm:text-left'
+  ],
+  {
+    variants: {
+      variant: {
+        form: ['pb-0']
+      }
+    }
+  }
+)
+
 const ModalHeader = ({
   className,
+  variant,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      'flex items-center justify-between p-6 space-y-1.5 text-center sm:text-left',
-      className
-    )}
-    {...props}
-  />
+}: React.HTMLAttributes<HTMLDivElement> &
+  VariantProps<typeof headerVariants>) => (
+  <div className={cn(headerVariants({ variant, className }))} {...props} />
 )
+
 ModalHeader.displayName = 'ModalHeader'
 
 const ModalFooter = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      'flex flex-col-reverse p-6 sm:flex-row sm:justify-start sm:space-x-2',
-      className
-    )}
-    {...props}
-  />
+  <div className={cn('flex flex-col p-6 pt-0 gap-2.5', className)} {...props} />
 )
 ModalFooter.displayName = 'ModalFooter'
 
