@@ -2,7 +2,7 @@ import { colors } from './base'
 
 export const accent = {
   DEFAULT: colors.blue['700'],
-  dark: '#FFF',
+  dark: colors.blue['300'],
   alt: {
     DEFAULT: colors.grey['300'],
     dark: colors.grey['600']

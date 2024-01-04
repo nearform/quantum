@@ -8,7 +8,7 @@ import * as StepsStories from './StepsIndicator.stories'
 
 Used primarily to indicate the current step or inline page a user is on. We export both the individual `<Step/>` and `<StepsIndicator>`.
 
-## Default, with 10 pages on page 6
+## Default, with 10 pages on page 2
 
 <Canvas of={StepsStories.Default} />
 
@@ -34,13 +34,8 @@ The attributes that can be passed through are listed below.
       <td>1</td>
     </tr>
     <tr>
-      <td>className</td>
-      <td>`string`</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>childClassName</td>
-      <td>`string`</td>
+      <td>onClick</td>
+      <td>`function`</td>
       <td>-</td>
     </tr>
     <tr>
@@ -51,11 +46,26 @@ The attributes that can be passed through are listed below.
   </tbody>
 </table>
 
-An array of length `length` contains `<Step>` components, the colour of which is controlled by the `selected` data attribute (`true | false`). By default we use `selectedIndex` to point to the component that requires this attribute to be true. For higher customisability, we also include the `className` and `childClassName`. These respectively refer to the `<div>` containing all the Steps, and the `<Step/>` themselves.
+An array of length `length` contains `<Step>` components, the colour of which is controlled by the `selected` data attribute (`true | false`). We use `selectedIndex` to point to the component that requires this attribute to be true.
 
-For example, if you wanted the border of the `<div>` container to be grey, and the colour of the selected dot to be a large red:
+The `onClick` function has access to the index of the `<Step>` component that was just clicked and can use that to update the props passed to `<StepIndicator>`.
 
-<Canvas of={StepsStories.Customised} />
+## Example usage
+
+```ts
+export const StepsIndicatorDemo: React.FC = () => {
+  const [selectedIndex, setSelectedIndex] = useState<number>(1)
+  const onClick = (i: number) => setSelectedIndex(i)
+
+  return (
+    <StepsIndicator
+      length={10}
+      selectedIndex={selectedIndex}
+      onClick={onClick}
+    />
+  )
+}
+```
 
 ## Step
 
@@ -89,39 +99,5 @@ const Step = ({ idx, selected, className }: StepProps) => {
 
 export { Step, StepProps }
 
-
-```
-
-## Steps Indicator
-
-```ts
-import ProgressDefault from '@/assets/build/progressdefault.icon'
-import { cn } from '@/lib/utils'
-import { cva } from 'class-variance-authority'
-
-interface StepProps {
-  idx?: string
-  selected: 'true' | 'false'
-  className?: string
-}
-
-const stepVariant = cva([
-  'text-inherit',
-  'fill-current',
-  'data-[selected=true]:text-primary-700',
-  'dark:data-[selected=true]:text-white'
-])
-
-const Step = ({ idx, selected, className }: StepProps) => {
-  return (
-    <ProgressDefault
-      key={idx}
-      data-selected={selected}
-      className={cn(stepVariant(), className)}
-    />
-  )
-}
-
-export { Step, StepProps }
 
 ```
