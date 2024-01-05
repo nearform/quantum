@@ -55,13 +55,19 @@ const headerVariants = cva(
     'p-6',
     'space-y-1.5',
     'text-center',
-    'sm:text-left'
+    'sm:text-left',
+    'border-border-subtle',
+    'dark:border-border-subtle-dark'
   ],
   {
     variants: {
       variant: {
-        form: ['pb-0']
+        default: ['border-b'],
+        form: ['pb-0', 'border-b-0']
       }
+    },
+    defaultVariants: {
+      variant: 'default'
     }
   }
 )
@@ -119,17 +125,38 @@ const ModalClose = React.forwardRef<
   </DialogPrimitive.Close>
 ))
 
+const descriptionVariants = cva(
+  [
+    'text-sm',
+    'text-foreground-muted',
+    'border-border-subtle',
+    'dark:border-border-subtle-dark'
+  ],
+  {
+    variants: {
+      variant: {
+        default: ['border-b'],
+        form: ['border-b-0']
+      }
+    },
+    defaultVariants: {
+      variant: 'default'
+    }
+  }
+)
+
 const ModalDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description> &
+    VariantProps<typeof descriptionVariants>
+>(({ className, variant, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn('text-sm px-6 text-foreground-muted', className)}
+    className={cn(descriptionVariants({ variant, className }))}
     {...props}
   />
 ))
-ModalDescription.displayName = DialogPrimitive.Description.displayName
+ModalDescription.displayName = 'ModalDescription'
 
 export {
   Modal,
