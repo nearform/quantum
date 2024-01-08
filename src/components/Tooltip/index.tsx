@@ -28,21 +28,20 @@ interface TooltipProps {
   side?: TooltipPrimitive.TooltipContentProps['side']
   content?: React.ReactNode
   sideOffset?: number
-  className?: string
 }
 
 const Tooltip = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   TooltipProps
->(({ children, side, content, sideOffset, className }, ref) => {
+>(({ children, side, content, sideOffset }, ref) => {
   return (
     <TooltipPrimitive.Provider>
-      <TooltipPrimitive.Root>
+      <TooltipPrimitive.Root delayDuration={100}>
         <TooltipPrimitive.Trigger>{children}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
           side={side ?? 'top'}
           sideOffset={sideOffset ?? 4}
-          className={cn(tooltipVariants(), className)}
+          className={cn(tooltipVariants())}
           ref={ref}
         >
           {content}
