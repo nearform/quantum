@@ -30,7 +30,9 @@ export const WithLabel: Story = {
   render: props => (
     <div className="flex space-x-1">
       <Switch id="switchId1" {...props} />
-      <Label htmlFor="switchId1">Label</Label>
+      <Label htmlFor="switchId1" hintText="This is a hint">
+        Label
+      </Label>
     </div>
   )
 }
