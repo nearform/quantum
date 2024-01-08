@@ -23,14 +23,14 @@ const switchVariants = cva([
     'disabled:cursor-not-allowed'
   ],
   [
-    'dark:data-[state=checked]:bg-blue-300', //TODO: change to accent/dark when colour changes are made
-    'dark:bg-foreground-subtle-dark',
+    'dark:enabled:data-[state=checked]:bg-accent-dark',
+    'dark:enabled:bg-foreground-subtle-dark',
     'dark:disabled:bg-grey-200'
   ],
   [
-    'data-[state=checked]:bg-accent',
-    'data-[state=unchecked]:bg-foreground-subtle',
-    'data-[disabled]:bg-grey-200'
+    'enabled:data-[state=checked]:bg-accent',
+    'enabled:bg-foreground-subtle',
+    'disabled:bg-grey-200'
   ]
 ])
 
