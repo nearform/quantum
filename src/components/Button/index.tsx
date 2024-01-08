@@ -5,11 +5,11 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 
-const leftSideVariants = cva(['inline-flex', 'items-center','justify-center', 'text-inherit', 'text-justify','ml-2','pt-2.5', 'h-1.5', 'w-1.5' ])
+const leftSideVariants = cva(['inline-flex', 'items-center','justify-center', 'text-inherit', 'text-justify','ml-2','mr-3','pt-2.5', 'h-1.5', 'w-1.5' ])
 
-const rightSideVariants = cva(['inline-flex', 'items-center','justify-center', 'text-inherit', 'text-justify','mr-2','pt-2.5', 'h-1.5', 'w-1.5' ])
+const rightSideVariants = cva(['inline-flex', 'items-center','justify-center', 'text-inherit', 'text-justify','mr-2','ml-3','pt-2.5', 'h-1.5', 'w-1.5' ])
 
-const formVariants = cva(
+const buttonVariants = cva(
   [
     'inline-flex',
     'rounded-lg',
@@ -108,58 +108,81 @@ const formVariants = cva(
   }
 )
 
-const buttonVariants = cva(
-  [
-    'inline-flex',
-    'items-center',
-    'justify-center',
-    'transition-colors',
-    'focus-visible:outline-none',
-    'focus-visible:ring-1',
-    'focus-visible:ring-ring',
-    'bg-transparent',
-    'disabled:pointer-events-none',
-    'pr-4',
-    'pl-4',
-
-  ]
+const selectedVariant= cva([
+  'border-4'],
+  {
+    variants:{
+      variant:{
+        primary:[
+          'border-blue-200'
+        ],
+        secondary:[
+          'border-blue-200'
+        ],
+        tertiary:[
+          'border-blue-200'
+        ],
+        success:[
+          'border-green-200'
+        ],
+        danger:[
+          'border-red-200'
+        ]
+      }
+    }
+  }
 )
 
-const selectedVariant = cva(
-  [
-    'border-violet-700'
-  ]
-)
+// const buttonVariants = cva(
+//   [
+//     'inline-flex',
+//     'items-center',
+//     'justify-center',
+//     'transition-colors',
+//     'focus-visible:outline-none',
+//     'focus-visible:ring-1',
+//     'focus-visible:ring-ring',
+//     'bg-transparent',
+//     'disabled:pointer-events-none',
+//     'pr-4',
+//     'pl-4',
+
+//   ]
+// )
+
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof formVariants> {
+    VariantProps<typeof buttonVariants> {
   leftSideChild?: React.ReactNode
   rightSideChild?: React.ReactNode,
   leftSideClassName?: string,
   rightSideClassName?: string
+  children:any,
   asChild?: boolean,
-  selected?:boolean
+  selected?:boolean,
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false,leftSideChild, rightSideChild, leftSideClassName, rightSideClassName,disabled=false, selected=false, ...props }, ref) => {
+  ({ className, variant,children, size, asChild = false,leftSideChild, rightSideChild, leftSideClassName, rightSideClassName,disabled=false, selected=false, ...props }, ref) => {
 
     const [isSelected, setIsSelected] = React.useState(selected)
 
     const Comp = asChild ? Slot : 'button'
     return (
-        <form className={cn(formVariants({ variant }), className, isSelected? selectedVariant():null)} disabled={disabled} onClick={()=> setIsSelected(!isSelected)}>
+      <button
+          className={cn(buttonVariants({variant}), className, isSelected? selectedVariant({variant}) :null)}
+          ref={ref}
+          disabled={disabled}
+          onClick={()=> setIsSelected(!isSelected)}
+          {...props}
+        >
           {leftSideChild?
             <div className={cn(leftSideVariants(), leftSideClassName)}>
               {leftSideChild}
             </div>:<></>
           }
-          <button
-            className={cn(buttonVariants(), className)}
-            ref={ref}
-            {...props}
-          />
+          {children}
           {rightSideChild?
           
           <div className={cn(rightSideVariants(), rightSideVariants)}>
@@ -167,7 +190,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           </div>
            :<></>
           }
-      </form>
+      </button>
     )
   }
 )
