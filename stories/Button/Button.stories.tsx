@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Button } from '@/components/Button'
+import { ChevronLeftOutlineIcon, ChevronRightOutlineIcon } from '@/assets'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -32,6 +33,9 @@ const meta = {
       table: {
         disable: true
       }
+    },
+    selected: {
+      control:'boolean'
     }
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
@@ -71,4 +75,24 @@ export const Danger: Story = {
   args: {
     variant: 'danger',
   },
+}
+
+export const LeftIcon:Story ={
+  args:{
+    variant: 'primary',
+    leftSideChild: <ChevronLeftOutlineIcon/>
+  }
+}
+export const RightIcon:Story ={
+  args:{
+    variant: 'primary',
+    rightSideChild: <ChevronRightOutlineIcon/>
+  }
+}
+export const BothIcon:Story ={
+  args:{
+    variant: 'primary',
+    leftSideChild: <ChevronLeftOutlineIcon/>,
+    rightSideChild: <ChevronRightOutlineIcon/>
+  }
 }
