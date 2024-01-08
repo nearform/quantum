@@ -43,7 +43,7 @@ const Label = React.forwardRef<
     return (
       <div className="flex flex-col">
         {label}
-        <div className="font-semibold	text-xs text-foreground-muted">
+        <div className="font-semibold	text-xs text-foreground-muted dark:text-foreground-muted-dark">
           {hintText}
         </div>
       </div>
