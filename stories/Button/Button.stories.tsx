@@ -74,22 +74,22 @@ export const Danger: Story = {
   }
 }
 
-export const LeftIcon:Story ={
-  args:{
+export const LeftIcon: Story = {
+  args: {
     variant: 'primary',
-    leftSideChild: <ChevronLeftOutlineIcon/>
+    leftSideChild: <ChevronLeftOutlineIcon />
   }
 }
-export const RightIcon:Story ={
-  args:{
+export const RightIcon: Story = {
+  args: {
     variant: 'success',
-    rightSideChild: <ChevronRightOutlineIcon/>
+    rightSideChild: <ChevronRightOutlineIcon />
   }
 }
-export const BothIcon:Story ={
-  args:{
+export const BothIcon: Story = {
+  args: {
     variant: 'tertiary',
-    leftSideChild: <ChevronLeftOutlineIcon/>,
-    rightSideChild: <ChevronRightOutlineIcon/>
+    leftSideChild: <ChevronLeftOutlineIcon />,
+    rightSideChild: <ChevronRightOutlineIcon />
   }
 }

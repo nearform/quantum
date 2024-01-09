@@ -1,13 +1,31 @@
 import * as React from 'react'
-import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
+const leftSideVariants = cva([
+  'inline-flex',
+  'items-center',
+  'justify-center',
+  'text-inherit',
+  'text-justify',
+  'mr-3',
+  'pt-2.5',
+  'h-1.5',
+  'w-1.5'
+])
 
-const leftSideVariants = cva(['inline-flex', 'items-center','justify-center', 'text-inherit', 'text-justify','mr-3','pt-2.5', 'h-1.5', 'w-1.5' ])
-
-const rightSideVariants = cva(['inline-flex', 'items-center','justify-center', 'text-inherit', 'text-justify','ml-3','pt-2.5', 'h-1.5', 'w-1.5' ])
+const rightSideVariants = cva([
+  'inline-flex',
+  'items-center',
+  'justify-center',
+  'text-inherit',
+  'text-justify',
+  'ml-3',
+  'pt-2.5',
+  'h-1.5',
+  'w-1.5'
+])
 
 const buttonVariants = cva(
   [
@@ -21,7 +39,7 @@ const buttonVariants = cva(
     'focus-visible:ring-ring',
     'disabled:pointer-events-none',
     'cursor-pointer',
-    'disabled:cursor-default',
+    'disabled:cursor-default'
   ],
   {
     variants: {
@@ -38,7 +56,7 @@ const buttonVariants = cva(
           'disabled:bg-button-primary-disabled',
           'disabled:text-foreground-subtle',
           'disabled:border-button-primary-disabled',
-          'selected:text-foreground-selected',
+          'selected:text-foreground-selected'
         ],
         secondary: [
           'bg-white',
@@ -50,7 +68,7 @@ const buttonVariants = cva(
           'focus-visible:shadow-blue',
           'disabled:bg-button-secondary-disabled',
           'disabled:border-button-secondary-border-disabled',
-          'disabled:text-foreground-subtle',
+          'disabled:text-foreground-subtle'
         ],
         tertiary: [
           'bg-transparent border-transparent',
@@ -62,7 +80,7 @@ const buttonVariants = cva(
           'focus:bg-button-tertiary-focus',
           'focus:border-blue-200',
           'focus-visible:shadow-blue',
-          'disabled:text-foreground-subtle',
+          'disabled:text-foreground-subtle'
         ],
         success: [
           'bg-button-success',
@@ -75,8 +93,7 @@ const buttonVariants = cva(
           'focus-visible:shadow-green',
           'disabled:bg-button-success-disabled',
           'disabled:border-button-success-disabled',
-          'disabled:text-foreground-subtle',
-
+          'disabled:text-foreground-subtle'
         ],
         danger: [
           'bg-button-danger',
@@ -89,7 +106,7 @@ const buttonVariants = cva(
           'focus-visible::shadow-red',
           'disabled:bg-button-danger-disabled',
           'disabled:border-button-danger-disabled',
-          'disabled:text-foreground-subtle',
+          'disabled:text-foreground-subtle'
         ]
       },
       size: {
@@ -106,55 +123,61 @@ const buttonVariants = cva(
   }
 )
 
-
-
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   leftSideChild?: React.ReactNode
-  rightSideChild?: React.ReactNode,
-  leftSideClassName?: string,
+  rightSideChild?: React.ReactNode
+  leftSideClassName?: string
   rightSideClassName?: string
-  children:any,
-  asChild?: boolean,
-  onClick:any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  children: any
+  asChild?: boolean
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className,
-     variant,
-     children,
-     size,
-     asChild = false,
-     leftSideChild,
-     rightSideChild,
-     leftSideClassName,
-     rightSideClassName,
-     disabled=false,
-     onClick,
-     ...props }, ref) => {
-
+  (
+    {
+      className,
+      variant,
+      children,
+      size,
+      leftSideChild,
+      rightSideChild,
+      leftSideClassName,
+      rightSideClassName,
+      disabled = false,
+      onClick,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <button
-          className={cn(buttonVariants({variant}),className)}
-          ref={ref}
-          disabled={disabled}
-          onClick={(e)=>{if(onClick)onClick(e)}}
-          {...props}
-        >
-          {leftSideChild?
-            <div className={cn(leftSideVariants(), leftSideClassName)}>
-              {leftSideChild}
-            </div>:<></>
-          }
-          {children}
-          {rightSideChild?
-          
-          <div className={cn(rightSideVariants(), rightSideClassName)}>
-             {rightSideChild}
+        className={cn(buttonVariants({ variant, size }), className)}
+        ref={ref}
+        disabled={disabled}
+        onClick={e => {
+          if (onClick) onClick(e)
+        }}
+        {...props}
+      >
+        {leftSideChild ? (
+          <div className={cn(leftSideVariants(), leftSideClassName)}>
+            {leftSideChild}
           </div>
-           :<></>
-          }
+        ) : (
+          <></>
+        )}
+        {children}
+        {rightSideChild ? (
+          <div className={cn(rightSideVariants(), rightSideClassName)}>
+            {rightSideChild}
+          </div>
+        ) : (
+          <></>
+        )}
       </button>
     )
   }
