@@ -35,8 +35,6 @@ const buttonVariants = cva(
     'p-2',
     'transition-colors',
     'focus-visible:outline-none',
-    'focus-visible:ring-1',
-    'focus-visible:ring-ring',
     'disabled:pointer-events-none',
     'cursor-pointer',
     'disabled:cursor-default'
@@ -52,7 +50,6 @@ const buttonVariants = cva(
           'hover:border-button-primary-hover',
           'focus:bg-button-primary-focus',
           'focus:border-blue-200',
-          'focus-visible:shadow-blue',
           'disabled:bg-button-primary-disabled',
           'disabled:text-foreground-subtle',
           'disabled:border-button-primary-disabled',
@@ -65,7 +62,6 @@ const buttonVariants = cva(
           'hover:bg-button-secondary-hover',
           'hover:border-button-secondary-border-hover',
           'focus:border-blue-200',
-          'focus-visible:shadow-blue',
           'disabled:bg-button-secondary-disabled',
           'disabled:border-button-secondary-border-disabled',
           'disabled:text-foreground-subtle'
@@ -79,7 +75,6 @@ const buttonVariants = cva(
           'hover:dark:text-button-tertiary-hover-dark',
           'focus:bg-button-tertiary-focus',
           'focus:border-blue-200',
-          'focus-visible:shadow-blue',
           'disabled:text-foreground-subtle'
         ],
         success: [
@@ -90,7 +85,6 @@ const buttonVariants = cva(
           'hover:border-button-success-hover',
           'focus:bg-button-success-focus',
           'focus:border-green-200',
-          'focus-visible:shadow-green',
           'disabled:bg-button-success-disabled',
           'disabled:border-button-success-disabled',
           'disabled:text-foreground-subtle'
@@ -103,7 +97,6 @@ const buttonVariants = cva(
           'hover:border-button-danger-hover',
           'focus:bg-button-danger-focus',
           'focus:border-red-200',
-          'focus-visible::shadow-red',
           'disabled:bg-button-danger-disabled',
           'disabled:border-button-danger-disabled',
           'disabled:text-foreground-subtle'
