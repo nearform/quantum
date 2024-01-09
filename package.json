@@ -10,6 +10,7 @@
   "scripts": {
     "build": "tsup",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "jest",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
