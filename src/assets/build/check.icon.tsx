@@ -1,4 +1,4 @@
-export const CheckIcon = (props: any) => (
+export const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>> = props => (
   <svg
     viewBox="0 0 24 24"
     fill="none"

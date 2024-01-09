@@ -3,9 +3,8 @@ import { useState } from 'react'
 
 export const PaginationDemo = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [numberOfItemsPerPage, setNumberOfItemsPerPage] = useState(10)
-  const [totalNumberOfFilteredItems, setTotalNumberOfFilteredItems] =
-    useState(100)
+  const numberOfItemsPerPage = 10
+  const totalNumberOfFilteredItems = 100
 
   return (
     <Pagination

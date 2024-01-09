@@ -1,4 +1,4 @@
-export const MinusIcon = (props: any) => (
+export const MinusIcon: React.FC<React.SVGProps<SVGSVGElement>> = props => (
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
     <g id="minus">
       <path

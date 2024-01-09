@@ -6,7 +6,7 @@ import { Config } from 'tailwindcss'
 export default plugin(
   ({ config }: { config: () => Config }) => {
     const twConfig = config()
-    let quantumPkgLoc = path.join(__dirname, 'index.js')
+    const quantumPkgLoc = path.join(__dirname, 'index.js')
 
     if (Array.isArray(twConfig.content)) {
       if (!twConfig.content.includes(quantumPkgLoc)) {

@@ -13,7 +13,10 @@ const stepsVariant = cva([
 interface StepsIndicatorProp {
   selectedIndex?: number
   length?: number
-  props?: any
+  props?: React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  >
   name?: string
   onClick?: (i: number) => void
 }

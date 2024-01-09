@@ -48,14 +48,22 @@ const remap = ({
   mode: keyof DarkMode
   colorPalette: ColorPaletteType
 }) => {
-  const r = Object.keys(colorPalette).reduce((acc: any, token) => {
-    const color = colorPalette[token as keyof typeof colorPalette]
-    if (typeof color === 'object') {
-      acc[token as keyof ColorPaletteType] = color[`${mode}`]
-    } else if (token === mode) {
-      acc[mode] = color
-    }
-    return acc
-  }, {})
+  const r = Object.keys(colorPalette).reduce(
+    (acc: Record<string, string>, token) => {
+      const color = colorPalette[token as keyof typeof colorPalette]
+      if (color) {
+        if (typeof color === 'object') {
+          const colorMode = color[`${mode}`]
+          if (colorMode) {
+            acc[token] = colorMode
+          }
+        } else if (mode && token === mode) {
+          acc[mode] = color
+        }
+      }
+      return acc
+    },
+    {}
+  )
   return r
 }
