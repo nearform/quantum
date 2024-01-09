@@ -1,4 +1,4 @@
-export const AngleDownIcon = (props: any) => (
+export const AngleDownIcon: React.FC<React.SVGProps<SVGSVGElement>> = props => (
   <svg
     className="w-6 h-6 text-gray-800 "
     aria-hidden="true"

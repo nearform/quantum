@@ -1,4 +1,6 @@
-export const OpenSourceIcon = (props: any) => (
+export const OpenSourceIcon: React.FC<
+  React.SVGProps<SVGSVGElement>
+> = props => (
   <svg viewBox="0 0 25 26" xmlns="http://www.w3.org/2000/svg" {...props}>
     <g id="open-source">
       <path

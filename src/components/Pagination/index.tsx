@@ -48,17 +48,14 @@ interface PaginationProps
     VariantProps<typeof PaginationVariants> {}
 
 export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
-  (
-    {
-      className,
-      currentPage,
-      setCurrentPage,
-      numberOfItemsPerPage,
-      totalNumberOfFilteredItems,
-      ...props
-    },
-    refs
-  ) => {
+  ({
+    className,
+    currentPage,
+    setCurrentPage,
+    numberOfItemsPerPage,
+    totalNumberOfFilteredItems,
+    ...props
+  }) => {
     const currentRowsLength = totalNumberOfFilteredItems ?? 0
 
     const totalPages = React.useMemo(() => {
@@ -106,7 +103,6 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         setShowRightDots(false)
         setShowLeftDots(true)
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage, totalPages])
 
     const goToNextPage = () => {

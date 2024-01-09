@@ -12,7 +12,7 @@ export const RadioGroupDemo = ({
   }
   return (
     <RadioGroup
-      defaultValue={defaultValue}
+      defaultValue={value}
       onValueChange={handleValueChange}
       disabled={disabled}
       loop={loop}
