@@ -66,7 +66,7 @@ const triggerVariants = cva(
           'text-green-700'
         ]
       },
-      size:{
+      size: {
         sm: ['h-[37px]'],
         lg: ['h-[42px]']
       }
@@ -85,7 +85,7 @@ export interface TriggerProps
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   TriggerProps
->(({ variant,size, className, children, ...props }, ref) => (
+>(({ variant, size, className, children, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(triggerVariants({ variant, size }), className)}
