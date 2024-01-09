@@ -19,6 +19,10 @@ export const button = {
     disabled: {
       DEFAULT: colors.grey['50'],
       dark: background.subtle.dark
+    },
+    selected: {
+      DEFAILT: colors.grey['100'],
+      dark: background.subtle.dark
     }
   },
   secondary: {
@@ -53,6 +57,10 @@ export const button = {
       disabled: {
         DEFAULT: border.subtle.DEFAULT,
         dark: border.subtle.dark
+      },
+      selected: {
+        DEFAILT: colors.grey['100'],
+        dark: background.subtle.dark
       }
     }
   },
@@ -64,6 +72,10 @@ export const button = {
     focus: {
       DEFAULT: background.DEFAULT,
       dark: colors.blue['900']
+    },
+    selected: {
+      DEFAILT: colors.grey['100'],
+      dark: background.subtle.dark
     }
   },
   success: {
@@ -76,6 +88,10 @@ export const button = {
     },
     disabled: {
       DEFAULT: colors.grey['50']
+    },
+    selected: {
+      DEFAILT: colors.grey['100'],
+      dark: background.subtle.dark
     }
   },
   danger: {
@@ -88,6 +104,10 @@ export const button = {
     },
     disabled: {
       DEFAULT: colors.grey['50']
+    },
+    selected: {
+      DEFAILT: colors.grey['100'],
+      dark: background.subtle.dark
     }
   }
 }

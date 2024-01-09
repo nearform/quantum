@@ -1,38 +1,59 @@
 import * as React from 'react'
-import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
+const leftSideVariants = cva([
+  'inline-flex',
+  'items-center',
+  'justify-center',
+  'text-inherit',
+  'text-justify',
+  'mr-3',
+  'pt-2.5',
+  'h-1.5',
+  'w-1.5'
+])
+
+const rightSideVariants = cva([
+  'inline-flex',
+  'items-center',
+  'justify-center',
+  'text-inherit',
+  'text-justify',
+  'ml-3',
+  'pt-2.5',
+  'h-1.5',
+  'w-1.5'
+])
+
 const buttonVariants = cva(
   [
     'inline-flex',
-    'items-center',
-    'justify-center',
-    'whitespace-nowrap',
     'rounded-lg',
+    'border-4',
+    'p-2',
     'transition-colors',
     'focus-visible:outline-none',
-    'focus-visible:ring-1',
-    'focus-visible:ring-ring',
     'disabled:pointer-events-none',
-    'border-2 '
+    'cursor-pointer',
+    'disabled:cursor-default'
   ],
   {
     variants: {
       variant: {
         primary: [
           'bg-button-primary',
-          'border-button-primary',
           'text-white',
+          'border-button-primary',
           'hover:bg-button-primary-hover',
           'hover:border-button-primary-hover',
           'focus:bg-button-primary-focus',
-          'focus:border-button-primary-focus',
-          'focus-visible:shadow-blue',
+          'focus:border-blue-200',
           'disabled:bg-button-primary-disabled',
           'disabled:text-foreground-subtle',
-          'disabled:border-button-primary-disabled'
+          'disabled:border-button-primary-disabled',
+          'selected:text-foreground-selected'
         ],
         secondary: [
           'bg-white',
@@ -40,8 +61,7 @@ const buttonVariants = cva(
           'border-border',
           'hover:bg-button-secondary-hover',
           'hover:border-button-secondary-border-hover',
-          'focus:border-button-secondary-border-focus',
-          'focus-visible:shadow-blue',
+          'focus:border-blue-200',
           'disabled:bg-button-secondary-disabled',
           'disabled:border-button-secondary-border-disabled',
           'disabled:text-foreground-subtle'
@@ -54,32 +74,29 @@ const buttonVariants = cva(
           'hover:border-button-tertiary-hover',
           'hover:dark:text-button-tertiary-hover-dark',
           'focus:bg-button-tertiary-focus',
-          'focus:border-button-tertiary-focus',
-          'focus-visible:shadow-blue',
+          'focus:border-blue-200',
           'disabled:text-foreground-subtle'
         ],
         success: [
           'bg-button-success',
-          'border-button-success',
           'text-white',
+          'border-button-success',
           'hover:bg-button-success-hover',
           'hover:border-button-success-hover',
           'focus:bg-button-success-focus',
-          'focus:border-button-success-focus',
-          'focus-visible:shadow-green',
+          'focus:border-green-200',
           'disabled:bg-button-success-disabled',
           'disabled:border-button-success-disabled',
           'disabled:text-foreground-subtle'
         ],
         danger: [
           'bg-button-danger',
-          'border-button-danger',
           'text-white',
+          'border-button-danger',
           'hover:bg-button-danger-hover',
           'hover:border-button-danger-hover',
           'focus:bg-button-danger-focus',
-          'focus:border-button-danger-focus',
-          'focus-visible::shadow-red',
+          'focus:border-red-200',
           'disabled:bg-button-danger-disabled',
           'disabled:border-button-danger-disabled',
           'disabled:text-foreground-subtle'
@@ -102,21 +119,63 @@ const buttonVariants = cva(
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
+  leftSideChild?: React.ReactNode
+  rightSideChild?: React.ReactNode
+  leftSideClassName?: string
+  rightSideClassName?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  children: any
   asChild?: boolean
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button'
+  (
+    {
+      className,
+      variant,
+      children,
+      size,
+      leftSideChild,
+      rightSideChild,
+      leftSideClassName,
+      rightSideClassName,
+      disabled = false,
+      onClick,
+      ...props
+    },
+    ref
+  ) => {
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+      <button
+        className={cn(buttonVariants({ variant, size }), className)}
         ref={ref}
+        disabled={disabled}
+        onClick={e => {
+          if (onClick) onClick(e)
+        }}
         {...props}
-      />
+      >
+        {leftSideChild ? (
+          <div className={cn(leftSideVariants(), leftSideClassName)}>
+            {leftSideChild}
+          </div>
+        ) : (
+          <></>
+        )}
+        {children}
+        {rightSideChild ? (
+          <div className={cn(rightSideVariants(), rightSideClassName)}>
+            {rightSideChild}
+          </div>
+        ) : (
+          <></>
+        )}
+      </button>
     )
   }
 )
+
 Button.displayName = 'Button'
 
 export { Button, buttonVariants }
