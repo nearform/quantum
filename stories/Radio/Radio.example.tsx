@@ -1,10 +1,12 @@
-import { Label } from '@/components/Label'
-import { Radio, RadioGroup, RadioGroupProps } from '@/components/Radio'
+import { Radio, RadioGroup, RadioGroupProps } from '@/components/'
+import { ControlLabel } from '@/components/ControlLabel'
+
 import { useState } from 'react'
 export const RadioGroupDemo = ({
   defaultValue,
   disabled,
   loop,
+  id,
   ...props
 }: RadioGroupProps): JSX.Element => {
   const [value, setValue] = useState(defaultValue)
@@ -19,18 +21,18 @@ export const RadioGroupDemo = ({
       loop={loop}
       {...props}
     >
-      <RadioWithLabel value="hello" />
-      <RadioWithLabel value="world" />
-      <RadioWithLabel value="goodbye" />
-      <RadioWithLabel value="friend" />
+      <ControlLabel htmlFor={`${id}-hello`} label="Hello">
+        <Radio id={`${id}-hello`} value="hello" />
+      </ControlLabel>
+      <ControlLabel htmlFor={`${id}-world`} label="World">
+        <Radio id={`${id}-world`} value="world" />
+      </ControlLabel>
+      <ControlLabel htmlFor={`${id}-goodbye`} label="Goodbye">
+        <Radio id={`${id}-goodbye`} value="goodbye" />
+      </ControlLabel>
+      <ControlLabel htmlFor={`${id}-friend`} label="Friend">
+        <Radio id={`${id}-friend`} value="friend" />
+      </ControlLabel>
     </RadioGroup>
-  )
-}
-const RadioWithLabel = ({ value }: { value: string }) => {
-  return (
-    <div className="flex items-center space-x-2">
-      <Radio value={value} />
-      <Label htmlFor={value}>{value}</Label>
-    </div>
   )
 }

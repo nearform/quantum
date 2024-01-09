@@ -13,19 +13,27 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const NoDefault: Story = {}
+const parameters = {
+  controls: { exclude: ['id'] }
+}
+
+export const NoDefault: Story = {
+  args: {
+    id: 'no-default'
+  },
+  parameters
+}
 export const DefaultSet: Story = {
   args: {
-    defaultValue: 'goodbye'
-  }
+    defaultValue: 'goodbye',
+    id: 'default'
+  },
+  parameters
 }
 export const RadioButtonDisabled: Story = {
   args: {
-    disabled: true
-  }
-}
-export const RadioButtonHorizontalOrientation: Story = {
-  args: {
-    orientation: 'horizontal'
-  }
+    disabled: true,
+    id: 'disabled'
+  },
+  parameters
 }
