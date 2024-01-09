@@ -1,5 +1,5 @@
 import * as React from 'react'
-const ArrowRightIcon = (props: any) => (
+const ArrowRightIcon: React.FC<React.SVGProps<SVGSVGElement>> = props => (
   <svg
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,4 @@
-const ArrowLeftIcon = (props: any) => (
+const ArrowLeftIcon: React.FC<React.SVGProps<SVGSVGElement>> = props => (
   <svg
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
