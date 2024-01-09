@@ -33,9 +33,6 @@ const meta = {
       table: {
         disable: true
       }
-    },
-    selected: {
-      control:'boolean'
     }
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
@@ -77,6 +74,13 @@ export const Danger: Story = {
   },
 }
 
+export const Selected: Story = {
+  args:{
+    variant: 'primary',
+    selected: true
+  }
+}
+
 export const LeftIcon:Story ={
   args:{
     variant: 'primary',
@@ -85,13 +89,13 @@ export const LeftIcon:Story ={
 }
 export const RightIcon:Story ={
   args:{
-    variant: 'primary',
+    variant: 'success',
     rightSideChild: <ChevronRightOutlineIcon/>
   }
 }
 export const BothIcon:Story ={
   args:{
-    variant: 'primary',
+    variant: 'tertiary',
     leftSideChild: <ChevronLeftOutlineIcon/>,
     rightSideChild: <ChevronRightOutlineIcon/>
   }

@@ -18,7 +18,7 @@ const buttonVariants = cva(
     'focus-visible:ring-1',
     'focus-visible:ring-ring',
     'disabled:pointer-events-none',
-    'border-2 ',
+    'border-4 ',
     'cursor-pointer',
     'disabled:cursor-default',
   ],
@@ -27,7 +27,6 @@ const buttonVariants = cva(
       variant: {
         primary: [
           'bg-button-primary',
-          'border-button-primary',
           'text-white',
           'hover:bg-button-primary-hover',
           'hover:border-button-primary-hover',
@@ -42,7 +41,6 @@ const buttonVariants = cva(
         secondary: [
           'bg-white',
           'text-grey-900',
-          'border-border',
           'hover:bg-button-secondary-hover',
           'hover:border-button-secondary-border-hover',
           'focus:border-button-secondary-border-focus',
@@ -67,7 +65,6 @@ const buttonVariants = cva(
         ],
         success: [
           'bg-button-success',
-          'border-button-success',
           'text-white',
           'hover:bg-button-success-hover',
           'hover:border-button-success-hover',
@@ -81,7 +78,6 @@ const buttonVariants = cva(
         ],
         danger: [
           'bg-button-danger',
-          'border-button-danger',
           'text-white',
           'hover:bg-button-danger-hover',
           'hover:border-button-danger-hover',
@@ -108,8 +104,34 @@ const buttonVariants = cva(
   }
 )
 
+const unselectedVariant = cva([
+  'border-2',
+  ],
+  {
+    variants:{
+      variant:{
+        primary:[
+          'border-button-primary',
+        ],
+        secondary:[
+          'border-border',
+        ],
+        tertiary:[
+          'border-none'
+        ],
+        success:[
+          'border-button-success',
+        ],
+        danger:[
+          'border-button-danger',
+        ]
+      }
+    }
+  }
+)
+
 const selectedVariant= cva([
-  'border-4'],
+  'border-2'],
   {
     variants:{
       variant:{
@@ -133,23 +155,6 @@ const selectedVariant= cva([
   }
 )
 
-// const buttonVariants = cva(
-//   [
-//     'inline-flex',
-//     'items-center',
-//     'justify-center',
-//     'transition-colors',
-//     'focus-visible:outline-none',
-//     'focus-visible:ring-1',
-//     'focus-visible:ring-ring',
-//     'bg-transparent',
-//     'disabled:pointer-events-none',
-//     'pr-4',
-//     'pl-4',
-
-//   ]
-// )
-
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -161,20 +166,43 @@ export interface ButtonProps
   children:any,
   asChild?: boolean,
   selected?:boolean,
+  onClick:any
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant,children, size, asChild = false,leftSideChild, rightSideChild, leftSideClassName, rightSideClassName,disabled=false, selected=false, ...props }, ref) => {
+  ({ className,
+     variant,
+     children,
+     size,
+     onClick,
+     asChild = false,
+     leftSideChild,
+     rightSideChild,
+     leftSideClassName,
+     rightSideClassName,
+     disabled=false,
+     selected=false, 
+     ...props }, ref) => {
 
     const [isSelected, setIsSelected] = React.useState(selected)
+    React.useEffect(() => {
+      setIsSelected(selected);
+    }, [selected]);
 
-    const Comp = asChild ? Slot : 'button'
     return (
       <button
-          className={cn(buttonVariants({variant}), className, isSelected? selectedVariant({variant}) :null)}
+          className={cn(buttonVariants({variant}), className, isSelected? selectedVariant({variant}) :unselectedVariant({variant}))}
           ref={ref}
           disabled={disabled}
-          onClick={()=> setIsSelected(!isSelected)}
+          onClick={(e)=> {
+            if(onClick === undefined) {
+            setIsSelected(!isSelected)
+            }
+            if (onClick) {
+              onClick(e)
+            }
+            
+          }}
           {...props}
         >
           {leftSideChild?
@@ -185,7 +213,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {children}
           {rightSideChild?
           
-          <div className={cn(rightSideVariants(), rightSideVariants)}>
+          <div className={cn(rightSideVariants(), rightSideClassName)}>
              {rightSideChild}
           </div>
            :<></>
