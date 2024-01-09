@@ -4,7 +4,8 @@ import { useState } from 'react'
 export const RadioGroupDemo = ({
   defaultValue,
   disabled,
-  loop
+  loop,
+  ...props
 }: RadioGroupProps): JSX.Element => {
   const [value, setValue] = useState(defaultValue)
   const handleValueChange = (newValue: string) => {
@@ -16,6 +17,7 @@ export const RadioGroupDemo = ({
       onValueChange={handleValueChange}
       disabled={disabled}
       loop={loop}
+      {...props}
     >
       <RadioWithLabel value="hello" />
       <RadioWithLabel value="world" />
