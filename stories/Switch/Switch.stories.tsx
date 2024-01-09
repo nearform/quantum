@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Switch } from '@/index'
+import { Switch, Label } from '@/index'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -24,4 +24,24 @@ export const Disabled: Story = {
   args: {
     disabled: true
   }
+}
+
+export const WithLabel: Story = {
+  render: props => (
+    <div className="flex items-center space-x-1">
+      <Switch id="switchId1" {...props} />
+      <Label htmlFor="switchId1">Label</Label>
+    </div>
+  )
+}
+
+export const WithLabelAndHint: Story = {
+  render: props => (
+    <div className="flex items-center space-x-1">
+      <Switch id="switchId1" {...props} />
+      <Label htmlFor="switchId1" hintText="This is a hint">
+        Label
+      </Label>
+    </div>
+  )
 }
