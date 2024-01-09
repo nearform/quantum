@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/nearform/quantum#readme",
   "lint-staged": {
-    "*.{js,jsx}": "eslint --cache --fix"
+    "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.3",
