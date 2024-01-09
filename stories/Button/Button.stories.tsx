@@ -14,7 +14,7 @@ const meta = {
   },
   args: {
     children: 'Button Text',
-    size: 'md',
+    size: 'md'
   },
   argTypes: {
     variant: {
@@ -45,30 +45,30 @@ type Story = StoryObj<typeof meta>
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
   args: {
-    variant: 'primary',
-  },
+    variant: 'primary'
+  }
 }
 
 export const Secondary: Story = {
   args: {
-    variant: 'secondary',
-  },
+    variant: 'secondary'
+  }
 }
 
 export const Tertiary: Story = {
   args: {
-    variant: 'tertiary',
-  },
+    variant: 'tertiary'
+  }
 }
 
 export const Success: Story = {
   args: {
-    variant: 'success',
-  },
+    variant: 'success'
+  }
 }
 
 export const Danger: Story = {
   args: {
-    variant: 'danger',
-  },
+    variant: 'danger'
+  }
 }
