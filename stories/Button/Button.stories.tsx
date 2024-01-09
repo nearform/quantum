@@ -74,13 +74,6 @@ export const Danger: Story = {
   },
 }
 
-export const Selected: Story = {
-  args:{
-    variant: 'primary',
-    selected: true
-  }
-}
-
 export const LeftIcon:Story ={
   args:{
     variant: 'primary',
