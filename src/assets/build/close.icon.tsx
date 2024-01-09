@@ -1,4 +1,4 @@
-export const CloseIcon = (props: any) => (
+export const CloseIcon: React.FC<React.SVGProps<SVGSVGElement>> = props => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={12}

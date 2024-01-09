@@ -10,6 +10,7 @@
   "scripts": {
     "build": "tsup",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "jest",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
@@ -31,7 +32,7 @@
   },
   "homepage": "https://github.com/nearform/quantum#readme",
   "lint-staged": {
-    "*.{js,jsx}": "eslint --cache --fix"
+    "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.3",
@@ -46,6 +47,8 @@
     "@storybook/react": "^7.5.2",
     "@storybook/react-vite": "^7.5.2",
     "@storybook/testing-library": "^0.2.2",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",

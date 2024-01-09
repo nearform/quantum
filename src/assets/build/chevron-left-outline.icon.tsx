@@ -1,4 +1,6 @@
-export const ChevronLeftOutlineIcon = (props: any) => (
+export const ChevronLeftOutlineIcon: React.FC<
+  React.SVGProps<SVGSVGElement>
+> = props => (
   <svg
     className="w-6 h-6"
     aria-hidden="true"
