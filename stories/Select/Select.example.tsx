@@ -15,7 +15,7 @@ interface DemoProps extends TriggerProps {
   example: string
 }
 
-export const SelectDemo = ({ variant, example }: DemoProps) => {
+export const SelectDemo = ({ variant, size, example }: DemoProps) => {
   if (example === 'small') {
     return (
       <Select>
@@ -34,7 +34,7 @@ export const SelectDemo = ({ variant, example }: DemoProps) => {
   } else if (example === 'large') {
     return (
       <Select>
-        <SelectTrigger variant={variant} className="w-[180px]">
+        <SelectTrigger variant={variant} size={size} className="w-[180px]">
           <SelectValue placeholder="Choose" />
           {/* Something going wrong with placement of select value when it overflows */}
         </SelectTrigger>
