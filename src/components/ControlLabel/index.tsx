@@ -5,11 +5,7 @@ type Props = Omit<LabelProps, 'children'> &
     label: string
   }>
 
-export const ControlLabel: React.FC<Props> = ({
-  children,
-  label,
-  ...labelProps
-}) => {
+const ControlLabel: React.FC<Props> = ({ children, label, ...labelProps }) => {
   return (
     <div className="flex items-center space-x-2">
       {children}
@@ -17,3 +13,5 @@ export const ControlLabel: React.FC<Props> = ({
     </div>
   )
 }
+
+export { ControlLabel }

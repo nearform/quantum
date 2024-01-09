@@ -1,5 +1,4 @@
-import { Radio, RadioGroup, RadioGroupProps } from '@/components/'
-import { ControlLabel } from '@/components/ControlLabel'
+import { Radio, RadioGroup, RadioGroupProps, ControlLabel } from '@/index'
 
 import { useState } from 'react'
 export const RadioGroupDemo = ({
