@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 import { VariantProps, cva } from 'class-variance-authority'
-import React, { Children } from 'react'
+import React from 'react'
 
 const websiteFooterVariants = cva(
   ['flex', 'flex-col', 'w-full', 'items-center', 'px-16', 'py-4'],
@@ -32,7 +32,7 @@ const footerStatementVariants = cva(
   {
     variants: {
       size: {
-        standard: [, 'sm:py-8', 'sm:text-base'],
+        standard: ['sm:py-8', 'sm:text-base'],
         sm: []
       }
     },
@@ -88,8 +88,6 @@ const linkColumnVariants = cva(
 interface WebsiteFooterProps
   extends React.ComponentPropsWithoutRef<'div'>,
     VariantProps<typeof websiteFooterVariants> {}
-{
-}
 
 const WebsiteFooter = React.forwardRef<HTMLDivElement, WebsiteFooterProps>(
   ({ className, size, ...props }, ref) => (

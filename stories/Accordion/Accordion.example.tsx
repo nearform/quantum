@@ -1,7 +1,6 @@
 import {
   Accordion,
   AccordionItem,
-  AccordionHeader,
   AccordionTrigger,
   AccordionContent
 } from '@/components/Accordion'
@@ -20,7 +19,7 @@ export const AccordionDemo = () => (
     <AccordionItem value="item-2" className="">
       <AccordionTrigger>Item 2</AccordionTrigger>
       <AccordionContent>
-        <div className="text-sm px-6 text-foreground-muted bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 text-lg font-semibold items-center flex justify-center">
+        <div className="text-sm px-6 text-foreground-muted bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 font-semibold items-center flex justify-center">
           Replace this component with your content
         </div>
       </AccordionContent>
@@ -29,7 +28,7 @@ export const AccordionDemo = () => (
     <AccordionItem value="item-3">
       <AccordionTrigger>Item 3</AccordionTrigger>
       <AccordionContent>
-        <div className="bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 text-lg font-semibold items-center flex justify-center text-sm px-6 text-foreground-muted">
+        <div className="bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 font-semibold items-center flex justify-center text-sm px-6 text-foreground-muted">
           Replace this component with your content
         </div>
       </AccordionContent>

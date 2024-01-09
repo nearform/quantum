@@ -67,10 +67,7 @@ interface ChipProps
 }
 
 const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
-  (
-    { className, variant, size, children, disabled, onClick, active, ...props },
-    ref
-  ) => {
+  ({ variant, size, children, disabled, onClick, active, ...props }, ref) => {
     return (
       <button
         onClick={onClick}

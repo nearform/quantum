@@ -5,7 +5,7 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 
 import { cn } from '@/lib/utils'
 import { VariantProps, cva } from 'class-variance-authority'
-import { AngleDownIcon, CheckIcon } from '@/assets'
+import { AngleDownIcon } from '@/assets'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 
 const Select = SelectPrimitive.Root
