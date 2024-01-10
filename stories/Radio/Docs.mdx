@@ -1,4 +1,4 @@
-import { Canvas, Meta } from '@storybook/blocks'
+import { Canvas, Meta, Description } from '@storybook/blocks'
 
 import * as RadioStories from './Radio.stories'
 
@@ -16,7 +16,11 @@ This is a set of two components, `Radio` and `RadioGroup`. The `RadioGroup` is u
 <Canvas of={RadioStories.DefaultSet} />
 
 ## Disabled
-<Canvas of={RadioStories.RadioButtonDisabled} />
+<Canvas of={RadioStories.Disabled} />
+
+## Labels on the left
+<Description of={RadioStories.LabelsOnTheLeft} />
+<Canvas of={RadioStories.LabelsOnTheLeft} />
 
 ## Attributes
 
@@ -81,112 +85,3 @@ This is a set of two components, `Radio` and `RadioGroup`. The `RadioGroup` is u
 </table>
 
 Note: The orientation feature doesn't change the actual orientation of the radio elements, but instead, on how focus is changed. If you use `horizontal` you will need to use the left and right arrow keys to navigate through the options, as opposed to vertical which is the up and down keys.
-
-## Radio
-
-```ts
-import * as React from 'react'
-import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
-import { cn } from '@/lib/utils'
-import { RadioSelected } from '@/assets'
-
-type RadioGroupItemProps = React.ComponentPropsWithoutRef<
-  typeof RadioGroupPrimitive.Item
->
-
-const RadioGroupItem = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  RadioGroupItemProps
->(({ className, children, ...props }, ref) => {
-  return (
-    <RadioGroupPrimitive.Item
-      ref={ref}
-      className={cn(
-        'h-5 w-5 rounded-full border-[0.67px] border-border bg-background-alt disabled:opacity-50 data-[state=checked]:border-primary-600 data-[state=checked]:bg-primary-600 text-foreground-inverse',
-        className
-      )}
-      {...props}
-    >
-      <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <RadioSelected className="text-inherit stroke-current stroke-1 fill-current" />
-      </RadioGroupPrimitive.Indicator>
-    </RadioGroupPrimitive.Item>
-  )
-})
-RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
-
-export { RadioGroupItem as Radio, RadioGroupItemProps }
-
-```
-
-## Radio Group
-
-```ts
-import * as React from 'react'
-import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
-
-import { cn } from '@/lib/utils'
-
-type RadioGroupProps = React.ComponentPropsWithoutRef<
-  typeof RadioGroupPrimitive.Root
->
-const RadioGroup = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Root>,
-  RadioGroupProps
->(({ className, ...props }, ref) => {
-  return (
-    <RadioGroupPrimitive.Root
-      className={cn('grid gap-2', className)}
-      {...props}
-      ref={ref}
-    />
-  )
-})
-RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
-
-export { RadioGroup, type RadioGroupProps }
-
-
-```
-
-## Example Usage
-
-```ts
-import { Radio, RadioGroup, RadioGroupProps } from '@/components/'
-import { ControlLabel } from '@/components/ControlLabel'
-
-import { useState } from 'react'
-export const RadioGroupDemo = ({
-  defaultValue,
-  disabled,
-  loop,
-  ...props
-}: RadioGroupProps): JSX.Element => {
-  const [value, setValue] = useState(defaultValue)
-  const handleValueChange = (newValue: string) => {
-    setValue(newValue)
-  }
-  return (
-    <RadioGroup
-      defaultValue={value}
-      onValueChange={handleValueChange}
-      disabled={disabled}
-      loop={loop}
-      {...props}
-    >
-      <ControlLabel htmlFor={'helloId'} label="Hello">
-        <Radio id={'helloId'} value="hello" />
-      </ControlLabel>
-      <ControlLabel htmlFor={'worldId'} label="World">
-        <Radio id={'worldId'} value="world" />
-      </ControlLabel>
-      <ControlLabel htmlFor={'goodbyeId'} label="Goodbye">
-        <Radio id={'goodbyeId'} value="goodbye" />
-      </ControlLabel>
-      <ControlLabel htmlFor={'friendId'} label="Friend">
-        <Radio id={'friendId'} value="friend" />
-      </ControlLabel>
-    </RadioGroup>
-  )
-}
-```

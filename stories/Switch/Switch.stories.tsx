@@ -36,3 +36,16 @@ export const WithLabelAndHint: Story = {
     </ControlLabel>
   )
 }
+
+export const WithLabelOnTheLeft: Story = {
+  render: props => (
+    <ControlLabel
+      htmlFor="withLabelOnTheLeftId"
+      label="Label"
+      hintText="This is a hint"
+      position="left"
+    >
+      <Switch id="withLabelOnTheLeftId" {...props} />
+    </ControlLabel>
+  )
+}

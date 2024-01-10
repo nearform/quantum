@@ -16,6 +16,11 @@ A control label is a label for a form control component (e.g. switch, checkbox, 
 
 <Canvas of={ControlLabelStories.WithHintText} />
 
+## Left to the control component
+
+<Canvas of={ControlLabelStories.LeftLabel} />
+
+
 ## Attributes
 
 <table>
@@ -40,15 +45,15 @@ A control label is a label for a form control component (e.g. switch, checkbox, 
       <td>`"sm" | "md" | "lg" | "xl"`</td>
       <td>`"sm"`</td>
     </tr>
+    <tr>
+      <td>position</td>
+      <td>`"left" | "right"`</td>
+      <td>`"right"`</td>
+    </tr>
+    <tr>
+      <td>varticalAlign</td>
+      <td>`"top" | "middle" | "bottom"`</td>
+      <td>`"top"`</td>
+    </tr>
   </tbody>
 </table>
-
-## Example
-
-```tsx
-import { Switch, ControlLabel } from '@/index'
-
-<ControlLabel htmlFor="fieldId" label="Label"  hintText="This is a hint">
-  <Switch id="fieldId" value="value" />
-</ControlLabel>
-```
