@@ -40,7 +40,7 @@ interface LabelProps
   extends React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,
     VariantProps<typeof labelVariants> {
   hintText?: string
-  align: 'left' | 'right'
+  align?: 'left' | 'right'
 }
 
 const Label = React.forwardRef<
