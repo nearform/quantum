@@ -19,7 +19,7 @@ const ControlLabel: React.FC<Props> = ({
           {label}
         </Label>
       )}
-      <div>{children}</div>
+      {children}
       {position === 'right' && (
         <Label {...labelProps} align="left">
           {label}
