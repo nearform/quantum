@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { CheckboxDemo } from './CheckBox.example'
+import { Checkbox } from '@/index'
 
 const meta = {
   title: 'Form/Checkbox',
-  component: CheckboxDemo,
+  component: Checkbox,
   parameters: {
     layout: 'centered'
   },
@@ -18,7 +18,7 @@ const meta = {
       description: 'Alter the className to change the style'
     }
   }
-} satisfies Meta<typeof CheckboxDemo>
+} satisfies Meta<typeof Checkbox>
 
 export default meta
 type Story = StoryObj<typeof meta>
