@@ -15,7 +15,8 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    label: 'Label'
+    label: 'Label',
+    position: 'right'
   },
   render: props => (
     <ControlLabel htmlFor="fieldId" {...props}>
@@ -27,7 +28,21 @@ export const Default: Story = {
 export const WithHintText: Story = {
   args: {
     label: 'Label',
-    hintText: 'This is a hint'
+    hintText: 'This is a hint',
+    position: 'right'
+  },
+  render: props => (
+    <ControlLabel htmlFor="fieldId" {...props}>
+      <Checkbox id="fieldId" value="value" />
+    </ControlLabel>
+  )
+}
+
+export const LeftLabel: Story = {
+  args: {
+    label: 'Label',
+    hintText: 'This is a hint',
+    position: 'left'
   },
   render: props => (
     <ControlLabel htmlFor="fieldId" {...props}>
