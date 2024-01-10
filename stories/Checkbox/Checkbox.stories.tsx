@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Checkbox } from '@/index'
+import { Checkbox, ControlLabel } from '@/index'
 
 const meta = {
   title: 'Form/Checkbox',
@@ -45,4 +45,20 @@ export const ColourChange: Story = {
     className:
       'data-[state=checked]:text-yellow-200 data-[state=checked]:bg-green-900 data-[state=checked]:border-border'
   }
+}
+
+export const WithLabel: Story = {
+  render: props => (
+    <ControlLabel htmlFor="withLabelId" label="Label">
+      <Checkbox id="withLabelId" {...props} />
+    </ControlLabel>
+  )
+}
+
+export const WithLabelAndHint: Story = {
+  render: props => (
+    <ControlLabel htmlFor="withHintId" label="Label" hintText="This is a hint">
+      <Checkbox id="withHintId" {...props} />
+    </ControlLabel>
+  )
 }
