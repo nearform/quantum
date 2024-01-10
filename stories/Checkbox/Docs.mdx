@@ -9,14 +9,15 @@ import * as CheckboxStories from './Checkbox.stories'
 A checkbox is a small box that users can click or tap to select or deselect an option. It's commonly used to allow users to make multiple choices from a list of options and is often accompanied by a label describing the option.
 
 ## Unchecked
+<Canvas of={CheckboxStories.Unchecked} />
 
-<Canvas of={CheckboxStories.CheckBoxUnchecked} />
 ## Checked
-<Canvas of={CheckboxStories.CheckBoxChecked} />
-## Indeterminate
-<Canvas of={CheckboxStories.CheckBoxIndeterminate} />
-## Attributes
+<Canvas of={CheckboxStories.Checked} />
 
+## Indeterminate
+<Canvas of={CheckboxStories.Indeterminate} />
+
+## Attributes
 <table>
   <tbody>
     <tr>
@@ -65,7 +66,7 @@ You can control the styling by using the Data-attributes in the className. For e
 
 And you can see the change:
 
-<Canvas of={CheckboxStories.CheckboxColourChange} />
+<Canvas of={CheckboxStories.ColourChange} />
 
 You can do the same for the indeterminate style by using `data-[state=indeterminate]`.
 Note that the colour of the SVG's stroke and fill (in this case, a tick or a minus) is inherited from the parents text colour.
