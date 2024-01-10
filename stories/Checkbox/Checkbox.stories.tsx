@@ -62,3 +62,16 @@ export const WithLabelAndHint: Story = {
     </ControlLabel>
   )
 }
+
+export const WithLabelOnTheLeft: Story = {
+  render: props => (
+    <ControlLabel
+      htmlFor="withLabelOnTheLeftId"
+      label="Label"
+      hintText="This is a hint"
+      position="left"
+    >
+      <Checkbox id="withLabelOnTheLeftId" {...props} />
+    </ControlLabel>
+  )
+}
