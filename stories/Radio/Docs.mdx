@@ -10,12 +10,14 @@ A radio button is a circular or round option that users can select from a list o
 This is a set of two components, `Radio` and `RadioGroup`. The `RadioGroup` is used as a helper for the `Radio` components to order them neatly together.
 
 ## No Default
-
 <Canvas of={RadioStories.NoDefault} />
+
 ## Default Set
 <Canvas of={RadioStories.DefaultSet} />
+
 ## Disabled
 <Canvas of={RadioStories.RadioButtonDisabled} />
+
 ## Attributes
 
 <table>
@@ -150,13 +152,15 @@ export { RadioGroup, type RadioGroupProps }
 ## Example Usage
 
 ```ts
-import { Label } from '@/components/Label'
-import { Radio, RadioGroup, RadioGroupProps } from '@/components/Radio'
+import { Radio, RadioGroup, RadioGroupProps } from '@/components/'
+import { ControlLabel } from '@/components/ControlLabel'
+
 import { useState } from 'react'
 export const RadioGroupDemo = ({
   defaultValue,
   disabled,
-  loop
+  loop,
+  ...props
 }: RadioGroupProps): JSX.Element => {
   const [value, setValue] = useState(defaultValue)
   const handleValueChange = (newValue: string) => {
@@ -164,27 +168,25 @@ export const RadioGroupDemo = ({
   }
   return (
     <RadioGroup
-      defaultValue={defaultValue}
+      defaultValue={value}
       onValueChange={handleValueChange}
       disabled={disabled}
       loop={loop}
+      {...props}
     >
-      <RadioWithLabel value="hello" />
-      <RadioWithLabel value="world" />
-      <RadioWithLabel value="goodbye" />
-      <RadioWithLabel value="friend" />
+      <ControlLabel htmlFor={'helloId'} label="Hello">
+        <Radio id={'helloId'} value="hello" />
+      </ControlLabel>
+      <ControlLabel htmlFor={'worldId'} label="World">
+        <Radio id={'worldId'} value="world" />
+      </ControlLabel>
+      <ControlLabel htmlFor={'goodbyeId'} label="Goodbye">
+        <Radio id={'goodbyeId'} value="goodbye" />
+      </ControlLabel>
+      <ControlLabel htmlFor={'friendId'} label="Friend">
+        <Radio id={'friendId'} value="friend" />
+      </ControlLabel>
     </RadioGroup>
   )
 }
-const RadioWithLabel = ({ value }: { value: string }) => {
-  return (
-    <span className="flex items-center space-x-1">
-      <Radio value={value} />
-      <Label htmlFor={value}>{value}</Label>
-    </span>
-  )
-}
-
-
-
 ```

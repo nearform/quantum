@@ -1,0 +1,54 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as ControlLabelStories from './ControlLabel.stories'
+
+<Meta of={ControlLabelStories} />
+
+# ControlLabel
+
+A control label is a label for a form control component (e.g. switch, checkbox, radio button, etc).
+
+## Default
+
+<Canvas of={ControlLabelStories.Default} />
+
+## With hint
+
+<Canvas of={ControlLabelStories.WithHintText} />
+
+## Attributes
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>hintText</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`"sm" | "md" | "lg" | "xl"`</td>
+      <td>`"sm"`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+import { Switch, ControlLabel } from '@/index'
+
+<ControlLabel htmlFor="fieldId" label="Label"  hintText="This is a hint">
+  <Switch id="fieldId" value="value" />
+</ControlLabel>
+```
