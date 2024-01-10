@@ -1,12 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Switch, ControlLabel, Checkbox } from '@/index'
+import { Switch, ControlLabel, Checkbox, Radio, RadioGroup } from '@/index'
 
 const meta = {
   title: 'Form/ControlLabel',
   component: ControlLabel,
   parameters: {
     layout: 'centered'
+  },
+  argTypes: {
+    varticalAlign: {
+      control: 'radio',
+      options: ['top', 'middle', 'bottom']
+    }
   }
 } satisfies Meta<typeof ControlLabel>
 
@@ -19,8 +25,8 @@ export const Default: Story = {
     position: 'right'
   },
   render: props => (
-    <ControlLabel htmlFor="fieldId" {...props}>
-      <Switch id="fieldId" value="value" />
+    <ControlLabel htmlFor="defaultId" {...props}>
+      <Switch id="defaultId" value="value" />
     </ControlLabel>
   )
 }
@@ -32,8 +38,8 @@ export const WithHintText: Story = {
     position: 'right'
   },
   render: props => (
-    <ControlLabel htmlFor="fieldId" {...props}>
-      <Checkbox id="fieldId" value="value" />
+    <ControlLabel htmlFor="hintId" {...props}>
+      <Checkbox id="hintId" value="value" />
     </ControlLabel>
   )
 }
@@ -45,8 +51,23 @@ export const LeftLabel: Story = {
     position: 'left'
   },
   render: props => (
-    <ControlLabel htmlFor="fieldId" {...props}>
-      <Checkbox id="fieldId" value="value" />
+    <RadioGroup className="items-end">
+      <ControlLabel htmlFor="leftId" {...props}>
+        <Radio id="leftId" value="value" />
+      </ControlLabel>
+    </RadioGroup>
+  )
+}
+
+export const VerticalAlignment: Story = {
+  args: {
+    label: 'Label',
+    hintText: 'This is a hint',
+    varticalAlign: 'middle'
+  },
+  render: props => (
+    <ControlLabel htmlFor="verticalId" {...props}>
+      <Switch id="verticalId" value="value" />
     </ControlLabel>
   )
 }
