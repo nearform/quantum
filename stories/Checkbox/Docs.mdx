@@ -9,14 +9,24 @@ import * as CheckboxStories from './Checkbox.stories'
 A checkbox is a small box that users can click or tap to select or deselect an option. It's commonly used to allow users to make multiple choices from a list of options and is often accompanied by a label describing the option.
 
 ## Unchecked
+<Canvas of={CheckboxStories.Unchecked} />
 
-<Canvas of={CheckboxStories.CheckBoxUnchecked} />
 ## Checked
-<Canvas of={CheckboxStories.CheckBoxChecked} />
-## Indeterminate
-<Canvas of={CheckboxStories.CheckBoxIndeterminate} />
-## Attributes
+<Canvas of={CheckboxStories.Checked} />
 
+## Indeterminate
+<Canvas of={CheckboxStories.Indeterminate} />
+
+## With label
+<Canvas of={CheckboxStories.WithLabel} />
+
+## With label and hint
+<Canvas of={CheckboxStories.WithLabelAndHint} />
+
+## With label on the left
+<Canvas of={CheckboxStories.WithLabelOnTheLeft} />
+
+## Attributes
 <table>
   <tbody>
     <tr>
@@ -65,103 +75,7 @@ You can control the styling by using the Data-attributes in the className. For e
 
 And you can see the change:
 
-<Canvas of={CheckboxStories.CheckboxColourChange} />
+<Canvas of={CheckboxStories.ColourChange} />
 
 You can do the same for the indeterminate style by using `data-[state=indeterminate]`.
 Note that the colour of the SVG's stroke and fill (in this case, a tick or a minus) is inherited from the parents text colour.
-
-## Checkbox
-
-```ts
-import * as React from 'react'
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
-import { cn } from '@/lib/utils'
-import { Check, Minus } from '@/assets/index'
-import { cva } from 'class-variance-authority'
-const checkboxVariants = cva([
-  [
-    'peer',
-    'h-5 w-5',
-    'p-0.5',
-    'shrink-0',
-    'gap-0',
-    'rounded',
-    'border',
-    'border-border'
-  ],
-  [
-    'data-[state=checked]:border-blue-600',
-    'data-[state=checked]:bg-blue-600',
-    'data-[state=checked]:text-foreground-inverse',
-    'data-[state=indeterminate]:border-blue-600',
-    'data-[state=indeterminate]:bg-blue-600',
-    'data-[state=indeterminate]:text-foreground-inverse'
-  ],
-  [
-    'dark:data-[state=unchecked]:bg-alt-dark',
-    'dark:data-[state=unchecked]:border-grey-500'
-  ]
-])
-
-interface CheckboxProps
-  extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {}
-
-const Checkbox = React.forwardRef<
-  React.ElementRef<typeof CheckboxPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <CheckboxPrimitive.Root
-    ref={ref}
-    className={cn(checkboxVariants(), className)}
-    {...props}
-  >
-    <CheckboxPrimitive.Indicator
-      className={cn('flex items-center justify-center text-inherit')}
-    >
-      {(props.checked === true || props.checked === undefined) && (
-        <Check className="text-inherit stroke-current stroke-1 fill-current" />
-      )}
-      {props.checked === 'indeterminate' && (
-        <Minus className="text-inherit stroke-current stroke-3 fill-current" />
-      )}
-    </CheckboxPrimitive.Indicator>
-  </CheckboxPrimitive.Root>
-))
-Checkbox.displayName = CheckboxPrimitive.Root.displayName
-
-export { Checkbox, CheckboxProps }
-
-```
-
-## Example Usage
-
-To control the state of whether it's checked, we pass through the `checked` attribute to the `<Checkbox>` component. We can also pass through a `onCheckedChange` callback function in order to update the `checked` state.
-
-The `checked` variable passed in must be of the type `CheckboxProps["checked"]` which can be one of the following: `true | false | "indeterminate"`. You can see a list of the possible attributes you can use with the `<Checkbox>` component below.
-
-```ts
-import { Checkbox, CheckboxProps } from '@/components/Checkbox'
-import { useState } from 'react'
-export const CheckboxDemo = ({
-  checked,
-  className
-}: {
-  checked: CheckboxProps['checked']
-  className?: string
-}): JSX.Element => {
-  const [check, setCheck] = useState<typeof checked>(checked)
-  const handleOnCheckChanged = () => {
-    if (check !== 'indeterminate') {
-      setCheck(!check)
-    }
-  }
-  return (
-    <Checkbox
-      checked={check}
-      onCheckedChange={handleOnCheckChanged}
-      className={className}
-    />
-  )
-}
-
-```

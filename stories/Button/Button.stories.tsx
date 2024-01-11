@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Button } from '@/components/Button'
+import { ChevronLeftOutlineIcon, ChevronRightOutlineIcon } from '@/assets'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -70,5 +71,25 @@ export const Success: Story = {
 export const Danger: Story = {
   args: {
     variant: 'danger'
+  }
+}
+
+export const LeftIcon: Story = {
+  args: {
+    variant: 'primary',
+    leftSideChild: <ChevronLeftOutlineIcon />
+  }
+}
+export const RightIcon: Story = {
+  args: {
+    variant: 'success',
+    rightSideChild: <ChevronRightOutlineIcon />
+  }
+}
+export const BothIcon: Story = {
+  args: {
+    variant: 'tertiary',
+    leftSideChild: <ChevronLeftOutlineIcon />,
+    rightSideChild: <ChevronRightOutlineIcon />
   }
 }

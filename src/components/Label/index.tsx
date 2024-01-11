@@ -7,7 +7,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const labelVariants = cva(
-  'text-sm font-medium leading-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-foreground-inverse',
+  'font-medium leading-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-foreground-inverse',
   {
     variants: {
       size: {
@@ -17,24 +17,44 @@ const labelVariants = cva(
         xs: 'text-xs',
         xl: 'text-xl'
       }
+    },
+    defaultVariants: {
+      size: 'sm'
     }
   }
 )
+
+const alignVariants = cva('', {
+  variants: {
+    align: {
+      left: 'text-left',
+      right: 'text-right'
+    }
+  },
+  defaultVariants: {
+    align: 'left'
+  }
+})
 
 interface LabelProps
   extends React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,
     VariantProps<typeof labelVariants> {
   hintText?: string
+  align?: 'left' | 'right'
 }
 
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   LabelProps
->(({ className, size, hintText, ...props }, ref) => {
+>(({ className, size, hintText, align, ...props }, ref) => {
   const label = (
     <LabelPrimitive.Root
       ref={ref}
-      className={cn(labelVariants({ size }), className)}
+      className={cn(
+        labelVariants({ size }),
+        alignVariants({ align }),
+        className
+      )}
       {...props}
     />
   )
@@ -43,7 +63,12 @@ const Label = React.forwardRef<
     return (
       <div className="flex flex-col">
         {label}
-        <div className="font-semibold	text-xs text-foreground-muted dark:text-foreground-muted-dark">
+        <div
+          className={cn(
+            alignVariants({ align }),
+            'font-semibold	text-xs text-foreground-muted dark:text-foreground-muted-dark'
+          )}
+        >
           {hintText}
         </div>
       </div>
