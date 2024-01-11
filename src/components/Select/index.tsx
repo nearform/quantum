@@ -20,7 +20,6 @@ const triggerVariants = cva(
   [
     [
       'flex',
-      'h-10',
       'w-full',
       'border border-[2px]',
       'text-foreground',
@@ -43,6 +42,7 @@ const triggerVariants = cva(
         default: [
           'text-foreground',
           'border-border-subtle',
+          'bg-grey-100',
           'hover:border-border-hover',
           'hover:text-foreground',
           'focus-visible:shadow-blue',
@@ -65,10 +65,15 @@ const triggerVariants = cva(
           'focus-visible:shadow-green',
           'text-green-700'
         ]
+      },
+      size: {
+        sm: ['h-[37px]'],
+        lg: ['h-[42px]']
       }
     },
     defaultVariants: {
-      variant: 'default'
+      variant: 'default',
+      size: 'sm'
     }
   }
 )
@@ -80,14 +85,14 @@ export interface TriggerProps
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   TriggerProps
->(({ variant, className, children, ...props }, ref) => (
+>(({ variant, size, className, children, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
-    className={cn(triggerVariants({ variant }), className)}
+    className={cn(triggerVariants({ variant, size }), className)}
     {...props}
   >
     {children}
-    <SelectPrimitive.Icon asChild className="ml-1">
+    <SelectPrimitive.Icon asChild className="ml-6">
       <AngleDownIcon className="h-2 w-2" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
