@@ -3,8 +3,7 @@
 import * as React from 'react'
 import { DayPicker } from 'react-day-picker'
 import { cn } from '@/lib/utils'
-import ArrowLeftIcon from '@/assets/build/arrow-left.icon'
-import ArrowRightIcon from '@/assets/build/arrow-right.icon'
+import { BsArrowLeft, BsArrowRight } from '@/assets'
 import { cva } from 'class-variance-authority'
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
@@ -116,10 +115,10 @@ function Calendar({
       }}
       components={{
         IconLeft: () => (
-          <ArrowLeftIcon className="h-5 w-5 fill-current stroke-current" />
+          <BsArrowLeft className="h-5 w-5 fill-current stroke-current" />
         ),
         IconRight: () => (
-          <ArrowRightIcon className="h-5 w-5 fill-current stroke-current" />
+          <BsArrowRight className="h-5 w-5 fill-current stroke-current" />
         )
       }}
       {...props}

@@ -3,33 +3,9 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
-const leftSideVariants = cva([
-  'inline-flex',
-  'items-center',
-  'justify-center',
-  'text-inherit',
-  'text-justify',
-  'mr-3',
-  'pt-2.5',
-  'h-1.5',
-  'w-1.5'
-])
-
-const rightSideVariants = cva([
-  'inline-flex',
-  'items-center',
-  'justify-center',
-  'text-inherit',
-  'text-justify',
-  'ml-3',
-  'pt-2.5',
-  'h-1.5',
-  'w-1.5'
-])
-
 const buttonVariants = cva(
   [
-    'inline-flex',
+    'inline-flex items-center',
     'rounded-lg',
     'border-4',
     'p-2',
@@ -146,6 +122,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    const sideChildClassed =
+      'inline-flex items-center justify-center text-inherit text-justify'
+
     return (
       <button
         className={cn(buttonVariants({ variant, size }), className)}
@@ -157,15 +136,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {leftSideChild ? (
-          <div className={cn(leftSideVariants(), leftSideClassName)}>
+          <div className={cn(sideChildClassed, 'mr-3', leftSideClassName)}>
             {leftSideChild}
           </div>
         ) : (
           <></>
         )}
-        {children}
+        <div>{children}</div>
         {rightSideChild ? (
-          <div className={cn(rightSideVariants(), rightSideClassName)}>
+          <div className={cn(sideChildClassed, 'ml-3', rightSideClassName)}>
             {rightSideChild}
           </div>
         ) : (

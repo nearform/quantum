@@ -15,3 +15,6 @@ export * from './build/chevron-left-outline.icon'
 export * from './build/chevron-right-outline.icon'
 export * from './build/arrow-left.icon'
 export * from './build/arrow-right.icon'
+
+export * from './build/open-source.icon'
+export * from 'react-icons/bs'

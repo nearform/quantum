@@ -1,7 +1,7 @@
 import React from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
-import { PlusIcon } from '@/assets'
+import { BsPlus } from '@/assets'
 
 const chipVariants = cva(
   [
@@ -79,7 +79,7 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
       >
         {children}
         <div className="flex items-center justify-center w-6 h-6 p-2.5">
-          <PlusIcon
+          <BsPlus
             className={cn(size == 'lg' ? 'h-4 w-4' : 'h-3 w-3', [
               'stroke-current',
               'shrink-0'
