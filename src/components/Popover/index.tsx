@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
-import * as Separator from '@radix-ui/react-separator'
 import { cva, type VariantProps } from 'class-variance-authority'
 import * as SeparatorPrimitive from '@radix-ui/react-separator'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
@@ -30,9 +29,6 @@ const PopoverClose = PopoverPrimitive.Close
 export interface PopoverProps
   extends React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>,
     VariantProps<typeof popoverVariants> {}
-
-export interface SeparatorProps
-  extends React.ComponentPropsWithoutRef<typeof Separator.Root> {}
 
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
@@ -80,24 +76,35 @@ const PopoverScrollArea: React.FC<PopoverScrollAreaProps> = ({
   )
 }
 
+interface PopoverSeparatorProps
+  extends React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root> {
+  fullLength?: boolean
+}
+
 const PopoverSeparator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
->(({ className, orientation = 'horizontal', ...props }, ref) => (
-  <div className="w-full">
-    <SeparatorPrimitive.Root
-      ref={ref}
-      decorative
-      orientation={orientation}
-      className={cn(
-        'shrink-0 bg-border-subtle dark:bg-border-dark',
-        orientation === 'horizontal' ? 'h-[1px] w-fill' : 'h-fill w-[1px]',
-        className
-      )}
-      {...props}
-    />
-  </div>
-))
+  PopoverSeparatorProps
+>(
+  (
+    { className, orientation = 'horizontal', fullLength = false, ...props },
+    ref
+  ) => (
+    <div className="w-full">
+      <SeparatorPrimitive.Root
+        ref={ref}
+        decorative
+        orientation={orientation}
+        className={cn(
+          'shrink-0 bg-border-subtle dark:bg-border-dark',
+          orientation === 'horizontal' ? 'h-[1px] w-fill' : 'h-fill w-[1px]',
+          fullLength && orientation === 'horizontal' ? '-mx-4' : '',
+          className
+        )}
+        {...props}
+      />
+    </div>
+  )
+)
 PopoverSeparator.displayName = SeparatorPrimitive.Root.displayName
 
 interface PopoverHeaderProps {
@@ -112,7 +119,7 @@ const PopoverHeader: React.FC<PopoverHeaderProps> = ({ header, subHeader }) => {
         <h1 className="font-semibold text-sm">{header}</h1>
         <h2 className="font-normal text-sm">{subHeader}</h2>
       </div>
-      <PopoverSeparator className="-mx-4" />
+      <PopoverSeparator fullLength />
     </>
   )
 }
@@ -127,7 +134,7 @@ const PopoverFooter: React.FC<PopoverFooterProps> = ({
 }) => {
   return (
     <div className="w-full -mb-4">
-      <PopoverSeparator className="-mx-4" />
+      <PopoverSeparator fullLength />
       <div className={className}>{children}</div>
     </div>
   )
