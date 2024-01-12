@@ -17,7 +17,8 @@ const popoverVariants = cva([
   'text-foreground text-sm font-normal dark:text-white',
   'shadow',
   'outline-none',
-  'overflow-scroll'
+  'min-w-72',
+  'p-4'
 ])
 
 const Popover = PopoverPrimitive.Root
@@ -49,22 +50,35 @@ const PopoverContent = React.forwardRef<
         className={cn(popoverVariants(), className)}
         {...props}
       >
-        <ScrollArea.Root className="w-full h-full" type="auto">
-          <ScrollArea.Viewport className="w-full h-full">
-            {children}
-          </ScrollArea.Viewport>
-          <ScrollArea.Scrollbar
-            orientation="vertical"
-            className="w-3 pr-1 py-2"
-          >
-            <ScrollArea.Thumb className="bg-grey-200 w-2 rounded-lg" />
-          </ScrollArea.Scrollbar>
-        </ScrollArea.Root>
+        {children}
       </PopoverPrimitive.Content>
     </PopoverPrimitive.Portal>
   )
 )
 PopoverContent.displayName = PopoverPrimitive.Content.displayName
+
+type PopoverScrollAreaProps = React.PropsWithChildren<{
+  className?: string
+}>
+
+const PopoverScrollArea: React.FC<PopoverScrollAreaProps> = ({
+  className,
+  children
+}) => {
+  return (
+    <ScrollArea.Root className={cn('w-full h-full', className)} type="auto">
+      <ScrollArea.Viewport className="w-full h-full">
+        {children}
+      </ScrollArea.Viewport>
+      <ScrollArea.Scrollbar
+        orientation="vertical"
+        className="w-3 pr-1 py-2 -mr-4"
+      >
+        <ScrollArea.Thumb className="bg-grey-200 w-2 rounded-lg" />
+      </ScrollArea.Scrollbar>
+    </ScrollArea.Root>
+  )
+}
 
 const PopoverSeparator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
@@ -86,10 +100,46 @@ const PopoverSeparator = React.forwardRef<
 ))
 PopoverSeparator.displayName = SeparatorPrimitive.Root.displayName
 
+interface PopoverHeaderProps {
+  header: string
+  subHeader?: string
+}
+
+const PopoverHeader: React.FC<PopoverHeaderProps> = ({ header, subHeader }) => {
+  return (
+    <>
+      <div className="pb-4">
+        <h1 className="font-semibold text-sm">{header}</h1>
+        <h2 className="font-normal text-sm">{subHeader}</h2>
+      </div>
+      <PopoverSeparator className="-mx-4" />
+    </>
+  )
+}
+
+type PopoverFooterProps = React.PropsWithChildren<{
+  className?: string
+}>
+
+const PopoverFooter: React.FC<PopoverFooterProps> = ({
+  className,
+  children
+}) => {
+  return (
+    <div className="w-full -mb-4">
+      <PopoverSeparator className="-mx-4" />
+      <div className={className}>{children}</div>
+    </div>
+  )
+}
+
 export {
   Popover,
   PopoverTrigger,
   PopoverContent,
+  PopoverScrollArea,
+  PopoverHeader,
+  PopoverFooter,
   PopoverSeparator,
   PopoverClose
 }

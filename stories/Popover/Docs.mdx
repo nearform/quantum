@@ -12,13 +12,18 @@ A popover overlay is a temporary, expandable menu that appears on top of the mai
 
 <Canvas of={PopoverStories.Default} />
 
-## Default with Scrolling
+## Default with scrolling and icons
 
-<Canvas of={PopoverStories.ScrollableList} />
+<Canvas of={PopoverStories.IconList} />
+
+## Default with header
+
+<Canvas of={PopoverStories.WithHeader} />
+
 
 ## With Radio Group
 
-<Canvas of={PopoverStories.Radio} />
+<Canvas of={PopoverStories.RadioList} />
 
 ## With Close Button
 
@@ -60,50 +65,38 @@ The content contained in the popover. Style or className is ignored.
 
 Used to visually separate items in the popover. Can be used to create Headers or Footers.
 
+### \<PopoverScrollArea>
+
+Used to make the content area scrollable.
+
+### \<PopoverHeader>
+
+The header of the popover. Used to display a title and a subtitle.
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>header</td>
+      <td>`sting`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>subHeader</td>
+      <td>`sting`</td>
+      <td>`undefined`</td>
+    </tr>
+  </tbody>
+</table>
+
+### \<PopoverFooter>
+
+The footer of the popover.
+
 ### \<PopoverClose>
 
 The button that closes the popover.
-
-## Example
-
-```tsx
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  PopoverSeparator,
-  PopoverClose,
-  PopoverProps,
-  Button
-} from '@nearform/quantum'
-
-import { PlusIcon } from '@/assets/build'
-
-const ShoppingList = () => (
-  <Popover>
-    <PopoverTrigger>
-      <Button>Open Shopping List</Button>
-    </PopoverTrigger>
-    <PopoverContent className="w-72">
-      <div className="flex flex-col gap-3 px-4">
-        <div className="flex font-semibold justify-center pt-2">
-          Shopping List
-        </div>
-        <PopoverSeparator className="-mx-4" />
-        <li>Bananas</li>
-        <li>Bread</li>
-        <li>Butter</li>
-        <li>Sugar</li>
-        <li>Icing Sugar</li>
-        <li>Eggs</li>
-        <li>Baking Powder</li>
-        <PopoverSeparator className="-mx-4" />
-        <div className="flex items-center gap-2 font-semibold pb-2">
-          <PlusIcon className="stroke-current" />
-          Add new item
-        </div>
-      </div>
-    </PopoverContent>
-  </Popover>
-)
-```
