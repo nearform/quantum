@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
-import { ChevronLeftOutlineIcon, ChevronRightOutlineIcon } from '@/assets'
+import { BsChevronLeft, BsChevronRight } from '@/assets'
 
 interface PaginationProps {
   currentPage: number
@@ -120,7 +120,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
             >
-              <ChevronLeftOutlineIcon
+              <BsChevronLeft
                 className={
                   'w-3 h-9 pt-3 pb-3 -mb-1 text-foreground dark:text-foreground-dark'
                 }
@@ -165,7 +165,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
             >
-              <ChevronRightOutlineIcon
+              <BsChevronRight
                 className={
                   'w-3 h-9 py-3 -mb-1 text-foreground dark:text-foreground-dark'
                 }

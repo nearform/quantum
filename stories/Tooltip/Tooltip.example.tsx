@@ -8,7 +8,6 @@ interface TooltipDemoProps extends TooltipProps {
 export const ToolTipDemo = ({
   side,
   sideOffset,
-  className,
   componentAsContent
 }: TooltipDemoProps) => {
   return (
@@ -19,7 +18,6 @@ export const ToolTipDemo = ({
         }
         side={side}
         sideOffset={sideOffset}
-        className={className}
       >
         <Button className="dark:hover:bg-white dark:hover:text-foreground-inverse-dark">
           Hover over me
