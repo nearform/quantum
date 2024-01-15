@@ -1,7 +1,7 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
-import { BsX, BsPerson, BsSearch } from '@/assets'
+import { BsX, BsPersonFill, BsSearch } from '@/assets'
 
 const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 
@@ -81,7 +81,7 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
 
 const convertTypeToComponent = {
   left: {
-    text: <BsPerson />,
+    text: <BsPersonFill />,
     search: <BsSearch />
   }
 }
