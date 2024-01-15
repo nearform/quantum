@@ -1,7 +1,7 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
-import { CloseIcon, UserIcon, SearchIcon } from '@/assets'
+import { BsX, BsPersonFill, BsSearch } from '@/assets'
 
 const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 
@@ -81,8 +81,8 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
 
 const convertTypeToComponent = {
   left: {
-    text: <UserIcon />,
-    search: <SearchIcon />
+    text: <BsPersonFill />,
+    search: <BsSearch />
   }
 }
 
@@ -103,7 +103,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const leftSideComponent =
       leftSideChild ?? convertTypeToComponent.left[`${type}`]
-    const rightSideComponent = rightSideChild ?? <CloseIcon strokeWidth={0.6} />
+    const rightSideComponent = rightSideChild ?? <BsX strokeWidth={0.6} />
 
     return (
       <form className={cn(formVariants({ variant }), formClassName)}>

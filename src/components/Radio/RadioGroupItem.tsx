@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
-import { CircleIcon } from '@/assets'
+import { BsCircleFill } from '@/assets'
 
 type RadioGroupItemProps = React.ComponentPropsWithoutRef<
   typeof RadioGroupPrimitive.Item
@@ -37,7 +37,10 @@ const RadioGroupItem = React.forwardRef<
       {...props}
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <CircleIcon className="text-inherit stroke-current stroke-1 fill-current" />
+        <BsCircleFill
+          size="8"
+          className="text-inherit stroke-current stroke-1 fill-current"
+        />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   )

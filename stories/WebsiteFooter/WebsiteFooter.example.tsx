@@ -1,4 +1,4 @@
-import { OpenSourceIcon } from '@/assets/build/open-source.icon'
+import { OpenSourceIcon } from '@/assets'
 import {
   WebsiteFooter,
   FooterStatement,
