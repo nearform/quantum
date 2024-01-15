@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { BsChevronLeft, BsHouse, BsPersonFill } from '@/assets'
 
 import { Link } from '@/index'
+
+const icons = { BsChevronLeft, BsHouse, BsPersonFill }
 
 const meta = {
   title: 'Components/Link',
@@ -10,9 +13,31 @@ const meta = {
   },
   args: {
     children: 'Link',
-    target: '_blank'
+    target: '_blank',
+    tabIndex: 0
   },
-  argTypes: { onClick: { action: 'clicked' } }
+  argTypes: {
+    onClick: {
+      action: 'clicked'
+    },
+    tabIndex: {
+      table: {
+        disable: true
+      }
+    },
+    icon: {
+      options: Object.keys(icons),
+      mapping: icons,
+      control: {
+        type: 'select',
+        labels: {
+          BsChevronLeft: 'Chevron left',
+          BsHouse: 'Home',
+          BsPersonFill: 'User'
+        }
+      }
+    }
+  }
 } satisfies Meta<typeof Link>
 
 export default meta
@@ -31,4 +56,9 @@ export const Selected: Story = {
   }
 }
 
-export const WithIcon: Story = {}
+export const WithIcon: Story = {
+  args: {
+    icon: icons.BsChevronLeft,
+    href: 'http://www.example.com/3'
+  }
+}

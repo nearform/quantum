@@ -6,14 +6,19 @@ import * as LinkStories from './Link.stories'
 
 # Link
 
-## Sizes
-
-### Default
+## Default
 <Canvas of={LinkStories.Default} />
+
+## Selected
+<Canvas of={LinkStories.Selected} />
+
+## With icon
+<Canvas of={LinkStories.WithIcon} />
 
 ## Attributes
 
-# TODO
+The component accepts all the properties defined for an HTML Anchor element (<code>AnchorHTMLAttributes</code>) and the following:
+
 <table>
   <tr>
     <td>Attribute</td>
@@ -21,24 +26,13 @@ import * as LinkStories from './Link.stories'
     <td>Default</td>
   </tr>
   <tr>
-    <td>size</td>
-    <td>`"sm" | "md" | "lg" | "xl"`</td>
-    <td>`"sm"`</td>
-  </tr>
-  <tr>
-    <td>htmlFor</td>
-    <td>`string`</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>hintText</td>
-    <td>`string`</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>asChild</td>
+    <td>selected</td>
     <td>`boolean`</td>
     <td>`false`</td>
   </tr>
-
+  <tr>
+    <td>icon</td>
+    <td>`IconType`</td>
+    <td>-</td>
+  </tr>
 </table>
