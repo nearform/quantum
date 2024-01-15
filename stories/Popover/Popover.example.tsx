@@ -6,7 +6,8 @@ import {
   PopoverClose,
   PopoverProps
 } from '@/components/Popover'
-import { Button, Label, PlusIcon, Radio, RadioGroup } from '@/index'
+import { Button, Label, Radio, RadioGroup } from '@/index'
+import { BsPlus } from '@/assets'
 
 const RadioWithLabel = ({ value }: { value: string }) => {
   return (
@@ -64,7 +65,7 @@ const PopoverDemoList = () => {
           <li>Baking Powder</li>
           <PopoverSeparator className="-mx-4" />
           <div className="flex items-center gap-2 font-semibold pb-2">
-            <PlusIcon className="stroke-current" />
+            <BsPlus className="stroke-current" />
             Add new item
           </div>
         </div>
@@ -93,7 +94,7 @@ const PopoverDemoScrollableList = () => {
           <li>Baking Powder</li>
           <PopoverSeparator className="-mx-4" />
           <div className="flex items-center gap-2 font-semibold pb-2">
-            <PlusIcon className="stroke-current" />
+            <BsPlus className="stroke-current" />
             Add new item
           </div>
         </div>

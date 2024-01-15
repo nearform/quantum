@@ -5,7 +5,7 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 
 import { cn } from '@/lib/utils'
 import { VariantProps, cva } from 'class-variance-authority'
-import { AngleDownIcon } from '@/assets'
+import { BsChevronDown } from '@/assets'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 
 const Select = SelectPrimitive.Root
@@ -93,7 +93,7 @@ const SelectTrigger = React.forwardRef<
   >
     {children}
     <SelectPrimitive.Icon asChild className="ml-6">
-      <AngleDownIcon className="h-2 w-2" />
+      <BsChevronDown className="h-2 w-2" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))

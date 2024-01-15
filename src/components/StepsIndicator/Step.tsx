@@ -1,4 +1,4 @@
-import { CircleOutlineIcon } from '@/assets'
+import { BsCircleFill } from '@/assets'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 
@@ -22,7 +22,8 @@ const stepVariant = cva([
 
 const Step = ({ selected, className }: StepProps) => {
   return (
-    <CircleOutlineIcon
+    <BsCircleFill
+      size="8"
       data-selected={selected}
       className={cn(stepVariant(), className)}
     />

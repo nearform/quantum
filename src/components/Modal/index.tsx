@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { CloseIcon } from '@/assets'
+import { BsXLg } from '@/assets'
 import { cn } from '@/lib/utils'
 
 const Modal = DialogPrimitive.Root
@@ -119,7 +119,7 @@ const ModalClose = React.forwardRef<
     {...props}
   >
     <div className="text-foreground dark:text-foreground-inverse">
-      <CloseIcon className="w-5 h-5" strokeWidth={0.833} />
+      <BsXLg className="w-5 h-5" strokeWidth={0.833} />
     </div>
     <span className="sr-only">Close</span>
   </DialogPrimitive.Close>

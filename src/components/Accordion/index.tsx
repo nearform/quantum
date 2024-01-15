@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import { AngleDownIcon } from '@/assets'
+import { BsChevronDown } from '@/assets'
 
 import { cn } from '@/lib/utils'
 
@@ -68,7 +68,7 @@ const AccordionTrigger = React.forwardRef<
       ref={ref}
     >
       {children}
-      <AngleDownIcon
+      <BsChevronDown
         className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180 w-3 h-3 text-gray-800"
         aria-hidden
       />

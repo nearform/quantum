@@ -1,17 +1,14 @@
-export * from './build/check.icon'
-export * from './build/minus.icon'
-export * from './build/circle.icon'
-export * from './build/user.icon'
-export * from './build/close.icon'
-export * from './build/search.icon'
-export * from './build/plus.icon'
-export * from './build/code.icon'
-export * from './build/user-groups-outline.icon'
-export * from './build/folder.icon'
-export * from './build/circle-outline.icon'
-export * from './build/angle-down.icon'
-export * from './build/calendar.icon'
-export * from './build/chevron-left-outline.icon'
-export * from './build/chevron-right-outline.icon'
-export * from './build/arrow-left.icon'
-export * from './build/arrow-right.icon'
+/**
+ * The Quantum project uses [Bootstrap Icons](https://icons.getbootstrap.com/)
+ * provided by the [react-icons library](https://react-icons.github.io/react-icons/icons/bs/),
+ * plus some custom icons stored in the "build" subfolder.
+ *
+ * The `react-icons` library provides React icon components of many famous icon libraries.
+ * Here we are importing all the Bootstrap ("bs") ones.
+ *
+ * All these icons start with the "Bs" prefix (e.g. BsChevronDown, BsSearch, BsCircleFill, etc.).
+ */
+
+export * from 'react-icons/bs'
+
+export * from './build/open-source.icon'
