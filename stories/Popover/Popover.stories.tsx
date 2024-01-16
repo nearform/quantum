@@ -89,7 +89,7 @@ export const WithCheckboxes: Story = {
         <Button>Open Popover</Button>
       </PopoverTrigger>
       <PopoverContent>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col space-y-4">
           <ControlLabel htmlFor="option1" label="Unchecked and label">
             <Checkbox id="option1" value="option1" />
           </ControlLabel>
@@ -112,7 +112,7 @@ export const WithRadioGroup: Story = {
         <Button>Open Popover</Button>
       </PopoverTrigger>
       <PopoverContent>
-        <RadioGroup className="flex flex-col gap-4" defaultValue="option2">
+        <RadioGroup className="flex flex-col space-y-4" defaultValue="option2">
           <ControlLabel htmlFor="option1" label="Unchecked and label">
             <Radio id="option1" value="option1" />
           </ControlLabel>
