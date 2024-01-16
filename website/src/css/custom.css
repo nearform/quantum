@@ -1,0 +1,133 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #1A56DB;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+body{
+  font-family:inter
+}
+
+.navbar{
+  background-color: #000E38;
+}
+
+.navBar__items{
+  display:flex;
+  flex-direction: row;
+}
+
+.navbar__brand{
+  flex:5
+}
+
+.navbar__item {
+  color: white;
+  flex:1;
+}
+.navbar__link--active{
+  color: #7EDCE2
+}
+
+.menu__link{
+  color: #111928;
+}
+
+.menu__link{
+  height:36px;
+}
+
+.menu__link:hover{
+  color:#1A56DB;
+}
+
+.menu__link--active {
+  background-color: #F9FAFB;
+  color:#1A56DB;
+  border-left:'1px solid #1A56DB';
+  padding-left:10px;
+}
+
+
+.menu__list-item{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.menu__list-item:not(:first-child){
+  margin-top:0;
+}
+
+.menu__list .menu__list .menu__list-item a {
+  border-left: 3px solid #E6E7EB;
+  border-radius:0
+
+}
+
+.menu__list .menu__list li .menu__link--active{
+  border-left: 3px solid #1A56DB;
+}
+
+
+.component-container {
+  display: flex;
+  gap: 20px;
+}
+
+.content-area {
+  flex-grow: 2;
+  /* Add styles for content */
+}
+
+.sidebar {
+  flex-grow: 1;
+  /* Add styles for the sidebar/table of contents */
+}
+.theme-doc-markdown.markdown p:first{
+  min-height: 53px;
+  max-height:53px;
+
+}
+
+.view-option {
+  color: #111928;
+  height: 38px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.view-option.view-option-selected{
+  color: #fff;
+  background-color: #111928;
+  
+}
+
+.table-of-contents{
+  margin-top:280px;
+}
