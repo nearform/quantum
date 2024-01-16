@@ -135,7 +135,7 @@ const PopoverFooter: React.FC<PopoverFooterProps> = ({
   return (
     <div className="w-full -mb-4">
       <PopoverSeparator fullLength />
-      <div className={className}>{children}</div>
+      <div className={cn('py-2', className)}>{children}</div>
     </div>
   )
 }

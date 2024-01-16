@@ -4,15 +4,21 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-  PopoverClose,
   PopoverFooter,
   PopoverScrollArea,
   PopoverHeader
 } from '@/components/Popover'
 
-import { Button, Radio, RadioGroup, ControlLabel } from '@/index'
+import {
+  Button,
+  Radio,
+  RadioGroup,
+  ControlLabel,
+  Link,
+  Checkbox
+} from '@/index'
 
-import { ChevronLeftOutlineIcon } from '@/assets'
+import { BsBoxArrowLeft } from '@/assets'
 
 const items = [
   { label: 'First action' },
@@ -43,57 +49,17 @@ export const Default: Story = {
         <Button>Open Popover</Button>
       </PopoverTrigger>
       <PopoverContent>
-        <ul className="list-none space-y-4 pb-4">
+        <div className="space-y-1 pb-1">
           {items.map(({ label }) => (
-            <li className="cursor-pointer">{label}</li>
+            <Link>{label}</Link>
           ))}
-        </ul>
-        <PopoverFooter>
-          <Button
-            leftSideChild={<ChevronLeftOutlineIcon />}
-            variant="tertiary"
-            className="font-semibold"
-          >
-            Sign out
-          </Button>
-        </PopoverFooter>
+        </div>
       </PopoverContent>
     </Popover>
   )
 }
 
-export const IconList: Story = {
-  render: props => (
-    <Popover {...props}>
-      <PopoverTrigger>
-        <Button>Open Popover</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverScrollArea className="h-60">
-          <ul className="list-none space-y-4 pb-4">
-            {items.map(({ label }) => (
-              <li className="cursor-pointer flex items-center">
-                <ChevronLeftOutlineIcon className="h-1.5 w-1.5" />
-                <span className="ml-2">{label}</span>
-              </li>
-            ))}
-          </ul>
-        </PopoverScrollArea>
-        <PopoverFooter>
-          <Button
-            leftSideChild={<ChevronLeftOutlineIcon />}
-            variant="tertiary"
-            className="font-semibold"
-          >
-            Sign out
-          </Button>
-        </PopoverFooter>
-      </PopoverContent>
-    </Popover>
-  )
-}
-
-export const WithHeader: Story = {
+export const HeaderFooterAndScrollingContent: Story = {
   render: props => (
     <Popover {...props}>
       <PopoverTrigger>
@@ -101,26 +67,45 @@ export const WithHeader: Story = {
       </PopoverTrigger>
       <PopoverContent>
         <PopoverHeader header="Name" subHeader="Name@email.com" />
-        <ul className="list-none space-y-4 py-4">
-          {items.slice(0, 3).map(({ label }) => (
-            <li className="cursor-pointer">{label}</li>
-          ))}
-        </ul>
+        <PopoverScrollArea className="h-40">
+          <div className="space-y-1 pb-1">
+            {items.map(({ label }) => (
+              <Link>{label}</Link>
+            ))}
+          </div>
+        </PopoverScrollArea>
         <PopoverFooter>
-          <Button
-            leftSideChild={<ChevronLeftOutlineIcon />}
-            variant="tertiary"
-            className="font-semibold"
-          >
-            Sign out
-          </Button>
+          <Link icon={BsBoxArrowLeft}>Sign out</Link>
         </PopoverFooter>
       </PopoverContent>
     </Popover>
   )
 }
 
-export const RadioList: Story = {
+export const WithCheckboxes: Story = {
+  render: props => (
+    <Popover {...props}>
+      <PopoverTrigger>
+        <Button>Open Popover</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <div className="flex flex-col gap-4">
+          <ControlLabel htmlFor="option1" label="Unchecked and label">
+            <Checkbox id="option1" value="option1" />
+          </ControlLabel>
+          <ControlLabel htmlFor="option2" label="Checked and label">
+            <Checkbox id="option2" value="option2" checked={true} />
+          </ControlLabel>
+          <ControlLabel htmlFor="option3" label="With label and hint">
+            <Checkbox id="option3" value="option3" />
+          </ControlLabel>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export const WithRadioGroup: Story = {
   render: props => (
     <Popover {...props}>
       <PopoverTrigger>
@@ -134,11 +119,7 @@ export const RadioList: Story = {
           <ControlLabel htmlFor="option2" label="Checked and label">
             <Radio id="option2" value="option2" />
           </ControlLabel>
-          <ControlLabel
-            htmlFor="option3"
-            label="With label and hint"
-            hintText="This is a hint"
-          >
+          <ControlLabel htmlFor="option3" label="With label and hint">
             <Radio id="option3" value="option3" />
           </ControlLabel>
         </RadioGroup>
@@ -146,39 +127,3 @@ export const RadioList: Story = {
     </Popover>
   )
 }
-
-export const CloseButton: Story = {
-  render: props => (
-    <Popover {...props}>
-      <PopoverTrigger>
-        <Button>Open Popover</Button>
-      </PopoverTrigger>
-      <PopoverContent className="">
-        <div className="flex flex-col items-center">
-          <div className="font-semibold mb-8">
-            Press the button below to close the popover
-          </div>
-          <PopoverClose>
-            <Button>Close Popover</Button>
-          </PopoverClose>
-        </div>
-      </PopoverContent>
-    </Popover>
-  )
-}
-
-// type LinkToExampleProps = React.PropsWithChildren<{ i: number }>
-
-// function ListItem({ children, i }: LinkToExampleProps) {
-//   return (
-//     <li>
-//       <a
-//         href={`https://www.example.com/${i}`}
-//         target="_blank"
-//         className="hover:text-blue-800 visited:text-purple-600"
-//       >
-//         {children}
-//       </a>
-//     </li>
-//   )
-// }
