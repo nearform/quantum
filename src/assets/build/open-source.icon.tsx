@@ -1,6 +1,6 @@
-export const OpenSourceIcon: React.FC<
-  React.SVGProps<SVGSVGElement>
-> = props => (
+import { IconType } from 'react-icons'
+
+export const OpenSourceIcon: IconType = props => (
   <svg viewBox="0 0 25 26" xmlns="http://www.w3.org/2000/svg" {...props}>
     <g id="open-source">
       <path

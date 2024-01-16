@@ -9,6 +9,7 @@
  * All these icons start with the "Bs" prefix (e.g. BsChevronDown, BsSearch, BsCircleFill, etc.).
  */
 
-export * from 'react-icons/bs'
+export type { IconType } from 'react-icons'
 
+export * from 'react-icons/bs'
 export * from './build/open-source.icon'
