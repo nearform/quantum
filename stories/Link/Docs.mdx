@@ -1,0 +1,38 @@
+import { Canvas, Meta } from '@storybook/blocks'
+
+import * as LinkStories from './Link.stories'
+
+<Meta of={LinkStories} />
+
+# Link
+
+## Default
+<Canvas of={LinkStories.Default} />
+
+## Selected
+<Canvas of={LinkStories.Selected} />
+
+## With icon
+<Canvas of={LinkStories.WithIcon} />
+
+## Attributes
+
+The component accepts all the properties defined for an HTML Anchor element (<code>AnchorHTMLAttributes</code>) and the following:
+
+<table>
+  <tr>
+    <td>Attribute</td>
+    <td>Type</td>
+    <td>Default</td>
+  </tr>
+  <tr>
+    <td>selected</td>
+    <td>`boolean`</td>
+    <td>`false`</td>
+  </tr>
+  <tr>
+    <td>icon</td>
+    <td>`IconType`</td>
+    <td>-</td>
+  </tr>
+</table>
