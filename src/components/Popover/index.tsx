@@ -17,7 +17,7 @@ const popoverVariants = cva([
   'shadow',
   'outline-none',
   'min-w-72',
-  'p-4'
+  'pl-2 pr-[20px] py-3'
 ])
 
 const Popover = PopoverPrimitive.Root
@@ -68,7 +68,7 @@ const PopoverScrollArea: React.FC<PopoverScrollAreaProps> = ({
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
         orientation="vertical"
-        className="w-3 pr-1 py-2 -mr-4"
+        className="w-3 pr-1 py-2 -mr-[20px]"
       >
         <ScrollArea.Thumb className="bg-grey-200 w-2 rounded-lg" />
       </ScrollArea.Scrollbar>
@@ -97,7 +97,7 @@ const PopoverSeparator = React.forwardRef<
         className={cn(
           'shrink-0 bg-border-subtle dark:bg-border-dark',
           orientation === 'horizontal' ? 'h-[1px] w-fill' : 'h-fill w-[1px]',
-          fullLength && orientation === 'horizontal' ? '-mx-4' : '',
+          fullLength && orientation === 'horizontal' ? '-ml-2 -mr-[20px]' : '',
           className
         )}
         {...props}
@@ -133,7 +133,7 @@ const PopoverFooter: React.FC<PopoverFooterProps> = ({
   children
 }) => {
   return (
-    <div className="w-full -mb-4">
+    <div className="w-full -mb-3">
       <PopoverSeparator fullLength />
       <div className={cn('py-2', className)}>{children}</div>
     </div>
