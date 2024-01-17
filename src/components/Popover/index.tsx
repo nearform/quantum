@@ -107,18 +107,17 @@ const PopoverSeparator = React.forwardRef<
 )
 PopoverSeparator.displayName = SeparatorPrimitive.Root.displayName
 
-interface PopoverHeaderProps {
-  header: string
-  subHeader?: string
-}
+type PopoverHeaderProps = React.PropsWithChildren<{
+  className?: string
+}>
 
-const PopoverHeader: React.FC<PopoverHeaderProps> = ({ header, subHeader }) => {
+const PopoverHeader: React.FC<PopoverHeaderProps> = ({
+  className,
+  children
+}) => {
   return (
     <>
-      <div className="pb-4">
-        <h1 className="font-semibold text-sm">{header}</h1>
-        <h2 className="font-normal text-sm">{subHeader}</h2>
-      </div>
+      <div className={cn('w-full pb-4', className)}>{children}</div>
       <PopoverSeparator fullLength />
     </>
   )

@@ -66,7 +66,10 @@ export const HeaderFooterAndScrollingContent: Story = {
         <Button>Open Popover</Button>
       </PopoverTrigger>
       <PopoverContent>
-        <PopoverHeader header="Name" subHeader="Name@email.com" />
+        <PopoverHeader className="pl-1.5">
+          <h1 className="font-semibold text-sm">Name</h1>
+          <h2 className="font-normal text-sm">Name@email.com</h2>
+        </PopoverHeader>
         <PopoverScrollArea className="h-40">
           <div className="space-y-1 pb-1">
             {items.map(({ label }) => (
