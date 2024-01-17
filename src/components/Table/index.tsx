@@ -3,24 +3,16 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
-const tableBodyVariants = cva(['dark:bg-grey-900'], {
+
+const tableBodyVariants = cva('bg-background dark:bg-grey-900', {
   variants: {
     variant: {
-      line: [],
       zebra: [
-        '[&>*:nth-child(odd)]:bg-purple-50',
-        'dark:[&>*:nth-child(odd)]:bg-grey-800'
+        '[&>*:nth-child(even)]:bg-background-subtle',
+        'dark:[&>*:nth-child(even)]:bg-background-subtle-dark'
       ]
     }
-  },
-  defaultVariants: {
-    variant: 'line'
-  },
-  compoundVariants: [
-    {
-      variant: 'line'
-    }
-  ]
+  }
 })
 
 const Table = React.forwardRef<
@@ -43,7 +35,10 @@ const TableHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <thead
     ref={ref}
-    className={cn('bg-grey-50 dark:bg-grey-700', className)}
+    className={cn(
+      'bg-background-subtle dark:bg-background-subtle-dark',
+      className
+    )}
     {...props}
   />
 ))
@@ -55,10 +50,7 @@ const TableHead = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <th
     ref={ref}
-    className={cn(
-      'px-4 leading-[21px] font-bold [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
-      className
-    )}
+    className={cn('px-4 py-5 leading-[21px] font-bold', className)}
     {...props}
   />
 ))
@@ -97,14 +89,7 @@ const TableCell = React.forwardRef<
   HTMLTableCellElement,
   React.TdHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
-  <td
-    ref={ref}
-    className={cn(
-      ' px-4 py-4 [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] ',
-      className
-    )}
-    {...props}
-  />
+  <td ref={ref} className={cn(' p-4', className)} {...props} />
 ))
 TableCell.displayName = 'TableCell'
 
