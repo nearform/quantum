@@ -10,6 +10,15 @@ import {
   TableRow
 } from '@/components'
 
+const data = [
+  ['Freeman', 'Credit Card', '$250.00'],
+  ['Vance', 'Cash', '$50.00'],
+  ['Kleiner', 'Credit Card', '$1,400.00'],
+  ['Mossman', 'Cash', '$30.00'],
+  ['Breen', 'Cash', '$75.50'],
+  ['Calhoun', 'Credit Card', '$15,000.00']
+]
+
 const meta = {
   title: 'Components/Table',
   parameters: {
@@ -29,40 +38,17 @@ const meta = {
           <TableRow>
             <TableHead>User</TableHead>
             <TableHead>Method</TableHead>
-            <TableHead>Amount</TableHead>
+            <TableHead className="text-right">Amount</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody variant={props.variant}>
-          <TableRow>
-            <TableCell>Freeman</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Vance</TableCell>
-            <TableCell>Cash</TableCell>
-            <TableCell className="text-right">$50.00</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Kleiner</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell className="text-right">$1400.00</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Mossman</TableCell>
-            <TableCell>Cash</TableCell>
-            <TableCell className="text-right">$30.00</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Breen</TableCell>
-            <TableCell>Cash</TableCell>
-            <TableCell className="text-right">$75.50</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Calhoun</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell className="text-right">$400.00</TableCell>
-          </TableRow>
+          {data.map(row => (
+            <TableRow>
+              <TableCell>{row[0]}</TableCell>
+              <TableCell>{row[1]}</TableCell>
+              <TableCell className="text-right">{row[2]}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     )
