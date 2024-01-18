@@ -8,7 +8,7 @@ export const background = {
     dark: colors.grey['700']
   },
   subtle: {
-    DEFAULT: colors.purple['50'],
+    DEFAULT: colors.grey['50'],
     dark: colors.grey['800']
   },
   inverse: {
