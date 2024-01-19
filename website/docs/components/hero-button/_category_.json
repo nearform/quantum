@@ -1,0 +1,9 @@
+{
+    "label": "Hero Button",
+    "position": 2,
+    "link": {
+      "type": "generated-index",
+      "description": "THis is a button type."
+    }
+  }
+  

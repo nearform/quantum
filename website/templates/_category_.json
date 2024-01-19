@@ -1,0 +1,9 @@
+{
+    "label": "%COMPONENT_NAME%",
+    "position": 99999,
+    "link": {
+      "type": "generated-index",
+      "description": "%COMPONENT_DESCRIPTION%"
+    }
+  }
+  

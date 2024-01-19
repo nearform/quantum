@@ -1,8 +1,12 @@
 {
   "label": "Components",
-  "position": 3,
-  "link": {
-    "type": "generated-index",
-    "description": "A list of all components available"
-  }
-}
+   "position": 3,
+   "link": {
+     "type": "generated-index",
+     "title": "Components"
+   },
+   "customProps":{
+     "description": "A list of all component available"
+   }
+ }
+ 

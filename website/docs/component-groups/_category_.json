@@ -1,8 +1,12 @@
 {
-  "label": "Components-groups",
-  "position": 4,
-  "link": {
-    "type": "generated-index",
-    "description": "A list of all component groups available"
+   "label": "Component-groups",
+    "position": 4,
+    "link": {
+      "type": "generated-index",
+      "title": "Component Groups"
+    },
+    "customProps":{
+      "description": "A list of all component available"
+    }
   }
-}
+  

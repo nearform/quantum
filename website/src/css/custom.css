@@ -3,6 +3,7 @@
  * bundles Infima by default. Infima is a CSS framework designed to
  * work well for content-centric websites.
  */
+ @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* You can override the default Infima variables here. */
 :root {
@@ -43,7 +44,7 @@ body{
 }
 
 .navbar__brand{
-  flex:5
+  flex:9
 }
 
 .navbar__item {
@@ -130,4 +131,29 @@ body{
 
 .table-of-contents{
   margin-top:280px;
+}
+
+.main-content-header{
+  width: 100%;
+  display: 'block';
+  border-bottom: 2px solid grey;
+  height: 130px; 
+
+}
+
+.main-content-header-buttons{
+  padding:0;
+
+}
+
+.figma-iframe{
+  margin-top:10px;
+  max-width:1000px;
+  max-height:9000px;
+  height:auto;
+  width:auto;
+}
+
+.hide-from-sidebar{
+  display:none
 }

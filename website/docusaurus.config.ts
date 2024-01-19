@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic'
 
 const config: Config = {
   title: 'Quantum',
-  tagline: 'Nearform Design System',
+  tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -15,8 +15,8 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'nearform', // Usually your GitHub org/user name.
-  projectName: 'quantum', // Usually your repo name.
+  organizationName: 'facebook', // Usually your GitHub org/user name.
+  projectName: 'docusaurus', // Usually your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -58,19 +58,35 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'My Site',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Quantum',
         src: 'img/logo.svg'
       },
       items: [
         {
-          to: '/docs/getting-started',
-          label: 'Get started',
-          position: 'right'
+          to: 'docs/getting-started',
+          activeBasePath: 'docs/getting-started',
+          position: 'left',
+          label: 'Get started'
         },
-        { to: '/docs/foundations', label: 'Foundations', position: 'right' },
-        { to: '/docs/components', label: 'Components', position: 'right' }
+        {
+          to: 'docs/foundations',
+          activeBasePath: 'docs/category/foundations',
+          position: 'left',
+          label: 'Foundations'
+        },
+        {
+          to: 'docs/components',
+          activeBasePath: 'docs/category/components',
+          position: 'left',
+          label: 'Components'
+        },
+        {
+          to: 'docs/component-groups',
+          activeBasePath: 'docs/category/component-groups',
+          position: 'left',
+          label: 'Groups'
+        }
       ]
     },
     footer: {
