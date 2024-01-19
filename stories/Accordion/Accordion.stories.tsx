@@ -17,6 +17,10 @@ const meta = {
     type: {
       options: ['single', 'multiple'],
       control: 'radio'
+    },
+    size: {
+      options: ['sm', 'md', 'lg'],
+      control: 'radio'
     }
   },
   render: props => (
@@ -30,10 +34,10 @@ const meta = {
         </AccordionContent>
       </AccordionItem>
 
-      <AccordionItem value="item-2" className="">
+      <AccordionItem value="item-2">
         <AccordionTrigger>Item 2</AccordionTrigger>
         <AccordionContent>
-          <div className="text-sm px-6 text-foreground-muted bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 font-semibold items-center flex justify-center">
+          <div className="px-6 text-foreground-muted bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 font-semibold items-center flex justify-center">
             Replace this component with your content
           </div>
         </AccordionContent>
@@ -42,7 +46,7 @@ const meta = {
       <AccordionItem value="item-3">
         <AccordionTrigger>Item 3</AccordionTrigger>
         <AccordionContent>
-          <div className="bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 font-semibold items-center flex justify-center text-sm px-6 text-foreground-muted">
+          <div className="px-6 text-foreground-muted bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 font-semibold items-center flex justify-center">
             Replace this component with your content
           </div>
         </AccordionContent>
@@ -57,12 +61,14 @@ type Story = StoryObj<typeof meta>
 export const Single: Story = {
   args: {
     type: 'single',
-    collapsible: true
+    collapsible: true,
+    size: 'md'
   }
 }
 
 export const Multiple: Story = {
   args: {
-    type: 'multiple'
+    type: 'multiple',
+    size: 'md'
   }
 }

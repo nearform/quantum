@@ -2,16 +2,36 @@
 
 import * as React from 'react'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import { BsChevronDown } from '@/assets'
+import { cva, type VariantProps } from 'class-variance-authority'
 
+import { BsChevronDown } from '@/assets'
 import { cn } from '@/lib/utils'
+
+const sizeVariants = cva('', {
+  variants: {
+    size: {
+      sm: ['text-sm'],
+      md: ['text-base'],
+      lg: ['text-lg']
+    }
+  },
+  defaultVariants: {
+    size: 'md'
+  }
+})
+
+type AccordionProps = React.ComponentPropsWithoutRef<
+  typeof AccordionPrimitive.Root
+> &
+  VariantProps<typeof sizeVariants>
 
 const Accordion = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>
->(({ children, className, ...props }, ref) => (
+  AccordionProps
+>(({ children, className, size, ...props }, ref) => (
   <AccordionPrimitive.Root
     className={cn(
+      sizeVariants({ size }),
       'dark:bg-grey-900 bg-white px-5 w-[300px] rounded-md shadow-[0_2px_10px] shadow-black/5',
       className
     )}
@@ -61,7 +81,7 @@ const AccordionTrigger = React.forwardRef<
   <AccordionHeader>
     <AccordionPrimitive.Trigger
       className={cn(
-        'dark:bg-grey-900 dark:text-white group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white text-[15px] leading-none',
+        'dark:bg-grey-900 dark:text-white group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white leading-none',
         className
       )}
       {...props}
@@ -83,7 +103,7 @@ const AccordionContent = React.forwardRef<
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Content
     className={cn(
-      'dark:text-white data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]',
+      'dark:text-white data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden',
       className
     )}
     {...props}
