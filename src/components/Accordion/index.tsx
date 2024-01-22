@@ -2,17 +2,37 @@
 
 import * as React from 'react'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import { BsChevronDown } from '@/assets'
+import { cva, type VariantProps } from 'class-variance-authority'
 
+import { BsChevronDown } from '@/assets'
 import { cn } from '@/lib/utils'
+
+const sizeVariants = cva('', {
+  variants: {
+    size: {
+      sm: ['text-sm'],
+      md: ['text-base'],
+      lg: ['text-lg']
+    }
+  },
+  defaultVariants: {
+    size: 'md'
+  }
+})
+
+type AccordionProps = React.ComponentPropsWithoutRef<
+  typeof AccordionPrimitive.Root
+> &
+  VariantProps<typeof sizeVariants>
 
 const Accordion = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>
->(({ children, className, ...props }, ref) => (
+  AccordionProps
+>(({ children, className, size, ...props }, ref) => (
   <AccordionPrimitive.Root
     className={cn(
-      'dark:bg-grey-900 bg-white px-5 w-[300px] rounded-md shadow-[0_2px_10px] shadow-black/5',
+      sizeVariants({ size }),
+      'dark:bg-grey-900 bg-white w-[206px] rounded-md shadow-[0_2px_10px] shadow-black/5',
       className
     )}
     {...props}
@@ -29,7 +49,7 @@ const AccordionItem = React.forwardRef<
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Item
     className={cn(
-      'overflow-hidden first:mt-0 first:rounded-t last:rounded-b border-b border-grey-200 dark:border-grey-700 last:border-0',
+      'px-4 overflow-hidden first:mt-0 first:rounded-t last:rounded-b border-b border-grey-200 dark:border-grey-700 last:border-0',
       className
     )}
     {...props}
@@ -45,7 +65,7 @@ const AccordionHeader = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Header>
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Header
-    className={cn('flex', className)}
+    className={cn('flex font-semibold py-4', className)}
     {...props}
     ref={ref}
   >
@@ -61,7 +81,7 @@ const AccordionTrigger = React.forwardRef<
   <AccordionHeader>
     <AccordionPrimitive.Trigger
       className={cn(
-        'dark:bg-grey-900 dark:text-white group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white text-[15px] leading-none',
+        'dark:bg-grey-900 dark:text-white group flex flex-1 cursor-default items-center justify-between bg-white leading-none',
         className
       )}
       {...props}
@@ -83,13 +103,13 @@ const AccordionContent = React.forwardRef<
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Content
     className={cn(
-      'dark:text-white data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]',
+      'dark:text-white data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden',
       className
     )}
     {...props}
     ref={ref}
   >
-    <div className="py-[15px]">{children}</div>
+    <div className="pb-3">{children}</div>
   </AccordionPrimitive.Content>
 ))
 AccordionContent.displayName = AccordionPrimitive.Content.displayName

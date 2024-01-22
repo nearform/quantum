@@ -6,15 +6,19 @@ import * as AccordionStories from './Accordion.stories'
 
 # Accordion
 
-An Accordion is a vertically stacked set of interactive headings that each reveal an associated section of content.
+An accordion component is an interactive element with headers and collapsible content panels. 
+It's used to present information in a compact, organised way, typically for FAQs, menus, or content sections. 
+Users can click on headers to expand or collapse the associated content, improving space efficiency and user experience.
 
-## Default
 
-<Canvas of={AccordionStories.Default} />
+## Single
+<Canvas of={AccordionStories.Single} />
+
+## Multiple
+<Canvas of={AccordionStories.Multiple} />
 
 ## Attributes
-
-#### Accordion
+### Accordion
 
 Contains all the parts of an accordion
 
@@ -88,7 +92,7 @@ Contains all the parts of an accordion
   </tbody>
 </table>
 
-#### AccordionItem
+### AccordionItem
 
 Contains all the parts of a collapsible section
 
@@ -117,7 +121,7 @@ Contains all the parts of a collapsible section
   </tbody>
 </table>
 
-#### AccordionItem
+### AccordionItem
 
 Contains header & content of a item the Accordion
 
@@ -146,7 +150,7 @@ Contains header & content of a item the Accordion
   </tbody>
 </table>
 
-#### AccordionHeader
+### AccordionHeader
 
 Wraps an Accordion.Trigger. Use the asChild prop to update it to the appropriate heading level for your page.
 
@@ -165,7 +169,7 @@ Wraps an Accordion.Trigger. Use the asChild prop to update it to the appropriate
   </tbody>
 </table>
 
-#### AccordionTrigger
+### AccordionTrigger
 
 Toggles the collapsed state of its associated item. It should be nested inside of an Accordion.Header.
 
@@ -184,7 +188,7 @@ Toggles the collapsed state of its associated item. It should be nested inside o
   </tbody>
 </table>
 
-#### AccordionContent
+### AccordionContent
 
 Contains the collapsible content for an item.
 
@@ -207,44 +211,3 @@ Contains the collapsible content for an item.
     </tr>
   </tbody>
 </table>
-
-## Example
-
-```tsx
-import {
-    Accordion,
-    AccordionItem,
-    AccordionHeader,
-    AccordionTrigger,
-    AccordionContent
-} from '@/components/Accordion'
-
-export const AccordionDemo = () => (
-    <Accordion type="single" defaultValue="item-1" collapsible>
-        <AccordionItem value="item-1">
-            <AccordionTrigger>Item 1</AccordionTrigger>
-            <AccordionContent>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis ac ligula ut luctus. Nulla sed tortor tempor, auctor mi at, mollis nulla.
-            </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="item-2" className=''>
-            <AccordionTrigger>Item 2</AccordionTrigger>
-            <AccordionContent>
-                <div className="text-sm px-6 text-foreground-muted bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 text-lg font-semibold items-center flex justify-center">
-                    Replace this component with your content
-                </div>
-            </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="item-3">
-            <AccordionTrigger>Item 3</AccordionTrigger>
-            <AccordionContent>
-                <div className="bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 text-lg font-semibold items-center flex justify-center text-sm px-6 text-foreground-muted">
-                    Replace this component with your content
-                </div>
-            </AccordionContent>
-        </AccordionItem>
-    </Accordion>
-);
-```
