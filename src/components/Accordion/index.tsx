@@ -32,7 +32,7 @@ const Accordion = React.forwardRef<
   <AccordionPrimitive.Root
     className={cn(
       sizeVariants({ size }),
-      'dark:bg-grey-900 bg-white px-5 w-[300px] rounded-md shadow-[0_2px_10px] shadow-black/5',
+      'dark:bg-grey-900 bg-white px-4 w-[206px] rounded-md shadow-[0_2px_10px] shadow-black/5',
       className
     )}
     {...props}
@@ -65,7 +65,7 @@ const AccordionHeader = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Header>
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Header
-    className={cn('flex', className)}
+    className={cn('flex font-semibold py-4', className)}
     {...props}
     ref={ref}
   >
@@ -81,7 +81,7 @@ const AccordionTrigger = React.forwardRef<
   <AccordionHeader>
     <AccordionPrimitive.Trigger
       className={cn(
-        'dark:bg-grey-900 dark:text-white group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white leading-none',
+        'dark:bg-grey-900 dark:text-white group flex flex-1 cursor-default items-center justify-between bg-white leading-none',
         className
       )}
       {...props}
@@ -109,7 +109,7 @@ const AccordionContent = React.forwardRef<
     {...props}
     ref={ref}
   >
-    <div className="py-[15px]">{children}</div>
+    <div className="pb-3">{children}</div>
   </AccordionPrimitive.Content>
 ))
 AccordionContent.displayName = AccordionPrimitive.Content.displayName
