@@ -16,6 +16,10 @@ const meta = {
       options: [true, false, 'indeterminate'],
       control: { type: 'radio' }
     },
+    size: {
+      options: ['sm', 'md'],
+      controls: { type: 'radio' }
+    },
     className: {
       controle: 'text',
       description: 'Alter the className to change the style'
@@ -30,12 +34,14 @@ type Story = StoryObj<typeof meta>
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const PrimaryInput: Story = {
   args: {
+    size: 'md',
     variant: 'primary',
     type: 'text'
   }
 }
 export const ErrorInput: Story = {
   args: {
+    size: 'md',
     variant: 'error',
     type: 'text'
   }
@@ -43,12 +49,21 @@ export const ErrorInput: Story = {
 
 export const SuccessInput: Story = {
   args: {
+    size: 'md',
     variant: 'success',
+    type: 'text'
+  }
+}
+export const SmallInput: Story = {
+  args: {
+    size: 'sm',
+    variant: 'primary',
     type: 'text'
   }
 }
 export const Disabled: Story = {
   args: {
+    size: 'md',
     variant: 'primary',
     type: 'text',
     disabled: true
@@ -56,6 +71,7 @@ export const Disabled: Story = {
 }
 export const Search: Story = {
   args: {
+    size: 'md',
     variant: 'primary',
     type: 'search'
   }

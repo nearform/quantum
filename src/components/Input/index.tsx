@@ -5,7 +5,7 @@ import { BsX, BsPersonFill, BsSearch } from '@/assets'
 
 const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 
-const rightSideVariants = cva(['flex', 'self-center text-inherit'])
+const rightSideVariants = cva(['flex', 'items-center', 'size-3', 'pb-1'])
 
 const formVariants = cva(
   [
@@ -14,9 +14,10 @@ const formVariants = cva(
     'border-2',
     'rounded-lg',
     'overflow-hidden',
-    'p-3',
     'items-center',
     'gap-1.5',
+    'pl-3',
+    'pr-3',
     '[&:has(:disabled)]:border-none'
   ],
   {
@@ -48,7 +49,15 @@ const formVariants = cva(
           'hover:border-green-700',
           'focus-within:shadow-green'
         ]
+      },
+      size: {
+        sm: ['h-9.25'],
+        md: ['h-10.5']
       }
+    },
+    defaultVariants: {
+      variant: 'primary',
+      size: 'md'
     }
   }
 )
@@ -69,9 +78,10 @@ const inputVariants = cva(
   }
 )
 
-interface InputProps extends React.HTMLProps<HTMLInputElement> {
+interface InputProps extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
   variant: 'primary' | 'error' | 'success'
   type: 'text' | 'search'
+  size: 'sm' | 'md'
   formClassName?: string
   leftSideClassName?: string
   leftSideChild?: React.ReactNode
@@ -86,7 +96,7 @@ const convertTypeToComponent = {
   }
 }
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const Input = React.forwardRef<HTMLButtonElement, InputProps>(
   (
     {
       type,
@@ -96,6 +106,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       variant,
       leftSideChild,
       rightSideChild,
+      size,
       onClear,
       ...props
     },
@@ -103,10 +114,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const leftSideComponent =
       leftSideChild ?? convertTypeToComponent.left[`${type}`]
-    const rightSideComponent = rightSideChild ?? <BsX strokeWidth={0.6} />
+    const rightSideComponent = rightSideChild ?? (
+      <BsX width={3} height={3} viewBox="0 0 12 12" strokeWidth={0.6} />
+    )
 
     return (
-      <form className={cn(formVariants({ variant }), formClassName)}>
+      <form className={cn(formVariants({ variant, size }), formClassName)}>
         <div className={cn(leftSideVariants(), leftSideClassName)}>
           {leftSideComponent}
         </div>
@@ -116,7 +129,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           {...props}
         />
-        <div className="input-right-side"></div>
         <button type="button" onClick={onClear} className={rightSideVariants()}>
           {rightSideComponent}
         </button>
