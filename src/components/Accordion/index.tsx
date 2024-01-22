@@ -32,7 +32,7 @@ const Accordion = React.forwardRef<
   <AccordionPrimitive.Root
     className={cn(
       sizeVariants({ size }),
-      'dark:bg-grey-900 bg-white px-4 w-[206px] rounded-md shadow-[0_2px_10px] shadow-black/5',
+      'dark:bg-grey-900 bg-white w-[206px] rounded-md shadow-[0_2px_10px] shadow-black/5',
       className
     )}
     {...props}
@@ -49,7 +49,7 @@ const AccordionItem = React.forwardRef<
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Item
     className={cn(
-      'overflow-hidden first:mt-0 first:rounded-t last:rounded-b border-b border-grey-200 dark:border-grey-700 last:border-0',
+      'px-4 overflow-hidden first:mt-0 first:rounded-t last:rounded-b border-b border-grey-200 dark:border-grey-700 last:border-0',
       className
     )}
     {...props}
