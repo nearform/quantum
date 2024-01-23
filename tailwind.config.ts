@@ -33,7 +33,11 @@ export default {
     },
     extend: {
       keyframes: animations.keyframes,
-      animation: animations.animation
+      animation: animations.animation,
+      height: {
+        '9.25': '37px',
+        '10.5': '42px'
+      }
     }
   }
 }
