@@ -65,8 +65,8 @@ const formVariants = cva(
         ]
       },
       size: {
-        sm: ['h-9.25', 'text-sm'],
-        md: ['h-10.5']
+        md: ['h-9.25', 'text-sm'],
+        lg: ['h-10.5']
       }
     },
     defaultVariants: {
@@ -95,7 +95,7 @@ const inputVariants = cva(
 interface InputProps extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
   variant: 'primary' | 'error' | 'success'
   type: 'text' | 'search'
-  size: 'sm' | 'md'
+  size: 'md' | 'lg'
   formClassName?: string
   leftSideClassName?: string
   leftSideChild?: React.ReactNode

@@ -17,7 +17,7 @@ const meta = {
       control: { type: 'radio' }
     },
     size: {
-      options: ['sm', 'md'],
+      options: ['md', 'md'],
       controls: { type: 'radio' }
     },
     className: {
@@ -54,9 +54,9 @@ export const SuccessInput: Story = {
     type: 'text'
   }
 }
-export const SmallInput: Story = {
+export const LargeInput: Story = {
   args: {
-    size: 'sm',
+    size: 'lg',
     variant: 'primary',
     type: 'text'
   }
