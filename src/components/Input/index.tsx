@@ -5,7 +5,21 @@ import { BsX, BsPersonFill, BsSearch } from '@/assets'
 
 const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 
-const rightSideVariants = cva(['flex', 'items-center', 'size-3', 'pb-1'])
+const rightSideVariants = cva([
+  'flex',
+  'items-center',
+  'size-6',
+  'text-right',
+  'justify-end',
+  'pb-1'
+])
+
+const closeButtonVariant = cva([
+  'flex',
+  'items-center',
+  'justify-middle',
+  'size-3'
+])
 
 const formVariants = cva(
   [
@@ -51,7 +65,7 @@ const formVariants = cva(
         ]
       },
       size: {
-        sm: ['h-9.25'],
+        sm: ['h-9.25', 'text-sm'],
         md: ['h-10.5']
       }
     },
@@ -97,25 +111,28 @@ const convertTypeToComponent = {
 }
 
 const Input = React.forwardRef<HTMLButtonElement, InputProps>(
-  (
-    {
-      type,
-      className,
-      formClassName,
-      leftSideClassName,
-      variant,
-      leftSideChild,
-      rightSideChild,
-      size,
-      onClear,
-      ...props
-    },
-    ref
-  ) => {
+  ({
+    type,
+    className,
+    formClassName,
+    leftSideClassName,
+    variant,
+    leftSideChild,
+    rightSideChild,
+    size,
+    onClear,
+    ...props
+  }) => {
     const leftSideComponent =
       leftSideChild ?? convertTypeToComponent.left[`${type}`]
     const rightSideComponent = rightSideChild ?? (
-      <BsX width={3} height={3} viewBox="0 0 12 12" strokeWidth={0.6} />
+      <BsX
+        className={closeButtonVariant()}
+        width={3}
+        height={3}
+        viewBox="0 0 12 12"
+        strokeWidth={0.6}
+      />
     )
 
     return (
@@ -126,7 +143,6 @@ const Input = React.forwardRef<HTMLButtonElement, InputProps>(
         <input
           type="text" //for now only accept text
           className={cn(inputVariants({ variant }), className)}
-          ref={ref}
           {...props}
         />
         <button type="button" onClick={onClear} className={rightSideVariants()}>
