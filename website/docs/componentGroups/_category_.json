@@ -1,0 +1,11 @@
+{
+    "label": "Component groups",
+     "position": 4,
+     "link": {
+       "type": "generated-index",
+       "title": "Component groups"
+     },
+     "customProps":{
+       "description": "A list of all component Groups available"
+     }
+   }

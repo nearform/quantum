@@ -1,0 +1,19 @@
+---
+title: %COMPONENT_NAME%
+sidebar_position: %SIDEBAR_POSITION%
+---
+
+# %COMPONENT_NAME%
+
+%COMPONENT_DESCRIPTION%
+
+import DocusaurusComponent from './code.txt'
+
+
+<DocusaurusComponent />
+
+
+
+
+
+
