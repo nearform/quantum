@@ -2,8 +2,7 @@
 const { Api } = require('figma-api')
 
 const FIGMA_FILE = 'vIqNb3g23SIGRiYUUDf5yE'
-const FIGMA_TOKEN = 'figd_1AV8txYv-NZvCFV-5h0PwkDLxuTUi4HNfFPzGHp5'
-
+const FIGMA_TOKEN = ''
 async function getFigmaImgURL(inputValue) {
   try {
     const api = new Api({
