@@ -7,13 +7,13 @@ const buttonGroupVariants = cva(
     'inline-flex',
     '[&>*]:flex',
     '[&>*]:rounded-none',
-    '[&>*]:border-0',
     'divide-border-subtle',
     'p-0',
     '[&>*]:gap-[10px]',
     '[&>*]:items-center',
     '[&>*]:justify-center',
     '[&>*]:px-3',
+    '[&>*:focus]:shadow-none',
     'items-start',
     'rounded-lg',
     'overflow-hidden'
@@ -22,6 +22,8 @@ const buttonGroupVariants = cva(
     variants: {
       variant: {
         primary: [
+          '[&>*:focus]:bg-secondary-100',
+          '[&>*:focus]:text-foreground',
           'dark:divide-border-subtle-dark',
           'dark:[&>*]:bg-button-primary-dark',
           'dark:[&>*]:text-foreground-inverse-dark',

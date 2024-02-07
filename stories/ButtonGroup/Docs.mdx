@@ -65,24 +65,28 @@ const buttonGroupVariants = cva(
     'inline-flex',
     '[&>*]:flex',
     '[&>*]:rounded-none',
-    '[&>*]:border-0',
     'divide-border-subtle',
     'p-0',
     '[&>*]:gap-[10px]',
     '[&>*]:items-center',
     '[&>*]:justify-center',
     '[&>*]:px-3',
+    '[&>*:focus]:shadow-none',
     'items-start',
-    'rounded-xl',
+    'rounded-lg',
     'overflow-hidden'
   ],
   {
     variants: {
       variant: {
         primary: [
+          '[&>*:focus]:bg-secondary-100',
+          '[&>*:focus]:text-foreground',
           'dark:divide-border-subtle-dark',
           'dark:[&>*]:bg-button-primary-dark',
-          'dark:[&>*]:text-foreground-inverse-dark'
+          'dark:[&>*]:text-foreground-inverse-dark',
+          'dark:[&>*:hover]:bg-button-secondary-hover',
+          'dark:[&>*:focus]:bg-button-secondary-focus'
         ],
         secondary: [
           'bg-background',
@@ -94,8 +98,8 @@ const buttonGroupVariants = cva(
         ]
       },
       orientation: {
-        horizontal: ['inline-flex', 'divide-x-[1px]'],
-        vertical: ['flex-col', 'divide-y-[1px]', '[&>*]:self-stretch']
+        horizontal: ['inline-flex'],
+        vertical: ['flex-col', '[&>*]:self-stretch']
       },
       size: {
         md: ['[&>*]:py-2.5'],

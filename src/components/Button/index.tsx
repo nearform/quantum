@@ -7,8 +7,6 @@ const buttonVariants = cva(
   [
     'inline-flex items-center',
     'rounded-lg',
-    'border-4',
-    'p-2',
     'transition-colors',
     'focus-visible:outline-none',
     'disabled:pointer-events-none',
@@ -19,14 +17,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: [
+          'border-0',
           'bg-button-primary',
           'text-white',
           'border-button-primary',
           'hover:bg-button-primary-hover',
           'hover:border-button-primary-hover',
           'focus:bg-button-primary-focus',
-          'focus:border-brandGreen-100',
+          'focus:shadow-brandGreen',
           'active:border-transparent',
+          'active:shadow-none',
           'disabled:bg-button-primary-disabled',
           'disabled:text-foreground-subtle',
           'disabled:border-button-primary-disabled',
@@ -50,8 +50,9 @@ const buttonVariants = cva(
           'border-border',
           'hover:bg-button-secondary-hover',
           'hover:border-button-secondary-border-hover',
-          'focus:border-brandGreen-100',
+          'focus:shadow-brandGreen',
           'active:border-border',
+          'active:shadow-none',
           'disabled:bg-button-secondary-disabled',
           'disabled:border-button-secondary-border-disabled',
           'disabled:text-foreground-subtle',
@@ -61,8 +62,9 @@ const buttonVariants = cva(
           'dark:hover:bg-button-secondary-hover-dark',
           'dark:hover:border-button-secondary-border-hover-dark',
           'dark:focus:bg-button-secondary-dark',
-          'dark:focus:border-brandGreen-10',
-          'dark:active:border-border',
+          'dark:focus:shadow-brandGreen10',
+          'dark:active:border-button-secondary-border-dark',
+          'dark:active:shadow-none',
           'dark:disabled:bg-button-secondary-disabled-dark',
           'dark:disabled:text-foreground-subtle-dark',
           'dark:disabled:border-button-secondary-disabled-dark'
@@ -72,36 +74,31 @@ const buttonVariants = cva(
           'text-foreground',
           'dark:text-white',
           'hover:bg-button-tertiary-hover',
-          'hover:border-button-tertiary-hover',
           'hover:dark:text-button-tertiary-hover-dark',
           'focus:bg-button-tertiary-focus',
-          'focus:border-brandGreen-100',
+          'focus:shadow-brandGreen',
           'active:bg-button-tertiary-hover',
-          'active:border-transparent',
+          'active:shadow-none',
           'disabled:text-foreground-subtle'
         ],
         success: [
           'bg-button-success',
           'text-white',
-          'border-button-success',
           'hover:bg-button-success-hover',
-          'hover:border-button-success-hover',
           'focus:bg-button-success-focus',
-          'focus:border-green-200',
+          'focus:shadow-green',
+          'active:shadow-none',
           'disabled:bg-button-success-disabled',
-          'disabled:border-button-success-disabled',
           'disabled:text-foreground-subtle'
         ],
         danger: [
           'bg-button-danger',
           'text-white',
-          'border-button-danger',
           'hover:bg-button-danger-hover',
-          'hover:border-button-danger-hover',
-          'focus:bg-button-danger-focus',
-          'focus:border-red-200',
+          'focus:bg-button-danger',
+          'focus:shadow-red',
+          'active:shadow-none',
           'disabled:bg-button-danger-disabled',
-          'disabled:border-button-danger-disabled',
           'disabled:text-foreground-subtle'
         ]
       },
@@ -112,6 +109,12 @@ const buttonVariants = cva(
         xs: ['px-2', 'py-2.5', 'text-xs']
       }
     },
+    compoundVariants: [
+      { variant: 'secondary', size: 'lg', class: 'py-2.5' },
+      { variant: 'secondary', size: 'md', class: 'py-2' },
+      { variant: 'secondary', size: 'sm', class: 'py-1.5' },
+      { variant: 'secondary', size: 'xs', class: 'py-2' }
+    ],
     defaultVariants: {
       variant: 'primary',
       size: 'md'
