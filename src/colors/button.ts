@@ -7,7 +7,7 @@ import { feedback } from './feedback'
 export const button = {
   primary: {
     DEFAULT: accent.DEFAULT,
-    dark: '#FFF',
+    dark: accent.dark,
     hover: {
       DEFAULT: accent.hover.DEFAULT,
       dark: accent.hover.dark
@@ -27,7 +27,7 @@ export const button = {
   },
   secondary: {
     DEFAULT: '#FFF',
-    dark: '#000',
+    dark: colors.grey['900'],
     hover: {
       DEFAULT: background.subtle.DEFAULT,
       dark: background.subtle.dark
