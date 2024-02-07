@@ -37,7 +37,7 @@ const meta = {
       <AccordionItem value="item-2">
         <AccordionTrigger>Item 2</AccordionTrigger>
         <AccordionContent>
-          <div className="px-6 text-foreground-muted bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 font-semibold items-center flex justify-center">
+          <div className="px-6 text-foreground bg-brandGreen-50 dark:bg-brandGreen-100 h-40 font-semibold items-center flex justify-center">
             Replace this component with your content
           </div>
         </AccordionContent>
@@ -46,7 +46,7 @@ const meta = {
       <AccordionItem value="item-3">
         <AccordionTrigger>Item 3</AccordionTrigger>
         <AccordionContent>
-          <div className="px-6 text-foreground-muted bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 font-semibold items-center flex justify-center">
+          <div className="px-6 text-foreground bg-brandGreen-50 dark:bg-brandGreen-100 h-40 font-semibold items-center flex justify-center">
             Replace this component with your content
           </div>
         </AccordionContent>

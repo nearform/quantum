@@ -38,8 +38,8 @@ const buttonGroupVariants = cva(
         ]
       },
       orientation: {
-        horizontal: ['inline-flex', 'divide-x-[1px]'],
-        vertical: ['flex-col', 'divide-y-[1px]', '[&>*]:self-stretch']
+        horizontal: ['inline-flex'],
+        vertical: ['flex-col', '[&>*]:self-stretch']
       },
       size: {
         md: ['[&>*]:py-2.5'],
