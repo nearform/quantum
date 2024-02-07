@@ -16,7 +16,7 @@ const stepVariant = cva([
   'dark:hover:text-foreground-subtle-dark',
   'active:text-foreground-muted',
   'dark:active:text-foreground-muted-dark',
-  'data-[selected=true]:text-accent',
+  'data-[selected=true]:text-secondary-100',
   'dark:data-[selected=true]:text-accent-dark'
 ])
 
