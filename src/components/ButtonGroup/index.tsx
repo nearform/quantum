@@ -7,7 +7,6 @@ const buttonGroupVariants = cva(
     'inline-flex',
     '[&>*]:flex',
     '[&>*]:rounded-none',
-    'divide-border-subtle',
     'p-0',
     '[&>*]:gap-[10px]',
     '[&>*]:items-center',
@@ -24,18 +23,22 @@ const buttonGroupVariants = cva(
         primary: [
           '[&>*:focus]:bg-secondary-100',
           '[&>*:focus]:text-foreground',
-          'dark:divide-border-subtle-dark',
           'dark:[&>*]:bg-button-primary-dark',
           'dark:[&>*]:text-foreground-inverse-dark',
-          'dark:[&>*:hover]:bg-button-secondary-hover',
-          'dark:[&>*:focus]:bg-button-secondary-focus'
+          'dark:[&>*:hover]:bg-button-primary-hover',
+          'dark:[&>*:hover]:text-foreground-dark',
+          'dark:[&>*:focus]:bg-button-primary-focus',
+          'dark:[&>*:focus]:text-foreground-dark'
         ],
         secondary: [
           'bg-background',
-          'border-[1px] border-border-subtle',
           '[&>*]:bg-white [&>*]:text-grey-900',
           '[&>*:focus]:bg-button-secondary-focus',
           '[&>*:hover]:bg-button-secondary-hover',
+          'dark:[&>*:hover]:bg-button-secondary-hover-dark',
+          'dark:[&>*:hover]:text-foreground-dark',
+          'dark:[&>*:focus]:bg-button-secondary-focus-dark',
+          'dark:[&>*:focus]:text-foreground-dark',
           '[&>*:disabled]:bg-button-secondary-disabled [&>*:disabled]:border-button-secondary-border-disabled [&>*:disabled]:text-foreground-subtle'
         ]
       },
