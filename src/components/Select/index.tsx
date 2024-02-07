@@ -45,11 +45,12 @@ const triggerVariants = cva(
           'bg-grey-100',
           'hover:border-border-hover',
           'hover:text-foreground',
-          'focus-visible:shadow-blue',
+          'focus-visible:shadow-brandGreen',
           'dark:bg-background-alt-dark',
           'dark:border-border-subtle-dark',
           'dark:text-foreground-muted-dark',
-          'data-[placeholder]:text-foreground-muted'
+          'data-[placeholder]:text-foreground-muted',
+          'dark:focus-visible:shadow-brandGreen-10'
         ],
         error: [
           'bg-red-50',
@@ -182,9 +183,12 @@ const itemVariants = cva([
     'data-[disabled]:pointer-events-none',
     'data-[disabled]:opacity-50',
     'hover:bg-background-alt',
-    'focus-visible:shadow-blue'
+    'focus-visible:shadow-brandGreen'
   ],
-  ['dark:focus-visible:shadow-blue', 'dark:hover:bg-background-alt-dark']
+  [
+    'dark:focus-visible:shadow-brandGreen-10',
+    'dark:hover:bg-background-alt-dark'
+  ]
 ])
 
 const SelectItem = React.forwardRef<

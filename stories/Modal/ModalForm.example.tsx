@@ -23,7 +23,7 @@ export const ModalFormDemo = () => (
       </ModalHeader>
       <ModalDescription variant="form" asChild>
         <div>
-          <div className="bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 text-lg font-semibold items-center flex justify-center mb-6 mx-6">
+          <div className="text-foreground bg-brandGreen-10 dark:bg-brandGreen-100 h-40 text-lg font-semibold items-center flex justify-center mb-6 mx-6">
             Replace this component with your form
           </div>
         </div>
@@ -36,7 +36,7 @@ export const ModalFormDemo = () => (
         </Button>
         <div className="flex justify-center gap-4">
           <div className="text-foreground-muted">Additional text line</div>
-          <div className="dark:text-primary-300 underline text-primary-600">
+          <div className="dark:text-primary-30 underline text-primary-100">
             Additional text line
           </div>
         </div>

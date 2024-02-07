@@ -137,7 +137,7 @@ const calendarVariants = cva([], {
       day: cn([
         'aria-selected:bg-accent',
         'rounded-lg',
-        'dark:aria-selected:bg-blue-400',
+        'dark:aria-selected:bg-brandGreen-100',
         'px-1',
         'w-full',
         'py-2',
@@ -198,7 +198,7 @@ function Calendar({
         day_outside: calendarVariants({ component: 'day_outside' }),
         day_disabled: 'text-muted-foreground opacity-50',
         day_range_middle:
-          'day-range-middle aria-selected:bg-accent-alt dark:aria-selected:bg-accent-alt rounded-none bg-grey-400 text-grey-900',
+          'day-range-middle aria-selected:bg-accent-hover-dark dark:aria-selected:bg-accent-alt rounded-none bg-grey-400 text-grey-900',
         day_hidden: 'invisible',
         ...classNames
       }}

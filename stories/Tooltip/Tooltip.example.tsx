@@ -33,10 +33,7 @@ export const TooltipContentComponent = () => {
   return (
     <p>
       Here is a{' '}
-      <a
-        className="text-secondary-400 underline"
-        href={'https://www.example.com/'}
-      >
+      <a className="underline" href={'https://www.example.com/'}>
         link
       </a>
     </p>

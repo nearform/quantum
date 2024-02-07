@@ -22,7 +22,7 @@ export const ModalCustomDemo = () => (
       </ModalHeader>
       <ModalDescription asChild>
         <div>
-          <div className="bg-blue-50 dark:bg-blue-900 dark:text-foreground-inverse h-40 text-lg font-semibold items-center flex justify-center mb-6 mx-6">
+          <div className="text-foreground bg-brandGreen-10 dark:bg-brandGreen-100 h-40 text-lg font-semibold items-center flex justify-center mb-6 mx-6">
             Replace this component with your content
           </div>
         </div>

@@ -18,12 +18,12 @@ const radioVariant = cva([
     'disabled:opacity-50',
     'text-foreground-inverse'
   ],
+  ['data-[state=checked]:border-border', 'data-[state=checked]:bg-border'],
   [
-    'data-[state=checked]:border-primary-600',
-    'data-[state=checked]:bg-primary-600',
-    'data-[state=checked]:bg-primary-600'
-  ],
-  ['dark:bg-background-alt-dark', 'dark:border-border-dark']
+    'dark:bg-background-alt-dark',
+    'dark:border-border-dark',
+    'dark:data-[state=checked]:bg-border-dark'
+  ]
 ])
 
 const RadioGroupItem = React.forwardRef<

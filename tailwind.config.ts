@@ -19,6 +19,8 @@ export default {
       blue: '0px 0px 0px 4px rgb(118,169,250)',
       red: '0px 0px 0px 4px rgb(249,128,128)',
       green: '0px 0px 0px 4px rgb(49,196,141,1)',
+      brandGreen: '0px 0px 0px 4px #03e5a4',
+      brandGreen10: '0px 0px 0px 4px #e5fcf5',
       none: '0px 0px'
     },
     fontFamily: {

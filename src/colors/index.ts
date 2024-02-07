@@ -9,8 +9,8 @@ import { feedback } from './feedback'
 export default {
   transparent: 'transparent',
   current: 'currentColor',
-  primary: colors.blue,
-  secondary: colors.pink,
+  primary: colors.brandMidnight,
+  secondary: colors.brandGreen,
   foreground: foreground,
   background: background,
   accent: accent,
