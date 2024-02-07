@@ -6,18 +6,18 @@ import { feedback } from './feedback'
 
 export const button = {
   primary: {
-    DEFAULT: colors.blue['700'],
+    DEFAULT: accent.DEFAULT,
     dark: '#FFF',
     hover: {
-      DEFAULT: colors.blue['800'],
+      DEFAULT: accent.hover.DEFAULT,
       dark: accent.hover.dark
     },
     focus: {
-      DEFAULT: accent.DEFAULT,
+      DEFAULT: accent.focus.DEFAULT,
       dark: accent.focus.dark
     },
     disabled: {
-      DEFAULT: colors.grey['50'],
+      DEFAULT: background.subtle.DEFAULT,
       dark: background.subtle.dark
     },
     selected: {
@@ -29,20 +29,17 @@ export const button = {
     DEFAULT: '#FFF',
     dark: '#000',
     hover: {
-      DEFAULT: colors.grey['50'],
+      DEFAULT: background.subtle.DEFAULT,
       dark: background.subtle.dark
     },
-
     focus: {
-      DEFAULT: colors.blue['50'],
-      dark: colors.blue['900']
+      DEFAULT: background.alt.DEFAULT,
+      dark: background.alt.dark
     },
-
     disabled: {
-      DEFAULT: colors.grey['50'],
+      DEFAULT: background.subtle.DEFAULT,
       dark: background.subtle.dark
     },
-
     border: {
       DEFAULT: border.DEFAULT,
       dark: border.dark,
@@ -66,7 +63,7 @@ export const button = {
   },
   tertiary: {
     hover: {
-      DEFAULT: colors.grey['50'],
+      DEFAULT: background.subtle.DEFAULT,
       dark: background.subtle.dark
     },
     focus: {
@@ -81,10 +78,10 @@ export const button = {
   success: {
     DEFAULT: feedback.green,
     hover: {
-      DEFAULT: colors.green['500']
+      DEFAULT: colors.green['600']
     },
     focus: {
-      DEFAULT: colors.green['600']
+      DEFAULT: colors.green['700']
     },
     disabled: {
       DEFAULT: colors.grey['50']
@@ -100,7 +97,7 @@ export const button = {
       DEFAULT: colors.red['700']
     },
     focus: {
-      DEFAULT: colors.red['600']
+      DEFAULT: colors.red['800']
     },
     disabled: {
       DEFAULT: colors.grey['50']
