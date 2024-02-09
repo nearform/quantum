@@ -48,14 +48,17 @@ interface PaginationProps
     VariantProps<typeof PaginationVariants> {}
 
 export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
-  ({
-    className,
-    currentPage,
-    setCurrentPage,
-    numberOfItemsPerPage,
-    totalNumberOfFilteredItems,
-    ...props
-  }) => {
+  (
+    {
+      className,
+      currentPage,
+      setCurrentPage,
+      numberOfItemsPerPage,
+      totalNumberOfFilteredItems,
+      ...props
+    },
+    ref
+  ) => {
     const currentRowsLength = totalNumberOfFilteredItems ?? 0
 
     const totalPages = React.useMemo(() => {
@@ -113,7 +116,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
       if (currentPage !== 1) setCurrentPage(currentPage - 1)
     }
     return (
-      <nav className={cn(PaginationVariants(), className)} {...props}>
+      <nav className={cn(PaginationVariants(), className)} ref={ref} {...props}>
         <ul>
           <li className="hover:bg-background px-4 dark:hover:bg-background-dark rounded-sm">
             <button
