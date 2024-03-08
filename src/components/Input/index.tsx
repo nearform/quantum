@@ -107,7 +107,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const rightSideComponent = rightSideChild ?? <BsX strokeWidth={0.6} />
 
     return (
-      <form className={cn(formVariants({ variant }), formClassName)}>
+      <div className={cn(formVariants({ variant }), formClassName)}>
         <div className={cn(leftSideVariants(), leftSideClassName)}>
           {leftSideComponent}
         </div>
@@ -121,7 +121,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <button type="button" onClick={onClear} className={rightSideVariants()}>
           {rightSideComponent}
         </button>
-      </form>
+      </div>
     )
   }
 )
