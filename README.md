@@ -33,3 +33,18 @@ module.exports = {
 import '@nearform/quantum/dist/global.css'
 import { Button } from '@nearform/quantum'
 ```
+
+## Tests
+
+To run tests for the project, run:
+
+```js
+npm run test
+```
+
+To run Storybook tests for the project, run:
+
+
+```js
+npm run test-storybook
+```
