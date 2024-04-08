@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent
-} from '@/components'
+} from '@/components';
 
 const meta = {
   title: 'Components/Accordion',
@@ -13,6 +13,7 @@ const meta = {
   parameters: {
     layout: 'centered'
   },
+  tags: ['autodocs'],
   argTypes: {
     type: {
       options: ['single', 'multiple'],
@@ -53,10 +54,10 @@ const meta = {
       </AccordionItem>
     </Accordion>
   )
-} satisfies Meta<typeof Accordion>
+} satisfies Meta<typeof Accordion>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Single: Story = {
   args: {
@@ -64,11 +65,11 @@ export const Single: Story = {
     collapsible: true,
     size: 'md'
   }
-}
+};
 
 export const Multiple: Story = {
   args: {
     type: 'multiple',
     size: 'md'
   }
-}
+};

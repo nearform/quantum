@@ -10,8 +10,6 @@ export default create({
 
   appBg: colors.white.DEFAULT,
 
-  barHoverColor: '#7EDCE2',
-
   colorPrimary: '#000E38',
   colorSecondary: '#0C3D60',
 
@@ -26,8 +24,9 @@ export default create({
   textInverseColor: '#111928',
 
   // Toolbar default and active colors
-  barTextColor: '#9E9E9E',
-  barSelectedColor: '#585C6D',
+  barTextColor: '#fff',
+  barHoverColor: '#7EDCE2',
+  barSelectedColor: '#7EDCE2',
   barBg: '#000E38',
 
   // Form colors
