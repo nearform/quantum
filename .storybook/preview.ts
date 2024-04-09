@@ -1,15 +1,19 @@
-import { DocsContainer } from './DocsContainer'
-import { themes } from '@storybook/theming'
+import './global.css';
+import { Preview } from '@storybook/react';
+import theme from './theme';
 
-import './global.css'
-
-export const parameters = {
-  backgrounds: { disable: true },
-  darkMode: {
-    dark: { ...themes.dark },
-    light: { ...themes.normal }
-  },
-  docs: {
-    container: DocsContainer
+const preview: Preview = {
+  parameters: {
+    backgrounds: { disable: true },
+    docs: {
+      theme
+    },
+    options: {
+      storySort: {
+        order: ['Get Started']
+      }
+    }
   }
-}
+};
+
+export default preview;

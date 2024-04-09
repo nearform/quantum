@@ -1,5 +1,5 @@
-import * as path from 'path'
-import type { StorybookConfig } from '@storybook/react-vite'
+import * as path from 'path';
+import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
   stories: [
@@ -10,12 +10,13 @@ const config: StorybookConfig = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    'storybook-dark-mode'
+    '@storybook/addon-mdx-gfm'
   ],
   framework: {
     name: '@storybook/react-vite',
     options: {}
   },
+  staticDirs: ['../public/'],
   docs: {
     autodocs: 'tag'
   },
@@ -24,10 +25,10 @@ const config: StorybookConfig = {
       config.resolve.alias = {
         ...config.resolve.alias,
         '@': path.join(__dirname, '../src')
-      }
+      };
     }
 
-    return config
+    return config;
   }
-}
-export default config
+};
+export default config;

@@ -1,10 +1,10 @@
-import { colors } from './base'
-import { foreground } from './foreground'
-import { background } from './background'
-import { button } from './button'
-import { accent } from './accent'
-import { border } from './border'
-import { feedback } from './feedback'
+import { colors } from './base';
+import { foreground } from './foreground';
+import { background } from './background';
+import { button } from './button';
+import { accent } from './accent';
+import { border } from './border';
+import { feedback } from './feedback';
 
 export default {
   transparent: 'transparent',
@@ -24,4 +24,4 @@ export default {
     DEFAULT: '#000'
   },
   ...colors
-}
+};

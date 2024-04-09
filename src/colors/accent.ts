@@ -1,4 +1,4 @@
-import { colors } from './base'
+import { colors } from './base';
 
 export const accent = {
   DEFAULT: colors.brandMidnight['100'],
@@ -15,4 +15,4 @@ export const accent = {
     DEFAULT: colors.brandMidnight['100'],
     dark: colors.grey['100']
   }
-}
+};
