@@ -1,0 +1,209 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "loadedVersions": [
+        {
+          "versionName": "current",
+          "label": "Next",
+          "banner": null,
+          "badge": false,
+          "noIndex": false,
+          "className": "docs-version-current",
+          "path": "/docs",
+          "tagsPath": "/docs/tags",
+          "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs",
+          "editUrlLocalized": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/i18n/en/docusaurus-plugin-content-docs/current",
+          "isLast": true,
+          "routePriority": -1,
+          "sidebarFilePath": "/Users/ergusto/Projects/NearForm/quantum/website/sidebars.ts",
+          "contentPath": "/Users/ergusto/Projects/NearForm/quantum/website/docs",
+          "contentPathLocalized": "/Users/ergusto/Projects/NearForm/quantum/website/i18n/en/docusaurus-plugin-content-docs/current",
+          "docs": [
+            {
+              "id": "components/accordion/index",
+              "title": "accordion",
+              "description": "This is an accordion",
+              "source": "@site/docs/components/accordion/index.mdx",
+              "sourceDirName": "components/accordion",
+              "slug": "/components/accordion/",
+              "permalink": "/docs/components/accordion/",
+              "draft": false,
+              "unlisted": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/components/accordion/index.mdx",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "title": "accordion",
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Components",
+                "permalink": "/docs/category/components"
+              }
+            },
+            {
+              "id": "foundations/colour",
+              "title": "Colour",
+              "description": "The Quantum colour system allows for clear defintions between functional elements with a focus on upholding  accessibility standards across light and dark mode.",
+              "source": "@site/docs/foundations/colour.mdx",
+              "sourceDirName": "foundations",
+              "slug": "/foundations/colour",
+              "permalink": "/docs/foundations/colour",
+              "draft": false,
+              "unlisted": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/foundations/colour.mdx",
+              "tags": [],
+              "version": "current",
+              "frontMatter": {},
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Foundations",
+                "permalink": "/docs/category/foundations"
+              },
+              "next": {
+                "title": "Typography",
+                "permalink": "/docs/foundations/typography"
+              }
+            },
+            {
+              "id": "foundations/typography",
+              "title": "Typography",
+              "description": "The Quantum typography system allows for clear defintions of the used font-family the levels of heading and the size, style of each component text.",
+              "source": "@site/docs/foundations/typography.mdx",
+              "sourceDirName": "foundations",
+              "slug": "/foundations/typography",
+              "permalink": "/docs/foundations/typography",
+              "draft": false,
+              "unlisted": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/foundations/typography.mdx",
+              "tags": [],
+              "version": "current",
+              "frontMatter": {},
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Colour",
+                "permalink": "/docs/foundations/colour"
+              },
+              "next": {
+                "title": "Components",
+                "permalink": "/docs/category/components"
+              }
+            },
+            {
+              "id": "intro",
+              "title": "Get started",
+              "description": "Welcome to Quantum. This guide will help you to get up and running in no time.",
+              "source": "@site/docs/intro.md",
+              "sourceDirName": ".",
+              "slug": "/intro",
+              "permalink": "/docs/intro",
+              "draft": false,
+              "unlisted": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/intro.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "next": {
+                "title": "Foundations",
+                "permalink": "/docs/category/foundations"
+              }
+            }
+          ],
+          "drafts": [],
+          "sidebars": {
+            "tutorialSidebar": [
+              {
+                "type": "doc",
+                "id": "intro"
+              },
+              {
+                "type": "category",
+                "label": "Foundations",
+                "collapsible": true,
+                "collapsed": true,
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "foundations/colour"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "foundations/typography"
+                  }
+                ],
+                "link": {
+                  "type": "generated-index",
+                  "description": "The foundations behind each component",
+                  "slug": "/category/foundations",
+                  "permalink": "/docs/category/foundations"
+                }
+              },
+              {
+                "type": "category",
+                "label": "Components",
+                "collapsible": true,
+                "collapsed": true,
+                "customProps": {
+                  "description": "A list of all component available"
+                },
+                "items": [
+                  {
+                    "type": "doc",
+                    "label": "accordion",
+                    "id": "components/accordion/index"
+                  }
+                ],
+                "link": {
+                  "type": "generated-index",
+                  "title": "Components",
+                  "slug": "/category/components",
+                  "permalink": "/docs/category/components"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "docusaurus-plugin-content-blog": {
+    "default": {
+      "blogSidebarTitle": "Recent posts",
+      "blogPosts": [],
+      "blogListPaginated": [],
+      "blogTags": {},
+      "blogTagsListPath": "/blog/tags",
+      "blogTagsPaginated": []
+    }
+  },
+  "docusaurus-plugin-content-pages": {
+    "default": [
+      {
+        "type": "jsx",
+        "permalink": "/",
+        "source": "@site/src/pages/index.tsx"
+      },
+      {
+        "type": "mdx",
+        "permalink": "/markdown-page",
+        "source": "@site/src/pages/markdown-page.md",
+        "title": "Markdown page example",
+        "description": "You don't need React to write simple standalone pages.",
+        "frontMatter": {
+          "title": "Markdown page example"
+        },
+        "unlisted": false
+      }
+    ]
+  },
+  "docusaurus-plugin-debug": {},
+  "docusaurus-theme-classic": {},
+  "docusaurus-bootstrap-plugin": {},
+  "docusaurus-mdx-fallback-plugin": {}
+}

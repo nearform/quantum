@@ -1,3 +1,29 @@
+/* General layout */
+/* Default divider */
+#root > div > div:nth-child(3) {
+  border-right: 0px;
+}
+
+#root > div > div:nth-child(3) > div:first-child {
+  top: 52px;
+}
+
+/* preview top toolbar */
+#root > div > div:nth-child(2) > main > .sb-bar {
+  height: 52px;
+  box-shadow: none;
+}
+
+#root > div > div:nth-child(2) > main > .sb-bar > div {
+  height: 52px;
+}
+
+#root > div > div:nth-child(2) > main > div:nth-child(2) {
+  border-left: 1px solid #D1D5DB;
+}
+
+/* Sidebar stuff */
+
 .sidebar-header {
   background: #000E38;
   margin-left: -12px;
@@ -98,3 +124,5 @@ div.sidebar-item > a:nth-child(2) {
 
 .sidebar-subheading ~ div.sidebar-item > a {
 }
+
+

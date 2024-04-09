@@ -6,7 +6,8 @@ const preview: Preview = {
   parameters: {
     backgrounds: { disable: true },
     docs: {
-      theme
+      theme,
+      toc: true
     },
     options: {
       storySort: {

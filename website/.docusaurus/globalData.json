@@ -1,0 +1,58 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/docs",
+          "mainDocId": "intro",
+          "docs": [
+            {
+              "id": "components/accordion/index",
+              "path": "/docs/components/accordion/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "foundations/colour",
+              "path": "/docs/foundations/colour",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "foundations/typography",
+              "path": "/docs/foundations/typography",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "intro",
+              "path": "/docs/intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/foundations",
+              "path": "/docs/category/foundations",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/components",
+              "path": "/docs/category/components",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/docs/intro",
+                "label": "intro"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Components",
+  "slug": "/category/components",
+  "permalink": "/docs/category/components",
+  "navigation": {
+    "previous": {
+      "title": "Typography",
+      "permalink": "/docs/foundations/typography"
+    },
+    "next": {
+      "title": "accordion",
+      "permalink": "/docs/components/accordion/"
+    }
+  }
+}
