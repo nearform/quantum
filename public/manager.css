@@ -1,4 +1,5 @@
 /* General layout */
+
 /* Default divider */
 #root > div > div:nth-child(3) {
   border-right: 0px;
@@ -124,5 +125,3 @@ div.sidebar-item > a:nth-child(2) {
 
 .sidebar-subheading ~ div.sidebar-item > a {
 }
-
-
