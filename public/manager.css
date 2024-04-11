@@ -11,12 +11,17 @@
 
 /* preview top toolbar */
 #root > div > div:nth-child(2) > main > .sb-bar {
-  height: 52px;
+  height: 64px;
   box-shadow: none;
 }
 
 #root > div > div:nth-child(2) > main > .sb-bar > div {
-  height: 52px;
+  height: 64px;
+}
+
+#root > div > div:nth-child(2) > main > .sb-bar > div svg {
+  width: 18px;
+  height: 18px;
 }
 
 #root > div > div:nth-child(2) > main > div:nth-child(2) {
@@ -31,8 +36,14 @@
   margin: -12px;
   margin-top: -16px !important;
   margin-bottom: 12px;
-  padding: 12px;
+  padding: 18px 12px;
   padding-left: 16px !important;
+}
+
+.sidebar-header svg {
+  color: white;
+  width: 16px;
+  height: 16px;
 }
 
 .sidebar-subheading {
