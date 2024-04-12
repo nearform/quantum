@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
 import {
   Popover,
@@ -7,7 +7,7 @@ import {
   PopoverFooter,
   PopoverScrollArea,
   PopoverHeader
-} from '@/components/Popover'
+} from '@/components/Popover';
 
 import {
   Button,
@@ -16,9 +16,9 @@ import {
   ControlLabel,
   Link,
   Checkbox
-} from '@/index'
+} from '@/index';
 
-import { BsBoxArrowLeft } from '@/assets'
+import { BsBoxArrowLeft } from '@/assets';
 
 const items = [
   { label: 'First action' },
@@ -29,7 +29,7 @@ const items = [
   { label: 'Sixth action' },
   { label: 'Seventh action' },
   { label: 'Eighth action' }
-]
+];
 
 const meta = {
   title: 'Components/Popover',
@@ -37,10 +37,10 @@ const meta = {
   parameters: {
     layout: 'centered'
   }
-} satisfies Meta<typeof Popover>
+} satisfies Meta<typeof Popover>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: props => (
@@ -57,7 +57,7 @@ export const Default: Story = {
       </PopoverContent>
     </Popover>
   )
-}
+};
 
 export const HeaderFooterAndScrollingContent: Story = {
   render: props => (
@@ -83,7 +83,7 @@ export const HeaderFooterAndScrollingContent: Story = {
       </PopoverContent>
     </Popover>
   )
-}
+};
 
 export const WithCheckboxes: Story = {
   render: props => (
@@ -106,7 +106,7 @@ export const WithCheckboxes: Story = {
       </PopoverContent>
     </Popover>
   )
-}
+};
 
 export const WithRadioGroup: Story = {
   render: props => (
@@ -132,4 +132,4 @@ export const WithRadioGroup: Story = {
       </PopoverContent>
     </Popover>
   )
-}
+};

@@ -1,5 +1,5 @@
-import { ButtonGroup, type ButtonGroupProps } from '@/index'
-import { Button } from '@/index'
+import { ButtonGroup, type ButtonGroupProps } from '@/index';
+import { Button } from '@/index';
 
 export const ButtonGroupDemo = ({
   orientation,
@@ -15,5 +15,5 @@ export const ButtonGroupDemo = ({
       <Button>Five</Button>
       <Button>Six</Button>
     </ButtonGroup>
-  )
-}
+  );
+};

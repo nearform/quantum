@@ -1,8 +1,8 @@
-import * as React from 'react'
-import * as SwitchPrimitives from '@radix-ui/react-switch'
+import * as React from 'react';
+import * as SwitchPrimitives from '@radix-ui/react-switch';
 
-import { cn } from '@/lib/utils'
-import { cva } from 'class-variance-authority'
+import { cn } from '@/lib/utils';
+import { cva } from 'class-variance-authority';
 
 const switchVariants = cva([
   [
@@ -33,7 +33,7 @@ const switchVariants = cva([
     'enabled:bg-foreground-subtle',
     'disabled:bg-grey-200'
   ]
-])
+]);
 
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
@@ -62,7 +62,7 @@ const Switch = React.forwardRef<
       ])}
     />
   </SwitchPrimitives.Root>
-))
-Switch.displayName = SwitchPrimitives.Root.displayName
+));
+Switch.displayName = SwitchPrimitives.Root.displayName;
 
-export { Switch }
+export { Switch };

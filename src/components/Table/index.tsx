@@ -1,8 +1,8 @@
-import * as React from 'react'
+import * as React from 'react';
 
-import { cn } from '@/lib/utils'
-import { VariantProps } from 'class-variance-authority'
-import { cva } from 'class-variance-authority'
+import { cn } from '@/lib/utils';
+import { VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 
 const tableBodyVariants = cva('bg-background dark:bg-grey-900', {
   variants: {
@@ -13,7 +13,7 @@ const tableBodyVariants = cva('bg-background dark:bg-grey-900', {
       ]
     }
   }
-})
+});
 
 const Table = React.forwardRef<
   HTMLTableElement,
@@ -26,8 +26,8 @@ const Table = React.forwardRef<
       {...props}
     />
   </div>
-))
-Table.displayName = 'Table'
+));
+Table.displayName = 'Table';
 
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
@@ -41,8 +41,8 @@ const TableHeader = React.forwardRef<
     )}
     {...props}
   />
-))
-TableHeader.displayName = 'TableHeader'
+));
+TableHeader.displayName = 'TableHeader';
 
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
@@ -53,8 +53,8 @@ const TableHead = React.forwardRef<
     className={cn('px-4 py-5 leading-[21px] font-bold', className)}
     {...props}
   />
-))
-TableHead.displayName = 'TableHead'
+));
+TableHead.displayName = 'TableHead';
 interface TableBodyProps
   extends React.HTMLAttributes<HTMLTableSectionElement>,
     VariantProps<typeof tableBodyVariants> {}
@@ -67,8 +67,8 @@ const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
       {...props}
     />
   )
-)
-TableBody.displayName = 'TableBody'
+);
+TableBody.displayName = 'TableBody';
 
 const TableRow = React.forwardRef<
   HTMLTableRowElement,
@@ -82,24 +82,24 @@ const TableRow = React.forwardRef<
     )}
     {...props}
   />
-))
-TableRow.displayName = 'TableRow'
+));
+TableRow.displayName = 'TableRow';
 
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
   React.TdHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
   <td ref={ref} className={cn('p-4', className)} {...props} />
-))
-TableCell.displayName = 'TableCell'
+));
+TableCell.displayName = 'TableCell';
 
 const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,
   React.HTMLAttributes<HTMLTableCaptionElement>
 >(({ className, ...props }, ref) => (
   <caption ref={ref} className={cn('mt-4', className)} {...props} />
-))
-TableCaption.displayName = 'TableCaption'
+));
+TableCaption.displayName = 'TableCaption';
 
 const TableFooter = React.forwardRef<
   HTMLTableSectionElement,
@@ -110,8 +110,8 @@ const TableFooter = React.forwardRef<
     className={cn('bg-primary text-primary-foreground', className)}
     {...props}
   />
-))
-TableFooter.displayName = 'TableFooter'
+));
+TableFooter.displayName = 'TableFooter';
 export {
   Table,
   TableHeader,
@@ -121,5 +121,5 @@ export {
   TableRow,
   TableCell,
   TableCaption
-}
-export type { TableBodyProps }
+};
+export type { TableBodyProps };

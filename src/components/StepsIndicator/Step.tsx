@@ -1,10 +1,10 @@
-import { BsCircleFill } from '@/assets'
-import { cn } from '@/lib/utils'
-import { cva } from 'class-variance-authority'
+import { BsCircleFill } from '@/assets';
+import { cn } from '@/lib/utils';
+import { cva } from 'class-variance-authority';
 
 interface StepProps {
-  selected: 'true' | 'false'
-  className?: string
+  selected: 'true' | 'false';
+  className?: string;
 }
 
 const stepVariant = cva([
@@ -18,7 +18,7 @@ const stepVariant = cva([
   'dark:active:text-foreground-muted-dark',
   'data-[selected=true]:text-secondary-100',
   'dark:data-[selected=true]:text-accent-dark'
-])
+]);
 
 const Step = ({ selected, className }: StepProps) => {
   return (
@@ -27,7 +27,7 @@ const Step = ({ selected, className }: StepProps) => {
       data-selected={selected}
       className={cn(stepVariant(), className)}
     />
-  )
-}
+  );
+};
 
-export { Step, type StepProps }
+export { Step, type StepProps };

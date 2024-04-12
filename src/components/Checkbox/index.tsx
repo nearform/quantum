@@ -1,8 +1,8 @@
-import * as React from 'react'
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
-import { cn } from '@/lib/utils'
-import { BsCheck, BsDash } from '@/assets'
-import { cva } from 'class-variance-authority'
+import * as React from 'react';
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import { cn } from '@/lib/utils';
+import { BsCheck, BsDash } from '@/assets';
+import { cva } from 'class-variance-authority';
 const checkboxVariants = cva([
   [
     'peer',
@@ -28,7 +28,7 @@ const checkboxVariants = cva([
     'dark:data-[state=checked]:border-border-dark',
     'dark:data-[state=checked]:bg-border-dark'
   ]
-])
+]);
 
 interface CheckboxProps
   extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {}
@@ -53,7 +53,7 @@ const Checkbox = React.forwardRef<
       )}
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
-))
-Checkbox.displayName = CheckboxPrimitive.Root.displayName
+));
+Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 
-export { Checkbox, type CheckboxProps }
+export { Checkbox, type CheckboxProps };

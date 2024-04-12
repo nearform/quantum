@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
 import {
   Table,
@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@/components'
+} from '@/components';
 
 const data = [
   ['Freeman', 'Credit Card', '$250.00'],
@@ -17,7 +17,7 @@ const data = [
   ['Mossman', 'Cash', '$30.00'],
   ['Breen', 'Cash', '$75.50'],
   ['Calhoun', 'Credit Card', '$15,000.00']
-]
+];
 
 const meta = {
   title: 'Components/Table',
@@ -51,17 +51,17 @@ const meta = {
           ))}
         </TableBody>
       </Table>
-    )
+    );
   }
-} satisfies Meta<typeof TableBody>
+} satisfies Meta<typeof TableBody>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {}
+export const Default: Story = {};
 
 export const Zebra: Story = {
   args: {
     variant: 'zebra'
   }
-}
+};

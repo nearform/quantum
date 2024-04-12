@@ -1,2 +1,2 @@
-export * from './Step'
-export * from './StepsIndicator'
+export * from './Step';
+export * from './StepsIndicator';

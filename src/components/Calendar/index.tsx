@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import * as React from 'react'
-import { DayPicker } from 'react-day-picker'
-import { cn } from '@/lib/utils'
-import { BsArrowLeft, BsArrowRight } from '@/assets'
-import { cva } from 'class-variance-authority'
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
+import * as React from 'react';
+import { DayPicker } from 'react-day-picker';
+import { cn } from '@/lib/utils';
+import { BsArrowLeft, BsArrowRight } from '@/assets';
+import { cva } from 'class-variance-authority';
+export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
 const calendarVariants = cva([], {
   variants: {
@@ -71,7 +71,7 @@ const calendarVariants = cva([], {
       ]
     }
   }
-})
+});
 
 function Calendar({
   className,
@@ -123,8 +123,8 @@ function Calendar({
       }}
       {...props}
     />
-  )
+  );
 }
-Calendar.displayName = 'Calendar'
+Calendar.displayName = 'Calendar';
 
-export { Calendar }
+export { Calendar };

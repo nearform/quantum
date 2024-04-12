@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-import colors from './src/colors'
-import defaultTheme from 'tailwindcss/defaultTheme'
-import animations from './src/animations'
+import colors from './src/colors';
+import defaultTheme from 'tailwindcss/defaultTheme';
+import animations from './src/animations';
 
 export default {
   content: ['./src/**/*.tsx'],
@@ -38,4 +38,4 @@ export default {
       animation: animations.animation
     }
   }
-}
+};

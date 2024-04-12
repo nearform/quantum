@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { Checkbox, ControlLabel } from '@/index'
+import { Checkbox, ControlLabel } from '@/index';
 
 const meta = {
   title: 'Form/Checkbox',
@@ -18,26 +18,26 @@ const meta = {
       description: 'Alter the className to change the style'
     }
   }
-} satisfies Meta<typeof Checkbox>
+} satisfies Meta<typeof Checkbox>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Unchecked: Story = {
   args: {
     checked: false
   }
-}
+};
 export const Checked: Story = {
   args: {
     checked: true
   }
-}
+};
 export const Indeterminate: Story = {
   args: {
     checked: 'indeterminate'
   }
-}
+};
 
 export const ColourChange: Story = {
   args: {
@@ -45,7 +45,7 @@ export const ColourChange: Story = {
     className:
       'data-[state=checked]:text-yellow-200 data-[state=checked]:bg-green-900 data-[state=checked]:border-border'
   }
-}
+};
 
 export const WithLabel: Story = {
   render: props => (
@@ -53,7 +53,7 @@ export const WithLabel: Story = {
       <Checkbox id="withLabelId" {...props} />
     </ControlLabel>
   )
-}
+};
 
 export const WithLabelAndHint: Story = {
   render: props => (
@@ -61,7 +61,7 @@ export const WithLabelAndHint: Story = {
       <Checkbox id="withHintId" {...props} />
     </ControlLabel>
   )
-}
+};
 
 export const WithLabelOnTheLeft: Story = {
   render: props => (
@@ -74,4 +74,4 @@ export const WithLabelOnTheLeft: Story = {
       <Checkbox id="withLabelOnTheLeftId" {...props} />
     </ControlLabel>
   )
-}
+};

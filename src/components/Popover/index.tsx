@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import * as React from 'react'
-import * as PopoverPrimitive from '@radix-ui/react-popover'
-import { cva, type VariantProps } from 'class-variance-authority'
-import * as SeparatorPrimitive from '@radix-ui/react-separator'
-import * as ScrollArea from '@radix-ui/react-scroll-area'
+import * as React from 'react';
+import * as PopoverPrimitive from '@radix-ui/react-popover';
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as SeparatorPrimitive from '@radix-ui/react-separator';
+import * as ScrollArea from '@radix-ui/react-scroll-area';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
 const popoverVariants = cva([
   'z-50',
@@ -18,13 +18,13 @@ const popoverVariants = cva([
   'outline-none',
   'min-w-72',
   'pl-2 pr-[20px] py-3'
-])
+]);
 
-const Popover = PopoverPrimitive.Root
+const Popover = PopoverPrimitive.Root;
 
-const PopoverTrigger = PopoverPrimitive.Trigger
+const PopoverTrigger = PopoverPrimitive.Trigger;
 
-const PopoverClose = PopoverPrimitive.Close
+const PopoverClose = PopoverPrimitive.Close;
 
 export interface PopoverProps
   extends React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>,
@@ -50,12 +50,12 @@ const PopoverContent = React.forwardRef<
       </PopoverPrimitive.Content>
     </PopoverPrimitive.Portal>
   )
-)
-PopoverContent.displayName = PopoverPrimitive.Content.displayName
+);
+PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 
 type PopoverScrollAreaProps = React.PropsWithChildren<{
-  className?: string
-}>
+  className?: string;
+}>;
 
 const PopoverScrollArea: React.FC<PopoverScrollAreaProps> = ({
   className,
@@ -73,12 +73,12 @@ const PopoverScrollArea: React.FC<PopoverScrollAreaProps> = ({
         <ScrollArea.Thumb className="bg-grey-200 w-2 rounded-lg" />
       </ScrollArea.Scrollbar>
     </ScrollArea.Root>
-  )
-}
+  );
+};
 
 interface PopoverSeparatorProps
   extends React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root> {
-  fullLength?: boolean
+  fullLength?: boolean;
 }
 
 const PopoverSeparator = React.forwardRef<
@@ -104,12 +104,12 @@ const PopoverSeparator = React.forwardRef<
       />
     </div>
   )
-)
-PopoverSeparator.displayName = SeparatorPrimitive.Root.displayName
+);
+PopoverSeparator.displayName = SeparatorPrimitive.Root.displayName;
 
 type PopoverHeaderProps = React.PropsWithChildren<{
-  className?: string
-}>
+  className?: string;
+}>;
 
 const PopoverHeader: React.FC<PopoverHeaderProps> = ({
   className,
@@ -120,12 +120,12 @@ const PopoverHeader: React.FC<PopoverHeaderProps> = ({
       <div className={cn('w-full pb-4', className)}>{children}</div>
       <PopoverSeparator fullLength />
     </>
-  )
-}
+  );
+};
 
 type PopoverFooterProps = React.PropsWithChildren<{
-  className?: string
-}>
+  className?: string;
+}>;
 
 const PopoverFooter: React.FC<PopoverFooterProps> = ({
   className,
@@ -136,8 +136,8 @@ const PopoverFooter: React.FC<PopoverFooterProps> = ({
       <PopoverSeparator fullLength />
       <div className={cn('py-2', className)}>{children}</div>
     </div>
-  )
-}
+  );
+};
 
 export {
   Popover,
@@ -148,4 +148,4 @@ export {
   PopoverFooter,
   PopoverSeparator,
   PopoverClose
-}
+};

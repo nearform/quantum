@@ -8,8 +8,8 @@ import {
   ModalHeader,
   ModalTitle,
   ModalTrigger
-} from '@/components/Modal'
-import { Button } from '@/components'
+} from '@/components/Modal';
+import { Button } from '@/components';
 
 export const ModalFormDemo = () => (
   <Modal>
@@ -43,4 +43,4 @@ export const ModalFormDemo = () => (
       </ModalFooter>
     </ModalContent>
   </Modal>
-)
+);

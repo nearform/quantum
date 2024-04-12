@@ -1,14 +1,14 @@
-import { OpenSourceIcon } from '@/assets'
+import { OpenSourceIcon } from '@/assets';
 import {
   WebsiteFooter,
   FooterStatement,
   LinkColumn,
   LinkRow,
   type WebsiteFooterProps
-} from '@/index'
+} from '@/index';
 
 interface Props extends WebsiteFooterProps {
-  variant: 'standard' | 'complex' | 'small'
+  variant: 'standard' | 'complex' | 'small';
 }
 
 const WebsiteFooterStandard = () => {
@@ -41,8 +41,8 @@ const WebsiteFooterStandard = () => {
       </LinkRow>
       <FooterStatement size="sm">Copyright © 2023 Nearform.</FooterStatement>
     </WebsiteFooter>
-  )
-}
+  );
+};
 
 const WebsiteFooterComplex = () => {
   return (
@@ -84,8 +84,8 @@ const WebsiteFooterComplex = () => {
       </LinkRow>
       <FooterStatement size="sm">Copyright © 2023 Nearform.</FooterStatement>
     </WebsiteFooter>
-  )
-}
+  );
+};
 const WebsiteFooterSmall = () => {
   return (
     <WebsiteFooter size="sm">
@@ -116,8 +116,8 @@ const WebsiteFooterSmall = () => {
       </LinkRow>
       <FooterStatement size="sm">Copyright © 2023 Nearform.</FooterStatement>
     </WebsiteFooter>
-  )
-}
+  );
+};
 
 export const WebsiteFooterDemo = ({ variant }: Props) => {
   return (
@@ -126,5 +126,5 @@ export const WebsiteFooterDemo = ({ variant }: Props) => {
       {variant === 'complex' && <WebsiteFooterComplex />}
       {variant === 'small' && <WebsiteFooterSmall />}
     </>
-  )
-}
+  );
+};

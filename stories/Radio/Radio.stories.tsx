@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { Radio, RadioGroup, ControlLabel } from '@/index'
+import { Radio, RadioGroup, ControlLabel } from '@/index';
 
 const items = [
   { value: 'hello', label: 'Hello' },
   { value: 'world', label: 'World' },
   { value: 'goodbye', label: 'Goodbye' },
   { value: 'friend', label: 'Friend' }
-]
+];
 
 const meta = {
   title: 'Form/RadioGroup',
@@ -36,28 +36,28 @@ const meta = {
       }
     }
   }
-} satisfies Meta<typeof RadioGroup & { position?: 'left' | 'right' }>
+} satisfies Meta<typeof RadioGroup & { position?: 'left' | 'right' }>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const NoDefault: Story = {
   args: {
     id: 'no-default'
   }
-}
+};
 export const DefaultSet: Story = {
   args: {
     defaultValue: 'goodbye',
     id: 'default'
   }
-}
+};
 export const Disabled: Story = {
   args: {
     disabled: true,
     id: 'disabled'
   }
-}
+};
 
 /**
  * To display the labels on the left, you have to:
@@ -78,4 +78,4 @@ export const LabelsOnTheLeft: Story = {
       ))}
     </RadioGroup>
   )
-}
+};

@@ -1,7 +1,7 @@
-import React from 'react'
-import { cva, VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
-import { BsPlus } from '@/assets'
+import React from 'react';
+import { cva, VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+import { BsPlus } from '@/assets';
 
 const chipVariants = cva(
   [
@@ -58,12 +58,12 @@ const chipVariants = cva(
       size: 'default'
     }
   }
-)
+);
 
 interface ChipProps
   extends React.ComponentPropsWithRef<'button'>,
     VariantProps<typeof chipVariants> {
-  active?: boolean
+  active?: boolean;
 }
 
 const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
@@ -87,8 +87,8 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           />
         </div>
       </button>
-    )
+    );
   }
-)
+);
 
-export { Chip, ChipProps }
+export { Chip, ChipProps };

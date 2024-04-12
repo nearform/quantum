@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { Chip } from '@/index'
+import { Chip } from '@/index';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -17,65 +17,65 @@ const meta = {
   }
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-} satisfies Meta<typeof Chip>
+} satisfies Meta<typeof Chip>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default: Story = {
   args: {
     children: 'Hello, this is a chip'
   }
-}
+};
 
 export const Warning: Story = {
   args: {
     variant: 'warning',
     children: 'Hello, this is a chip'
   }
-}
+};
 export const Error: Story = {
   args: {
     variant: 'error',
     children: 'Hello, this is a chip'
   }
-}
+};
 export const Info: Story = {
   args: {
     variant: 'info',
     children: 'Hello, this is a chip'
   }
-}
+};
 export const Success: Story = {
   args: {
     variant: 'success',
     children: 'Hello, this is a chip'
   }
-}
+};
 export const Active: Story = {
   args: {
     active: true,
     children: 'Hello, this is a chip'
   }
-}
+};
 export const Disabled: Story = {
   args: {
     disabled: true,
     children: 'Hello, this is a chip'
   }
-}
+};
 
 export const LargeDefault: Story = {
   args: {
     size: 'lg',
     children: 'Hello, this is a chip'
   }
-}
+};
 export const LargeActive: Story = {
   args: {
     active: true,
     size: 'lg',
     children: 'Hello, this is a chip'
   }
-}
+};

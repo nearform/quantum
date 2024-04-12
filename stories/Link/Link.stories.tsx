@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { BsChevronLeft, BsHouse, BsPersonFill } from '@/assets'
+import type { Meta, StoryObj } from '@storybook/react';
+import { BsChevronLeft, BsHouse, BsPersonFill } from '@/assets';
 
-import { Link } from '@/index'
+import { Link } from '@/index';
 
-const icons = { BsChevronLeft, BsHouse, BsPersonFill }
+const icons = { BsChevronLeft, BsHouse, BsPersonFill };
 
 const meta = {
   title: 'Components/Link',
@@ -38,27 +38,27 @@ const meta = {
       }
     }
   }
-} satisfies Meta<typeof Link>
+} satisfies Meta<typeof Link>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
     href: 'http://www.example.com/1'
   }
-}
+};
 
 export const Selected: Story = {
   args: {
     selected: true,
     href: 'http://www.example.com/2'
   }
-}
+};
 
 export const WithIcon: Story = {
   args: {
     icon: icons.BsChevronLeft,
     href: 'http://www.example.com/3'
   }
-}
+};

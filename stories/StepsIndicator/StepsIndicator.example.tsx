@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
-import { StepsIndicator } from '@/components/StepsIndicator'
+import { StepsIndicator } from '@/components/StepsIndicator';
 
 export const StepsIndicatorDemo: React.FC = () => {
-  const [selectedIndex, setSelectedIndex] = useState<number>(1)
-  const onClick = (i: number) => setSelectedIndex(i)
+  const [selectedIndex, setSelectedIndex] = useState<number>(1);
+  const onClick = (i: number) => setSelectedIndex(i);
 
   return (
     <StepsIndicator
@@ -12,5 +12,5 @@ export const StepsIndicatorDemo: React.FC = () => {
       selectedIndex={selectedIndex}
       onClick={onClick}
     />
-  )
-}
+  );
+};

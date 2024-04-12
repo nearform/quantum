@@ -1,4 +1,4 @@
-import { colors } from './base'
+import { colors } from './base';
 
 export const foreground = {
   DEFAULT: colors.grey['900'],
@@ -15,4 +15,4 @@ export const foreground = {
     DEFAULT: '#FFF',
     dark: colors.grey['900']
   }
-}
+};

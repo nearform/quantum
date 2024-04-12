@@ -1,25 +1,25 @@
-import { ColorPalette, ColorItem } from '@storybook/blocks'
+import { ColorPalette, ColorItem } from '@storybook/blocks';
 
 type DarkMode = {
-  DEFAULT?: string
-  dark?: string
-}
+  DEFAULT?: string;
+  dark?: string;
+};
 type ColorPaletteType = {
-  DEFAULT?: string
-  dark?: string
-  focus?: DarkMode
-  hover?: DarkMode
-  alt?: DarkMode
-  subtle?: DarkMode
-  disabled?: DarkMode
-}
+  DEFAULT?: string;
+  dark?: string;
+  focus?: DarkMode;
+  hover?: DarkMode;
+  alt?: DarkMode;
+  subtle?: DarkMode;
+  disabled?: DarkMode;
+};
 
 export const ColorWrapper = ({
   colorPalette,
   darkMode
 }: {
-  colorPalette: ColorPaletteType
-  darkMode: boolean
+  colorPalette: ColorPaletteType;
+  darkMode: boolean;
 }) => {
   return (
     <ColorPalette>
@@ -38,32 +38,32 @@ export const ColorWrapper = ({
         />
       ) : null}
     </ColorPalette>
-  )
-}
+  );
+};
 
 const remap = ({
   mode,
   colorPalette
 }: {
-  mode: keyof DarkMode
-  colorPalette: ColorPaletteType
+  mode: keyof DarkMode;
+  colorPalette: ColorPaletteType;
 }) => {
   const r = Object.keys(colorPalette).reduce(
     (acc: Record<string, string>, token) => {
-      const color = colorPalette[token as keyof typeof colorPalette]
+      const color = colorPalette[token as keyof typeof colorPalette];
       if (color) {
         if (typeof color === 'object') {
-          const colorMode = color[`${mode}`]
+          const colorMode = color[`${mode}`];
           if (colorMode) {
-            acc[token] = colorMode
+            acc[token] = colorMode;
           }
         } else if (mode && token === mode) {
-          acc[mode] = color
+          acc[mode] = color;
         }
       }
-      return acc
+      return acc;
     },
     {}
-  )
-  return r
-}
+  );
+  return r;
+};

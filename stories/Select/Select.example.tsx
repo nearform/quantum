@@ -7,12 +7,12 @@ import {
   SelectSeparator,
   SelectGroup,
   SelectLabel
-} from '@/components/Select'
+} from '@/components/Select';
 
-import { TriggerProps } from '@/components/Select'
+import { TriggerProps } from '@/components/Select';
 
 interface DemoProps extends TriggerProps {
-  example: string
+  example: string;
 }
 
 export const SelectDemo = ({ variant, size, example }: DemoProps) => {
@@ -30,7 +30,7 @@ export const SelectDemo = ({ variant, size, example }: DemoProps) => {
           </SelectGroup>
         </SelectContent>
       </Select>
-    )
+    );
   } else if (example === 'large') {
     return (
       <Select>
@@ -62,7 +62,7 @@ export const SelectDemo = ({ variant, size, example }: DemoProps) => {
           </SelectGroup>
         </SelectContent>
       </Select>
-    )
+    );
   } else if (example === 'item-aligned') {
     return (
       <Select>
@@ -97,7 +97,7 @@ export const SelectDemo = ({ variant, size, example }: DemoProps) => {
           </SelectGroup>
         </SelectContent>
       </Select>
-    )
+    );
   }
   return (
     <Select>
@@ -128,5 +128,5 @@ export const SelectDemo = ({ variant, size, example }: DemoProps) => {
         </SelectGroup>
       </SelectContent>
     </Select>
-  )
-}
+  );
+};

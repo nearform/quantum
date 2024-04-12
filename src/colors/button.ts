@@ -1,8 +1,8 @@
-import { colors } from './base'
-import { accent } from './accent'
-import { background } from './background'
-import { border } from './border'
-import { feedback } from './feedback'
+import { colors } from './base';
+import { accent } from './accent';
+import { background } from './background';
+import { border } from './border';
+import { feedback } from './feedback';
 
 export const button = {
   primary: {
@@ -107,4 +107,4 @@ export const button = {
       dark: background.subtle.dark
     }
   }
-}
+};

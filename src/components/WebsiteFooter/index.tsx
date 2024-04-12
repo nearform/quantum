@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils'
-import { VariantProps, cva } from 'class-variance-authority'
-import React from 'react'
+import { cn } from '@/lib/utils';
+import { VariantProps, cva } from 'class-variance-authority';
+import React from 'react';
 
 const websiteFooterVariants = cva(
   ['flex', 'flex-col', 'w-full', 'items-center', 'px-16', 'py-4'],
@@ -17,7 +17,7 @@ const websiteFooterVariants = cva(
     },
     defaultVariants: { size: 'standard' }
   }
-)
+);
 
 const footerStatementVariants = cva(
   [
@@ -38,7 +38,7 @@ const footerStatementVariants = cva(
     },
     defaultVariants: { size: 'standard' }
   }
-)
+);
 
 const linkRowVariants = cva([
   'flex',
@@ -47,7 +47,7 @@ const linkRowVariants = cva([
   '[&>div]:text-xl',
   '[&>*]:font-normal',
   '[&>*]:text-sm'
-])
+]);
 
 const linkColumnVariants = cva(
   [
@@ -83,7 +83,7 @@ const linkColumnVariants = cva(
       size: 'lg'
     }
   }
-)
+);
 
 interface WebsiteFooterProps
   extends React.ComponentPropsWithoutRef<'div'>,
@@ -97,7 +97,7 @@ const WebsiteFooter = React.forwardRef<HTMLDivElement, WebsiteFooterProps>(
       ref={ref}
     ></div>
   )
-)
+);
 
 interface FooterStatementProps
   extends React.ComponentPropsWithoutRef<'div'>,
@@ -113,7 +113,7 @@ const FooterStatement = React.forwardRef<HTMLDivElement, FooterStatementProps>(
       ></div>
     </div>
   )
-)
+);
 
 interface LinkRowProps extends React.ComponentPropsWithoutRef<'div'> {}
 
@@ -125,7 +125,7 @@ const LinkRow = React.forwardRef<HTMLDivElement, LinkRowProps>(
       ref={ref}
     ></div>
   )
-)
+);
 
 interface LinkColumnProps
   extends React.ComponentPropsWithoutRef<'div'>,
@@ -142,7 +142,7 @@ const LinkColumn = React.forwardRef<HTMLDivElement, LinkColumnProps>(
       {children}
     </div>
   )
-)
+);
 
 export {
   WebsiteFooter,
@@ -153,4 +153,4 @@ export {
   type FooterStatementProps,
   type LinkColumnProps,
   type LinkRowProps
-}
+};

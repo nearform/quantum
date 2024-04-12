@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { Switch, ControlLabel, Checkbox, Radio, RadioGroup } from '@/index'
+import { Switch, ControlLabel, Checkbox, Radio, RadioGroup } from '@/index';
 
 const meta = {
   title: 'Form/ControlLabel',
@@ -14,10 +14,10 @@ const meta = {
       options: ['top', 'middle', 'bottom']
     }
   }
-} satisfies Meta<typeof ControlLabel>
+} satisfies Meta<typeof ControlLabel>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
@@ -29,7 +29,7 @@ export const Default: Story = {
       <Switch id="defaultId" value="value" />
     </ControlLabel>
   )
-}
+};
 
 export const WithHintText: Story = {
   args: {
@@ -42,7 +42,7 @@ export const WithHintText: Story = {
       <Checkbox id="hintId" value="value" />
     </ControlLabel>
   )
-}
+};
 
 export const LeftLabel: Story = {
   args: {
@@ -57,7 +57,7 @@ export const LeftLabel: Story = {
       </ControlLabel>
     </RadioGroup>
   )
-}
+};
 
 export const VerticalAlignment: Story = {
   args: {
@@ -70,4 +70,4 @@ export const VerticalAlignment: Story = {
       <Switch id="verticalId" value="value" />
     </ControlLabel>
   )
-}
+};
