@@ -133,4 +133,4 @@ export const colors = {
     80: '#32ebae',
     100: '#03e5a4'
   }
-};
+}
