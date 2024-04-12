@@ -1,6 +1,6 @@
-import React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/utils';
+import React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
 
 const buttonGroupVariants = cva(
   [
@@ -57,7 +57,7 @@ const buttonGroupVariants = cva(
       size: 'md'
     }
   }
-);
+)
 
 interface ButtonGroupProps
   extends React.ComponentPropsWithoutRef<'div'>,
@@ -74,8 +74,8 @@ const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
         {...props}
         ref={ref}
       ></div>
-    );
+    )
   }
-);
-ButtonGroup.displayName = 'ButtonGroup';
-export { ButtonGroup, type ButtonGroupProps };
+)
+ButtonGroup.displayName = 'ButtonGroup'
+export { ButtonGroup, type ButtonGroupProps }

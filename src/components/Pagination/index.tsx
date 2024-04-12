@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/utils';
-import { BsChevronLeft, BsChevronRight } from '@/assets';
+import React, { useState, useEffect } from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
+import { BsChevronLeft, BsChevronRight } from '@/assets'
 
 interface PaginationProps {
-  currentPage: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  numberOfItemsPerPage: number;
-  totalNumberOfFilteredItems: number;
+  currentPage: number
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  numberOfItemsPerPage: number
+  totalNumberOfFilteredItems: number
 }
 
 const PaginationVariants = cva([
@@ -15,7 +15,7 @@ const PaginationVariants = cva([
   '[&>*]:items-center',
   '[&>*]:justify-center',
   'w-fit'
-]);
+])
 
 const PageNumberStyles = cva([
   'min-w-40',
@@ -30,7 +30,7 @@ const PageNumberStyles = cva([
   'dark:hover:bg-background-dark',
   'dark:active:bg-primary-30',
   'dark:active:text-grey-900'
-]);
+])
 
 const PageNumberActiveStyles = cva([
   'bg-accent',
@@ -41,7 +41,7 @@ const PageNumberActiveStyles = cva([
   'dark:text-grey-900',
   'dark:hover:bg-primary-30',
   'dark:hover:text-grey-900'
-]);
+])
 
 interface PaginationProps
   extends React.ComponentPropsWithoutRef<'div'>,
@@ -59,62 +59,62 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     },
     ref
   ) => {
-    const currentRowsLength = totalNumberOfFilteredItems ?? 0;
+    const currentRowsLength = totalNumberOfFilteredItems ?? 0
 
     const totalPages = React.useMemo(() => {
       return Math.ceil(
         currentRowsLength > 0 ? currentRowsLength / numberOfItemsPerPage : 0
-      );
-    }, [currentRowsLength, numberOfItemsPerPage]);
+      )
+    }, [currentRowsLength, numberOfItemsPerPage])
 
-    const allPages = [...Array(totalPages + 1).keys()].slice(1);
-    const [pageNumbers, setPageNumbers] = useState(allPages);
-    const [showLeftDots, setShowLeftDots] = useState(false);
-    const [showRightDots, setShowRightDots] = useState(false);
-    const noOfSiblings = 1;
-    const noOfPagesShown = noOfSiblings * 2 + 5;
+    const allPages = [...Array(totalPages + 1).keys()].slice(1)
+    const [pageNumbers, setPageNumbers] = useState(allPages)
+    const [showLeftDots, setShowLeftDots] = useState(false)
+    const [showRightDots, setShowRightDots] = useState(false)
+    const noOfSiblings = 1
+    const noOfPagesShown = noOfSiblings * 2 + 5
 
     useEffect(() => {
       if (totalPages <= noOfPagesShown) {
-        setPageNumbers(allPages);
-        setShowRightDots(false);
-        setShowLeftDots(false);
+        setPageNumbers(allPages)
+        setShowRightDots(false)
+        setShowLeftDots(false)
       } else if (currentPage <= noOfPagesShown - 3) {
-        const pages = allPages.slice(0, noOfPagesShown - 2);
-        pages.push(totalPages);
-        setPageNumbers(pages);
-        setShowRightDots(true);
-        setShowLeftDots(false);
+        const pages = allPages.slice(0, noOfPagesShown - 2)
+        pages.push(totalPages)
+        setPageNumbers(pages)
+        setShowRightDots(true)
+        setShowLeftDots(false)
       } else if (
         noOfPagesShown - 3 < currentPage &&
         currentPage < totalPages - 3
       ) {
-        const pages = [1];
-        const start = Math.max(2, currentPage - noOfSiblings);
-        const end = Math.min(totalPages - 1, currentPage + noOfSiblings);
+        const pages = [1]
+        const start = Math.max(2, currentPage - noOfSiblings)
+        const end = Math.min(totalPages - 1, currentPage + noOfSiblings)
         for (let i = start; i <= end; i++) {
-          pages.push(i);
+          pages.push(i)
         }
-        pages.push(totalPages);
-        setPageNumbers(pages);
-        setShowRightDots(true);
-        setShowLeftDots(true);
+        pages.push(totalPages)
+        setPageNumbers(pages)
+        setShowRightDots(true)
+        setShowLeftDots(true)
       } else if (currentPage >= totalPages - 3) {
-        const pages = allPages.slice(-noOfPagesShown + 2);
-        pages.unshift(1);
-        setPageNumbers(pages);
-        setShowRightDots(false);
-        setShowLeftDots(true);
+        const pages = allPages.slice(-noOfPagesShown + 2)
+        pages.unshift(1)
+        setPageNumbers(pages)
+        setShowRightDots(false)
+        setShowLeftDots(true)
       }
-    }, [currentPage, totalPages]);
+    }, [currentPage, totalPages])
 
     const goToNextPage = () => {
-      if (currentPage !== totalPages) setCurrentPage(currentPage + 1);
-    };
+      if (currentPage !== totalPages) setCurrentPage(currentPage + 1)
+    }
 
     const goToPrevPage = () => {
-      if (currentPage !== 1) setCurrentPage(currentPage - 1);
-    };
+      if (currentPage !== 1) setCurrentPage(currentPage - 1)
+    }
     return (
       <nav className={cn(PaginationVariants(), className)} ref={ref} {...props}>
         <ul>
@@ -177,6 +177,6 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
           </li>
         </ul>
       </nav>
-    );
+    )
   }
-);
+)

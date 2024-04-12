@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import * as React from 'react';
-import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react'
+import * as AccordionPrimitive from '@radix-ui/react-accordion'
+import { cva, type VariantProps } from 'class-variance-authority'
 
-import { BsChevronDown } from '@/assets';
-import { cn } from '@/lib/utils';
+import { BsChevronDown } from '@/assets'
+import { cn } from '@/lib/utils'
 
 const sizeVariants = cva('', {
   variants: {
@@ -18,12 +18,12 @@ const sizeVariants = cva('', {
   defaultVariants: {
     size: 'md'
   }
-});
+})
 
 type AccordionProps = React.ComponentPropsWithoutRef<
   typeof AccordionPrimitive.Root
 > &
-  VariantProps<typeof sizeVariants>;
+  VariantProps<typeof sizeVariants>
 
 const Accordion = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Root>,
@@ -40,8 +40,8 @@ const Accordion = React.forwardRef<
   >
     {children}
   </AccordionPrimitive.Root>
-));
-Accordion.displayName = AccordionPrimitive.Root.displayName;
+))
+Accordion.displayName = AccordionPrimitive.Root.displayName
 
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
@@ -57,8 +57,8 @@ const AccordionItem = React.forwardRef<
   >
     {children}
   </AccordionPrimitive.Item>
-));
-AccordionItem.displayName = AccordionPrimitive.Item.displayName;
+))
+AccordionItem.displayName = AccordionPrimitive.Item.displayName
 
 const AccordionHeader = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Header>,
@@ -71,8 +71,8 @@ const AccordionHeader = React.forwardRef<
   >
     {children}
   </AccordionPrimitive.Header>
-));
-AccordionHeader.displayName = AccordionPrimitive.Header.displayName;
+))
+AccordionHeader.displayName = AccordionPrimitive.Header.displayName
 
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
@@ -94,8 +94,8 @@ const AccordionTrigger = React.forwardRef<
       />
     </AccordionPrimitive.Trigger>
   </AccordionHeader>
-));
-AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
+))
+AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName
 
 const AccordionContent = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Content>,
@@ -111,8 +111,8 @@ const AccordionContent = React.forwardRef<
   >
     <div className="pb-3">{children}</div>
   </AccordionPrimitive.Content>
-));
-AccordionContent.displayName = AccordionPrimitive.Content.displayName;
+))
+AccordionContent.displayName = AccordionPrimitive.Content.displayName
 
 export {
   Accordion,
@@ -120,4 +120,4 @@ export {
   AccordionHeader,
   AccordionTrigger,
   AccordionContent
-};
+}

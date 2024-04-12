@@ -7,8 +7,8 @@ import {
   ModalHeader,
   ModalTitle,
   ModalTrigger
-} from '@/components/Modal';
-import { Button } from '@/components';
+} from '@/components/Modal'
+import { Button } from '@/components'
 
 export const ModalCustomDemo = () => (
   <Modal>
@@ -36,4 +36,4 @@ export const ModalCustomDemo = () => (
       </ModalFooter>
     </ModalContent>
   </Modal>
-);
+)

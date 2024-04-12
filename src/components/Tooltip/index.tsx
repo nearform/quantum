@@ -1,7 +1,7 @@
-import * as React from 'react';
-import * as TooltipPrimitive from '@radix-ui/react-tooltip';
-import { cn } from '@/lib/utils';
-import { cva } from 'class-variance-authority';
+import * as React from 'react'
+import * as TooltipPrimitive from '@radix-ui/react-tooltip'
+import { cn } from '@/lib/utils'
+import { cva } from 'class-variance-authority'
 
 const tooltipVariants = cva([
   [
@@ -21,13 +21,13 @@ const tooltipVariants = cva([
     'dark:bg-accent-dark',
     'dark:fill-accent-dark'
   ]
-]);
+])
 
 interface TooltipProps {
-  children?: React.ReactNode;
-  side?: TooltipPrimitive.TooltipContentProps['side'];
-  content?: React.ReactNode;
-  sideOffset?: number;
+  children?: React.ReactNode
+  side?: TooltipPrimitive.TooltipContentProps['side']
+  content?: React.ReactNode
+  sideOffset?: number
 }
 
 const Tooltip = React.forwardRef<
@@ -49,8 +49,8 @@ const Tooltip = React.forwardRef<
         </TooltipPrimitive.Content>
       </TooltipPrimitive.Root>
     </TooltipPrimitive.Provider>
-  );
-});
+  )
+})
 
-export { Tooltip };
-export type { TooltipProps };
+export { Tooltip }
+export type { TooltipProps }

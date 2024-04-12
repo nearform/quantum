@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { Input, InputProps } from '@/index';
+import { useState } from 'react'
+import { Input, InputProps } from '@/index'
 
 const InputDemo = ({ variant, type, disabled }: InputProps) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('')
   const handleOnClear = () => {
-    setValue('');
-  };
+    setValue('')
+  }
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setValue(e.currentTarget.value);
-  };
+    setValue(e.currentTarget.value)
+  }
   return (
     <Input
       value={value}
@@ -18,6 +18,6 @@ const InputDemo = ({ variant, type, disabled }: InputProps) => {
       onChange={handleOnChange}
       disabled={disabled}
     />
-  );
-};
-export { InputDemo };
+  )
+}
+export { InputDemo }

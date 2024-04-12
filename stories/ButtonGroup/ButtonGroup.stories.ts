@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react'
 
-import { ButtonGroupDemo } from './ButtonGroup.example';
+import { ButtonGroupDemo } from './ButtonGroup.example'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -22,10 +22,10 @@ const meta = {
     }
   }
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-} satisfies Meta<typeof ButtonGroupDemo>;
+} satisfies Meta<typeof ButtonGroupDemo>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const ButtonGroupPrimaryHorizontal: Story = {
@@ -33,34 +33,34 @@ export const ButtonGroupPrimaryHorizontal: Story = {
     orientation: 'horizontal',
     variant: 'primary'
   }
-};
+}
 export const ButtonGroupPrimaryVertical: Story = {
   args: {
     orientation: 'vertical',
     variant: 'primary'
   }
-};
+}
 export const ButtonGroupSecondaryHorizontal: Story = {
   args: {
     orientation: 'horizontal',
     variant: 'secondary'
   }
-};
+}
 export const ButtonGroupSecondaryVertical: Story = {
   args: {
     orientation: 'vertical',
     variant: 'secondary'
   }
-};
+}
 export const ButtonGroupSmallHorizontal: Story = {
   args: {
     orientation: 'horizontal',
     size: 'sm'
   }
-};
+}
 export const ButtonGroupSmallVertical: Story = {
   args: {
     orientation: 'vertical',
     size: 'sm'
   }
-};
+}

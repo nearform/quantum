@@ -1,4 +1,4 @@
-import { colors } from './base';
+import { colors } from './base'
 
 export const border = {
   DEFAULT: colors.brandMidnight['30'],
@@ -15,4 +15,4 @@ export const border = {
     DEFAULT: colors.brandMidnight['10'],
     dark: colors.grey['700']
   }
-};
+}

@@ -1,7 +1,7 @@
-import { cn } from '@/lib/utils';
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils'
+import { cva, type VariantProps } from 'class-variance-authority'
 
-import { Label, type LabelProps } from '../Label';
+import { Label, type LabelProps } from '../Label'
 
 const verticalAlignVariants = cva('', {
   variants: {
@@ -14,15 +14,15 @@ const verticalAlignVariants = cva('', {
   defaultVariants: {
     varticalAlign: 'top'
   }
-});
+})
 
 type Props = Omit<LabelProps, 'children' | 'align'> &
   VariantProps<typeof verticalAlignVariants> &
   React.PropsWithChildren<{
-    label: string;
-    position?: 'left' | 'right';
-    varticalAlign?: 'top' | 'middle' | 'bottom';
-  }>;
+    label: string
+    position?: 'left' | 'right'
+    varticalAlign?: 'top' | 'middle' | 'bottom'
+  }>
 
 const ControlLabel: React.FC<Props> = ({
   label,
@@ -52,7 +52,7 @@ const ControlLabel: React.FC<Props> = ({
         </Label>
       )}
     </div>
-  );
-};
+  )
+}
 
-export { ControlLabel };
+export { ControlLabel }

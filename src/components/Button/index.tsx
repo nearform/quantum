@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
   [
@@ -120,19 +120,19 @@ const buttonVariants = cva(
       size: 'md'
     }
   }
-);
+)
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  leftSideChild?: React.ReactNode;
-  rightSideChild?: React.ReactNode;
-  leftSideClassName?: string;
-  rightSideClassName?: string;
+  leftSideChild?: React.ReactNode
+  rightSideChild?: React.ReactNode
+  leftSideClassName?: string
+  rightSideClassName?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  children: any;
-  asChild?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  children: any
+  asChild?: boolean
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -153,7 +153,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const sideChildClassed =
-      'inline-flex items-center justify-center text-inherit text-justify';
+      'inline-flex items-center justify-center text-inherit text-justify'
 
     return (
       <button
@@ -161,7 +161,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled}
         onClick={e => {
-          if (onClick) onClick(e);
+          if (onClick) onClick(e)
         }}
         {...props}
       >
@@ -181,10 +181,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           <></>
         )}
       </button>
-    );
+    )
   }
-);
+)
 
-Button.displayName = 'Button';
+Button.displayName = 'Button'
 
-export { Button, buttonVariants };
+export { Button, buttonVariants }

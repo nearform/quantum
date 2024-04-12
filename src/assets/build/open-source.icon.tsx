@@ -1,4 +1,4 @@
-import { IconType } from 'react-icons';
+import { IconType } from 'react-icons'
 
 export const OpenSourceIcon: IconType = props => (
   <svg viewBox="0 0 25 26" xmlns="http://www.w3.org/2000/svg" {...props}>
@@ -11,4 +11,4 @@ export const OpenSourceIcon: IconType = props => (
       />
     </g>
   </svg>
-);
+)

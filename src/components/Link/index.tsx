@@ -1,10 +1,10 @@
-import React from 'react';
-import { cn } from '@/lib/utils';
-import { IconType } from '@/assets';
+import React from 'react'
+import { cn } from '@/lib/utils'
+import { IconType } from '@/assets'
 
 interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  selected?: boolean;
-  icon?: IconType;
+  selected?: boolean
+  icon?: IconType
 }
 
 const Link = React.forwardRef<HTMLAnchorElement, Props>(
@@ -13,11 +13,11 @@ const Link = React.forwardRef<HTMLAnchorElement, Props>(
     ref
   ) => {
     const selectedClasses =
-      'cursor-default text-white dark:text-foreground-inverse-dark bg-background-inverse dark:bg-background-inverse-dark';
+      'cursor-default text-white dark:text-foreground-inverse-dark bg-background-inverse dark:bg-background-inverse-dark'
     const hoverClasses =
-      'hover:bg-grey-100 hover:underline dark:hover:bg-grey-700';
+      'hover:bg-grey-100 hover:underline dark:hover:bg-grey-700'
     const focusClasses =
-      'focus:shadow-brandGreen focus:underline focus:bg-grey-100 dark:focus:bg-grey-700 dark:focus:shadow-brandGreen-10';
+      'focus:shadow-brandGreen focus:underline focus:bg-grey-100 dark:focus:bg-grey-700 dark:focus:shadow-brandGreen-10'
 
     return (
       <a
@@ -34,9 +34,9 @@ const Link = React.forwardRef<HTMLAnchorElement, Props>(
         ref={ref}
         onClick={e => {
           if (selected) {
-            e.preventDefault();
+            e.preventDefault()
           } else {
-            onClick && onClick(e);
+            onClick && onClick(e)
           }
         }}
         {...props}
@@ -44,10 +44,10 @@ const Link = React.forwardRef<HTMLAnchorElement, Props>(
         {Icon ? <Icon className="mr-1" /> : null}
         {children}
       </a>
-    );
+    )
   }
-);
+)
 
-Link.displayName = 'Link';
+Link.displayName = 'Link'
 
-export { Link };
+export { Link }

@@ -1,11 +1,11 @@
-import React from 'react';
-import { cn } from '@/lib/utils';
-import { cva } from 'class-variance-authority';
-import { BsX, BsPersonFill, BsSearch } from '@/assets';
+import React from 'react'
+import { cn } from '@/lib/utils'
+import { cva } from 'class-variance-authority'
+import { BsX, BsPersonFill, BsSearch } from '@/assets'
 
-const leftSideVariants = cva(['flex', 'items-center', 'text-inherit']);
+const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 
-const rightSideVariants = cva(['flex', 'self-center text-inherit']);
+const rightSideVariants = cva(['flex', 'self-center text-inherit'])
 
 const formVariants = cva(
   [
@@ -52,7 +52,7 @@ const formVariants = cva(
       }
     }
   }
-);
+)
 
 const inputVariants = cva(
   ['flex', 'flex-grow', 'items-center', 'outline-none', 'bg-transparent'],
@@ -68,16 +68,16 @@ const inputVariants = cva(
       variant: 'primary'
     }
   }
-);
+)
 
 interface InputProps extends React.HTMLProps<HTMLInputElement> {
-  variant: 'primary' | 'error' | 'success';
-  type: 'text' | 'search';
-  formClassName?: string;
-  leftSideClassName?: string;
-  leftSideChild?: React.ReactNode;
-  rightSideChild?: React.ReactNode;
-  onClear: () => void;
+  variant: 'primary' | 'error' | 'success'
+  type: 'text' | 'search'
+  formClassName?: string
+  leftSideClassName?: string
+  leftSideChild?: React.ReactNode
+  rightSideChild?: React.ReactNode
+  onClear: () => void
 }
 
 const convertTypeToComponent = {
@@ -85,7 +85,7 @@ const convertTypeToComponent = {
     text: <BsPersonFill />,
     search: <BsSearch />
   }
-};
+}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
@@ -103,8 +103,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     const leftSideComponent =
-      leftSideChild ?? convertTypeToComponent.left[`${type}`];
-    const rightSideComponent = rightSideChild ?? <BsX strokeWidth={0.6} />;
+      leftSideChild ?? convertTypeToComponent.left[`${type}`]
+    const rightSideComponent = rightSideChild ?? <BsX strokeWidth={0.6} />
 
     return (
       <div className={cn(formVariants({ variant }), formClassName)}>
@@ -122,8 +122,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {rightSideComponent}
         </button>
       </div>
-    );
+    )
   }
-);
+)
 
-export { Input, InputProps };
+export { Input, InputProps }

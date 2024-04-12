@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react'
 
-import { Switch, ControlLabel } from '@/index';
+import { Switch, ControlLabel } from '@/index'
 
 const meta = {
   title: 'Form/Switch',
@@ -8,18 +8,18 @@ const meta = {
   parameters: {
     layout: 'centered'
   }
-} satisfies Meta<typeof Switch>;
+} satisfies Meta<typeof Switch>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
-export const Default: Story = {};
+export const Default: Story = {}
 
 export const Disabled: Story = {
   args: {
     disabled: true
   }
-};
+}
 
 export const WithLabel: Story = {
   render: props => (
@@ -27,7 +27,7 @@ export const WithLabel: Story = {
       <Switch id="withLabelId" {...props} />
     </ControlLabel>
   )
-};
+}
 
 export const WithLabelAndHint: Story = {
   render: props => (
@@ -35,7 +35,7 @@ export const WithLabelAndHint: Story = {
       <Switch id="withHintId" {...props} />
     </ControlLabel>
   )
-};
+}
 
 export const WithLabelOnTheLeft: Story = {
   render: props => (
@@ -48,4 +48,4 @@ export const WithLabelOnTheLeft: Story = {
       <Switch id="withLabelOnTheLeftId" {...props} />
     </ControlLabel>
   )
-};
+}

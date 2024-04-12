@@ -1,19 +1,19 @@
-'use client';
+'use client'
 
-import * as React from 'react';
-import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react'
+import * as DialogPrimitive from '@radix-ui/react-dialog'
+import { cva, type VariantProps } from 'class-variance-authority'
 
-import { BsXLg } from '@/assets';
-import { cn } from '@/lib/utils';
+import { BsXLg } from '@/assets'
+import { cn } from '@/lib/utils'
 
-const Modal = DialogPrimitive.Root;
+const Modal = DialogPrimitive.Root
 
-const ModalTrigger = DialogPrimitive.Trigger;
+const ModalTrigger = DialogPrimitive.Trigger
 
-const ModalPortal = DialogPrimitive.Portal;
+const ModalPortal = DialogPrimitive.Portal
 
-const ModalCloseFooter = DialogPrimitive.Close;
+const ModalCloseFooter = DialogPrimitive.Close
 
 const ModalOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
@@ -24,8 +24,8 @@ const ModalOverlay = React.forwardRef<
     className={cn('fixed inset-0 z-50 bg-background/80', className)}
     {...props}
   />
-));
-ModalOverlay.displayName = DialogPrimitive.Overlay.displayName;
+))
+ModalOverlay.displayName = DialogPrimitive.Overlay.displayName
 
 const ModalContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
@@ -44,8 +44,8 @@ const ModalContent = React.forwardRef<
       {children}
     </DialogPrimitive.Content>
   </ModalPortal>
-));
-ModalContent.displayName = DialogPrimitive.Content.displayName;
+))
+ModalContent.displayName = DialogPrimitive.Content.displayName
 
 const headerVariants = cva(
   [
@@ -70,7 +70,7 @@ const headerVariants = cva(
       variant: 'default'
     }
   }
-);
+)
 
 const ModalHeader = ({
   className,
@@ -79,17 +79,17 @@ const ModalHeader = ({
 }: React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof headerVariants>) => (
   <div className={cn(headerVariants({ variant, className }))} {...props} />
-);
+)
 
-ModalHeader.displayName = 'ModalHeader';
+ModalHeader.displayName = 'ModalHeader'
 
 const ModalFooter = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div className={cn('flex flex-col p-6 pt-0 gap-2.5', className)} {...props} />
-);
-ModalFooter.displayName = 'ModalFooter';
+)
+ModalFooter.displayName = 'ModalFooter'
 
 const ModalTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
@@ -103,8 +103,8 @@ const ModalTitle = React.forwardRef<
     )}
     {...props}
   />
-));
-ModalTitle.displayName = DialogPrimitive.Title.displayName;
+))
+ModalTitle.displayName = DialogPrimitive.Title.displayName
 
 const ModalClose = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Close>,
@@ -123,7 +123,7 @@ const ModalClose = React.forwardRef<
     </div>
     <span className="sr-only">Close</span>
   </DialogPrimitive.Close>
-));
+))
 
 const descriptionVariants = cva(
   [
@@ -143,7 +143,7 @@ const descriptionVariants = cva(
       variant: 'default'
     }
   }
-);
+)
 
 const ModalDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
@@ -155,8 +155,8 @@ const ModalDescription = React.forwardRef<
     className={cn(descriptionVariants({ variant, className }))}
     {...props}
   />
-));
-ModalDescription.displayName = 'ModalDescription';
+))
+ModalDescription.displayName = 'ModalDescription'
 
 export {
   Modal,
@@ -170,4 +170,4 @@ export {
   ModalFooter,
   ModalTitle,
   ModalDescription
-};
+}

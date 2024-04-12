@@ -1,8 +1,8 @@
-import { Tooltip, TooltipProps } from '@/index';
-import { Button } from '@/index';
+import { Tooltip, TooltipProps } from '@/index'
+import { Button } from '@/index'
 
 interface TooltipDemoProps extends TooltipProps {
-  componentAsContent?: boolean;
+  componentAsContent?: boolean
 }
 
 export const ToolTipDemo = ({
@@ -24,8 +24,8 @@ export const ToolTipDemo = ({
         </Button>
       </Tooltip>
     </div>
-  );
-};
+  )
+}
 
 export const TooltipContentComponent = () => {
   //Demonstrating that components can be passed in to the content of the Tooltip.
@@ -37,5 +37,5 @@ export const TooltipContentComponent = () => {
         link
       </a>
     </p>
-  );
-};
+  )
+}

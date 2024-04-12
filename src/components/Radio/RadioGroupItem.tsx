@@ -1,12 +1,12 @@
-import * as React from 'react';
-import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
-import { cn } from '@/lib/utils';
-import { cva } from 'class-variance-authority';
-import { BsCircleFill } from '@/assets';
+import * as React from 'react'
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
+import { cn } from '@/lib/utils'
+import { cva } from 'class-variance-authority'
+import { BsCircleFill } from '@/assets'
 
 type RadioGroupItemProps = React.ComponentPropsWithoutRef<
   typeof RadioGroupPrimitive.Item
->;
+>
 
 const radioVariant = cva([
   [
@@ -24,7 +24,7 @@ const radioVariant = cva([
     'dark:border-border-dark',
     'dark:data-[state=checked]:bg-border-dark'
   ]
-]);
+])
 
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
@@ -43,8 +43,8 @@ const RadioGroupItem = React.forwardRef<
         />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
-  );
-});
-RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
+  )
+})
+RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
 
-export { RadioGroupItem as Radio, RadioGroupItemProps };
+export { RadioGroupItem as Radio, RadioGroupItemProps }
