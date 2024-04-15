@@ -1,5 +1,5 @@
-import * as path from 'path';
-import type { StorybookConfig } from '@storybook/react-vite';
+import * as path from 'path'
+import type { StorybookConfig } from '@storybook/react-vite'
 
 const config: StorybookConfig = {
   stories: [
@@ -20,15 +20,20 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag'
   },
-  async viteFinal(config) {
+  async viteFinal(config, { configType }) {
     if (config && config.resolve) {
       config.resolve.alias = {
         ...config.resolve.alias,
         '@': path.join(__dirname, '../src')
-      };
+      }
     }
 
-    return config;
+    if (config && configType === 'PRODUCTION') {
+      config.base = '/quantum'
+    }
+
+    return config
   }
-};
-export default config;
+}
+
+export default config
