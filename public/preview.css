@@ -1,0 +1,21 @@
+.sbdocs.sbdocs-wrapper {
+  padding-top: 3rem;
+}
+
+.docblock-colorpalette {
+  margin-top: 28px;
+}
+
+.sbdocs-content h1, .sbdocs-content h2, .sbdocs-content h3 , .sbdocs-content h4 , .sbdocs-content h5 , .sbdocs-content h6 {
+  position: relative;
+}
+
+.sbdocs-content h1 a, .sbdocs-content h2 a, .sbdocs-content h3 a, .sbdocs-content h4 a, .sbdocs-content h5 a, .sbdocs-content h6 a {
+  position: absolute;
+  top: calc(50% - 7px);
+  display: inline-block;
+}
+
+h1 + h2, h2 + h3, h3 + h4 {
+  margin-top: 20px !important;
+}
