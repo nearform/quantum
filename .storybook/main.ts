@@ -1,5 +1,5 @@
-import * as path from 'path';
-import type { StorybookConfig } from '@storybook/react-vite';
+import * as path from 'path'
+import type { StorybookConfig } from '@storybook/react-vite'
 
 const config: StorybookConfig = {
   stories: [
@@ -25,10 +25,13 @@ const config: StorybookConfig = {
       config.resolve.alias = {
         ...config.resolve.alias,
         '@': path.join(__dirname, '../src')
-      };
+      }
     }
 
-    return config;
+    config.base = process.env.BASE_PATH || config.base
+
+    return config
   }
-};
-export default config;
+}
+
+export default config
