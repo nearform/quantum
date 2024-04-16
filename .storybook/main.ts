@@ -28,8 +28,6 @@ const config: StorybookConfig = {
       }
     }
 
-    config.base = process.env.BASE_PATH || config.base
-
     return config
   }
 }
