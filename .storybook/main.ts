@@ -28,9 +28,7 @@ const config: StorybookConfig = {
       }
     }
 
-    // if (config && configType === 'PRODUCTION') {
-    //   config.base = '/quantum'
-    // }
+    config.base = process.env.BASE_PATH || config.base
 
     return config
   }
