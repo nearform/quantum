@@ -20,7 +20,7 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag'
   },
-  async viteFinal(config, { configType }) {
+  async viteFinal(config) {
     if (config && config.resolve) {
       config.resolve.alias = {
         ...config.resolve.alias,
@@ -28,9 +28,9 @@ const config: StorybookConfig = {
       }
     }
 
-    if (config && configType === 'PRODUCTION') {
-      config.base = '/quantum'
-    }
+    // if (config && configType === 'PRODUCTION') {
+    //   config.base = '/quantum'
+    // }
 
     return config
   }
