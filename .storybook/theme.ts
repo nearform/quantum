@@ -1,10 +1,10 @@
-import { create } from '@storybook/theming/create';
-import colors from '../src/colors';
+import { create } from '@storybook/theming/create'
+import colors from '../src/colors'
 
 export default create({
   base: 'light',
   brandTitle: 'Quantum',
-  brandImage: '/quantum-logo-light.png',
+  brandImage: './quantum-logo-light.png',
 
   fontBase: 'Inter',
 
@@ -34,4 +34,4 @@ export default create({
   inputBorder: '#97A1B8',
   inputTextColor: '#111928',
   inputBorderRadius: 2
-});
+})
