@@ -1,8 +1,8 @@
 'use client'
 
-import * as React from 'react'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import { cva, type VariantProps } from 'class-variance-authority'
+import * as React from 'react'
 
 import { BsChevronDown } from '@/assets'
 import { cn } from '@/lib/utils'
@@ -49,7 +49,7 @@ const AccordionItem = React.forwardRef<
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Item
     className={cn(
-      'px-4 overflow-hidden first:mt-0 first:rounded-t last:rounded-b border-b border-grey-200 dark:border-grey-700 last:border-0',
+      'overflow-hidden first:mt-0 first:rounded-t last:rounded-b border-b border-grey-200 dark:border-grey-700 last:border-0',
       className
     )}
     {...props}
@@ -65,7 +65,7 @@ const AccordionHeader = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Header>
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Header
-    className={cn('flex font-semibold py-4', className)}
+    className={cn('flex font-semibold', className)}
     {...props}
     ref={ref}
   >
@@ -81,7 +81,7 @@ const AccordionTrigger = React.forwardRef<
   <AccordionHeader>
     <AccordionPrimitive.Trigger
       className={cn(
-        'dark:bg-grey-900 dark:text-white group flex flex-1 cursor-default items-center justify-between bg-white leading-none',
+        'px-4 py-4 dark:bg-grey-900 dark:text-white group flex flex-1 cursor-default items-center justify-between bg-white leading-none',
         className
       )}
       {...props}
@@ -109,15 +109,15 @@ const AccordionContent = React.forwardRef<
     {...props}
     ref={ref}
   >
-    <div className="pb-3">{children}</div>
+    <div className="pb-3 px-4">{children}</div>
   </AccordionPrimitive.Content>
 ))
 AccordionContent.displayName = AccordionPrimitive.Content.displayName
 
 export {
   Accordion,
-  AccordionItem,
+  AccordionContent,
   AccordionHeader,
-  AccordionTrigger,
-  AccordionContent
+  AccordionItem,
+  AccordionTrigger
 }
