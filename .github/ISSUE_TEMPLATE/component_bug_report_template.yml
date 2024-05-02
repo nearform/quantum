@@ -1,0 +1,94 @@
+name: 🐞 Bug Report for Quantum Design System
+description: Create a bug report to help improve the Quantum Component Library
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template is for reporting bugs in the Quantum Design System by NearForm.
+
+        Before submitting a new issue, please review existing [issues](https://github.com/nearform/quantum/issues) and upvote if a similar issue exists.
+
+  - type: checkboxes
+    attributes:
+      label: Verification
+      description: Please check the box to confirm that you have searched the existing issues and have not found a similar bug report.
+      options:
+        - label: 'I have checked the existing issues and no similar bug report has been filed.'
+
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: 'When I do X, Y happens instead of Z.'
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Install the Quantum library using npm install --save @nearform/quantum
+        2. Configure Tailwind with Quantum's plugin
+        3. Use the Button component in a project
+        4. Apply the dark mode class
+        5. Notice the lack of dark mode styling
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: What you expected to happen.
+      placeholder: 'I expected the Button to display with dark mode styling.'
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Component Affected
+      multiple: true
+      options:
+        - Typography
+        - Colours
+        - ButtonGroup
+        - Calendar
+        - Chip
+        - Link
+        - Modal
+        - Pagination
+        - Popover
+        - StepsIndicator
+        - Table
+        - Tooltip
+        - WebsiteFooter
+        - Accordion
+        - Checkbox
+        - ControlLabel
+        - Input
+        - Label
+        - RadioGroups
+        - Select
+        - Switch
+        - Button
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Environment Info
+      description: Provide details about your runtime environment that might be relevant.
+      render: bash
+      placeholder: |
+        OS: MacOS 12.1
+        Node: 18.17.1
+        Browser: Chrome 90
+        Quantum Version: 1.2.3
+
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Any extra information that might help in diagnosing the issue.
+      placeholder: 'The issue occurs only when the system dark mode is off.'
