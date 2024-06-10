@@ -126,4 +126,4 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   }
 )
 
-export { Input, InputProps }
+export { Input, InputProps, formVariants }
