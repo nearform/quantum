@@ -44,7 +44,7 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(
     const [isMaskOn, setIsMaskOn] = useState(true)
 
     const onToggleMask = () => {
-      setIsMaskOn(!isMaskOn)
+      setIsMaskOn(isMaskOn => !isMaskOn)
     }
 
     return (
