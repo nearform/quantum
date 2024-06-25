@@ -48,3 +48,21 @@ To run Storybook tests for the project, run:
 ```js
 npm run test-storybook
 ```
+
+## Usage
+
+Just import:
+
+```js
+import { Button, ButtonGroup } from '@nearform/quantum'
+```
+
+And use:
+
+```jsx
+<ButtonGroup>
+  <Button>One</Button>
+  <Button>Two</Button>
+  <Button>Three</Button>
+</ButtonGroup>
+```
