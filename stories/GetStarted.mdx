@@ -1,10 +1,15 @@
 import ReactMarkdown from 'react-markdown'
-import { Meta, ColorPalette, ColorItem } from '@storybook/blocks'
-import aliasColors from '@/colors'
-import { colors } from '@/colors/base'
-import { ColorWrapper } from './colorUtils.tsx'
+import { AnchorMdx, CodeOrSourceMdx, HeadersMdx, Meta } from '@storybook/blocks'
 import ReadMe from '../README.md?raw'
 
 <Meta title="Get Started" />
 
-<ReactMarkdown>{ReadMe}</ReactMarkdown>
+<ReactMarkdown
+  components={{
+    a: AnchorMdx,
+    code: CodeOrSourceMdx,
+    ...HeadersMdx
+  }}
+>
+  {ReadMe}
+</ReactMarkdown>
