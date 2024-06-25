@@ -38,7 +38,7 @@ This component accepts all attributes for the input component of type text, with
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
-import { ClearButton, User, SearchOutline } from '@/assets'
+import { BsX, BsPersonFill, BsSearch } from '@/assets'
 
 const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 
@@ -119,8 +119,8 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
 
 const convertTypeToComponent = {
   left: {
-    text: <User />,
-    search: <SearchOutline />
+    text: <BsPersonFill />,
+    search: <BsSearch />
   }
 }
 
@@ -141,10 +141,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const leftSideComponent =
       leftSideChild ?? convertTypeToComponent.left[`${type}`]
-    const rightSideComponent = rightSideChild ?? <ClearButton />
+    const rightSideComponent = rightSideChild ?? <BsX strokeWidth={0.6} />
 
     return (
-      <form className={cn(formVariants({ variant }), formClassName)}>
+      <label className={cn(formVariants({ variant }), formClassName)}>
         <div className={cn(leftSideVariants(), leftSideClassName)}>
           {leftSideComponent}
         </div>
@@ -158,12 +158,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <button type="button" onClick={onClear} className={rightSideVariants()}>
           {rightSideComponent}
         </button>
-      </form>
+      </label>
     )
   }
 )
 
-export { Input, InputProps }
+export { Input, InputProps, formVariants }
 ```
 
 ## Usage

@@ -43,12 +43,10 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(
   ) => {
     const [isMaskOn, setIsMaskOn] = useState(true)
 
-    const onToggleMask = () => {
-      setIsMaskOn(isMaskOn => !isMaskOn)
-    }
+    const onToggleMask = () => setIsMaskOn(isMaskOn => !isMaskOn)
 
     return (
-      <div className={cn(formVariants({ variant }), formClassName)}>
+      <label className={cn(formVariants({ variant }), formClassName)}>
         <input
           type={isMaskOn ? 'password' : 'text'}
           className={cn(passwordVariants({ variant }), className)}
@@ -65,7 +63,7 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(
             {isMaskOn ? <BsEye /> : <BsEyeSlash />}
           </button>
         )}
-      </div>
+      </label>
     )
   }
 )
