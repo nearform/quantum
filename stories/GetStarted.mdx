@@ -1,10 +1,15 @@
-import { Meta, ColorPalette, ColorItem } from '@storybook/blocks'
-import aliasColors from '@/colors'
-import { colors } from '@/colors/base'
-import { ColorWrapper } from './colorUtils.tsx'
+import ReactMarkdown from 'react-markdown'
+import { AnchorMdx, CodeOrSourceMdx, HeadersMdx, Meta } from '@storybook/blocks'
+import ReadMe from '../README.md?raw'
 
 <Meta title="Get Started" />
 
-<h1>Get Started</h1>
-
-<p>Welcome to Quantum. This guide will help you to get up and running in no time.</p>
+<ReactMarkdown
+  components={{
+    a: AnchorMdx,
+    code: CodeOrSourceMdx,
+    ...HeadersMdx
+  }}
+>
+  {ReadMe}
+</ReactMarkdown>
