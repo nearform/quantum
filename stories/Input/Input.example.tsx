@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Input, InputProps } from '@/index'
 
-const InputDemo = ({ variant, type, disabled }: InputProps) => {
+const InputDemo = (props: Omit<InputProps, 'onChange' | 'onClear'>) => {
   const [value, setValue] = useState('')
   const handleOnClear = () => {
     setValue('')
@@ -12,11 +12,9 @@ const InputDemo = ({ variant, type, disabled }: InputProps) => {
   return (
     <Input
       value={value}
-      variant={variant}
-      type={type}
       onClear={handleOnClear}
       onChange={handleOnChange}
-      disabled={disabled}
+      {...props}
     />
   )
 }

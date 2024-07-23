@@ -4,9 +4,9 @@ import * as InputStories from './Input.stories'
 
 <Meta of={InputStories} />
 
-# Input (Text / Search)
+# Input
 
-A search is a user interface element that includes a search bar or input field, often accompanied by a search button or icon. It enables users to enter keywords or queries and initiate a search for specific content or information within an application or website. The search component helps users quickly find relevant data or resources by matching their input with the available content. This only supports search and text inputs currently. ß
+A search is a user interface element that includes a search bar or input field, often accompanied by a search button or icon. It enables users to enter keywords or queries and initiate a search for specific content or information within an application or website. The search component helps users quickly find relevant data or resources by matching their input with the available content.
 
 ## Primary Text
 
@@ -28,6 +28,10 @@ A search is a user interface element that includes a search bar or input field, 
 
 <Canvas of={InputStories.Search} />
 
+## Left Icon
+
+<Canvas of={InputStories.LeftIcon} />
+
 ## Attributes
 
 This component accepts all attributes for the input component of type text, with the addition of `onClear` function which declares the clear button functionality.
@@ -35,10 +39,10 @@ This component accepts all attributes for the input component of type text, with
 ## Input
 
 ```tsx
-import React from 'react'
+iimport React, { HTMLInputTypeAttribute } from 'react'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
-import { BsX, BsPersonFill, BsSearch } from '@/assets'
+import { BsX, BsSearch } from '@/assets'
 
 const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 
@@ -109,7 +113,21 @@ const inputVariants = cva(
 
 interface InputProps extends React.HTMLProps<HTMLInputElement> {
   variant: 'primary' | 'error' | 'success'
-  type: 'text' | 'search'
+  type:
+    | 'color'
+    | 'date'
+    | 'datetime-local'
+    | 'email'
+    | 'month'
+    | 'number'
+    | 'password'
+    | 'search'
+    | 'tel'
+    | 'text'
+    | 'time'
+    | 'url'
+    | 'week'
+    | (string & {})
   formClassName?: string
   leftSideClassName?: string
   leftSideChild?: React.ReactNode
@@ -117,11 +135,11 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   onClear: () => void
 }
 
-const convertTypeToComponent = {
-  left: {
-    text: <BsPersonFill />,
+const convertTypeToLeftComponent = (type: HTMLInputTypeAttribute) => {
+  const mapping: Partial<Record<HTMLInputTypeAttribute, React.ReactNode>> = {
     search: <BsSearch />
   }
+  return mapping[type] ?? null
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -139,17 +157,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const leftSideComponent =
-      leftSideChild ?? convertTypeToComponent.left[`${type}`]
+    const leftSideComponent = leftSideChild ?? convertTypeToLeftComponent(type)
     const rightSideComponent = rightSideChild ?? <BsX strokeWidth={0.6} />
 
     return (
       <label className={cn(formVariants({ variant }), formClassName)}>
-        <div className={cn(leftSideVariants(), leftSideClassName)}>
-          {leftSideComponent}
-        </div>
+        {leftSideComponent && (
+          <div className={cn(leftSideVariants(), leftSideClassName)}>
+            {leftSideComponent}
+          </div>
+        )}
         <input
-          type="text" //for now only accept text
+          type={type}
           className={cn(inputVariants({ variant }), className)}
           ref={ref}
           {...props}

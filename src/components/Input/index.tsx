@@ -1,7 +1,7 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
-import { BsX, BsPersonFill, BsSearch } from '@/assets'
+import { BsX, BsSearch } from '@/assets'
 
 const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 
@@ -70,9 +70,26 @@ const inputVariants = cva(
   }
 )
 
+type InputType =
+  | 'color'
+  | 'date'
+  | 'datetime-local'
+  | 'email'
+  | 'month'
+  | 'number'
+  | 'password'
+  | 'search'
+  | 'tel'
+  | 'text'
+  | 'time'
+  | 'url'
+  | 'week'
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  | (string & {})
+
 interface InputProps extends React.HTMLProps<HTMLInputElement> {
   variant: 'primary' | 'error' | 'success'
-  type: 'text' | 'search'
+  type: InputType
   formClassName?: string
   leftSideClassName?: string
   leftSideChild?: React.ReactNode
@@ -80,11 +97,11 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   onClear: () => void
 }
 
-const convertTypeToComponent = {
-  left: {
-    text: <BsPersonFill />,
+const convertTypeToLeftComponent = (type: InputType) => {
+  const mapping: Partial<Record<InputType, React.ReactNode>> = {
     search: <BsSearch />
   }
+  return mapping[type] ?? null
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -102,17 +119,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const leftSideComponent =
-      leftSideChild ?? convertTypeToComponent.left[`${type}`]
+    const leftSideComponent = leftSideChild ?? convertTypeToLeftComponent(type)
     const rightSideComponent = rightSideChild ?? <BsX strokeWidth={0.6} />
 
     return (
       <label className={cn(formVariants({ variant }), formClassName)}>
-        <div className={cn(leftSideVariants(), leftSideClassName)}>
-          {leftSideComponent}
-        </div>
+        {leftSideComponent && (
+          <div className={cn(leftSideVariants(), leftSideClassName)}>
+            {leftSideComponent}
+          </div>
+        )}
         <input
-          type="text" //for now only accept text
+          type={type}
           className={cn(inputVariants({ variant }), className)}
           ref={ref}
           {...props}
