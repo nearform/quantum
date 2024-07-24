@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { InputDemo as Input } from './Input.example'
+import { BsPersonFill } from 'react-icons/bs'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -10,11 +11,10 @@ const meta = {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'centered'
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
+  // // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   argTypes: {
-    checked: {
-      options: [true, false, 'indeterminate'],
-      control: { type: 'radio' }
+    leftSideChild: {
+      control: false
     },
     className: {
       controle: 'text',
@@ -58,5 +58,13 @@ export const Search: Story = {
   args: {
     variant: 'primary',
     type: 'search'
+  }
+}
+
+export const LeftIcon: Story = {
+  args: {
+    variant: 'primary',
+    type: 'text',
+    leftSideChild: <BsPersonFill />
   }
 }
