@@ -55,7 +55,7 @@
     "@storybook/test-runner": "^0.20.1",
     "@storybook/testing-library": "^0.2.2",
     "@storybook/theming": "^8.0.8",
-    "@typescript-eslint/eslint-plugin": "^7.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
