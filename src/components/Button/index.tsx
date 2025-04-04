@@ -8,7 +8,7 @@ const buttonVariants = cva(
     'inline-flex items-center justify-center',
     'rounded-lg',
     'transition-colors',
-    'focus-visible:outline-none',
+    'focus-visible:outline-hidden',
     'disabled:pointer-events-none',
     'cursor-pointer',
     'disabled:cursor-default'
@@ -74,7 +74,7 @@ const buttonVariants = cva(
           'text-foreground',
           'dark:text-white',
           'hover:bg-button-tertiary-hover',
-          'hover:dark:text-button-tertiary-hover-dark',
+          'dark:hover:text-button-tertiary-hover-dark',
           'focus:bg-button-tertiary-focus',
           'focus:shadow-brandGreen',
           'active:bg-button-tertiary-hover',

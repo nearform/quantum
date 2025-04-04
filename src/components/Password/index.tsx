@@ -9,7 +9,7 @@ import { formVariants } from '../Input'
 const toggleMaskVariants = cva(['flex', 'self-center text-inherit'])
 
 const passwordVariants = cva(
-  ['flex', 'flex-grow', 'items-center', 'outline-none', 'bg-transparent'],
+  ['flex', 'grow', 'items-center', 'outline-hidden', 'bg-transparent'],
   {
     variants: {
       variant: {
