@@ -8,10 +8,10 @@
     "./tailwind-plugin": "./dist/tailwind-plugin.js"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && node ./build-global-css.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "jest",
+    "test": "npm run build && jest",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
