@@ -10,7 +10,7 @@ const checkboxVariants = cva([
     'p-0.5',
     'shrink-0',
     'gap-0',
-    'rounded',
+    'rounded-sm',
     'border',
     'border-border',
     'bg-background-alt'
