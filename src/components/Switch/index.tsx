@@ -18,7 +18,7 @@ const switchVariants = cva([
     'rounded-full',
     'border-none',
     'transition-colors ',
-    'focus-visible:outline-none',
+    'focus-visible:outline-hidden',
     'focus-visible:shadow-brandGreen',
     'disabled:cursor-not-allowed'
   ],
@@ -56,9 +56,9 @@ const Switch = React.forwardRef<
         'transition-transform ',
         'data-[state=checked]:translate-x-[22px]',
         'data-[state=unchecked]:translate-x-[2px]',
-        'data-[disabled]:bg-grey-300',
+        'data-disabled:bg-grey-300',
         'dark:bg-black',
-        'dark:data-[disabled]:bg-grey-300'
+        'dark:data-disabled:bg-grey-300'
       ])}
     />
   </SwitchPrimitives.Root>
