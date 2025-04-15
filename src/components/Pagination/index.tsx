@@ -11,9 +11,9 @@ interface PaginationProps {
 }
 
 const PaginationVariants = cva([
-  '[&>*]:flex',
-  '[&>*]:items-center',
-  '[&>*]:justify-center',
+  '*:flex',
+  '*:items-center',
+  '*:justify-center',
   'w-fit'
 ])
 
@@ -23,7 +23,7 @@ const PageNumberStyles = cva([
   'h-10',
   'px-4',
   'py-2',
-  'rounded-sm',
+  'rounded-xs',
   'text-foreground-muted',
   'active:bg-accent',
   'active:text-primary-10',
@@ -118,7 +118,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     return (
       <nav className={cn(PaginationVariants(), className)} ref={ref} {...props}>
         <ul>
-          <li className="hover:bg-background px-4 dark:hover:bg-background-dark rounded-sm">
+          <li className="hover:bg-background px-4 dark:hover:bg-background-dark rounded-xs">
             <button
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
@@ -163,7 +163,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             ))}
           </div>
 
-          <li className="hover:bg-background px-4  dark:hover:bg-background-dark rounded-sm">
+          <li className="hover:bg-background px-4  dark:hover:bg-background-dark rounded-xs">
             <button
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
