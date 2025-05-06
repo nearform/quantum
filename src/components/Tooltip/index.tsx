@@ -9,7 +9,7 @@ const tooltipVariants = cva([
     'bg-accent',
     'z-50',
     'overflow-hidden',
-    'rounded',
+    'rounded-sm',
     'p-2',
     'text-xs',
     'text-center',
