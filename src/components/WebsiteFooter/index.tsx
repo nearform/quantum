@@ -45,8 +45,8 @@ const linkRowVariants = cva([
   'w-full',
   'justify-between',
   '[&>div]:text-xl',
-  '[&>*]:font-normal',
-  '[&>*]:text-sm'
+  '*:font-normal',
+  '*:text-sm'
 ])
 
 const linkColumnVariants = cva(
@@ -60,8 +60,8 @@ const linkColumnVariants = cva(
     '[&>div]:font-semibold',
     '[&>div]:mb-2',
     '[&>div]:text-xl',
-    '[&>*]:font-normal',
-    '[&>*]:text-sm',
+    '*:font-normal',
+    '*:text-sm',
     'items-center'
   ],
   {
@@ -70,8 +70,8 @@ const linkColumnVariants = cva(
         lg: [
           'sm:gap-3',
           'sm:[&>div]:text-2xl',
-          'sm:[&>*]:font-normal',
-          'sm:[&>*]:text-sm',
+          'sm:*:font-normal',
+          'sm:*:text-sm',
           'sm:pb-0',
           'sm:items-start'
         ],

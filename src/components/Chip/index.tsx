@@ -15,7 +15,7 @@ const chipVariants = cva(
       'font-semibold',
       'leading-normal',
       'text-foreground',
-      'focus-visible:outline-none',
+      'focus-visible:outline-hidden',
       'focus-visible:shadow-blue'
     ],
     [
@@ -26,11 +26,11 @@ const chipVariants = cva(
       'dark:disabled:text-foreground-subtle-dark'
     ],
     [
-      'data-[active]:bg-foreground',
-      'data-[active]:border-none',
-      'data-[active]:text-foreground-inverse',
-      'dark:data-[active]:bg-foreground-dark',
-      'dark:data-[active]:text-foreground-inverse-dark'
+      'data-active:bg-foreground',
+      'data-active:border-none',
+      'data-active:text-foreground-inverse',
+      'dark:data-active:bg-foreground-dark',
+      'dark:data-active:text-foreground-inverse-dark'
     ]
   ],
   {
