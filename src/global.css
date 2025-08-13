@@ -1,4 +1,339 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap')
+layer(base);
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-primary-10: #f4f8fa;
+  --color-primary-30: #97a1b8;
+  --color-primary-50: #526288;
+  --color-primary-80: #0c3d60;
+  --color-primary-100: #000e38;
+
+  --color-secondary-10: #e5fcf5;
+  --color-secondary-30: #b2f7e1;
+  --color-secondary-50: #78edc4;
+  --color-secondary-80: #32ebae;
+  --color-secondary-100: #03e5a4;
+
+  --color-foreground: #111928;
+  --color-foreground-dark: #fff;
+
+  --color-foreground-muted: #6b7280;
+  --color-foreground-muted-dark: #d1d5db;
+
+  --color-foreground-subtle: #9ca3af;
+  --color-foreground-subtle-dark: #6b7280;
+
+  --color-foreground-inverse: #fff;
+  --color-foreground-inverse-dark: #111928;
+
+  --color-background: #fff;
+  --color-background-dark: #000;
+
+  --color-background-alt: #f3f4f6;
+  --color-background-alt-dark: #374151;
+
+  --color-background-subtle: #f9fafb;
+  --color-background-subtle-dark: #1f2a37;
+
+  --color-background-inverse: #111928;
+  --color-background-inverse-dark: #fff;
+
+  --color-accent: #000e38;
+  --color-accent-dark: #f4f8fa;
+
+  --color-accent-alt: #0c3d60;
+  --color-accent-alt-dark: #4b5563;
+
+  --color-accent-hover: #0c3d60;
+  --color-accent-hover-dark: #97a1b8;
+
+  --color-accent-focus: #000e38;
+  --color-accent-focus-dark: #f3f4f6;
+
+  --color-border: #97a1b8;
+  --color-border-dark: #526288;
+
+  --color-border-hover: #526288;
+  --color-border-hover-dark: #0c3d60;
+
+  --color-border-focus: #0c3d60;
+  --color-border-focus-dark: #9ca3af;
+
+  --color-border-subtle: #f4f8fa;
+  --color-border-subtle-dark: #374151;
+
+  --color-feedback-green: #0e9f6e;
+  --color-feedback-yellow: #faca15;
+  --color-feedback-orange: #ff8a4c;
+  --color-feedback-red: #e02424;
+
+  --color-button-primary: #000e38;
+  --color-button-primary-dark: #f4f8fa;
+
+  --color-button-primary-hover: #0c3d60;
+  --color-button-primary-hover-dark: #97a1b8;
+
+  --color-button-primary-focus: #000e38;
+  --color-button-primary-focus-dark: #f3f4f6;
+
+  --color-button-primary-disabled: #f9fafb;
+  --color-button-primary-disabled-dark: #1f2a37;
+
+  --color-button-primary-selected-DEFAILT: #f3f4f6;
+  --color-button-primary-selected-dark: #1f2a37;
+
+  --color-button-secondary: #fff;
+  --color-button-secondary-dark: #111928;
+
+  --color-button-secondary-hover: #f9fafb;
+  --color-button-secondary-hover-dark: #1f2a37;
+
+  --color-button-secondary-focus: #f3f4f6;
+  --color-button-secondary-focus-dark: #374151;
+
+  --color-button-secondary-disabled: #f9fafb;
+  --color-button-secondary-disabled-dark: #1f2a37;
+
+  --color-button-secondary-border: #97a1b8;
+  --color-button-secondary-border-dark: #526288;
+
+  --color-button-secondary-border-hover: #526288;
+  --color-button-secondary-border-hover-dark: #0c3d60;
+
+  --color-button-secondary-border-focus: #97a1b8;
+  --color-button-secondary-border-focus-dark: #9ca3af;
+
+  --color-button-secondary-border-disabled: #f4f8fa;
+  --color-button-secondary-border-disabled-dark: #374151;
+
+  --color-button-secondary-border-selected-DEFAILT: #f3f4f6;
+  --color-button-secondary-border-selected-dark: #1f2a37;
+
+  --color-button-tertiary-hover: #f9fafb;
+  --color-button-tertiary-hover-dark: #1f2a37;
+
+  --color-button-tertiary-focus: #fff;
+  --color-button-tertiary-focus-dark: #233876;
+
+  --color-button-tertiary-selected-DEFAILT: #f3f4f6;
+  --color-button-tertiary-selected-dark: #1f2a37;
+
+  --color-button-success: #0e9f6e;
+
+  --color-button-success-hover: #057a55;
+
+  --color-button-success-focus: #046c4e;
+
+  --color-button-success-disabled: #f9fafb;
+
+  --color-button-success-selected-DEFAILT: #f3f4f6;
+  --color-button-success-selected-dark: #1f2a37;
+
+  --color-button-danger: #e02424;
+
+  --color-button-danger-hover: #c81e1e;
+
+  --color-button-danger-focus: #9b1c1c;
+
+  --color-button-danger-disabled: #f9fafb;
+
+  --color-button-danger-selected-DEFAILT: #f3f4f6;
+  --color-button-danger-selected-dark: #1f2a37;
+
+  --color-white: #fff;
+
+  --color-black: #000;
+
+  --color-grey-50: #f9fafb;
+  --color-grey-100: #f3f4f6;
+  --color-grey-200: #e5e7eb;
+  --color-grey-300: #d1d5db;
+  --color-grey-400: #9ca3af;
+  --color-grey-500: #6b7280;
+  --color-grey-600: #4b5563;
+  --color-grey-700: #374151;
+  --color-grey-800: #1f2a37;
+  --color-grey-900: #111928;
+
+  --color-blue-50: #f5faff;
+  --color-blue-100: #e1effe;
+  --color-blue-200: #c3ddfd;
+  --color-blue-300: #a4cafe;
+  --color-blue-400: #76a9fa;
+  --color-blue-500: #3f83f8;
+  --color-blue-600: #2165e3;
+  --color-blue-700: #1a56db;
+  --color-blue-800: #1e429f;
+  --color-blue-900: #233876;
+
+  --color-red-50: #fdf2f2;
+  --color-red-100: #fde8e8;
+  --color-red-200: #fbd5d5;
+  --color-red-300: #f8b4b4;
+  --color-red-400: #f98080;
+  --color-red-500: #f05252;
+  --color-red-600: #e02424;
+  --color-red-700: #c81e1e;
+  --color-red-800: #9b1c1c;
+  --color-red-900: #771d1d;
+
+  --color-orange-50: #fff8f1;
+  --color-orange-100: #feecdc;
+  --color-orange-200: #fcd9bd;
+  --color-orange-300: #fdba8c;
+  --color-orange-400: #ff8a4c;
+  --color-orange-500: #ff5a1f;
+  --color-orange-600: #d03801;
+  --color-orange-700: #b43403;
+  --color-orange-800: #8a2c0d;
+  --color-orange-900: #771d1d;
+
+  --color-yellow-50: #fdfdea;
+  --color-yellow-100: #fdf6b2;
+  --color-yellow-200: #fce96a;
+  --color-yellow-300: #faca15;
+  --color-yellow-400: #e3a008;
+  --color-yellow-500: #c27803;
+  --color-yellow-600: #9f580a;
+  --color-yellow-700: #8e4b10;
+  --color-yellow-800: #723b13;
+  --color-yellow-900: #633112;
+
+  --color-green-50: #f3faf7;
+  --color-green-100: #def7ec;
+  --color-green-200: #bcf0da;
+  --color-green-300: #84e1bc;
+  --color-green-400: #31c48d;
+  --color-green-500: #0e9f6e;
+  --color-green-600: #057a55;
+  --color-green-700: #046c4e;
+  --color-green-800: #03543f;
+  --color-green-900: #014737;
+
+  --color-teal-50: #edfafa;
+  --color-teal-100: #d5f5f6;
+  --color-teal-200: #afecef;
+  --color-teal-300: #7edce2;
+  --color-teal-400: #16bdca;
+  --color-teal-500: #0694a2;
+  --color-teal-600: #047481;
+  --color-teal-700: #036672;
+  --color-teal-800: #05505c;
+  --color-teal-900: #014451;
+
+  --color-indigo-50: #f0f5ff;
+  --color-indigo-100: #e5edff;
+  --color-indigo-200: #cddbfe;
+  --color-indigo-300: #b4c6fc;
+  --color-indigo-400: #8da2fb;
+  --color-indigo-500: #6875f5;
+  --color-indigo-600: #5850ec;
+  --color-indigo-700: #5145cd;
+  --color-indigo-800: #42389d;
+  --color-indigo-900: #362f78;
+
+  --color-purple-50: #f6f5ff;
+  --color-purple-100: #edebfe;
+  --color-purple-200: #dcd7fe;
+  --color-purple-300: #cabffd;
+  --color-purple-400: #ac94fa;
+  --color-purple-500: #9061f9;
+  --color-purple-600: #7e3af2;
+  --color-purple-700: #6c2bd9;
+  --color-purple-800: #5521b5;
+  --color-purple-900: #4a1d96;
+
+  --color-pink-50: #fff6f9;
+  --color-pink-100: #fff1f5;
+  --color-pink-200: #ffe8ee;
+  --color-pink-300: #ffd9e3;
+  --color-pink-400: #ffbfd0;
+  --color-pink-500: #ff9db7;
+  --color-pink-600: #fb7a9c;
+  --color-pink-700: #d95477;
+  --color-pink-800: #a02042;
+  --color-pink-900: #731837;
+
+  --color-brand-midnight-10: #f4f8fa;
+  --color-brand-midnight-30: #97a1b8;
+  --color-brand-midnight-50: #526288;
+  --color-brand-midnight-80: #0c3d60;
+  --color-brand-midnight-100: #000e38;
+
+  --color-brand-green-10: #e5fcf5;
+  --color-brand-green-30: #b2f7e1;
+  --color-brand-green-50: #78edc4;
+  --color-brand-green-80: #32ebae;
+  --color-brand-green-100: #03e5a4;
+
+  --shadow-*: initial;
+  --shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0px 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0px 4px 6px 0px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.05);
+  --shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.05);
+  --shadow-blue: 0px 0px 0px 4px rgb(118, 169, 250);
+  --shadow-red: 0px 0px 0px 4px rgb(249, 128, 128);
+  --shadow-green: 0px 0px 0px 4px rgb(49, 196, 141, 1);
+  --shadow-brand-green: 0px 0px 0px 4px #03e5a4;
+  --shadow-brand-green10: 0px 0px 0px 4px #e5fcf5;
+  --shadow-none: 0px 0px;
+
+  --font-*: initial;
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --stroke-width-*: initial;
+  --stroke-width-0: 0px;
+  --stroke-width-1: 1px;
+  --stroke-width-2: 2px;
+  --stroke-width-3: 4px;
+  --stroke-width-4: 6px;
+
+  --animate-slide-down: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
+  --animate-slide-up: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
+
+  @keyframes slideDown {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes slideUp {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}

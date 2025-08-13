@@ -29,7 +29,7 @@ const triggerVariants = cva(
       'px-3',
       'py-2',
       'text-sm',
-      'focus:outline-none',
+      'focus:outline-hidden',
       'focus-visible:shadow-blue',
       'disabled:cursor-not-allowed',
       'disabled:opacity-50',
@@ -49,7 +49,7 @@ const triggerVariants = cva(
           'dark:bg-background-alt-dark',
           'dark:border-border-subtle-dark',
           'dark:text-foreground-muted-dark',
-          'data-[placeholder]:text-foreground-muted',
+          'data-placeholder:text-foreground-muted',
           'dark:focus-visible:shadow-brandGreen-10'
         ],
         error: [
@@ -182,9 +182,9 @@ const itemVariants = cva([
     'py-2',
     'px-4',
     'text-sm',
-    'outline-none',
-    'data-[disabled]:pointer-events-none',
-    'data-[disabled]:opacity-50',
+    'outline-hidden',
+    'data-disabled:pointer-events-none',
+    'data-disabled:opacity-50',
     'hover:bg-background-alt',
     'focus-visible:shadow-brandGreen'
   ],
