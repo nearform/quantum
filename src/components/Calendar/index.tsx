@@ -61,7 +61,7 @@ const calendarVariants = cva([], {
         'items-center',
         'shrink-0',
         'focus-visible:shadow-blue',
-        'outline-none'
+        'outline-hidden'
       ]),
       day_selected: ['text-foreground-inverse'],
       day_outside: [
@@ -83,7 +83,7 @@ function Calendar({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        'p-4 rounded-lg bg-background-alt dark:bg-background-alt-dark dark:text-foreground-inverse shadow-[0_4px_6px_0px_rgba(0,0,0,0.08)] flex [&>*]:flex-row',
+        'p-4 rounded-lg bg-background-alt dark:bg-background-alt-dark dark:text-foreground-inverse shadow-[0_4px_6px_0px_rgba(0,0,0,0.08)] flex *:flex-row',
         className
       )}
       classNames={{
