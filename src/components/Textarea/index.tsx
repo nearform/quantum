@@ -2,18 +2,17 @@ import React from 'react'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 
-const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
-const rightSideVariants = cva(['flex', 'self-center text-inherit'])
-
-const formVariants = cva(
+const textareaVariants = cva(
   [
     'flex',
+    'flex-grow',
+    'outline-none',
+    'resize-none',
     'border',
     'border-2',
     'rounded-lg',
-    'overflow-hidden',
+    'field-sizing-content',
     'p-3',
-    'items-center',
     'gap-1.5',
     '[&:has(:disabled)]:border-none'
   ],
@@ -26,11 +25,11 @@ const formVariants = cva(
           'bg-background-alt',
           'dark:bg-background-alt-dark',
           'hover:border-border-hover',
-          'hover:focus-within:border-border-focus',
+          'hover:focus-within:shadow-brandGreen',
           'dark:hover:focus-within:border-border-focus-dark',
           'focus-within:shadow-brandGreen',
-          'text-foreground-muted',
-          'dark:text-foreground-muted-dark',
+          'text-foreground',
+          'dark:text-foreground-dark',
           'dark:focus-within:shadow-brandGreen-10'
         ],
         error: [
@@ -42,91 +41,65 @@ const formVariants = cva(
         ],
         success: [
           'border-feedback-green',
-          'text-feedback-green',
+          'text-green-700',
           'bg-green-50',
           'hover:border-green-700',
           'focus-within:shadow-green'
+        ],
+        disabled: [
+          'bg-background-subtle',
+          'dark:bg-background-subtle-dark',
+          'cursor-not-allowed',
+          'text-foreground-muted',
+          'dark:text-foreground-muted-dark'
         ]
+      },
+      defaultVariants: {
+        variant: 'primary'
       }
-    }
-  }
-)
-
-const textareaVariants = cva(
-  [
-    'flex',
-    'flex-grow',
-    'items-center',
-    'outline-none',
-    'bg-transparent',
-    'resize-none'
-  ],
-  {
-    variants: {
-      variant: {
-        primary: ['text-foreground', 'dark:text-foreground-dark'],
-        error: ['text-feedback-red'],
-        success: ['text-green-700']
-      }
-    },
-    defaultVariants: {
-      variant: 'primary'
     }
   }
 )
 
 interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  variant: 'primary' | 'error' | 'success'
-  formClassName?: string
-  leftSideClassName?: string
-  leftSideChild?: React.ReactNode
-  rightSideChild?: React.ReactNode
-  onClear?: () => void
+  variant: 'primary' | 'error' | 'success' | 'disabled'
+  labelText?: string
+  helpText?: string
+  id?: string
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  (
-    {
-      className,
-      formClassName,
-      leftSideClassName,
-      variant,
-      leftSideChild,
-      rightSideChild,
-      onClear,
-      ...props
-    },
-    ref
-  ) => {
-    const leftSideComponent = leftSideChild ?? null
-    const rightSideComponent = rightSideChild ?? null
-
+  ({ className, variant, labelText, helpText, id, ...props }, ref) => {
     return (
-      <label className={cn(formVariants({ variant }), formClassName)}>
-        {leftSideComponent && (
-          <div className={cn(leftSideVariants(), leftSideClassName)}>
-            {leftSideComponent}
-          </div>
+      <div className="flex flex-col gap-3">
+        {labelText && (
+          <label
+            id={`${id}-label`}
+            htmlFor={id}
+            className="text-m text-foreground dark:text-foreground-dark"
+          >
+            {labelText}
+          </label>
         )}
         <textarea
+          id={id}
           className={cn(textareaVariants({ variant }), className)}
           ref={ref}
           {...props}
+          aria-labelledby={`${labelText ? `${id}-label` : ''} ${helpText ? `${id}-helptext` : ''}`.trim()}
         />
-        <div className="textarea-right-side"></div>
-        {onClear && (
-          <button
-            type="button"
-            onClick={onClear}
-            className={rightSideVariants()}
+        {helpText && (
+          <span
+            id={`${id}-helptext`}
+            className="text-sm text-foreground-muted dark:text-foreground-muted-dark"
           >
-            {rightSideComponent}
-          </button>
+            {helpText}
+          </span>
         )}
-      </label>
+      </div>
     )
   }
 )
 
-export { Textarea, TextareaProps, formVariants }
+export { Textarea, TextareaProps, textareaVariants }

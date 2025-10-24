@@ -1,20 +1,25 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
+import type { StoryFn } from '@storybook/react'
 import { Textarea } from '@/components/Textarea'
+import type { TextareaProps } from '@/components/Textarea'
 
 export default {
-  title: 'Components/Textarea',
+  title: 'Form/Textarea',
   component: Textarea,
+  parameters: {
+    layout: 'centered'
+  },
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'error', 'success']
+      options: ['primary', 'error', 'success', 'disabled']
     },
-    onClear: { action: 'cleared' }
+    className: {
+      control: 'text',
+      description: 'Alter the className to change the style'
+    }
   }
 }
-
-import type { StoryFn } from '@storybook/react'
-import type { TextareaProps } from '@/components/Textarea'
 
 const Template: StoryFn<TextareaProps> = args => {
   const ref = useRef<HTMLTextAreaElement>(null)
@@ -23,24 +28,40 @@ const Template: StoryFn<TextareaProps> = args => {
 
 export const Primary = Template.bind({})
 Primary.args = {
+  id: 'sample',
   variant: 'primary',
   placeholder: 'Type something...',
-  onClear: () => {},
-  rows: 4
+  rows: 6,
+  labelText: 'Your message',
+  helpText: 'Please enter your message here.'
 }
 
 export const Error = Template.bind({})
 Error.args = {
+  id: 'sample',
   variant: 'error',
   placeholder: 'Error state',
-  onClear: () => {},
-  rows: 4
+  rows: 6,
+  labelText: 'Your message',
+  helpText: 'Please enter your message here.'
 }
 
 export const Success = Template.bind({})
 Success.args = {
+  id: 'sample',
   variant: 'success',
   placeholder: 'Success state',
-  onClear: () => {},
-  rows: 4
+  rows: 6,
+  labelText: 'Your message',
+  helpText: 'Please enter your message here.'
+}
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  id: 'sample',
+  variant: 'disabled',
+  placeholder: 'Disabled state',
+  rows: 6,
+  labelText: 'Your message',
+  helpText: 'Please enter your message here.'
 }
