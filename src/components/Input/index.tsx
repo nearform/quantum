@@ -55,7 +55,7 @@ const formVariants = cva(
 )
 
 const inputVariants = cva(
-  ['flex', 'flex-grow', 'items-center', 'outline-none', 'bg-transparent'],
+  ['flex', 'grow', 'items-center', 'outline-hidden', 'bg-transparent'],
   {
     variants: {
       variant: {
