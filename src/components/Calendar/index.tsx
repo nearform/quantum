@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { DayPicker } from 'react-day-picker'
+import { Chevron, DayPicker } from 'react-day-picker'
 import { cn } from '@/lib/utils'
 import { BsArrowLeft, BsArrowRight } from '@/assets'
 import { cva } from 'class-variance-authority'
@@ -114,12 +114,20 @@ function Calendar({
         ...classNames
       }}
       components={{
-        IconLeft: () => (
-          <BsArrowLeft className="h-5 w-5 fill-current stroke-current" />
-        ),
-        IconRight: () => (
-          <BsArrowRight className="h-5 w-5 fill-current stroke-current" />
-        )
+        Chevron: props => {
+          switch (props.orientation) {
+            case 'left':
+              return (
+                <BsArrowLeft className="h-5 w-5 fill-current stroke-current" />
+              )
+            case 'right':
+              return (
+                <BsArrowRight className="h-5 w-5 fill-current stroke-current" />
+              )
+            default:
+              return <Chevron {...props} />
+          }
+        }
       }}
       {...props}
     />
