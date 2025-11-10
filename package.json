@@ -41,7 +41,7 @@
     "@babel/preset-typescript": "^7.24.1",
     "@commitlint/cli": "^19.0.3",
     "@commitlint/config-conventional": "^19.0.3",
-    "@jest/globals": "^29.7.0",
+    "@jest/globals": "^30.2.0",
     "@storybook/addon-essentials": "^8.0.8",
     "@storybook/addon-interactions": "^8.0.8",
     "@storybook/addon-links": "^8.0.8",
