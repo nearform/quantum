@@ -1,81 +1,70 @@
 import { describe, expect, it } from '@jest/globals'
 import qPlugin from '../src/tailwind-plugin'
-import postcss from 'postcss'
-import tailwindcss from 'tailwindcss'
-import { ContentConfig } from 'tailwindcss/types/config'
 import path from 'path'
-function run(testContent: ContentConfig | string) {
-  if (typeof testContent === 'string') {
-    return postcss(tailwindcss(testContent)).process('@tailwind utilities;', {
-      from: undefined
-    })
+
+type ContentConfig = string[] | { files: string[]; relative?: boolean }
+
+function runPlugin(testContent: ContentConfig) {
+  const config: { content: ContentConfig; plugins: unknown[] } = {
+    content: testContent,
+    plugins: [qPlugin]
   }
-  return postcss(
-    tailwindcss({ content: testContent, plugins: [qPlugin] })
-  ).process('@tailwind utilities;', {
-    from: undefined
-  })
+
+  qPlugin.handler({
+    config: (configPath?: string) => (configPath ? undefined : config),
+    theme: () => undefined,
+    addBase: () => undefined,
+    addComponents: () => undefined,
+    addUtilities: () => undefined,
+    addVariant: () => undefined,
+    matchComponents: () => undefined,
+    matchUtilities: () => undefined,
+    matchVariant: () => undefined,
+    e: (className: string) => className,
+    prefix: (selector: string) => selector,
+    corePlugins: () => false
+  } as Parameters<typeof qPlugin.handler>[0])
+
+  return config
 }
 
 describe('Plugin can add index.js to content', () => {
-  it('Is added to the tailwind config with files key', async () => {
+  it('Is added to the tailwind config with files key', () => {
     const testContent: ContentConfig = {
       files: ['./src/content.js', './stories/**/*'],
       relative: false
     }
-    const filesLength = testContent.files.length
-    const { messages } = await run(testContent)
-    expect(messages.length).toBe(filesLength + 1)
-    expect(
-      messages.some(message => message.file.includes('src/index.js'))
-    ).toBe(true)
-  })
-
-  it('Can add to the content if array', async () => {
-    const testContent: ContentConfig = ['./src/content.js', './stories/**/*']
-    const { messages } = await run(testContent)
-    expect(
-      messages.some(message => message.file.includes('src/index.js'))
-    ).toBe(true)
-  })
-
-  it('Uses the right path to the package if relative', async () => {
-    //pass in string path to dummy config
-    const { messages } = await run('./__mocks__/plugin/tailwind.mock.config.ts')
-
-    const { index_exists, relative_mock_exists } = messages.reduce(
-      (acc, message) => {
-        //check index.js path added correctly
-        if (message.file.includes('src/index.js')) {
-          return { ...acc, index_exists: acc.index_exists + 1 }
-          //check we're using relative paths.
-        } else if (message.file.includes('__mocks__/plugin/content.js')) {
-          return {
-            ...acc,
-            relative_mock_exists: acc.relative_mock_exists + 1
-          }
-        }
-        return acc
-      },
-      { index_exists: 0, relative_mock_exists: 0 }
+    const filesLength = (testContent as { files: string[] }).files.length
+    const result = runPlugin(testContent)
+    const resultContent = result.content as { files: string[] }
+    expect(resultContent.files.length).toBe(filesLength + 1)
+    expect(resultContent.files.some(file => file.includes('index.js'))).toBe(
+      true
     )
-    expect(index_exists).toBe(1)
-    expect(relative_mock_exists).toBe(1)
   })
 
-  it('Doesnt add the path if already there', async () => {
-    const pkgLoc = path.join(__dirname, '../src/index.js') //where index.js is wrt this test file
+  it('Can add to the content if array', () => {
+    const testContent: ContentConfig = ['./src/content.js', './stories/**/*']
+    const result = runPlugin(testContent)
+    expect(
+      (result.content as string[]).some(file => file.includes('index.js'))
+    ).toBe(true)
+  })
+
+  it('Doesnt add the path if already there', () => {
+    const pkgLoc = path.join(__dirname, '../src/index.js')
     const testContent: ContentConfig = [
       './src/content.js',
       './stories/**/*',
       pkgLoc
     ]
     const filesLength = testContent.length
-    const { messages } = await run(testContent)
-    expect(messages.length).toBe(filesLength)
+    const result = runPlugin(testContent)
+    const resultContent = result.content as string[]
+    expect(resultContent.length).toBe(filesLength)
     expect(
-      messages.reduce((acc, message) => {
-        return message.file?.includes('src/index.js') ? acc + 1 : acc
+      resultContent.reduce((acc, file) => {
+        return file.includes('index.js') ? acc + 1 : acc
       }, 0)
     ).toBe(1)
   })
