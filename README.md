@@ -14,15 +14,34 @@ npm install --save @nearform/quantum
 
 #### With Tailwind
 
-Include or extend our colour configuration and add our components to Tailwind's content configuration. To ensure dark mode of the components isn't operating system dependent, add the `darkMode: "class"` entry to the config.
+The plugin supplies our colour, shadow, font, stroke-width and animation tokens. To ensure dark mode of the components isn't operating system dependent, add the `darkMode: "class"` entry to the config.
+
+You must also point Tailwind at this package so it scans our components for the
+classes they use. **The plugin does not do this for you** — earlier versions
+registered the path automatically, but Tailwind v4 replaced the `content` array
+with source detection, and source detection skips `node_modules` by default. If
+you omit this step the build succeeds and every Quantum utility is silently
+missing from the output.
+
+Tailwind v4 (CSS-first):
+
+```css
+/* index.css */
+@import 'tailwindcss';
+@plugin '@nearform/quantum/tailwind-plugin';
+@source '../node_modules/@nearform/quantum';
+```
+
+Tailwind v4 with a JS config, or Tailwind v3:
 
 ```js
 // tailwind.config.js
 import quantumPlugin from '@nearform/quantum/tailwind-plugin'
 module.exports = {
   //...tailwind config
-  plugins: [quantumPlugin]
-  darkMode: "class"
+  content: ['./node_modules/@nearform/quantum/**/*.js'],
+  plugins: [quantumPlugin],
+  darkMode: 'class'
 }
 ```
 

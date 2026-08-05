@@ -5,7 +5,10 @@
   "main": "dist/index.js",
   "exports": {
     ".": "./dist/index.js",
-    "./tailwind-plugin": "./dist/tailwind-plugin.js"
+    "./tailwind-plugin": {
+      "import": "./dist/tailwind-plugin.mjs",
+      "require": "./dist/tailwind-plugin.js"
+    }
   },
   "scripts": {
     "build": "tsup",
