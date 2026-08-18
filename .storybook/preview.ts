@@ -1,10 +1,10 @@
 import './global.css';
-import { Preview } from '@storybook/react';
+import { Preview } from '@storybook/react-vite';
 import theme from './theme';
 
 const preview: Preview = {
   parameters: {
-    backgrounds: { disable: true },
+    backgrounds: { disabled: true },
     docs: {
       theme,
       toc: true

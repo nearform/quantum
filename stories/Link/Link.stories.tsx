@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { BsChevronLeft, BsHouse, BsPersonFill } from '@/assets'
 
 import { Link } from '@/index'

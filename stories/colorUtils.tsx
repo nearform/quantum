@@ -1,4 +1,4 @@
-import { ColorPalette, ColorItem } from '@storybook/blocks'
+import { ColorPalette, ColorItem } from '@storybook/addon-docs/blocks'
 
 type DarkMode = {
   DEFAULT?: string

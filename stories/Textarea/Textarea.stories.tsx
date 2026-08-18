@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import type { StoryFn } from '@storybook/react'
+import type { StoryFn } from '@storybook/react-vite'
 import { Textarea } from '@/components/Textarea'
 import type { TextareaProps } from '@/components/Textarea'
 

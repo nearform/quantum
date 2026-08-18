@@ -1,30 +1,29 @@
-import * as path from 'path'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { StorybookConfig } from '@storybook/react-vite'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const config: StorybookConfig = {
   stories: [
     '../stories/**/*.mdx',
     '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'
   ],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-    '@storybook/addon-mdx-gfm'
-  ],
+  addons: ['@storybook/addon-links', '@storybook/addon-docs'],
   framework: {
     name: '@storybook/react-vite',
     options: {}
   },
   staticDirs: ['../public/'],
-  docs: {
-    autodocs: 'tag'
-  },
   async viteFinal(config) {
-    if (config && config.resolve) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        '@': path.join(__dirname, '../src')
+    // Vite 8 leaves `resolve` undefined here, so the alias has to be created
+    // rather than merged into an existing object.
+    const existing = config.resolve?.alias
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        ...(Array.isArray(existing) ? {} : existing),
+        '@': join(__dirname, '../src')
       }
     }
 
