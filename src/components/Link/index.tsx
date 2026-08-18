@@ -26,7 +26,7 @@ const Link = React.forwardRef<HTMLAnchorElement, Props>(
           'py-1 px-1.5',
           'rounded',
           'cursor-pointer',
-          'outline-none',
+          'outline-hidden',
           'dark:text-white',
           selected ? selectedClasses : `${hoverClasses} ${focusClasses}`,
           className
