@@ -23,10 +23,12 @@ const config: StorybookConfig = {
     config.resolve = {
       ...config.resolve,
       // `alias` accepts an object or an array of {find, replacement}; preserve
-      // whichever form arrived instead of dropping it.
+      // whichever form arrived instead of dropping it. Ours goes in last in the
+      // array form and first in the object form, so an alias the caller already
+      // registered for `@` keeps precedence under either shape.
       alias: Array.isArray(existing)
         ? [...existing, { find: '@', replacement: alias['@'] }]
-        : { ...existing, ...alias }
+        : { ...alias, ...existing }
     }
 
     return config

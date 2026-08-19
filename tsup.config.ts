@@ -15,6 +15,10 @@ export default defineConfig({
     // so the published dist/index.d.ts keeps the exact specifiers it ships
     // today (`class-variance-authority/dist/types`, which `bundler` would
     // rewrite to the exports-map subpath and break node10 consumers).
+    // The divergence from tsconfig.json is deliberate and fails closed: if
+    // src/ ever imports an exports-only package, `tsc --noEmit` stays green
+    // while `npm run build` stops with `TS2307` in the dts build, so the
+    // published types cannot change silently.
     compilerOptions: { module: 'commonjs', moduleResolution: 'node10' }
   },
   clean: true,
