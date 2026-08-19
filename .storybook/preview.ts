@@ -4,7 +4,7 @@ import theme from './theme';
 
 const preview: Preview = {
   parameters: {
-    backgrounds: { disabled: true },
+    backgrounds: { disable: true },
     docs: {
       theme,
       toc: true

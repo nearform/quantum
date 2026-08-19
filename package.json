@@ -45,7 +45,6 @@
     "@storybook/addon-docs": "^10.5.9",
     "@storybook/addon-links": "^10.5.9",
     "@storybook/addon-onboarding": "^10.5.9",
-    "@storybook/react": "^10.5.9",
     "@storybook/react-vite": "^10.5.9",
     "@storybook/test-runner": "^0.24.4",
     "@typescript-eslint/eslint-plugin": "^7.6.0",
