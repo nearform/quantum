@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import { ModalInfoDemo } from './ModalInfo.example'
 import { ModalCustomDemo } from './ModalCustom.example'
