@@ -39,8 +39,23 @@ Tailwind v4 (CSS-first):
 Tailwind v4 with a JS config:
 
 ```js
-// tailwind.config.js
+// tailwind.config.mjs
 import quantumPlugin from '@nearform/quantum/tailwind-plugin'
+export default {
+  //...tailwind config
+  content: ['./node_modules/@nearform/quantum/**/*.js'],
+  plugins: [quantumPlugin],
+  darkMode: 'class'
+}
+```
+
+From a CommonJS config the plugin arrives as the `default` property, because the
+CJS build uses `exports.default`. Omitting `.default` fails at build time with
+`is not a function`:
+
+```js
+// tailwind.config.cjs
+const quantumPlugin = require('@nearform/quantum/tailwind-plugin').default
 module.exports = {
   //...tailwind config
   content: ['./node_modules/@nearform/quantum/**/*.js'],
