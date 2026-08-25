@@ -18,6 +18,57 @@ const loadQuantumPlugin = async () => ({
 })
 
 /**
+ * The base rule from `src/tailwind-base.ts`, as it survives a compile.
+ *
+ * A pattern rather than a literal because the two callers below see it
+ * differently: the built stylesheet has been through Lightning CSS, which drops
+ * the quotes in the attribute selector, and neither output's whitespace is a
+ * contract worth asserting on.
+ */
+const BASE_CURSOR_RULE =
+  /button:not\(:disabled\),\s*\[role="?button"?\]:not\(:disabled\)\s*\{\s*cursor:\s*pointer;?\s*\}/
+
+/**
+ * The contents of every `@layer base { … }` block in a stylesheet, joined.
+ *
+ * Asserting on the whole file is not enough. `button:not(:disabled)` is
+ * specificity (0,1,1) and `.cursor-default` is (0,1,0), so the only reason
+ * Accordion's trigger keeps its arrow is that base is an earlier cascade layer.
+ * The same rule emitted unlayered — trivial to do by accident, since an
+ * `@layer base` block written straight into src/global.css does exactly that —
+ * outranks every layer and silently breaks it, while a whole-file match stays
+ * green.
+ */
+const baseLayerOf = (css: string) => {
+  const marker = '@layer base'
+  let out = ''
+
+  for (let i = css.indexOf(marker); i !== -1; i = css.indexOf(marker, i + 1)) {
+    const open = css.indexOf('{', i)
+    // `@layer theme, base, …;` is a declaration, not a block — skip it.
+    if (open === -1 || css.slice(i + marker.length, open).includes(';'))
+      continue
+
+    let depth = 0
+    for (let j = open; j < css.length; j++) {
+      if (css[j] === '{') depth++
+      else if (css[j] === '}' && --depth === 0) {
+        out += css.slice(open + 1, j)
+        i = j
+        break
+      }
+    }
+  }
+
+  return out
+}
+
+// A fresh global copy each call: a shared /g regex would carry `lastIndex`
+// between `.test()` calls and start returning false on alternate invocations.
+const countRule = (css: string) =>
+  css.match(new RegExp(BASE_CURSOR_RULE.source, 'g'))?.length ?? 0
+
+/**
  * A representative class per theme key the plugin contributes, mapped to the
  * declaration only the Quantum config can produce.
  *
@@ -69,6 +120,27 @@ describe('tailwind plugin supplies the Quantum theme', () => {
     }
   })
 
+  /**
+   * v3's preflight set `cursor: pointer` on buttons and v4's does not, so
+   * without this rule every button in the library turns into an arrow on
+   * upgrade. It has to come from the plugin: a consumer on any of the README's
+   * Tailwind routes loads `@plugin`/`plugins: [quantumPlugin]` and never
+   * imports `dist/global.css`, so a `@layer base` block in `src/global.css`
+   * would not reach them.
+   */
+  it('restores the pointer cursor v4 preflight drops', async () => {
+    const compiler = await compile('@plugin "quantum";\n@tailwind base;', {
+      base: repoRoot,
+      loadModule: loadQuantumPlugin
+    })
+
+    const css = compiler.build([])
+
+    expect(`base cursor rule: ${BASE_CURSOR_RULE.test(css)}`).toBe(
+      'base cursor rule: true'
+    )
+  })
+
   it('does not mutate the consumer content config', () => {
     // Tailwind v4 replaced `content` with source detection. The plugin used to
     // push Quantum's own path into `content`, which breaks a v4 compile.
@@ -77,7 +149,10 @@ describe('tailwind plugin supplies the Quantum theme', () => {
       config: (...args: unknown[]) => {
         seen.push(args)
         return undefined
-      }
+      },
+      // Not optional padding: the handler calls `addBase`, and the container
+      // cast below would let a missing key through to a runtime TypeError.
+      addBase: () => undefined
     } as unknown as Parameters<typeof qPlugin.handler>[0])
 
     expect(seen).toEqual([])
@@ -129,12 +204,20 @@ describeBuilt('published artifact loads in a real Tailwind build', () => {
   // every source-level test, so this must run against the real ESM artifact.
   it('is loadable via @plugin and emits Quantum utilities', async () => {
     const result = await postcss([tailwindcssPostcss()]).process(
-      `@plugin "${exported.import}";\n@tailwind utilities;`,
+      `@plugin "${exported.import}";\n@tailwind base;\n@tailwind utilities;`,
       { from: path.join(repoRoot, 'fixture.test.css') }
     )
 
     expect(result.css).toContain('.bg-brandGreen-100')
     expect(result.css).toContain('#03e5a4')
+
+    // The base rule has to be asserted here and not only at source level: the
+    // source-level suite loads `src/tailwind-plugin.ts` directly, so a plugin
+    // published without the `addBase` call would ship green on that alone.
+    // This is the artifact a consumer's `@plugin` actually resolves.
+    expect(
+      `published base cursor rule: ${BASE_CURSOR_RULE.test(result.css)}`
+    ).toBe('published base cursor rule: true')
   })
 
   // The `@config` route loads the CJS build through `require` in a JS config.
@@ -246,6 +329,53 @@ describeBuilt('published global.css carries the Quantum theme', () => {
     // Matches the emitted value, so a variant form (`hover:bg-[#c0ffee]`) is
     // caught too — its selector would not contain the bare candidate.
     expect(globalCss()).not.toContain('c0ffee')
+  })
+
+  /**
+   * The other half of the base-layer check in the plugin suite above, and a
+   * genuinely separate route: that one covers consumers who load the plugin,
+   * this one covers the consumer who imports this stylesheet instead and never
+   * touches the plugin. They arrive by different paths — `@plugin` there, the
+   * `@config` in src/global.css here — so removing either registration leaves
+   * the other test green.
+   */
+  it('carries the pointer-cursor base rule for the Tailwind-free route', () => {
+    const inBaseLayer = BASE_CURSOR_RULE.test(baseLayerOf(globalCss()))
+
+    expect(`base cursor rule in @layer base: ${inBaseLayer}`).toBe(
+      'base cursor rule in @layer base: true'
+    )
+  })
+
+  /**
+   * Accordion's trigger sets `cursor-default` on purpose and has to keep it.
+   *
+   * That works only because the rule is layered. `button:not(:disabled)` is
+   * specificity (0,1,1) against `.cursor-default`'s (0,1,0), so an unlayered
+   * copy would outrank the utility and turn the trigger into a pointer — with
+   * every other assertion in this file still green, since the rule would still
+   * be present and the layer statement would still read the same.
+   *
+   * Hence counting: every occurrence in the file must be inside `@layer base`,
+   * and base must precede utilities in the order statement Tailwind emits.
+   */
+  it('layers that rule below utilities, so cursor-default still wins', () => {
+    const css = globalCss()
+
+    expect(
+      `unlayered copies: ${countRule(css) - countRule(baseLayerOf(css))}`
+    ).toBe('unlayered copies: 0')
+
+    // The statement that names `utilities`, not simply the first one — the file
+    // opens with a standalone `@layer properties;`.
+    const order = [...css.matchAll(/@layer ([^;{]+);/g)]
+      .map(([, names]) => names.split(', '))
+      .find(names => names.includes('utilities'))
+
+    expect(order).toBeDefined()
+    expect(order!.indexOf('base')).toBeGreaterThan(-1)
+    expect(order!.indexOf('base')).toBeLessThan(order!.indexOf('utilities'))
+    expect(css).toContain('.cursor-default {')
   })
 
   it('is resolvable through the exports map', () => {
