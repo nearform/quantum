@@ -14,6 +14,7 @@
   "scripts": {
     "prebuild": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "tsup",
+    "prepack": "npm run build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "jest",
@@ -81,7 +82,7 @@
   "peerDependencies": {
     "react": "^18.2.0 || ^19",
     "react-dom": "^18.2.0 || ^19",
-    "tailwindcss": "^4.0.0"
+    "tailwindcss": "^4.1.18"
   },
   "peerDependenciesMeta": {
     "tailwindcss": {

@@ -104,6 +104,14 @@ const pkg = JSON.parse(
   fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf8')
 )
 
+/**
+ * A Tailwind candidate that appears nowhere in this repo except this file, used
+ * to prove `src/global.css` is not scanning `__tests__/`. Keep it meaningless
+ * and keep it here: if it ever becomes a class a component might plausibly use,
+ * it stops being a canary. See the scope test at the bottom of this file.
+ */
+const SCOPE_SENTINEL = 'bg-[#c0ffee]'
+
 describeBuilt('published artifact loads in a real Tailwind build', () => {
   const exported = pkg.exports['./tailwind-plugin']
 
@@ -223,15 +231,21 @@ describeBuilt('published global.css carries the Quantum theme', () => {
    * Without that, v4's automatic source detection scans the whole repo and the
    * published stylesheet picks up classes from `stories/` and from this very
    * file — `.text-primary-80` and `.stroke-2` shipped to consumers that way.
-   * Both are named in `CANDIDATES` above and neither appears anywhere under
-   * `src/`, which makes them a canary: if the scope regresses they reappear
-   * here.
+   *
+   * The canary is a sentinel that exists nowhere else in the repo rather than a
+   * real utility. Probing with a real one would be self-defeating: it only works
+   * while no component happens to use it, so the day someone writes
+   * `text-primary-80` in `src/` the assertion has to be deleted and the
+   * regression it guards goes unnoticed. The arbitrary colour can never be
+   * legitimately used, and the first assertion keeps the second from quietly
+   * becoming vacuous if the sentinel is ever edited out.
    */
   it('scans only src/, so stories and tests cannot reach consumers', () => {
-    const css = globalCss()
+    expect(fs.readFileSync(__filename, 'utf8')).toContain(SCOPE_SENTINEL)
 
-    expect(css).not.toContain('.text-primary-80')
-    expect(css).not.toContain('.stroke-2')
+    // Matches the emitted value, so a variant form (`hover:bg-[#c0ffee]`) is
+    // caught too — its selector would not contain the bare candidate.
+    expect(globalCss()).not.toContain('c0ffee')
   })
 
   it('is resolvable through the exports map', () => {

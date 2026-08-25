@@ -14,9 +14,18 @@ npm install --save @nearform/quantum
 
 #### With Tailwind
 
-> **Tailwind v4 is required.** Our components use `outline-hidden` and
-> `rounded-xs`, which only exist in v4. On Tailwind v3 they resolve to nothing,
-> so focus outlines are not reset and small radii render square.
+> **Tailwind 4.1.18 or newer is required.**
+>
+> Our components use `outline-hidden` and `rounded-xs`, which only exist in v4.
+> On Tailwind v3 they resolve to nothing, so focus outlines are not reset and
+> small radii render square.
+>
+> The `4.1.18` floor is not cosmetic: Tailwind versions from `4.0.0` to `4.1.17`
+> drop every theme key containing an uppercase letter
+> ([tailwindlabs/tailwindcss#18114](https://github.com/tailwindlabs/tailwindcss/issues/18114)).
+> On those versions our `brandGreen` tokens and the `slideDown`/`slideUp`
+> animations vanish with no error, so focus rings and the Accordion animation
+> silently stop working while lowercase tokens keep resolving.
 >
 > **Tailwind v4 also raises the browser baseline** to Safari 16.4, Chrome 111
 > and Firefox 128. If you need to support anything older, stay on the previous
@@ -36,10 +45,16 @@ system. Tailwind v4's `dark:` variant defaults to a `prefers-color-scheme` media
 query, so each route below pins it back to the class — `@custom-variant` in the
 CSS-first route, `darkMode: 'class'` in the JS-config ones.
 
+All the examples below assume `index.css` sits one level down from your project
+root, e.g. `src/index.css`, next to a `tailwind.config.*` at the root. Both the
+`@source` path and the `@config` path are resolved **relative to the CSS file**,
+so adjust the `../` if your layout differs — an `@source` that points outside
+the project matches nothing and reports no error.
+
 Tailwind v4 (CSS-first):
 
 ```css
-/* index.css */
+/* src/index.css */
 @import 'tailwindcss';
 @plugin '@nearform/quantum/tailwind-plugin';
 @source '../node_modules/@nearform/quantum';
@@ -52,9 +67,9 @@ v3, v4 loads a JS config only when a CSS entrypoint asks for it, so the
 our tokens are emitted:
 
 ```css
-/* index.css */
+/* src/index.css */
 @import 'tailwindcss';
-@config './tailwind.config.mjs';
+@config '../tailwind.config.mjs';
 ```
 
 ```js
@@ -62,20 +77,26 @@ our tokens are emitted:
 import quantumPlugin from '@nearform/quantum/tailwind-plugin'
 export default {
   //...tailwind config
-  content: ['./node_modules/@nearform/quantum/**/*.js'],
+  content: ['./node_modules/@nearform/quantum/dist'],
   plugins: [quantumPlugin],
   darkMode: 'class'
 }
 ```
+
+Point `content` at the directory, as above. Do **not** rewrite it as a
+`**/*.js` glob: Tailwind applies your project's gitignore rules while expanding
+a `**` pattern, so a `dist` entry in your `.gitignore` — the default in a Vite
+scaffold — makes it skip the very directory our classes live in, and every
+Quantum utility silently disappears from the output.
 
 From a CommonJS config the plugin arrives as the `default` property, because the
 CJS build uses `exports.default`. Omitting `.default` fails at build time with
 `is not a function`:
 
 ```css
-/* index.css */
+/* src/index.css */
 @import 'tailwindcss';
-@config './tailwind.config.cjs';
+@config '../tailwind.config.cjs';
 ```
 
 ```js
@@ -83,7 +104,7 @@ CJS build uses `exports.default`. Omitting `.default` fails at build time with
 const quantumPlugin = require('@nearform/quantum/tailwind-plugin').default
 module.exports = {
   //...tailwind config
-  content: ['./node_modules/@nearform/quantum/**/*.js'],
+  content: ['./node_modules/@nearform/quantum/dist'],
   plugins: [quantumPlugin],
   darkMode: 'class'
 }
