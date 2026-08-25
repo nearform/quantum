@@ -86,10 +86,11 @@ if (!fs.existsSync(distPlugin)) {
   )
 }
 
+const pkg = JSON.parse(
+  fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf8')
+)
+
 describeBuilt('published artifact loads in a real Tailwind build', () => {
-  const pkg = JSON.parse(
-    fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf8')
-  )
   const exported = pkg.exports['./tailwind-plugin']
 
   it('exposes both an ESM and a CJS entry point', () => {
@@ -132,5 +133,59 @@ describeBuilt('published artifact loads in a real Tailwind build', () => {
   it('does not bundle Tailwind into the plugin', () => {
     const source = fs.readFileSync(distPlugin, 'utf8')
     expect(source).not.toContain('node_modules/tailwindcss/dist')
+  })
+
+  // `tailwindcss` is marked external in tsup.config.ts, so the published plugin
+  // resolves `tailwindcss/plugin` from the *consumer's* tree. npm hoists, which
+  // is why a tarball smoke test passes either way; pnpm and Yarn PnP do not, and
+  // the plugin dies there with "Cannot find module 'tailwindcss/defaultTheme'"
+  // unless the dependency is declared.
+  it('declares the externalised Tailwind as a peer dependency', () => {
+    expect(pkg.peerDependencies.tailwindcss).toBeDefined()
+    // Optional: the Tailwind-free `dist/global.css` route needs no Tailwind.
+    expect(pkg.peerDependenciesMeta.tailwindcss.optional).toBe(true)
+  })
+})
+
+/**
+ * `src/global.css` is a tsup entry, so it ships as `dist/global.css` — the
+ * stylesheet the README's Tailwind-free route imports.
+ *
+ * Under v4 a JS config is loaded only when a CSS entrypoint asks for it, so
+ * without an `@config` this file still compiles to preflight plus the default
+ * theme and every Quantum token silently vanishes. It is not empty and it does
+ * not error, so neither `npm run build` nor a file-exists check notices.
+ */
+describeBuilt('published global.css carries the Quantum theme', () => {
+  const globalCss = () =>
+    fs.readFileSync(path.join(repoRoot, 'dist/global.css'), 'utf8')
+
+  it('emits a utility for every theme key the config contributes', () => {
+    const css = globalCss()
+
+    for (const [candidate, themeKey] of Object.entries(CANDIDATES)) {
+      expect(
+        `${themeKey} (${candidate}): ${css.includes(`.${candidate}`)}`
+      ).toBe(`${themeKey} (${candidate}): true`)
+    }
+  })
+
+  it('resolves brand colours to their configured values', () => {
+    expect(globalCss()).toContain('#03e5a4')
+  })
+
+  // `darkMode: 'class'` lives in tailwind.config.ts, so a class-based `dark:`
+  // is second proof the config was actually loaded — v4 defaults to a
+  // `prefers-color-scheme` media query, which would make the components' dark
+  // mode operating-system dependent.
+  it('drives dark mode from the .dark class, not the OS', () => {
+    const css = globalCss()
+
+    expect(css).toContain(':is(.dark')
+    expect(css).not.toContain('prefers-color-scheme: dark')
+  })
+
+  it('is resolvable through the exports map', () => {
+    expect(pkg.exports['./dist/global.css']).toBe('./dist/global.css')
   })
 })

@@ -18,7 +18,7 @@ npm install --save @nearform/quantum
 > `rounded-xs`, which only exist in v4. On Tailwind v3 they resolve to nothing,
 > so focus outlines are not reset and small radii render square.
 
-The plugin supplies our colour, shadow, font, stroke-width and animation tokens. To ensure dark mode of the components isn't operating system dependent, add the `darkMode: "class"` entry to the config.
+The plugin supplies our colour, shadow, font, stroke-width and animation tokens.
 
 You must also point Tailwind at this package so it scans our components for the
 classes they use. **The plugin does not do this for you** — earlier versions
@@ -27,6 +27,11 @@ with source detection, and source detection skips `node_modules` by default. If
 you omit this step the build succeeds and every Quantum utility is silently
 missing from the output.
 
+Our dark mode must be driven by a `.dark` class rather than the operating
+system. Tailwind v4's `dark:` variant defaults to a `prefers-color-scheme` media
+query, so each route below pins it back to the class — `@custom-variant` in the
+CSS-first route, `darkMode: 'class'` in the JS-config ones.
+
 Tailwind v4 (CSS-first):
 
 ```css
@@ -34,9 +39,19 @@ Tailwind v4 (CSS-first):
 @import 'tailwindcss';
 @plugin '@nearform/quantum/tailwind-plugin';
 @source '../node_modules/@nearform/quantum';
+@custom-variant dark (&:is(.dark *));
 ```
 
-Tailwind v4 with a JS config:
+Tailwind v4 with a JS config. **The config file is inert on its own.** Unlike
+v3, v4 loads a JS config only when a CSS entrypoint asks for it, so the
+`@config` line below is required — without it the build succeeds and none of
+our tokens are emitted:
+
+```css
+/* index.css */
+@import 'tailwindcss';
+@config './tailwind.config.mjs';
+```
 
 ```js
 // tailwind.config.mjs
@@ -52,6 +67,12 @@ export default {
 From a CommonJS config the plugin arrives as the `default` property, because the
 CJS build uses `exports.default`. Omitting `.default` fails at build time with
 `is not a function`:
+
+```css
+/* index.css */
+@import 'tailwindcss';
+@config './tailwind.config.cjs';
+```
 
 ```js
 // tailwind.config.cjs
@@ -81,7 +102,6 @@ npm run test
 ```
 
 To run Storybook tests for the project, run:
-
 
 ```js
 npm run test-storybook

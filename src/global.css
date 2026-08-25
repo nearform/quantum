@@ -1,2 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-@import "tailwindcss";
+@import 'tailwindcss';
+/* Tailwind v4 only loads a JS config when a CSS entrypoint asks for it. Without
+   this line the theme block (colors, boxShadow, fontFamily, strokeWidth, the
+   animations) is out of scope and the published dist/global.css compiles to
+   preflight plus the default theme — no Quantum utilities at all. Must stay
+   after the `@import`; v4 drops an `@import` that follows an `@config`. */
+@config '../tailwind.config.ts';
