@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-@import 'tailwindcss';
+/* `source(none)` disables v4's automatic source detection, which would
+   otherwise scan the whole repo and pull classes out of `stories/` and
+   `__tests__/` into the published stylesheet — so editing a story or renaming a
+   test probe would change what consumers receive. The explicit `@source`
+   restores the v3 guarantee that `src/` is the exhaustive source list, as the
+   `content` glob in tailwind.config.ts used to be.
+   (Careful editing this comment: a `*` followed by a `/` ends it early.) */
+@import 'tailwindcss' source(none);
+@source '../src';
 /* Tailwind v4 only loads a JS config when a CSS entrypoint asks for it. Without
    this line the theme block (colors, boxShadow, fontFamily, strokeWidth, the
    animations) is out of scope and the published dist/global.css compiles to

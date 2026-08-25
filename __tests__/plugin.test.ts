@@ -18,41 +18,55 @@ const loadQuantumPlugin = async () => ({
 })
 
 /**
- * A representative class per theme key the plugin contributes, so a dropped or
- * renamed key fails loudly rather than silently emitting nothing.
+ * A representative class per theme key the plugin contributes, mapped to the
+ * declaration only the Quantum config can produce.
+ *
+ * The declaration, not the selector, is the assertion that means something.
+ * Core Tailwind 4 emits `.stroke-2` unaided through bare-value support, so a
+ * selector-only check stays green with `theme.strokeWidth` deleted while every
+ * stroke silently loses its unit (`2px` -> `2`). The same trap applies to any
+ * candidate core can emit without help.
  */
 const CANDIDATES = {
-  'bg-brandGreen-100': 'colors',
-  'text-primary-80': 'colors',
-  'border-brandGreen-30': 'colors',
-  'shadow-brandGreen': 'boxShadow',
-  'stroke-2': 'strokeWidth',
-  'animate-slideDown': 'animation'
+  'bg-brandGreen-100': {
+    themeKey: 'colors',
+    declaration: 'background-color: #03e5a4'
+  },
+  'text-primary-80': { themeKey: 'colors', declaration: 'color: #0c3d60' },
+  'border-brandGreen-30': {
+    themeKey: 'colors',
+    declaration: 'border-color: #b2f7e1'
+  },
+  'shadow-brandGreen': {
+    themeKey: 'boxShadow',
+    declaration: '--tw-shadow: 0px 0px 0px 4px var(--tw-shadow-color, #03e5a4)'
+  },
+  'font-sans': { themeKey: 'fontFamily', declaration: "font-family: 'Inter'," },
+  'stroke-1': { themeKey: 'strokeWidth', declaration: 'stroke-width: 1px' },
+  'stroke-2': { themeKey: 'strokeWidth', declaration: 'stroke-width: 2px' },
+  'animate-slideDown': {
+    themeKey: 'animation',
+    declaration: 'animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)'
+  }
 } as const
 
 describe('tailwind plugin supplies the Quantum theme', () => {
-  it('emits a utility for every theme key it contributes', async () => {
+  it('emits the configured declaration for every theme key it contributes', async () => {
     const compiler = await compile('@plugin "quantum";\n@tailwind utilities;', {
       base: repoRoot,
       loadModule: loadQuantumPlugin
     })
 
+    // One build call for all candidates: the compiler accumulates across calls.
     const css = compiler.build(Object.keys(CANDIDATES))
 
-    for (const [candidate, themeKey] of Object.entries(CANDIDATES)) {
-      expect(`${themeKey}: ${css.includes(`.${candidate}`)}`).toBe(
-        `${themeKey}: true`
+    for (const [candidate, { themeKey, declaration }] of Object.entries(
+      CANDIDATES
+    )) {
+      expect(`${themeKey} (${candidate}): ${css.includes(declaration)}`).toBe(
+        `${themeKey} (${candidate}): true`
       )
     }
-  })
-
-  it('resolves brand colours to their configured values', async () => {
-    const compiler = await compile('@plugin "quantum";\n@tailwind utilities;', {
-      base: repoRoot,
-      loadModule: loadQuantumPlugin
-    })
-
-    expect(compiler.build(['bg-brandGreen-100'])).toContain('#03e5a4')
   })
 
   it('does not mutate the consumer content config', () => {
@@ -160,18 +174,35 @@ describeBuilt('published global.css carries the Quantum theme', () => {
   const globalCss = () =>
     fs.readFileSync(path.join(repoRoot, 'dist/global.css'), 'utf8')
 
-  it('emits a utility for every theme key the config contributes', () => {
+  /**
+   * One declaration per theme key, as it appears in the *built* stylesheet.
+   *
+   * Separate from `CANDIDATES` above on purpose. These must be classes `src/`
+   * genuinely uses, and `src/` uses most of them only in variant form
+   * (`focus-within:shadow-brandGreen`, `data-[state=open]:animate-slideDown`),
+   * so the selector text belongs to the component while the declaration is what
+   * the config contributes. The built file also goes through Lightning CSS,
+   * which normalises `'Inter'` to `"Inter"` — hence its own expectations rather
+   * than reusing the plugin-level ones.
+   *
+   * Each of these is absent when the `@config` is removed from src/global.css.
+   */
+  const THEME_DECLARATIONS = {
+    colors: 'color: #f4f8fa',
+    boxShadow: '--tw-shadow: 0px 0px 0px 4px var(--tw-shadow-color, #03e5a4)',
+    fontFamily: '"Inter",',
+    strokeWidth: 'stroke-width: 1px',
+    animation: 'animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)'
+  } as const
+
+  it('emits the configured declaration for every theme key', () => {
     const css = globalCss()
 
-    for (const [candidate, themeKey] of Object.entries(CANDIDATES)) {
-      expect(
-        `${themeKey} (${candidate}): ${css.includes(`.${candidate}`)}`
-      ).toBe(`${themeKey} (${candidate}): true`)
+    for (const [themeKey, declaration] of Object.entries(THEME_DECLARATIONS)) {
+      expect(`${themeKey}: ${css.includes(declaration)}`).toBe(
+        `${themeKey}: true`
+      )
     }
-  })
-
-  it('resolves brand colours to their configured values', () => {
-    expect(globalCss()).toContain('#03e5a4')
   })
 
   // `darkMode: 'class'` lives in tailwind.config.ts, so a class-based `dark:`
@@ -183,6 +214,24 @@ describeBuilt('published global.css carries the Quantum theme', () => {
 
     expect(css).toContain(':is(.dark')
     expect(css).not.toContain('prefers-color-scheme: dark')
+  })
+
+  /**
+   * `src/global.css` uses `source(none)` plus an explicit `@source '../src'`, so
+   * `src/` is the exhaustive source list as it was under v3's `content`.
+   *
+   * Without that, v4's automatic source detection scans the whole repo and the
+   * published stylesheet picks up classes from `stories/` and from this very
+   * file — `.text-primary-80` and `.stroke-2` shipped to consumers that way.
+   * Both are named in `CANDIDATES` above and neither appears anywhere under
+   * `src/`, which makes them a canary: if the scope regresses they reappear
+   * here.
+   */
+  it('scans only src/, so stories and tests cannot reach consumers', () => {
+    const css = globalCss()
+
+    expect(css).not.toContain('.text-primary-80')
+    expect(css).not.toContain('.stroke-2')
   })
 
   it('is resolvable through the exports map', () => {

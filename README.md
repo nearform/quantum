@@ -17,6 +17,10 @@ npm install --save @nearform/quantum
 > **Tailwind v4 is required.** Our components use `outline-hidden` and
 > `rounded-xs`, which only exist in v4. On Tailwind v3 they resolve to nothing,
 > so focus outlines are not reset and small radii render square.
+>
+> **Tailwind v4 also raises the browser baseline** to Safari 16.4, Chrome 111
+> and Firefox 128. If you need to support anything older, stay on the previous
+> release of this library.
 
 The plugin supplies our colour, shadow, font, stroke-width and animation tokens.
 
