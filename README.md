@@ -30,8 +30,17 @@ npm install --save @nearform/quantum
 > **Tailwind v4 also raises the browser baseline** to Safari 16.4, Chrome 111
 > and Firefox 128. If you need to support anything older, stay on the previous
 > release of this library.
+>
+> **`hover:` styles no longer apply on touch devices.** v4 gates the `hover`
+> variant behind `@media (hover: hover)`, which removes the sticky-hover-after-tap
+> behaviour v3 had. Our hover styling is heaviest in `Button` and `Pagination`.
 
 The plugin supplies our colour, shadow, font, stroke-width and animation tokens.
+It also restores `cursor: pointer` on enabled `button` and `[role="button"]`
+elements: v3's preflight set that and v4's does not, so without it every button
+falls back to an arrow. It is registered in the `base` layer, so any `cursor-*`
+utility you set still wins over it. Note it reaches your own buttons too, as v3's
+preflight did — though unlike v3 it leaves disabled buttons alone.
 
 You must also point Tailwind at this package so it scans our components for the
 classes they use. **The plugin does not do this for you** — earlier versions
@@ -83,11 +92,25 @@ export default {
 }
 ```
 
-Point `content` at the directory, as above. Do **not** rewrite it as a
-`**/*.js` glob: Tailwind applies your project's gitignore rules while expanding
-a `**` pattern, so a `dist` entry in your `.gitignore` — the default in a Vite
-scaffold — makes it skip the very directory our classes live in, and every
-Quantum utility silently disappears from the output.
+Point `content` at the directory, as above. The form to avoid is the one where a
+`**` has to traverse _into_ `dist`:
+
+```js
+// Do not do this
+content: ['./node_modules/@nearform/quantum/**/*.js']
+```
+
+Tailwind applies your `.gitignore` rules while expanding a `**` pattern, so a
+`dist` entry — the default in a Vite scaffold — makes it skip the very directory
+our classes live in, and every Quantum utility silently disappears from the
+output. Measured against this package at Tailwind `4.1.18` and `4.3.2`, that
+glob produces 4.5 kB with no `brandGreen` where the directory form produces
+55 kB with it, and reports no error either way. It applies whether or not the
+project is a git repository — the ignore file alone is enough.
+
+Naming `dist` yourself avoids it, either as the bare directory above or as
+`'./node_modules/@nearform/quantum/dist/**/*.js'`. The same split applies to
+`@source` in the CSS-first route.
 
 From a CommonJS config the plugin arrives as the `default` property, because the
 CJS build uses `exports.default`. Omitting `.default` fails at build time with
