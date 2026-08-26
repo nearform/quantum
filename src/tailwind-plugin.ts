@@ -1,22 +1,23 @@
 import quantumConfig from '../tailwind.config'
+import baseStyles from './tailwind-base'
 import plugin from 'tailwindcss/plugin'
-import path from 'path'
-import { Config } from 'tailwindcss'
 
+/**
+ * Supplies the Quantum design tokens (colors, shadows, fonts, stroke widths and
+ * animations) to a consuming Tailwind build.
+ *
+ * Tailwind v4 replaced the `content` array with source detection, so this plugin
+ * no longer registers Quantum's own files for scanning. Consumers must point at
+ * the package themselves — see the "Tailwind setup" section of the README.
+ *
+ * The base styles are registered here rather than in `src/global.css` because
+ * this is the only entrypoint the Tailwind routes load: a consumer using
+ * `@plugin` or `plugins: [quantumPlugin]` never imports `dist/global.css`.
+ * `tailwind.config.ts` registers the same object for the routes that do.
+ */
 export default plugin(
-  ({ config }: { config: () => Config }) => {
-    const twConfig = config()
-    const quantumPkgLoc = path.join(__dirname, 'index.js')
-
-    if (Array.isArray(twConfig.content)) {
-      if (!twConfig.content.includes(quantumPkgLoc)) {
-        twConfig.content.push(quantumPkgLoc)
-      }
-    } else {
-      if (!twConfig.content.files.includes(quantumPkgLoc)) {
-        twConfig.content.files.push(quantumPkgLoc)
-      }
-    }
+  ({ addBase }) => {
+    addBase(baseStyles)
   },
   {
     theme: {

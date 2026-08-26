@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-@config "./tailwind.config.js";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Scoped for the same reason as src/global.css: without `source(none)` v4 scans
+   the whole repo, so the preview also renders classes that only exist in
+   `__tests__/`. Storybook deliberately covers `stories/` as well as `src/`,
+   which the published stylesheet does not — that difference is the point of
+   listing both explicitly. */
+@import 'tailwindcss' source(none);
+@source '../src';
+@source '../stories';
+@config './tailwind.config.js';

@@ -15,7 +15,7 @@ const chipVariants = cva(
       'font-semibold',
       'leading-normal',
       'text-foreground',
-      'focus-visible:outline-none',
+      'focus-visible:outline-hidden',
       'focus-visible:shadow-blue'
     ],
     [

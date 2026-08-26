@@ -1,12 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 import colors from './src/colors'
 import defaultTheme from 'tailwindcss/defaultTheme'
+import plugin from 'tailwindcss/plugin'
 import animations from './src/animations'
+import baseStyles from './src/tailwind-base'
 
 export default {
   content: ['./src/**/*.tsx'],
   darkMode: 'class',
-  plugins: [],
+  // Registers Quantum's base styles for the two entrypoints that load this
+  // config through `@config`: src/global.css (published as dist/global.css) and
+  // .storybook/global.css. src/tailwind-plugin.ts registers the same object for
+  // consumers, and cannot be listed here because it imports this file.
+  plugins: [plugin(({ addBase }) => addBase(baseStyles))],
   theme: {
     colors: colors,
     boxShadow: {
