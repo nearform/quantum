@@ -12,5 +12,9 @@
       "@/*": ["./src/*"]
     }
   },
+  // Explicit, because the default `include` glob skips dot-prefixed
+  // directories. `.storybook` needs the spelled-out glob too: the bare
+  // directory shorthand is subject to the same skip and matches nothing.
+  "include": ["src", "stories", "__tests__", ".storybook/**/*", "*.ts"],
   "exclude": ["node_modules", "dist", "storybook-static"]
 }
