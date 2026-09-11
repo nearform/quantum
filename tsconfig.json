@@ -11,5 +11,10 @@
     "paths": {
       "@/*": ["./src/*"]
     }
-  }
+  },
+  // The default `include` glob skips dot-prefixed directories, so
+  // `.storybook` needs a spelled-out glob of its own. The bare directory
+  // shorthand would not do it -- that is subject to the same skip.
+  "include": ["**/*", ".storybook/**/*"],
+  "exclude": ["node_modules", "dist", "storybook-static"]
 }

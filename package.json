@@ -17,6 +17,7 @@
     "prepack": "npm run build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
     "test": "jest",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",

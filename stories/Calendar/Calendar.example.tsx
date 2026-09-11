@@ -9,7 +9,7 @@ export function CalendarDemo({
   mode = 'single',
   numberOfMonths = 1
 }: CalendarProps) {
-  if (mode === 'single' || mode === 'default') {
+  if (mode === 'single') {
     const [date, setDate] = React.useState<Date | undefined>(new Date())
 
     return <Calendar mode={mode} selected={date} onSelect={setDate} />
