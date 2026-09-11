@@ -36,7 +36,7 @@ const Link = React.forwardRef<HTMLAnchorElement, Props>(
           if (selected) {
             e.preventDefault()
           } else {
-            onClick && onClick(e)
+            onClick?.(e)
           }
         }}
         {...props}
