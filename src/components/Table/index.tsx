@@ -56,7 +56,8 @@ const TableHead = React.forwardRef<
 ))
 TableHead.displayName = 'TableHead'
 interface TableBodyProps
-  extends React.HTMLAttributes<HTMLTableSectionElement>,
+  extends
+    React.HTMLAttributes<HTMLTableSectionElement>,
     VariantProps<typeof tableBodyVariants> {}
 
 const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(

@@ -61,8 +61,7 @@ const textareaVariants = cva(
   }
 )
 
-interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   variant: 'primary' | 'error' | 'success' | 'disabled'
   labelText?: string
   helpText?: string
