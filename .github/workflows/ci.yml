@@ -31,9 +31,26 @@ jobs:
             "npx http-server storybook-static --port 6006 --silent" \
             "npx wait-on tcp:6006 && yarn test-storybook"
 
+  typecheck-react19:
+    # `peerDependencies` allows react 18 or 19, but the tree can only hold one
+    # `@types/react` and it has to be the 18 line the published dist/index.d.ts
+    # is emitted from. This job checks the other half of the peer range. See the
+    # comments in tsconfig.react19.json for why the 19 types are installed out of
+    # tree instead of being declared as npm aliases.
+    name: Typecheck against React 19 types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+      - run: |
+          npm ci
+          npm run typecheck:react19
+
   automerge:
     name: Merge dependabot's PRs
-    needs: test
+    needs: [test, typecheck-react19]
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write

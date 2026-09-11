@@ -10,3 +10,6 @@ node_modules
 .DS_Store
 dist/
 storybook-static/
+
+# React 19 types, installed out of tree by `npm run typecheck:react19`
+.react19-types/
