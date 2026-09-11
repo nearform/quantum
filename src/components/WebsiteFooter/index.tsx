@@ -115,7 +115,7 @@ const FooterStatement = React.forwardRef<HTMLDivElement, FooterStatementProps>(
   )
 )
 
-interface LinkRowProps extends React.ComponentPropsWithoutRef<'div'> {}
+type LinkRowProps = React.ComponentPropsWithoutRef<'div'>
 
 const LinkRow = React.forwardRef<HTMLDivElement, LinkRowProps>(
   ({ className, ...props }, ref) => (

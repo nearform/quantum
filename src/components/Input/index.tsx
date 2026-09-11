@@ -84,7 +84,6 @@ type InputType =
   | 'time'
   | 'url'
   | 'week'
-  // eslint-disable-next-line @typescript-eslint/ban-types
   | (string & {})
 
 interface InputProps extends React.HTMLProps<HTMLInputElement> {
