@@ -18,7 +18,6 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
-    "typecheck:react19": "npm install --prefix .react19-types --no-audit --no-fund --silent @types/react@^19 @types/react-dom@^19 && tsc --noEmit -p tsconfig.react19.json",
     "test": "jest",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
