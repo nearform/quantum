@@ -80,7 +80,8 @@ const triggerVariants = cva(
 )
 
 export interface TriggerProps
-  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
+  extends
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
     VariantProps<typeof triggerVariants> {}
 
 const SelectTrigger = React.forwardRef<
