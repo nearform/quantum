@@ -4,6 +4,16 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    # @types/node tracks the CI runtime; @types/react and @types/react-dom track
+    # the support floor dist/index.d.ts is emitted from. Majors move those
+    # targets, so they need a human. Minors and patches still automerge.
+    ignore:
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/react-dom'
+        update-types: ['version-update:semver-major']
   - package-ecosystem: github-actions
     directory: /
     schedule:
