@@ -1,5 +1,12 @@
 import { create } from 'storybook/theming/create'
+import { themes } from 'storybook/theming'
 import colors from '../src/colors'
+
+export const darkTheme = {
+  ...themes.dark,
+  brandTitle: 'Quantum',
+  brandImage: './quantum-logo-dark.png'
+}
 
 export default create({
   base: 'light',
