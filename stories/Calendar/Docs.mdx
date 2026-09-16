@@ -89,23 +89,54 @@ There are no extensions from React Day Pickers props to our own. In this sense, 
 'use client'
 
 import * as React from 'react'
-import { DayPicker } from 'react-day-picker'
+import { Chevron, DayPicker } from 'react-day-picker'
 import { cn } from '@/lib/utils'
-import ArrowLeftIcon from '@/assets/build/arrow-left.icon'
-import ArrowRightIcon from '@/assets/build/arrow-right.icon'
+import { BsArrowLeft, BsArrowRight } from '@/assets'
 import { cva } from 'class-variance-authority'
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
+/**
+ * Keys match react-day-picker v9's `UI`, `DayFlag` and `SelectionState` enums.
+ * v9 moved the day modifiers (`selected`, `outside`, the range states, ...)
+ * onto the `<td>` that `day` styles, and introduced `day_button` for the
+ * `<button>` inside it — so the selection surface lives on `day`'s element and
+ * `day_button` only carries sizing, typography and focus.
+ */
 const calendarVariants = cva([], {
   variants: {
     component: {
-      months: ['flex', 'flex-col', 'gap-2'],
-      month: ['flex', 'flex-col', 'gap-2'],
-      caption: ['flex justify-center py-0.5 relative items-center'],
+      months: ['relative', 'flex', 'flex-row', 'gap-4'],
+      month: ['flex', 'w-full', 'flex-col', 'gap-2'],
+      month_caption: ['flex', 'h-7', 'items-center', 'justify-center'],
       caption_label: ['text-sm', 'font-medium'],
-      nav: ['h-7', 'bg-transparent', 'dark:text-foreground-muted-dark'],
-      nav_button: ['h-7', 'w-7', 'bg-transparent', 'p-0'],
-      head_cell: [
+      // v9 renders `nav` as a sibling of the months rather than inside the
+      // caption, so it is positioned over the caption row of `months` here.
+      nav: [
+        'absolute',
+        'inset-x-0',
+        'top-0',
+        'z-10',
+        'flex',
+        'h-7',
+        'items-center',
+        'justify-between',
+        'bg-transparent',
+        'dark:text-foreground-muted-dark'
+      ],
+      nav_button: [
+        'flex',
+        'h-7',
+        'w-7',
+        'items-center',
+        'justify-center',
+        'rounded-lg',
+        'bg-transparent',
+        'p-0',
+        'outline-hidden',
+        'focus-visible:shadow-blue',
+        'aria-disabled:opacity-50'
+      ],
+      weekday: [
         'text-foreground-muted',
         'dark:text-foreground-muted-dark',
         'px-1',
@@ -115,9 +146,8 @@ const calendarVariants = cva([], {
         'text-xs',
         'h-[34px]'
       ],
-      cell: [
+      day: [
         [
-          'overflow-none',
           'w-9',
           'p-0',
           'flex',
@@ -126,41 +156,55 @@ const calendarVariants = cva([], {
           'text-center',
           'gap-1',
           'text-sm',
-          'relative'
+          'relative',
+          'rounded-lg'
         ],
-        [
-          'focus-within:relative',
-          'focus-within:z-20',
-          'focus-visible:shadow-blue'
-        ]
+        ['focus-within:relative', 'focus-within:z-20']
       ],
-      day: cn([
-        'aria-selected:bg-accent',
+      day_button: [
         'rounded-lg',
-        'dark:aria-selected:bg-brandGreen-100',
         'px-1',
         'w-full',
         'py-2',
         'h-[34px]',
         'flex',
         'flex-col',
+        'justify-center',
         'text-sm',
         'font-bold',
-        'aria-selected:opacity-100',
         'items-center',
         'shrink-0',
         'focus-visible:shadow-blue',
-        'outline-hidden'
-      ]),
-      day_selected: ['text-foreground-inverse'],
-      day_outside: [
-        'day-outside',
-        'text-muted-foreground',
-        'opacity-50 aria-selected:bg-accent-alt'
+        'outline-hidden',
+        'disabled:cursor-not-allowed'
+      ],
+      selected: [
+        'bg-accent',
+        'text-foreground-inverse',
+        'dark:bg-brandGreen-100',
+        'dark:text-foreground-inverse-dark'
+      ],
+      outside: ['text-foreground-muted', 'dark:text-foreground-muted-dark'],
+      disabled: [
+        'text-foreground-muted',
+        'dark:text-foreground-muted-dark',
+        'opacity-50'
       ]
     }
   }
 })
+
+/**
+ * Range days always carry `selected` as well, and both sets land on the same
+ * `<td>`. `!` pins the range surface above `selected`'s rather than leaving the
+ * winner to the order Tailwind happens to emit the two backgrounds in.
+ */
+const rangeEdge = [
+  'bg-accent!',
+  'text-foreground-inverse!',
+  'dark:bg-blue-400!',
+  'dark:text-foreground-inverse-dark!'
+]
 
 function Calendar({
   className,
@@ -172,43 +216,48 @@ function Calendar({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        'p-4 rounded-lg bg-background-alt dark:bg-background-alt-dark dark:text-foreground-inverse shadow-[0_4px_6px_0px_rgba(0,0,0,0.08)] flex [&>*]:flex-row',
+        'p-4 rounded-lg bg-background-alt dark:bg-background-alt-dark dark:text-foreground-inverse shadow-[0_4px_6px_0px_rgba(0,0,0,0.08)] flex w-fit',
         className
       )}
       classNames={{
         months: calendarVariants({ component: 'months' }),
-        month: calendarVariants({ component: 'months' }),
-        caption: calendarVariants({ component: 'caption' }),
+        month: calendarVariants({ component: 'month' }),
+        month_caption: calendarVariants({ component: 'month_caption' }),
         caption_label: calendarVariants({ component: 'caption_label' }),
         nav: calendarVariants({ component: 'nav' }),
-        nav_button: calendarVariants({ component: 'nav_button' }),
-        nav_button_previous: 'absolute left-1',
-        nav_button_next: 'absolute right-0',
-        table: 'w-full border-collapse space-y-0',
-        head_row: 'flex',
-        head_cell: calendarVariants({ component: 'head_cell' }),
-        row: 'flex w-full',
-        cell: calendarVariants({ component: 'cell' }),
+        button_previous: calendarVariants({ component: 'nav_button' }),
+        button_next: calendarVariants({ component: 'nav_button' }),
+        month_grid: 'w-full border-collapse',
+        weekdays: 'flex',
+        weekday: calendarVariants({ component: 'weekday' }),
+        week: 'flex w-full',
         day: calendarVariants({ component: 'day' }),
-        day_range_end:
-          'day-range-end bg-accent dark:bg-blue-[400] rounded-r-full',
-        day_range_start:
-          'day-range-start rounded-l-full bg-accent dark:bg-blue-[400] text-foreground-inverse',
-        day_selected: calendarVariants({ component: 'day_selected' }),
-        day_outside: calendarVariants({ component: 'day_outside' }),
-        day_disabled: 'text-muted-foreground opacity-50',
-        day_range_middle:
-          'day-range-middle aria-selected:bg-accent-hover-dark dark:aria-selected:bg-accent-alt rounded-none bg-grey-400 text-grey-900',
-        day_hidden: 'invisible',
+        day_button: calendarVariants({ component: 'day_button' }),
+        selected: calendarVariants({ component: 'selected' }),
+        range_start: cn(rangeEdge, 'rounded-l-full! rounded-r-none!'),
+        range_end: cn(rangeEdge, 'rounded-r-full! rounded-l-none!'),
+        range_middle:
+          'rounded-none! bg-grey-400! text-grey-900! dark:bg-accent-alt! dark:text-foreground-inverse!',
+        outside: calendarVariants({ component: 'outside' }),
+        disabled: calendarVariants({ component: 'disabled' }),
+        hidden: 'invisible',
         ...classNames
       }}
       components={{
-        IconLeft: () => (
-          <ArrowLeftIcon className="h-5 w-5 fill-current stroke-current" />
-        ),
-        IconRight: () => (
-          <ArrowRightIcon className="h-5 w-5 fill-current stroke-current" />
-        )
+        Chevron: props => {
+          switch (props.orientation) {
+            case 'left':
+              return (
+                <BsArrowLeft className="h-5 w-5 fill-current stroke-current" />
+              )
+            case 'right':
+              return (
+                <BsArrowRight className="h-5 w-5 fill-current stroke-current" />
+              )
+            default:
+              return <Chevron {...props} />
+          }
+        }
       }}
       {...props}
     />
