@@ -61,7 +61,8 @@ const chipVariants = cva(
 )
 
 interface ChipProps
-  extends React.ComponentPropsWithRef<'button'>,
+  extends
+    React.ComponentPropsWithRef<'button'>,
     VariantProps<typeof chipVariants> {
   active?: boolean
 }

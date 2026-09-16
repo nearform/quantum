@@ -44,7 +44,8 @@ const PageNumberActiveStyles = cva([
 ])
 
 interface PaginationProps
-  extends React.ComponentPropsWithoutRef<'div'>,
+  extends
+    React.ComponentPropsWithoutRef<'div'>,
     VariantProps<typeof PaginationVariants> {}
 
 export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
