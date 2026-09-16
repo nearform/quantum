@@ -1,5 +1,11 @@
 module.exports = {
   preset: 'ts-jest',
+  // Mirrors the `@/*` path alias in tsconfig.json. ts-jest type-checks against
+  // that alias but does not resolve it at runtime, so `src/` imports of
+  // `@/assets` or `@/lib/utils` would otherwise fail to load.
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
+  },
   transform: {
     // tsconfig.json resolves with `bundler` (module: esnext) so Storybook 10's
     // exports-only packages typecheck. Jest resolves with require(), so both
