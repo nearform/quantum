@@ -12,7 +12,14 @@ const buttonGroupVariants = cva(
     '[&>*]:items-center',
     '[&>*]:justify-center',
     '[&>*]:px-3',
+    // The member buttons drop their own shadow-based focus ring because it
+    // would be clipped by `overflow-hidden`; an inset outline replaces it so
+    // keyboard focus stays visible (WCAG 2.4.7).
     '[&>*:focus]:shadow-none',
+    '[&>*]:outline-hidden',
+    '[&>*:focus-visible]:outline-2',
+    '[&>*:focus-visible]:-outline-offset-2',
+    '[&>*:focus-visible]:outline-current',
     'items-start',
     'rounded-lg',
     'overflow-hidden'
@@ -64,9 +71,16 @@ interface ButtonGroupProps
     VariantProps<typeof buttonGroupVariants> {}
 
 const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
-  ({ className, orientation, variant, size, ...props }, ref) => {
+  (
+    { className, orientation, variant, size, role = 'group', ...props },
+    ref
+  ) => {
     return (
       <div
+        // The buttons belong together, so they are exposed as a group rather
+        // than as unrelated controls. Callers should name it with
+        // `aria-label`/`aria-labelledby`.
+        role={role}
         className={cn(
           buttonGroupVariants({ orientation, variant, size }),
           className

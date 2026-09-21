@@ -15,18 +15,32 @@ const tableBodyVariants = cva('bg-background dark:bg-grey-900', {
   }
 })
 
-const Table = React.forwardRef<
-  HTMLTableElement,
-  React.HTMLAttributes<HTMLTableElement>
->(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
-    <table
-      ref={ref}
-      className={cn('caption-bottom text-sm dark:text-white', className)}
-      {...props}
-    />
-  </div>
-))
+interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
+  /** Class names for the scrolling container that wraps the table. */
+  containerClassName?: string
+}
+
+const Table = React.forwardRef<HTMLTableElement, TableProps>(
+  ({ className, containerClassName, ...props }, ref) => (
+    // A region that scrolls has to be reachable by keyboard, or its content is
+    // unusable without a mouse (WCAG 2.1.1). `tabIndex` makes the container a
+    // focus stop; the outline keeps that stop visible (WCAG 2.4.7).
+    <div
+      tabIndex={0}
+      className={cn(
+        'relative w-full overflow-auto',
+        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current',
+        containerClassName
+      )}
+    >
+      <table
+        ref={ref}
+        className={cn('caption-bottom text-sm dark:text-white', className)}
+        {...props}
+      />
+    </div>
+  )
+)
 Table.displayName = 'Table'
 
 const TableHeader = React.forwardRef<
@@ -122,4 +136,4 @@ export {
   TableCell,
   TableCaption
 }
-export type { TableBodyProps }
+export type { TableBodyProps, TableProps }

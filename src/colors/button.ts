@@ -76,12 +76,17 @@ export const button = {
     }
   },
   success: {
-    DEFAULT: feedback.green,
+    // The whole ramp moves one step darker rather than just the resting
+    // colour: white on green-500 was 3.38:1 against the 4.5:1 WCAG 1.4.3 asks
+    // of body text, and green-600 clears it at 5.36:1 -- but green-600 was
+    // already the hover colour, so hover and focus shift with it to keep the
+    // three states distinguishable from one another.
+    DEFAULT: colors.green['600'],
     hover: {
-      DEFAULT: colors.green['600']
+      DEFAULT: colors.green['700']
     },
     focus: {
-      DEFAULT: colors.green['700']
+      DEFAULT: colors.green['800']
     },
     disabled: {
       DEFAULT: colors.grey['50']

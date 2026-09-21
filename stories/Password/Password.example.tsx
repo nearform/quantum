@@ -5,7 +5,8 @@ const PasswordDemo = ({
   variant,
   toggleMask,
   disabled,
-  value
+  value,
+  labelText
 }: PasswordProps) => {
   const [trackedValue, setTrackedValue] = useState(value)
 
@@ -20,6 +21,7 @@ const PasswordDemo = ({
       onChange={handleOnChange}
       disabled={disabled}
       toggleMask={toggleMask}
+      labelText={labelText}
     />
   )
 }

@@ -29,25 +29,30 @@ type Story = StoryObj<typeof meta>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const PasswordDefault: Story = {
-  args: {}
+  args: {
+    labelText: 'Password'
+  }
 }
 
 export const WithoutToggleMask: Story = {
   args: {
     value: 'secret',
-    toggleMask: false
+    toggleMask: false,
+    labelText: 'Password'
   }
 }
 
 export const Disabled: Story = {
   args: {
     value: 'secret',
-    disabled: true
+    disabled: true,
+    labelText: 'Password'
   }
 }
 
 export const Error: Story = {
   args: {
-    variant: 'error'
+    variant: 'error',
+    labelText: 'Password'
   }
 }

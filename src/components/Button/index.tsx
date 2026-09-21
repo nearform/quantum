@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
@@ -147,6 +148,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       leftSideClassName,
       rightSideClassName,
       disabled = false,
+      asChild = false,
       onClick,
       ...props
     },
@@ -155,8 +157,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const sideChildClassed =
       'inline-flex items-center justify-center text-inherit text-justify'
 
+    // `asChild` was accepted but never acted on, so it reached the DOM as an
+    // unknown attribute and the styled <button> was rendered anyway -- wrapping
+    // a trigger in a Button produced a control nested inside a control
+    // (invalid HTML, one confusing stop for keyboard and screen reader users).
+    const Comp = asChild ? Slot : 'button'
+
     return (
-      <button
+      <Comp
         className={cn(buttonVariants({ variant, size }), className)}
         ref={ref}
         disabled={disabled}
@@ -172,7 +180,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           <></>
         )}
-        <div>{children}</div>
+        {/*
+          `Slottable` marks which child the slot merges into, so the side
+          children stay siblings of the caller's element instead of replacing
+          it. Without `asChild` this is a pass-through and the label keeps the
+          wrapper it has always had.
+        */}
+        <Slottable>{asChild ? children : <div>{children}</div>}</Slottable>
         {rightSideChild ? (
           <div className={cn(sideChildClassed, 'ml-3', rightSideClassName)}>
             {rightSideChild}
@@ -180,7 +194,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           <></>
         )}
-      </button>
+      </Comp>
     )
   }
 )

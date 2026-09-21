@@ -186,11 +186,18 @@ const itemVariants = cva([
     'data-[disabled]:pointer-events-none',
     'data-[disabled]:opacity-50',
     'hover:bg-background-alt',
+    // Radix moves the active option with `data-highlighted`, not `:focus`, so
+    // keyboard navigation had no visible indicator at all (WCAG 2.4.7).
+    'data-[highlighted]:bg-background-alt',
+    'data-[highlighted]:outline-2',
+    'data-[highlighted]:-outline-offset-2',
+    'data-[highlighted]:outline-current',
     'focus-visible:shadow-brandGreen'
   ],
   [
     'dark:focus-visible:shadow-brandGreen-10',
-    'dark:hover:bg-background-alt-dark'
+    'dark:hover:bg-background-alt-dark',
+    'dark:data-[highlighted]:bg-background-alt-dark'
   ]
 ])
 

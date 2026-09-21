@@ -45,7 +45,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   render: props => (
     <Popover {...props}>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Button>Open Popover</Button>
       </PopoverTrigger>
       <PopoverContent>
@@ -62,7 +62,7 @@ export const Default: Story = {
 export const HeaderFooterAndScrollingContent: Story = {
   render: props => (
     <Popover {...props}>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Button>Open Popover</Button>
       </PopoverTrigger>
       <PopoverContent>
@@ -88,7 +88,7 @@ export const HeaderFooterAndScrollingContent: Story = {
 export const WithCheckboxes: Story = {
   render: props => (
     <Popover {...props}>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Button>Open Popover</Button>
       </PopoverTrigger>
       <PopoverContent>
@@ -111,7 +111,7 @@ export const WithCheckboxes: Story = {
 export const WithRadioGroup: Story = {
   render: props => (
     <Popover {...props}>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Button>Open Popover</Button>
       </PopoverTrigger>
       <PopoverContent>

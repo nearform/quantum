@@ -70,28 +70,54 @@ interface TextareaProps
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, variant, labelText, helpText, id, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      labelText,
+      helpText,
+      id,
+      'aria-describedby': ariaDescribedby,
+      ...props
+    },
+    ref
+  ) => {
+    // Without an `id` the <label> had nothing to point `htmlFor` at, so a
+    // caller that left it out got a visible label the field was never
+    // associated with (WCAG 1.3.1 / 4.1.2).
+    const generatedId = React.useId()
+    const textareaId = id ?? generatedId
+    const helpTextId = `${textareaId}-helptext`
+    // `cn` is for class names -- ids are joined by hand so tailwind-merge never
+    // decides two of them collide.
+    const describedBy =
+      [ariaDescribedby, helpText ? helpTextId : undefined]
+        .filter(Boolean)
+        .join(' ') || undefined
+
     return (
       <div className="flex flex-col gap-3">
         {labelText && (
           <label
-            id={`${id}-label`}
-            htmlFor={id}
+            id={`${textareaId}-label`}
+            htmlFor={textareaId}
             className="text-m text-foreground dark:text-foreground-dark"
           >
             {labelText}
           </label>
         )}
         <textarea
-          id={id}
+          id={textareaId}
           className={cn(textareaVariants({ variant }), className)}
           ref={ref}
+          // Help text describes the field, it does not name it: pointing
+          // `aria-labelledby` at it replaced the label rather than adding to it.
+          aria-describedby={describedBy}
           {...props}
-          aria-labelledby={`${labelText ? `${id}-label` : ''} ${helpText ? `${id}-helptext` : ''}`.trim()}
         />
         {helpText && (
           <span
-            id={`${id}-helptext`}
+            id={helpTextId}
             className="text-sm text-foreground-muted dark:text-foreground-muted-dark"
           >
             {helpText}
@@ -101,5 +127,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     )
   }
 )
+
+Textarea.displayName = 'Textarea'
 
 export { Textarea, TextareaProps, textareaVariants }

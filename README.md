@@ -141,6 +141,52 @@ import '@nearform/quantum/dist/global.css'
 import { Button } from '@nearform/quantum'
 ```
 
+## Accessibility
+
+Components target [WCAG 2.2](https://www.w3.org/TR/WCAG22/) level AA. Every
+story is scanned with [axe](https://github.com/dequelabs/axe-core) as part of
+`npm run test-storybook`, against the `wcag2a`, `wcag2aa`, `wcag21a`,
+`wcag21aa` and `wcag22aa` rule sets, so a component that loses its accessible
+name, its focus indicator or its contrast fails CI.
+
+A story that is a deliberate exception opts out through its own parameters:
+
+```js
+parameters: { a11y: { disable: true } }             // skip the story
+parameters: { a11y: { config: { rules: [...] } } }  // tune individual rules
+```
+
+### What the library cannot do for you
+
+Some things depend on the surrounding page, so the components take them as
+props rather than guessing:
+
+- **Form controls need a label.** `Input`, `Password` and `Textarea` take
+  `labelText` (rendered and wired up with `htmlFor`) and `helpText` (exposed
+  through `aria-describedby`). `Checkbox`, `Radio`, `Switch` and
+  `SelectTrigger` have no text of their own -- pair them with `ControlLabel`,
+  an external `<label htmlFor>`, or give them an `aria-label`. A placeholder is
+  not a label.
+- **Groups and landmarks need a name.** Give `ButtonGroup` an `aria-label` when
+  a page holds more than one, and `Pagination` a `label` when it has more than
+  one pagination nav.
+- **Icon-only controls need names in your language.** `Pagination`
+  (`previousLabel`, `nextLabel`, `pageLabel`), `StepsIndicator` (`label`,
+  `stepLabel`), `Input` (`clearLabel`) and `Password` (`showLabel`,
+  `hideLabel`) all default to English and accept overrides.
+- **Triggers should merge into the control they wrap.** `ModalTrigger`,
+  `PopoverTrigger` and `SelectTrigger` render a `<button>` of their own, so
+  wrapping one around a `Button` nests a control inside a control. Pass
+  `asChild` to merge them instead:
+
+  ```jsx
+  <PopoverTrigger asChild>
+    <Button>Open</Button>
+  </PopoverTrigger>
+  ```
+
+  `Tooltip` does this for you when its child is an element.
+
 ## Tests
 
 To run tests for the project, run:

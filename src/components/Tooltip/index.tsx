@@ -37,7 +37,17 @@ const Tooltip = React.forwardRef<
   return (
     <TooltipPrimitive.Provider>
       <TooltipPrimitive.Root delayDuration={100}>
-        <TooltipPrimitive.Trigger>{children}</TooltipPrimitive.Trigger>
+        {/*
+          The trigger renders a <button> of its own unless it is told to merge
+          into its child, so wrapping an interactive child -- a Button, a Link
+          -- produced a control nested inside a control: invalid HTML, and a
+          single confusing stop for keyboard and screen reader users. Merging
+          only happens when there is a single element to merge into; plain text
+          still gets the trigger's own button.
+        */}
+        <TooltipPrimitive.Trigger asChild={React.isValidElement(children)}>
+          {children}
+        </TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
           side={side ?? 'top'}
           sideOffset={sideOffset ?? 4}
@@ -51,6 +61,8 @@ const Tooltip = React.forwardRef<
     </TooltipPrimitive.Provider>
   )
 })
+
+Tooltip.displayName = 'Tooltip'
 
 export { Tooltip }
 export type { TooltipProps }

@@ -86,16 +86,18 @@ const linkColumnVariants = cva(
 )
 
 interface WebsiteFooterProps
-  extends React.ComponentPropsWithoutRef<'div'>,
+  extends React.ComponentPropsWithoutRef<'footer'>,
     VariantProps<typeof websiteFooterVariants> {}
 
-const WebsiteFooter = React.forwardRef<HTMLDivElement, WebsiteFooterProps>(
+const WebsiteFooter = React.forwardRef<HTMLElement, WebsiteFooterProps>(
   ({ className, size, ...props }, ref) => (
-    <div
+    // <footer> rather than <div>: the site footer is a `contentinfo` landmark,
+    // which is one of the ways assistive tech navigates a page (WCAG 1.3.1).
+    <footer
       className={cn(websiteFooterVariants({ size }), className)}
       {...props}
       ref={ref}
-    ></div>
+    ></footer>
   )
 )
 
