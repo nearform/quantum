@@ -19,7 +19,7 @@ import { RadioGroup, Radio } from '../src/components/Radio'
 import { StepsIndicator } from '../src/components/StepsIndicator'
 import { Table, TableBody, TableCell, TableRow } from '../src/components/Table'
 import { Textarea } from '../src/components/Textarea'
-import { WebsiteFooter } from '../src/components/WebsiteFooter'
+import { FooterStatement, WebsiteFooter } from '../src/components/WebsiteFooter'
 
 const openingTag = (html: string, tag: string, marker = '') => {
   const tags = html.match(new RegExp(`<${tag}\\b[^>]*>`, 'g')) ?? []
@@ -372,6 +372,20 @@ describe('WebsiteFooter accessibility', () => {
     const html = renderToStaticMarkup(<WebsiteFooter>Footer</WebsiteFooter>)
 
     expect(html).toContain('<footer')
+  })
+
+  // `foreground-subtle` is 4.39:1 on `background-alt`, and the footer does not
+  // set its own surface — a consumer picks it — so the statement takes the
+  // token that clears AA on all of them. See __tests__/contrast.test.ts.
+  it('sets its statement in a body-text colour', () => {
+    const html = renderToStaticMarkup(
+      <FooterStatement>© Quantum</FooterStatement>
+    )
+    const classes = attribute(openingTag(html, 'div', 'text-'), 'class') ?? ''
+
+    expect(classes).toContain('text-foreground-muted')
+    expect(classes).toContain('dark:text-foreground-muted-dark')
+    expect(classes).not.toContain('text-foreground-subtle')
   })
 })
 

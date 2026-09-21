@@ -9,6 +9,54 @@ import { ColorWrapper } from './colorUtils.tsx'
 
 Base colours provide a full colour spectrum of dark to light hues, and are used as aliases in the [brand theme](#brand-theme-and-ui-colours).
 
+## Contrast
+
+WCAG 2.2 AA asks for 4.5:1 between text and its background, 3:1 for large text
+(24px, or 18.66px bold) and for the parts of a control that carry meaning.
+Being a token pair the palette exposes is not by itself a guarantee that a pair
+clears those numbers, so the two rules below are worth knowing before reaching
+for a colour.
+
+### Foreground on background
+
+`foreground` and `foreground-muted` are the body-text tokens. Both clear 4.5:1
+on `background`, `background-alt` and `background-subtle` in light and dark
+mode — `foreground` from 10.31:1, `foreground-muted` from 6.87:1 — so either can
+be used for text without checking which surface it lands on.
+`background-inverse` is the exception every palette has: it takes
+`foreground-inverse`, which clears it at 17.59:1 in both modes.
+
+`foreground-subtle` cannot. It clears 4.5:1 on `background` (4.83:1) and
+`background-subtle` (4.63:1) but not on `background-alt` (4.39:1), and its dark
+half is 2.13:1 on `background-alt-dark`. It is a token for the things AA does
+not measure at 4.5:1: the text of a disabled control, which 1.4.3 exempts, and
+UI parts such as Switch's track and StepsIndicator's dots, which owe 3:1 under
+1.4.11. Text a user is meant to read takes `foreground-muted`.
+
+### A `-600` foreground on a `-100` background
+
+Several palettes pair a hue's `-600` with its own `-100` for a chip or a badge.
+That clears AA on most of the ramps but not all of them, and the four that
+fail are not otherwise distinguishable from the ones that pass:
+
+| Ramp | `-600` on `-100` | `-700` on `-100` |
+| --- | --- | --- |
+| `blue` | 4.46:1 ✗ | 5.29:1 ✓ |
+| `red` | 4.02:1 ✗ | 4.89:1 ✓ |
+| `orange` | 4.30:1 ✗ | 5.31:1 ✓ |
+| `pink` | 2.29:1 ✗ | 3.49:1 ✗ (`-800` is 6.89:1 ✓) |
+| `green` | 4.75:1 ✓ | 5.71:1 ✓ |
+| `teal` | 4.77:1 ✓ | 5.79:1 ✓ |
+| `indigo` | 4.74:1 ✓ | 5.80:1 ✓ |
+| `purple` | 4.75:1 ✓ | 6.00:1 ✓ |
+| `yellow` | 4.90:1 ✓ | 6.01:1 ✓ |
+| `grey` | 6.87:1 ✓ | 9.37:1 ✓ |
+
+`-700` on `-100` is safe on every ramp except `pink`, which needs `-800`. The
+values themselves are left alone: an app may be using any of them away from its
+own `-100`, and moving them to fix one pairing would shift every other use of
+the colour.
+
 ## Base Colours
 
 <ColorPalette>

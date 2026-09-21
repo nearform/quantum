@@ -25,7 +25,8 @@ const footerStatementVariants = cva(
     'flex-col',
     'gap-1',
     'items-center',
-    'text-foreground-subtle',
+    'text-foreground-muted',
+    'dark:text-foreground-muted-dark',
     'py-4',
     'text-sm'
   ],
