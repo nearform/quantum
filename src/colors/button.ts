@@ -76,12 +76,12 @@ export const button = {
     }
   },
   success: {
-    DEFAULT: feedback.green,
+    DEFAULT: colors.green['600'],
     hover: {
-      DEFAULT: colors.green['600']
+      DEFAULT: colors.green['700']
     },
     focus: {
-      DEFAULT: colors.green['700']
+      DEFAULT: colors.green['800']
     },
     disabled: {
       DEFAULT: colors.grey['50']

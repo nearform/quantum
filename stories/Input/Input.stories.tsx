@@ -31,33 +31,38 @@ type Story = StoryObj<typeof meta>
 export const PrimaryInput: Story = {
   args: {
     variant: 'primary',
-    type: 'text'
+    type: 'text',
+    labelText: 'Full name'
   }
 }
 export const ErrorInput: Story = {
   args: {
     variant: 'error',
-    type: 'text'
+    type: 'text',
+    labelText: 'Full name'
   }
 }
 
 export const SuccessInput: Story = {
   args: {
     variant: 'success',
-    type: 'text'
+    type: 'text',
+    labelText: 'Full name'
   }
 }
 export const Disabled: Story = {
   args: {
     variant: 'primary',
     type: 'text',
-    disabled: true
+    disabled: true,
+    labelText: 'Full name'
   }
 }
 export const Search: Story = {
   args: {
     variant: 'primary',
-    type: 'search'
+    type: 'search',
+    labelText: 'Search'
   }
 }
 
@@ -65,6 +70,7 @@ export const LeftIcon: Story = {
   args: {
     variant: 'primary',
     type: 'text',
-    leftSideChild: <BsPersonFill />
+    labelText: 'Full name',
+    leftSideChild: <BsPersonFill aria-hidden="true" />
   }
 }

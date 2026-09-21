@@ -25,23 +25,27 @@ type Story = StoryObj<typeof meta>
 
 export const Unchecked: Story = {
   args: {
-    checked: false
+    checked: false,
+    'aria-label': 'Example checkbox'
   }
 }
 export const Checked: Story = {
   args: {
-    checked: true
+    checked: true,
+    'aria-label': 'Example checkbox'
   }
 }
 export const Indeterminate: Story = {
   args: {
-    checked: 'indeterminate'
+    checked: 'indeterminate',
+    'aria-label': 'Example checkbox'
   }
 }
 
 export const ColourChange: Story = {
   args: {
     checked: true,
+    'aria-label': 'Example checkbox',
     className:
       'data-[state=checked]:text-yellow-200 data-[state=checked]:bg-green-900 data-[state=checked]:border-border'
   }

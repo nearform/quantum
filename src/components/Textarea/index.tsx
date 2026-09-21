@@ -70,28 +70,47 @@ interface TextareaProps
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, variant, labelText, helpText, id, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      labelText,
+      helpText,
+      id,
+      'aria-describedby': ariaDescribedby,
+      ...props
+    },
+    ref
+  ) => {
+    const generatedId = React.useId()
+    const textareaId = id ?? generatedId
+    const helpTextId = `${textareaId}-helptext`
+    const describedBy =
+      [ariaDescribedby, helpText ? helpTextId : undefined]
+        .filter(Boolean)
+        .join(' ') || undefined
+
     return (
       <div className="flex flex-col gap-3">
         {labelText && (
           <label
-            id={`${id}-label`}
-            htmlFor={id}
+            id={`${textareaId}-label`}
+            htmlFor={textareaId}
             className="text-m text-foreground dark:text-foreground-dark"
           >
             {labelText}
           </label>
         )}
         <textarea
-          id={id}
+          id={textareaId}
           className={cn(textareaVariants({ variant }), className)}
           ref={ref}
+          aria-describedby={describedBy}
           {...props}
-          aria-labelledby={`${labelText ? `${id}-label` : ''} ${helpText ? `${id}-helptext` : ''}`.trim()}
         />
         {helpText && (
           <span
-            id={`${id}-helptext`}
+            id={helpTextId}
             className="text-sm text-foreground-muted dark:text-foreground-muted-dark"
           >
             {helpText}
@@ -101,5 +120,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     )
   }
 )
+
+Textarea.displayName = 'Textarea'
 
 export { Textarea, TextareaProps, textareaVariants }

@@ -5,7 +5,14 @@ import { BsX, BsSearch } from '@/assets'
 
 const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
 
-const rightSideVariants = cva(['flex', 'self-center text-inherit'])
+const rightSideVariants = cva([
+  'flex',
+  'self-center text-inherit',
+  'rounded-xs',
+  'focus-visible:outline-2',
+  'focus-visible:outline-offset-2',
+  'focus-visible:outline-current'
+])
 
 const formVariants = cva(
   [
@@ -94,12 +101,15 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   leftSideClassName?: string
   leftSideChild?: React.ReactNode
   rightSideChild?: React.ReactNode
+  labelText?: string
+  helpText?: string
+  clearLabel?: string
   onClear: () => void
 }
 
 const convertTypeToLeftComponent = (type: InputType) => {
   const mapping: Partial<Record<InputType, React.ReactNode>> = {
-    search: <BsSearch />
+    search: <BsSearch aria-hidden="true" />
   }
   return mapping[type] ?? null
 }
@@ -108,40 +118,90 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
       type,
+      id,
       className,
       formClassName,
       leftSideClassName,
       variant,
       leftSideChild,
       rightSideChild,
+      labelText,
+      helpText,
+      clearLabel = 'Clear input',
       onClear,
+      'aria-describedby': ariaDescribedby,
       ...props
     },
     ref
   ) => {
-    const leftSideComponent = leftSideChild ?? convertTypeToLeftComponent(type)
-    const rightSideComponent = rightSideChild ?? <BsX strokeWidth={0.6} />
+    const generatedId = React.useId()
+    const inputId = id ?? generatedId
+    const helpTextId = `${inputId}-helptext`
+    const describedBy =
+      [ariaDescribedby, helpText ? helpTextId : undefined]
+        .filter(Boolean)
+        .join(' ') || undefined
 
-    return (
-      <label className={cn(formVariants({ variant }), formClassName)}>
+    const leftSideComponent = leftSideChild ?? convertTypeToLeftComponent(type)
+    const rightSideComponent = rightSideChild ?? (
+      <BsX strokeWidth={0.6} aria-hidden="true" />
+    )
+
+    const field = (
+      <div className={cn(formVariants({ variant }), formClassName)}>
         {leftSideComponent && (
           <div className={cn(leftSideVariants(), leftSideClassName)}>
             {leftSideComponent}
           </div>
         )}
         <input
+          id={inputId}
           type={type}
           className={cn(inputVariants({ variant }), className)}
           ref={ref}
+          aria-describedby={describedBy}
           {...props}
         />
         <div className="input-right-side"></div>
-        <button type="button" onClick={onClear} className={rightSideVariants()}>
+        <button
+          type="button"
+          onClick={onClear}
+          aria-label={clearLabel}
+          className={rightSideVariants()}
+        >
           {rightSideComponent}
         </button>
-      </label>
+      </div>
+    )
+
+    if (!labelText && !helpText) {
+      return field
+    }
+
+    return (
+      <div className="flex flex-col gap-3">
+        {labelText && (
+          <label
+            htmlFor={inputId}
+            className="text-m text-foreground dark:text-foreground-dark"
+          >
+            {labelText}
+          </label>
+        )}
+        {field}
+        {helpText && (
+          <span
+            id={helpTextId}
+            className="text-sm text-foreground-muted dark:text-foreground-muted-dark"
+          >
+            {helpText}
+          </span>
+        )}
+      </div>
     )
   }
 )
+
+Input.displayName = 'Input'
 
 export { Input, InputProps, formVariants }

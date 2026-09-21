@@ -13,7 +13,11 @@ const checkboxVariants = cva([
     'rounded',
     'border',
     'border-border',
-    'bg-background-alt'
+    'bg-background-alt',
+    'disabled:cursor-not-allowed',
+    'focus-visible:outline-hidden',
+    'focus-visible:shadow-brandGreen',
+    'dark:focus-visible:shadow-brandGreen-10'
   ],
   [
     'data-[state=checked]:border-border',

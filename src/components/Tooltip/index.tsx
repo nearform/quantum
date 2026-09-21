@@ -37,7 +37,9 @@ const Tooltip = React.forwardRef<
   return (
     <TooltipPrimitive.Provider>
       <TooltipPrimitive.Root delayDuration={100}>
-        <TooltipPrimitive.Trigger>{children}</TooltipPrimitive.Trigger>
+        <TooltipPrimitive.Trigger asChild={React.isValidElement(children)}>
+          {children}
+        </TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
           side={side ?? 'top'}
           sideOffset={sideOffset ?? 4}
@@ -51,6 +53,8 @@ const Tooltip = React.forwardRef<
     </TooltipPrimitive.Provider>
   )
 })
+
+Tooltip.displayName = 'Tooltip'
 
 export { Tooltip }
 export type { TooltipProps }

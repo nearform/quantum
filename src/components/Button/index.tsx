@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
@@ -147,6 +148,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       leftSideClassName,
       rightSideClassName,
       disabled = false,
+      asChild = false,
       onClick,
       ...props
     },
@@ -155,8 +157,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const sideChildClassed =
       'inline-flex items-center justify-center text-inherit text-justify'
 
+    const Comp = asChild ? Slot : 'button'
+
     return (
-      <button
+      <Comp
         className={cn(buttonVariants({ variant, size }), className)}
         ref={ref}
         disabled={disabled}
@@ -172,7 +176,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           <></>
         )}
-        <div>{children}</div>
+        <Slottable>{asChild ? children : <div>{children}</div>}</Slottable>
         {rightSideChild ? (
           <div className={cn(sideChildClassed, 'ml-3', rightSideClassName)}>
             {rightSideChild}
@@ -180,7 +184,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           <></>
         )}
-      </button>
+      </Comp>
     )
   }
 )

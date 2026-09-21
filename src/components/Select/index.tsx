@@ -186,11 +186,16 @@ const itemVariants = cva([
     'data-[disabled]:pointer-events-none',
     'data-[disabled]:opacity-50',
     'hover:bg-background-alt',
+    'data-[highlighted]:bg-background-alt',
+    'data-[highlighted]:outline-2',
+    'data-[highlighted]:-outline-offset-2',
+    'data-[highlighted]:outline-current',
     'focus-visible:shadow-brandGreen'
   ],
   [
     'dark:focus-visible:shadow-brandGreen-10',
-    'dark:hover:bg-background-alt-dark'
+    'dark:hover:bg-background-alt-dark',
+    'dark:data-[highlighted]:bg-background-alt-dark'
   ]
 ])
 

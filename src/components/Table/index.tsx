@@ -15,18 +15,28 @@ const tableBodyVariants = cva('bg-background dark:bg-grey-900', {
   }
 })
 
-const Table = React.forwardRef<
-  HTMLTableElement,
-  React.HTMLAttributes<HTMLTableElement>
->(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
-    <table
-      ref={ref}
-      className={cn('caption-bottom text-sm dark:text-white', className)}
-      {...props}
-    />
-  </div>
-))
+interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
+  containerClassName?: string
+}
+
+const Table = React.forwardRef<HTMLTableElement, TableProps>(
+  ({ className, containerClassName, ...props }, ref) => (
+    <div
+      tabIndex={0}
+      className={cn(
+        'relative w-full overflow-auto',
+        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current',
+        containerClassName
+      )}
+    >
+      <table
+        ref={ref}
+        className={cn('caption-bottom text-sm dark:text-white', className)}
+        {...props}
+      />
+    </div>
+  )
+)
 Table.displayName = 'Table'
 
 const TableHeader = React.forwardRef<
@@ -122,4 +132,4 @@ export {
   TableCell,
   TableCaption
 }
-export type { TableBodyProps }
+export type { TableBodyProps, TableProps }

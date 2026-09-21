@@ -24,6 +24,7 @@ const Step = ({ selected, className }: StepProps) => {
   return (
     <BsCircleFill
       size="8"
+      aria-hidden="true"
       data-selected={selected}
       className={cn(stepVariant(), className)}
     />

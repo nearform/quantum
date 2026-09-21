@@ -81,7 +81,8 @@ const AccordionTrigger = React.forwardRef<
   <AccordionHeader>
     <AccordionPrimitive.Trigger
       className={cn(
-        'px-4 py-4 dark:bg-grey-900 dark:text-white group flex flex-1 cursor-default items-center justify-between bg-white leading-none',
+        'px-4 py-4 dark:bg-grey-900 dark:text-white group flex flex-1 cursor-pointer items-center justify-between bg-white leading-none',
+        'focus-visible:outline-hidden focus-visible:shadow-brandGreen dark:focus-visible:shadow-brandGreen-10',
         className
       )}
       {...props}

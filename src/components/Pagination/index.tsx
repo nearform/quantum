@@ -8,6 +8,10 @@ interface PaginationProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>
   numberOfItemsPerPage: number
   totalNumberOfFilteredItems: number
+  label?: string
+  previousLabel?: string
+  nextLabel?: string
+  pageLabel?: (page: number) => string
 }
 
 const PaginationVariants = cva([
@@ -55,6 +59,10 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
       setCurrentPage,
       numberOfItemsPerPage,
       totalNumberOfFilteredItems,
+      label = 'Pagination',
+      previousLabel = 'Go to previous page',
+      nextLabel = 'Go to next page',
+      pageLabel = page => `Go to page ${page}`,
       ...props
     },
     ref
@@ -116,14 +124,22 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
       if (currentPage !== 1) setCurrentPage(currentPage - 1)
     }
     return (
-      <nav className={cn(PaginationVariants(), className)} ref={ref} {...props}>
+      <nav
+        aria-label={label}
+        className={cn(PaginationVariants(), className)}
+        ref={ref}
+        {...props}
+      >
         <ul>
           <li className="hover:bg-background px-4 dark:hover:bg-background-dark rounded-xs">
             <button
+              type="button"
+              aria-label={previousLabel}
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
             >
               <BsChevronLeft
+                aria-hidden="true"
                 className={
                   'w-3 h-9 pt-3 pb-3 -mb-1 text-foreground dark:text-foreground-dark'
                 }
@@ -131,44 +147,52 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             </button>
           </li>
 
-          <div className="flex flex-row items-center px-0">
-            {pageNumbers.map(pgNumber => (
-              <React.Fragment key={pgNumber}>
-                {pgNumber === totalPages && showRightDots ? (
-                  <div className="px-4 min-w-40 max-w-40 text-foreground-muted">
-                    ...
-                  </div>
-                ) : null}
-
-                <li>
-                  <button
-                    onClick={() => setCurrentPage(pgNumber)}
-                    className={cn(
-                      PageNumberStyles(),
-                      currentPage === pgNumber && PageNumberActiveStyles()
-                    )}
-                  >
-                    <div className="text-sm">{pgNumber}</div>
-                  </button>
+          {pageNumbers.map(pgNumber => (
+            <React.Fragment key={pgNumber}>
+              {pgNumber === totalPages && showRightDots ? (
+                <li
+                  aria-hidden="true"
+                  className="flex items-center px-4 min-w-40 max-w-40 text-foreground-muted"
+                >
+                  ...
                 </li>
+              ) : null}
 
-                {pgNumber === 1 && showLeftDots ? (
-                  <div>
-                    <div className="px-4 max-w-40 min-w-40 text-foreground-muted">
-                      ...
-                    </div>
-                  </div>
-                ) : null}
-              </React.Fragment>
-            ))}
-          </div>
+              <li>
+                <button
+                  type="button"
+                  aria-label={pageLabel(pgNumber)}
+                  aria-current={currentPage === pgNumber ? 'page' : undefined}
+                  onClick={() => setCurrentPage(pgNumber)}
+                  className={cn(
+                    PageNumberStyles(),
+                    currentPage === pgNumber && PageNumberActiveStyles()
+                  )}
+                >
+                  <div className="text-sm">{pgNumber}</div>
+                </button>
+              </li>
+
+              {pgNumber === 1 && showLeftDots ? (
+                <li
+                  aria-hidden="true"
+                  className="flex items-center px-4 max-w-40 min-w-40 text-foreground-muted"
+                >
+                  ...
+                </li>
+              ) : null}
+            </React.Fragment>
+          ))}
 
           <li className="hover:bg-background px-4  dark:hover:bg-background-dark rounded-xs">
             <button
+              type="button"
+              aria-label={nextLabel}
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
             >
               <BsChevronRight
+                aria-hidden="true"
                 className={
                   'w-3 h-9 py-3 -mb-1 text-foreground dark:text-foreground-dark'
                 }
@@ -180,3 +204,5 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     )
   }
 )
+
+Pagination.displayName = 'Pagination'

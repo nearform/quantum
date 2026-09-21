@@ -13,11 +13,16 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const Default: Story = {
+  args: {
+    'aria-label': 'Example switch'
+  }
+}
 
 export const Disabled: Story = {
   args: {
-    disabled: true
+    disabled: true,
+    'aria-label': 'Example switch'
   }
 }
 

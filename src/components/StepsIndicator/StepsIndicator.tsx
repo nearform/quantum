@@ -10,6 +10,15 @@ const stepsVariant = cva([
   'content-center items-center'
 ])
 
+const stepButtonVariant = cva([
+  'flex h-6 w-6 items-center justify-center m-0',
+  'rounded-full',
+  'outline-hidden',
+  'focus-visible:outline-2',
+  'focus-visible:outline-offset-1',
+  'focus-visible:outline-current'
+])
+
 interface StepsIndicatorProp {
   selectedIndex?: number
   length?: number
@@ -19,28 +28,54 @@ interface StepsIndicatorProp {
   >
   name?: string
   onClick?: (i: number) => void
+  label?: string
+  stepLabel?: (step: number, total: number) => string
 }
 
 const StepsIndicator = React.forwardRef<HTMLDivElement, StepsIndicatorProp>(
-  ({ name = '', selectedIndex = 0, length = 1, onClick, props }, ref) => {
+  (
+    {
+      name = '',
+      selectedIndex = 0,
+      length = 1,
+      onClick,
+      label = 'Progress',
+      stepLabel = (step, total) => `Step ${step} of ${total}`,
+      props
+    },
+    ref
+  ) => {
     const Steps = Array(length)
       .fill(null)
       .map((_, i) => {
+        const selected = i === selectedIndex
         return (
           <button
             key={`${i}-step-${name}`}
-            className="flex h-6 w-6 items-center justify-center m-0 outline-hidden"
+            type="button"
+            aria-label={stepLabel(i + 1, length)}
+            aria-current={selected ? 'step' : undefined}
+            className={stepButtonVariant()}
             onClick={() => onClick?.(i)}
           >
-            <Step selected={i === selectedIndex ? 'true' : 'false'} />
+            <Step selected={selected ? 'true' : 'false'} />
           </button>
         )
       })
     return (
-      <div ref={ref} className={cn(stepsVariant())} {...props}>
+      <div
+        ref={ref}
+        role="group"
+        aria-label={label}
+        className={cn(stepsVariant())}
+        {...props}
+      >
         {Steps}
       </div>
     )
   }
 )
+
+StepsIndicator.displayName = 'StepsIndicator'
+
 export { StepsIndicator, StepsIndicatorProp }

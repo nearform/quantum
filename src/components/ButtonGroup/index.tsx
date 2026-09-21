@@ -13,6 +13,10 @@ const buttonGroupVariants = cva(
     '[&>*]:justify-center',
     '[&>*]:px-3',
     '[&>*:focus]:shadow-none',
+    '[&>*]:outline-hidden',
+    '[&>*:focus-visible]:outline-2',
+    '[&>*:focus-visible]:-outline-offset-2',
+    '[&>*:focus-visible]:outline-current',
     'items-start',
     'rounded-lg',
     'overflow-hidden'
@@ -64,9 +68,13 @@ interface ButtonGroupProps
     VariantProps<typeof buttonGroupVariants> {}
 
 const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
-  ({ className, orientation, variant, size, ...props }, ref) => {
+  (
+    { className, orientation, variant, size, role = 'group', ...props },
+    ref
+  ) => {
     return (
       <div
+        role={role}
         className={cn(
           buttonGroupVariants({ orientation, variant, size }),
           className
