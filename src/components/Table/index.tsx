@@ -16,15 +16,11 @@ const tableBodyVariants = cva('bg-background dark:bg-grey-900', {
 })
 
 interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
-  /** Class names for the scrolling container that wraps the table. */
   containerClassName?: string
 }
 
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, containerClassName, ...props }, ref) => (
-    // A region that scrolls has to be reachable by keyboard, or its content is
-    // unusable without a mouse (WCAG 2.1.1). `tabIndex` makes the container a
-    // focus stop; the outline keeps that stop visible (WCAG 2.4.7).
     <div
       tabIndex={0}
       className={cn(

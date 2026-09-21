@@ -16,8 +16,6 @@ interface DemoProps extends TriggerProps {
 }
 
 export const SelectDemo = ({ variant, size, example }: DemoProps) => {
-  // A placeholder is not a label: it names nothing once a value is chosen, so
-  // the trigger carries its own accessible name (WCAG 3.3.2 / 4.1.2).
   const label = 'Example select'
 
   if (example === 'small') {

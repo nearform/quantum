@@ -82,8 +82,6 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       className={cn(
         'px-4 py-4 dark:bg-grey-900 dark:text-white group flex flex-1 cursor-pointer items-center justify-between bg-white leading-none',
-        // The trigger is the only focus stop in an accordion item, so it needs
-        // an indicator of its own (WCAG 2.4.7).
         'focus-visible:outline-hidden focus-visible:shadow-brandGreen dark:focus-visible:shadow-brandGreen-10',
         className
       )}

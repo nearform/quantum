@@ -21,15 +21,6 @@ import { Table, TableBody, TableCell, TableRow } from '../src/components/Table'
 import { Textarea } from '../src/components/Textarea'
 import { WebsiteFooter } from '../src/components/WebsiteFooter'
 
-/**
- * These assertions are about the accessibility contract each component owes its
- * consumers -- an accessible name, a reported state, a focus stop, valid
- * structure -- rather than about how any of it is styled. They run on static
- * markup for the same reason the calendar suite does: it is the rendered
- * output, without the cost of a DOM.
- */
-
-/** The opening tag of the first `<tag>` whose attributes contain `marker`. */
 const openingTag = (html: string, tag: string, marker = '') => {
   const tags = html.match(new RegExp(`<${tag}\\b[^>]*>`, 'g')) ?? []
   const match = tags.find(candidate => candidate.includes(marker))
@@ -39,15 +30,9 @@ const openingTag = (html: string, tag: string, marker = '') => {
   return match
 }
 
-/** Every opening `<tag>` in the markup. */
 const openingTags = (html: string, tag: string) =>
   html.match(new RegExp(`<${tag}\\b[^>]*>`, 'g')) ?? []
 
-/**
- * The value of `attribute` on an opening tag, or undefined when unset. Class
- * names carry `&` and `>` for tailwind's variant selectors, which the renderer
- * escapes, so the value is decoded back to what the stylesheet sees.
- */
 const attribute = (tag: string, name: string) =>
   tag
     .match(new RegExp(`\\s${name}="([^"]*)"`))?.[1]

@@ -12,8 +12,6 @@ const stepsVariant = cva([
 
 const stepButtonVariant = cva([
   'flex h-6 w-6 items-center justify-center m-0',
-  // The dot is the only thing a step draws, so the button needs its own
-  // indicator once the default outline is suppressed (WCAG 2.4.7).
   'rounded-full',
   'outline-hidden',
   'focus-visible:outline-2',
@@ -30,9 +28,7 @@ interface StepsIndicatorProp {
   >
   name?: string
   onClick?: (i: number) => void
-  /** Names the group of steps. */
   label?: string
-  /** Builds the accessible name of a step, e.g. `Step 2 of 4`. */
   stepLabel?: (step: number, total: number) => string
 }
 
@@ -57,8 +53,6 @@ const StepsIndicator = React.forwardRef<HTMLDivElement, StepsIndicatorProp>(
           <button
             key={`${i}-step-${name}`}
             type="button"
-            // Each dot is a control with no text of its own, and the selected
-            // one is distinguished only by colour without this (WCAG 1.4.1).
             aria-label={stepLabel(i + 1, length)}
             aria-current={selected ? 'step' : undefined}
             className={stepButtonVariant()}

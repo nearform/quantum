@@ -35,13 +35,9 @@ interface PasswordProps extends React.HTMLProps<HTMLInputElement> {
   formClassName?: string
   variant?: 'primary' | 'error' | 'success'
   toggleMask?: boolean
-  /** Visible label rendered above the field and wired to it with `htmlFor`. */
   labelText?: string
-  /** Hint below the field, exposed on the field via `aria-describedby`. */
   helpText?: string
-  /** Accessible name for the icon-only mask toggle while the value is hidden. */
   showLabel?: string
-  /** Accessible name for the icon-only mask toggle while the value is shown. */
   hideLabel?: string
 }
 
@@ -67,8 +63,6 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(
     const generatedId = React.useId()
     const inputId = id ?? generatedId
     const helpTextId = `${inputId}-helptext`
-    // `cn` is for class names -- ids are joined by hand so tailwind-merge never
-    // decides two of them collide.
     const describedBy =
       [ariaDescribedby, helpText ? helpTextId : undefined]
         .filter(Boolean)
@@ -76,9 +70,6 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(
 
     const onToggleMask = () => setIsMaskOn(isMaskOn => !isMaskOn)
 
-    // A plain <div>, not a <label>: the box wraps the toggle button as well,
-    // and a control nested in a label contributes its own text to the field's
-    // accessible name (WCAG 4.1.2) while making a click on it act on both.
     const field = (
       <div className={cn(formVariants({ variant }), formClassName)}>
         <input

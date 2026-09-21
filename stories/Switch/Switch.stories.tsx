@@ -15,8 +15,6 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    // Standalone in the canvas, so it carries its own name; the stories below
-    // show the pattern to reach for in a real form.
     'aria-label': 'Example switch'
   }
 }

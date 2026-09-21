@@ -101,11 +101,8 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   leftSideClassName?: string
   leftSideChild?: React.ReactNode
   rightSideChild?: React.ReactNode
-  /** Visible label rendered above the field and wired to it with `htmlFor`. */
   labelText?: string
-  /** Hint below the field, exposed on the field via `aria-describedby`. */
   helpText?: string
-  /** Accessible name for the clear button, which is icon-only. */
   clearLabel?: string
   onClear: () => void
 }
@@ -140,8 +137,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const generatedId = React.useId()
     const inputId = id ?? generatedId
     const helpTextId = `${inputId}-helptext`
-    // `cn` is for class names -- ids are joined by hand so tailwind-merge never
-    // decides two of them collide.
     const describedBy =
       [ariaDescribedby, helpText ? helpTextId : undefined]
         .filter(Boolean)
@@ -152,9 +147,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <BsX strokeWidth={0.6} aria-hidden="true" />
     )
 
-    // A plain <div>, not a <label>: the box wraps the clear button as well, and
-    // a control nested in a label contributes its own text to the field's
-    // accessible name (WCAG 4.1.2) while making a click on it act on both.
     const field = (
       <div className={cn(formVariants({ variant }), formClassName)}>
         {leftSideComponent && (

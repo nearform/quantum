@@ -18,8 +18,6 @@ const radioVariant = cva([
     'disabled:opacity-50',
     'disabled:cursor-not-allowed',
     'text-foreground-inverse',
-    // Radix renders the radio as a <button>, so the focus ring has to be
-    // drawn here (WCAG 2.4.7); arrow keys move focus between the items.
     'focus-visible:outline-hidden',
     'focus-visible:shadow-brandGreen',
     'dark:focus-visible:shadow-brandGreen-10'

@@ -8,13 +8,9 @@ interface PaginationProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>
   numberOfItemsPerPage: number
   totalNumberOfFilteredItems: number
-  /** Names the navigation landmark; needed when a page has more than one. */
   label?: string
-  /** Accessible name of the icon-only "previous" button. */
   previousLabel?: string
-  /** Accessible name of the icon-only "next" button. */
   nextLabel?: string
-  /** Builds the accessible name of a page button, e.g. `Go to page 3`. */
   pageLabel?: (page: number) => string
 }
 
@@ -166,8 +162,6 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                 <button
                   type="button"
                   aria-label={pageLabel(pgNumber)}
-                  // The page you are on is the current item of the set, and
-                  // colour alone must not be the only way to tell (WCAG 1.4.1).
                   aria-current={currentPage === pgNumber ? 'page' : undefined}
                   onClick={() => setCurrentPage(pgNumber)}
                   className={cn(

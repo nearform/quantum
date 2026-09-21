@@ -15,8 +15,6 @@ const checkboxVariants = cva([
     'border-border',
     'bg-background-alt',
     'disabled:cursor-not-allowed',
-    // Radix renders the checkbox as a <button>, which has no default checked
-    // styling to fall back on -- without this it took focus invisibly.
     'focus-visible:outline-hidden',
     'focus-visible:shadow-brandGreen',
     'dark:focus-visible:shadow-brandGreen-10'

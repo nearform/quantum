@@ -73,15 +73,9 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
   ) => {
     return (
       <button
-        // `type` defaults to "submit" on a bare <button>, which makes a chip
-        // inside a form submit it instead of toggling.
         type={type ?? 'button'}
         onClick={onClick}
-        // `data-[active]` matches on the attribute being present, so the
-        // attribute has to be absent — not `"false"` — when the chip is off.
         data-active={active || undefined}
-        // Only a chip that knows whether it is on/off can report the state;
-        // a plain chip stays a regular button.
         aria-pressed={active === undefined ? undefined : active}
         className={cn(chipVariants({ variant, size }))}
         disabled={disabled}

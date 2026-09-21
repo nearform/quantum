@@ -26,24 +26,18 @@ type Story = StoryObj<typeof meta>
 export const Unchecked: Story = {
   args: {
     checked: false,
-    // Standalone in the canvas, so it carries its own name; the stories below
-    // show the pattern to reach for in a real form.
     'aria-label': 'Example checkbox'
   }
 }
 export const Checked: Story = {
   args: {
     checked: true,
-    // Standalone in the canvas, so it carries its own name; the stories below
-    // show the pattern to reach for in a real form.
     'aria-label': 'Example checkbox'
   }
 }
 export const Indeterminate: Story = {
   args: {
     checked: 'indeterminate',
-    // Standalone in the canvas, so it carries its own name; the stories below
-    // show the pattern to reach for in a real form.
     'aria-label': 'Example checkbox'
   }
 }

@@ -82,14 +82,9 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     },
     ref
   ) => {
-    // Without an `id` the <label> had nothing to point `htmlFor` at, so a
-    // caller that left it out got a visible label the field was never
-    // associated with (WCAG 1.3.1 / 4.1.2).
     const generatedId = React.useId()
     const textareaId = id ?? generatedId
     const helpTextId = `${textareaId}-helptext`
-    // `cn` is for class names -- ids are joined by hand so tailwind-merge never
-    // decides two of them collide.
     const describedBy =
       [ariaDescribedby, helpText ? helpTextId : undefined]
         .filter(Boolean)
@@ -110,8 +105,6 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={textareaId}
           className={cn(textareaVariants({ variant }), className)}
           ref={ref}
-          // Help text describes the field, it does not name it: pointing
-          // `aria-labelledby` at it replaced the label rather than adding to it.
           aria-describedby={describedBy}
           {...props}
         />

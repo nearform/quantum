@@ -91,8 +91,6 @@ interface WebsiteFooterProps
 
 const WebsiteFooter = React.forwardRef<HTMLElement, WebsiteFooterProps>(
   ({ className, size, ...props }, ref) => (
-    // <footer> rather than <div>: the site footer is a `contentinfo` landmark,
-    // which is one of the ways assistive tech navigates a page (WCAG 1.3.1).
     <footer
       className={cn(websiteFooterVariants({ size }), className)}
       {...props}

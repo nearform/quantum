@@ -34,10 +34,6 @@ const ControlLabel: React.FC<Props> = ({
   htmlFor,
   ...labelProps
 }) => {
-  // The label sits beside the control rather than wrapping it, so the two are
-  // only associated through `htmlFor`. Without an id on the control the label
-  // named nothing (WCAG 1.3.1 / 4.1.2), so one is supplied here when the
-  // caller has not wired the pair up themselves.
   const generatedId = React.useId()
   const onlyChild = React.isValidElement<{ id?: string }>(children)
     ? children

@@ -157,10 +157,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const sideChildClassed =
       'inline-flex items-center justify-center text-inherit text-justify'
 
-    // `asChild` was accepted but never acted on, so it reached the DOM as an
-    // unknown attribute and the styled <button> was rendered anyway -- wrapping
-    // a trigger in a Button produced a control nested inside a control
-    // (invalid HTML, one confusing stop for keyboard and screen reader users).
     const Comp = asChild ? Slot : 'button'
 
     return (
@@ -180,12 +176,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           <></>
         )}
-        {/*
-          `Slottable` marks which child the slot merges into, so the side
-          children stay siblings of the caller's element instead of replacing
-          it. Without `asChild` this is a pass-through and the label keeps the
-          wrapper it has always had.
-        */}
         <Slottable>{asChild ? children : <div>{children}</div>}</Slottable>
         {rightSideChild ? (
           <div className={cn(sideChildClassed, 'ml-3', rightSideClassName)}>
