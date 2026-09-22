@@ -6,7 +6,9 @@ import * as InputStories from './Input.stories'
 
 # Input
 
-A search is a user interface element that includes a search bar or input field, often accompanied by a search button or icon. It enables users to enter keywords or queries and initiate a search for specific content or information within an application or website. The search component helps users quickly find relevant data or resources by matching their input with the available content.
+A single-line text field. It renders the label, the field and its help text as
+one group, wires them to each other, and puts a clear button at the end of the
+field. Giving it `type="search"` also puts a magnifier at the start.
 
 ## Primary Text
 
@@ -32,166 +34,121 @@ A search is a user interface element that includes a search bar or input field, 
 
 <Canvas of={InputStories.LeftIcon} />
 
+## Sizes
+
+Two heights, from the design file: `sm` is 37px and `default` is 42px. They are
+the same two heights as `Select`'s `sm` and `lg`, so an input and a select sit
+in a row without either of them having to be nudged.
+
+The height is set on the field rather than added up out of padding and text, so
+it holds whatever font size the field inherits, and a disabled field — which
+drops its border — is the same height as an enabled one.
+
+<Canvas of={InputStories.Sizes} />
+
+## Icons
+
+The leading icon is drawn at 16×16 and the clear icon at 12×12, and the field
+sizes both of them, so an icon passed as `leftSideChild` or `rightSideChild`
+comes out at the size the design specifies rather than at the `1em` that
+`react-icons` defaults to.
+
+The clear button itself is 24×24 — the smallest target
+[WCAG 2.5.8](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)
+accepts. It grows into the field's own padding rather than pushing the icon
+inwards, so the cross stays where it is drawn.
+
 ## Attributes
 
-This component accepts all attributes for the input component of type text, with the addition of `onClear` function which declares the clear button functionality.
+Everything an `<input>` takes, plus the props below. The one exception is the
+HTML `size` attribute, which is displaced by the `size` prop; it asks for a
+width in characters, and the input grows to fill the field, so the layout was
+overruling it anyway.
 
-## Input
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`'primary' | 'error' | 'success'`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`'sm' | 'default'`</td>
+      <td>`'default'`</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onClear</td>
+      <td>`function`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>clearLabel</td>
+      <td>`string`</td>
+      <td>`'Clear input'`</td>
+    </tr>
+    <tr>
+      <td>labelText</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>helpText</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>leftSideChild</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>rightSideChild</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>formClassName</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>leftSideClassName</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
 
-```tsx
-iimport React, { HTMLInputTypeAttribute } from 'react'
-import { cn } from '@/lib/utils'
-import { cva } from 'class-variance-authority'
-import { BsX, BsSearch } from '@/assets'
+## Accessibility
 
-const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
-
-const rightSideVariants = cva(['flex', 'self-center text-inherit'])
-
-const formVariants = cva(
-  [
-    'flex',
-    'border',
-    'border-2',
-    'rounded-lg',
-    'overflow-hidden',
-    'p-3',
-    'items-center',
-    'gap-1.5',
-    '[&:has(:disabled)]:border-none'
-  ],
-  {
-    variants: {
-      variant: {
-        primary: [
-          'border-border-subtle',
-          'dark:border-border-subtle-dark',
-          'bg-background-alt',
-          'dark:bg-background-alt-dark',
-          'hover:border-border-hover',
-          'hover:focus-within:border-border-focus',
-          'dark:hover:focus-within:border-border-focus-dark',
-          'focus-within:shadow-brandGreen',
-          'text-foreground-muted',
-          'dark:text-foreground-muted-dark',
-          'dark:focus-within:shadow-brandGreen-10'
-        ],
-        error: [
-          'border-feedback-red',
-          'text-feedback-red',
-          'bg-red-50',
-          'hover:border-red-700',
-          'focus-within:shadow-red'
-        ],
-        success: [
-          'border-feedback-green',
-          'text-feedback-green',
-          'bg-green-50',
-          'hover:border-green-700',
-          'focus-within:shadow-green'
-        ]
-      }
-    }
-  }
-)
-
-const inputVariants = cva(
-  ['flex', 'flex-grow', 'items-center', 'outline-hidden', 'bg-transparent'],
-  {
-    variants: {
-      variant: {
-        primary: ['text-foreground', 'dark:text-foreground-dark'],
-        error: ['text-feedback-red'],
-        success: ['text-green-700']
-      }
-    },
-    defaultVariants: {
-      variant: 'primary'
-    }
-  }
-)
-
-interface InputProps extends React.HTMLProps<HTMLInputElement> {
-  variant: 'primary' | 'error' | 'success'
-  type:
-    | 'color'
-    | 'date'
-    | 'datetime-local'
-    | 'email'
-    | 'month'
-    | 'number'
-    | 'password'
-    | 'search'
-    | 'tel'
-    | 'text'
-    | 'time'
-    | 'url'
-    | 'week'
-    | (string & {})
-  formClassName?: string
-  leftSideClassName?: string
-  leftSideChild?: React.ReactNode
-  rightSideChild?: React.ReactNode
-  onClear: () => void
-}
-
-const convertTypeToLeftComponent = (type: HTMLInputTypeAttribute) => {
-  const mapping: Partial<Record<HTMLInputTypeAttribute, React.ReactNode>> = {
-    search: <BsSearch />
-  }
-  return mapping[type] ?? null
-}
-
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
-      type,
-      className,
-      formClassName,
-      leftSideClassName,
-      variant,
-      leftSideChild,
-      rightSideChild,
-      onClear,
-      ...props
-    },
-    ref
-  ) => {
-    const leftSideComponent = leftSideChild ?? convertTypeToLeftComponent(type)
-    const rightSideComponent = rightSideChild ?? <BsX strokeWidth={0.6} />
-
-    return (
-      <label className={cn(formVariants({ variant }), formClassName)}>
-        {leftSideComponent && (
-          <div className={cn(leftSideVariants(), leftSideClassName)}>
-            {leftSideComponent}
-          </div>
-        )}
-        <input
-          type={type}
-          className={cn(inputVariants({ variant }), className)}
-          ref={ref}
-          {...props}
-        />
-        <div className="input-right-side"></div>
-        <button type="button" onClick={onClear} className={rightSideVariants()}>
-          {rightSideComponent}
-        </button>
-      </label>
-    )
-  }
-)
-
-export { Input, InputProps, formVariants }
-```
+- The clear button has no text, so it carries an accessible name of its own.
+  `clearLabel` renames it for its context — "Clear search" reads better than
+  "Clear input" on a search field.
+- `labelText` is associated with the field, and `helpText` describes it rather
+  than naming it. An `aria-describedby` you pass in is kept alongside the help
+  text rather than replaced by it.
+- Both icons are hidden from assistive technology. An icon passed in as
+  `leftSideChild` or `rightSideChild` should be too — it repeats what the label
+  already says.
 
 ## Usage
 
 ```tsx
 import { useState } from 'react'
-import { Input, InputProps } from '@/index'
+import { Input, InputProps } from '@nearform/quantum'
 
-const InputDemo = ({ variant, type, disabled }: InputProps) => {
+const InputDemo = (props: Omit<InputProps, 'onChange' | 'onClear'>) => {
   const [value, setValue] = useState('')
   const handleOnClear = () => {
     setValue('')
@@ -202,11 +159,9 @@ const InputDemo = ({ variant, type, disabled }: InputProps) => {
   return (
     <Input
       value={value}
-      variant={variant}
-      type={type}
       onClear={handleOnClear}
       onChange={handleOnChange}
-      disabled={disabled}
+      {...props}
     />
   )
 }

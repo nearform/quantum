@@ -6,13 +6,27 @@ import { BsEye, BsEyeSlash } from '@/assets'
 
 import { formVariants } from '../Input'
 
+/**
+ * A 24x24 target around the 16x16 eye, for the same reason `Input`'s clear
+ * control has one: 24 is the smallest target WCAG 2.5.8 accepts. The negative
+ * margin is half the difference between the two, so the target grows around
+ * the eye rather than pushing it in from the edge of the field.
+ */
 const toggleMaskVariants = cva([
   'flex',
+  'h-6',
+  'w-6',
+  'shrink-0',
+  '-mr-1',
+  'items-center',
+  'justify-center',
   'self-center text-inherit',
   'rounded-xs',
   'focus-visible:outline-2',
   'focus-visible:outline-offset-2',
-  'focus-visible:outline-current'
+  'focus-visible:outline-current',
+  '[&>svg]:h-4',
+  '[&>svg]:w-4'
 ])
 
 const passwordVariants = cva(
@@ -31,9 +45,16 @@ const passwordVariants = cva(
   }
 )
 
-interface PasswordProps extends React.HTMLProps<HTMLInputElement> {
+/**
+ * `size` is the field's height, and is passed through to the same variants
+ * `Input` uses so the two line up in a form. As there, it displaces the HTML
+ * attribute of that name, which the `flex-grow` input was overruling anyway.
+ */
+interface PasswordProps
+  extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
   formClassName?: string
   variant?: 'primary' | 'error' | 'success'
+  size?: 'sm' | 'default'
   toggleMask?: boolean
   labelText?: string
   helpText?: string
@@ -48,6 +69,7 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(
       className,
       formClassName,
       variant = 'primary',
+      size,
       toggleMask = true,
       labelText,
       helpText,
@@ -71,7 +93,7 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(
     const onToggleMask = () => setIsMaskOn(isMaskOn => !isMaskOn)
 
     const field = (
-      <div className={cn(formVariants({ variant }), formClassName)}>
+      <div className={cn(formVariants({ variant, size }), formClassName)}>
         <input
           id={inputId}
           type={isMaskOn ? 'password' : 'text'}
@@ -80,7 +102,6 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(
           aria-describedby={describedBy}
           {...props}
         />
-        <div className="input-right-side"></div>
         {toggleMask && (
           <button
             type="button"

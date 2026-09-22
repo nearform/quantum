@@ -16,6 +16,11 @@ const meta = {
     leftSideChild: {
       control: false
     },
+    size: {
+      options: ['sm', 'default'],
+      control: 'inline-radio',
+      description: 'The height of the field: 37px or 42px'
+    },
     className: {
       controle: 'text',
       description: 'Alter the className to change the style'
@@ -73,4 +78,17 @@ export const LeftIcon: Story = {
     labelText: 'Full name',
     leftSideChild: <BsPersonFill aria-hidden="true" />
   }
+}
+
+export const Sizes: Story = {
+  args: {
+    variant: 'primary',
+    type: 'text'
+  },
+  render: props => (
+    <div className="flex flex-col gap-4">
+      <Input {...props} size="sm" labelText="Small — 37px" />
+      <Input {...props} size="default" labelText="Default — 42px" />
+    </div>
+  )
 }
