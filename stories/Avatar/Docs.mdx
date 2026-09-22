@@ -86,6 +86,11 @@ the theme; only the fallback changes.
   announcing it twice helps nobody.
 - Initials are never announced on their own: "AL" is not a name. They are
   always inside the `aria-hidden` fallback layer.
+- `role` and the generated name travel together. Passing a `role` of your own
+  drops the `aria-label` the avatar would have added, so
+  `<Avatar role="presentation" />` really is silent — a presentational element
+  that still carries a name gets re-exposed by the browser. Pass your own
+  `aria-label` alongside the role when you do want it named.
 
 ## Attributes
 

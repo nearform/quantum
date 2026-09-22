@@ -76,7 +76,7 @@ const initialsFrom = (name: string) => {
 }
 
 interface AvatarProps
-  extends Omit<React.ComponentPropsWithoutRef<'span'>, 'children'>,
+  extends Omit<React.ComponentPropsWithoutRef<'span'>, 'children' | 'onError'>,
     VariantProps<typeof avatarVariants> {
   /**
    * Image to show. Until it loads — and permanently, if it fails to load — the
@@ -102,7 +102,7 @@ interface AvatarProps
  */
 const Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
   (
-    { className, size, shape, src, name, initials, alt, icon, ...props },
+    { className, size, shape, src, name, initials, alt, icon, role, ...props },
     ref
   ) => {
     // Keyed by the URL that failed rather than a boolean, so a new `src` is
@@ -113,14 +113,25 @@ const Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
     const label = alt ?? name
     const text = initials ?? (name ? initialsFrom(name) : '')
 
+    /**
+     * `role="img"` and the name that goes with it are emitted as a pair: the
+     * label is there to name that role and nothing else. So a caller who
+     * supplies a `role` of their own takes the name with it, rather than
+     * finding ours still attached to their role — `role="presentation"`
+     * carrying an `aria-label` is a contradiction the browser resolves by
+     * re-exposing the element, which is the opposite of what suppressing the
+     * role asked for.
+     */
+    const named = !showImage && Boolean(label) && role === undefined
+
     return (
       <span
         ref={ref}
         className={cn(avatarVariants({ size, shape }), className)}
+        role={role ?? (named ? 'img' : undefined)}
+        aria-label={named ? label : undefined}
         // An avatar with no name to announce is decorative: whoever renders it
         // already has the person's name in the surrounding text.
-        role={!showImage && label ? 'img' : undefined}
-        aria-label={!showImage ? label : undefined}
         aria-hidden={showImage || label ? undefined : true}
         {...props}
       >

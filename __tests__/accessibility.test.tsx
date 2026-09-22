@@ -534,12 +534,36 @@ describe('Avatar accessibility', () => {
     expect(attribute(openingTag(html, 'img'), 'alt')).toBe('')
   })
 
-  it('lets the caller override the role it picks', () => {
+  it('drops its own name when the caller suppresses the role', () => {
     const html = renderToStaticMarkup(
       <Avatar name="Ada Lovelace" role="presentation" />
     )
 
-    expect(attribute(openingTag(html, 'span'), 'role')).toBe('presentation')
+    // `role="presentation"` plus an `aria-label` is a contradiction: the
+    // browser resolves it by re-exposing the element under its implicit role,
+    // so leaving our label behind would announce the avatar the caller just
+    // asked to silence.
+    const root = openingTag(html, 'span')
+    expect(attribute(root, 'role')).toBe('presentation')
+    expect(attribute(root, 'aria-label')).toBeUndefined()
+  })
+
+  it('hands the name to the caller along with the role', () => {
+    const html = renderToStaticMarkup(
+      <Avatar name="Ada Lovelace" role="button" aria-label="Change picture" />
+    )
+
+    const root = openingTag(html, 'span')
+    expect(attribute(root, 'role')).toBe('button')
+    expect(attribute(root, 'aria-label')).toBe('Change picture')
+  })
+
+  it('keeps an explicitly empty alt decorative rather than naming it', () => {
+    const html = renderToStaticMarkup(<Avatar name="Ada Lovelace" alt="" />)
+
+    const root = openingTag(html, 'span')
+    expect(attribute(root, 'role')).toBeUndefined()
+    expect(attribute(root, 'aria-hidden')).toBe('true')
   })
 })
 
