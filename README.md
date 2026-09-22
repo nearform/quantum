@@ -204,6 +204,13 @@ props rather than guessing:
   `SelectTrigger` have no text of their own -- pair them with `ControlLabel`,
   an external `<label htmlFor>`, or give them an `aria-label`. A placeholder is
   not a label.
+- **A control inside a `FormGroup` has to pass its props on.** The group
+  derives the label's `htmlFor`, the message ids behind `aria-describedby` and
+  the `aria-invalid` flag from one id and hands them to whichever direct child
+  is the control. A wrapper of your own that drops them leaves the label
+  pointing at an element that does not exist, and nothing looks wrong. Spread
+  the props you are given, keep the parts as direct children, and reach for
+  `useFormGroup()` for a control the group cannot get to.
 - **Groups and landmarks need a name.** Give `ButtonGroup` an `aria-label` when
   a page holds more than one, and `Pagination` a `label` when it has more than
   one pagination nav.

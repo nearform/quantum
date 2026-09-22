@@ -13,7 +13,13 @@ import { ButtonGroup } from '../src/components/ButtonGroup'
 import { Checkbox } from '../src/components/Checkbox'
 import { Chip } from '../src/components/Chip'
 import { ControlLabel } from '../src/components/ControlLabel'
+import {
+  FieldDescription,
+  FieldError,
+  FormGroup
+} from '../src/components/FormGroup'
 import { Input } from '../src/components/Input'
+import { Label } from '../src/components/Label'
 import { Link } from '../src/components/Link'
 import { Pagination } from '../src/components/Pagination'
 import { Password } from '../src/components/Password'
@@ -604,6 +610,216 @@ describe('ControlLabel accessibility', () => {
     )
 
     expect(attribute(openingTag(html, 'label'), 'for')).toBe('elsewhere')
+  })
+})
+
+describe('FormGroup accessibility', () => {
+  it('associates the label with the control it wraps', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup>
+        <Label>Email</Label>
+        <input type="email" />
+      </FormGroup>
+    )
+
+    const labelFor = attribute(openingTag(html, 'label'), 'for')
+    expect(labelFor).toBeTruthy()
+    expect(attribute(openingTag(html, 'input'), 'id')).toBe(labelFor)
+  })
+
+  it('keeps the id the control already had', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup>
+        <Label>Email</Label>
+        <input type="email" id="email" />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'label'), 'for')).toBe('email')
+    expect(attribute(openingTag(html, 'input'), 'id')).toBe('email')
+  })
+
+  it('wires a control that is not a host element, such as Checkbox', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup>
+        <Label>Notify me</Label>
+        <Checkbox />
+      </FormGroup>
+    )
+
+    const labelFor = attribute(openingTag(html, 'label'), 'for')
+    expect(labelFor).toBeTruthy()
+    expect(attribute(openingTag(html, 'button'), 'id')).toBe(labelFor)
+  })
+
+  it('describes the control with its hint rather than naming it', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" description="We never share it">
+        <Label>Email</Label>
+        <input type="email" />
+        <FieldDescription />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(attribute(input, 'aria-describedby')).toBe('email-description')
+    expect(attribute(input, 'aria-labelledby')).toBeUndefined()
+    expect(html).toContain('id="email-description"')
+  })
+
+  it('describes the control with its error and marks it invalid', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" error="Enter a valid address">
+        <Label>Email</Label>
+        <input type="email" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(attribute(input, 'aria-describedby')).toBe('email-error')
+    expect(attribute(input, 'aria-invalid')).toBe('true')
+    expect(html).toContain('id="email-error"')
+    expect(html).toContain('Enter a valid address')
+  })
+
+  it('announces an error that appears after the page has loaded', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup error="Enter a valid address">
+        <input type="email" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'p'), 'role')).toBe('alert')
+  })
+
+  it('points at the hint and the error together', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup
+        controlId="email"
+        description="We never share it"
+        error="Enter a valid address"
+      >
+        <input type="email" />
+        <FieldDescription />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
+      'email-description email-error'
+    )
+  })
+
+  it('keeps a caller-supplied description alongside its own', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" error="Enter a valid address">
+        <input type="email" aria-describedby="policy" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
+      'policy email-error'
+    )
+  })
+
+  /**
+   * `aria-describedby` pointing at an id that is not in the document is worse
+   * than saying nothing: a screen reader announces no description at all, so
+   * the field loses the hint it would otherwise have had from its label.
+   */
+  it('does not point at a message that is not rendered', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" error="Enter a valid address">
+        <input type="email" />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(attribute(input, 'aria-describedby')).toBeUndefined()
+    expect(attribute(input, 'aria-invalid')).toBe('true')
+  })
+
+  it('takes the error written inline as the invalid state', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email">
+        <input type="email" />
+        <FieldError>Enter a valid address</FieldError>
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(attribute(input, 'aria-invalid')).toBe('true')
+    expect(attribute(input, 'aria-describedby')).toBe('email-error')
+  })
+
+  it('renders no message, and marks nothing invalid, when there is none', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup>
+        <input type="email" />
+        <FieldDescription />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(html).not.toContain('<p')
+    expect(attribute(openingTag(html, 'input'), 'aria-invalid')).toBeUndefined()
+  })
+
+  it('lets a control state its own validity', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup error="Enter a valid address">
+        <input type="email" aria-invalid={false} />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-invalid')).toBe('false')
+  })
+
+  it('forwards disabled and required to the control', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup disabled required>
+        <Label>Email</Label>
+        <input type="email" />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(input).toContain('disabled')
+    expect(input).toContain('required')
+  })
+
+  /**
+   * React renders an unknown attribute on a host element verbatim, so a
+   * `<div disabled="true">` would be markup the browser ignores and a console
+   * warning -- and, worse, would read as a disabled field to nobody at all.
+   */
+  it('does not put form attributes on an element that cannot hold them', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup disabled required>
+        <div>
+          <input type="email" />
+        </div>
+      </FormGroup>
+    )
+
+    expect(openingTag(html, 'div', 'id=')).not.toContain('disabled')
+    expect(openingTag(html, 'div', 'id=')).not.toContain('required')
+  })
+
+  it('gives the id to one control only', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="range">
+        <input type="number" />
+        <input type="number" />
+      </FormGroup>
+    )
+
+    const ids = openingTags(html, 'input').map(tag => attribute(tag, 'id'))
+    expect(ids).toEqual(['range', undefined])
   })
 })
 

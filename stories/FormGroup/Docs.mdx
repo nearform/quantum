@@ -1,0 +1,225 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as FormGroupStories from './FormGroup.stories'
+
+<Meta of={FormGroupStories} />
+
+# Form group
+
+A field is three things that have to agree with each other: a label, a
+control, and a message below it. `FormGroup` is what makes them agree.
+
+Most of that agreement is id plumbing — the label's `htmlFor` has to match the
+control's `id`, the message's `id` has to appear in the control's
+`aria-describedby`, and the control has to be marked `aria-invalid` when the
+message is an error. Done by hand it is four ids to keep in step per field,
+and the failure is silent: nothing looks wrong, the field simply stops being
+announced. `FormGroup` derives all of them from one.
+
+```tsx
+import { FormGroup, Label, FieldError } from '@nearform/quantum'
+
+const EmailField = ({ error }) => (
+  <FormGroup error={error}>
+    <Label>Email</Label>
+    <Input type="email" variant={error ? 'error' : 'primary'} onClear={clear} />
+    <FieldError />
+  </FormGroup>
+)
+```
+
+### Default
+
+<Canvas of={FormGroupStories.Default} />
+
+### Orientation
+
+`vertical` stacks the three parts. `horizontal` puts the label in a column of
+its own and indents the message to line up with the control rather than with
+the label, which is what the design file draws.
+
+<Canvas of={FormGroupStories.Orientation} />
+
+### The parts are optional
+
+A group with no label, or no message, is just a group with fewer children.
+Nothing shifts to fill the gap, and in horizontal orientation a group with no
+label has no empty column to show for it.
+
+<Canvas of={FormGroupStories.Parts} />
+
+### Errors
+
+`error` does two things: it gives `FieldError` something to render, and it
+marks the control `aria-invalid`. The control's own error styling is a
+separate `variant` on the control, so a field can be flagged to assistive
+technology without being repainted, and repainted without being flagged —
+which is what you want while a field is being typed into.
+
+<Canvas of={FormGroupStories.WithError} />
+
+### One message at a time
+
+`FieldDescription` and `FieldError` can both be present; whichever has content
+renders. Set `error` and the hint stays silent rather than being pushed down
+the page, so the field does not change height as it is validated.
+
+<Canvas of={FormGroupStories.HintThenError} />
+
+<Canvas of={FormGroupStories.Horizontal} />
+
+### Disabled and required
+
+Set on the group and forwarded to the control, so the state lives in one place
+rather than being repeated on every part of the field.
+
+<Canvas of={FormGroupStories.DisabledAndRequired} />
+
+### Any control
+
+The group does not know or care what the control is. Anything that is not a
+`Label`, a `FieldDescription` or a `FieldError` is taken to be the control and
+gets the wiring — our `Input`, our `Select`, a bare `<input type="date">`, or
+something from outside the library.
+
+<Canvas of={FormGroupStories.AnyControl} />
+
+<Canvas of={FormGroupStories.WithCheckbox} />
+
+## What a control has to do
+
+One thing: pass its props on. The group hands the control an `id`, an
+`aria-describedby` and an `aria-invalid`, and a control that drops them leaves
+the label pointing at an element that does not exist.
+
+That matters most for a wrapper of your own. This looks fine and is not:
+
+```tsx
+const Field = () => <Input type="text" variant="primary" onClear={clear} />
+// FormGroup passes id and aria-describedby to Field; Field ignores both.
+```
+
+```tsx
+const Field = props => (
+  <Input type="text" variant="primary" onClear={clear} {...props} />
+)
+// Now they reach the input.
+```
+
+The other requirement is that the parts are **direct children** of the group.
+A control nested inside a `<div>` of your own is not reached, and neither is a
+`FieldError` inside one. If you need that layout, take the ids from
+`useFormGroup()` and apply them yourself.
+
+## Dark mode
+
+Toggle the theme in the toolbar to see it.
+
+The hint uses `foreground-muted`, the body-text token that clears AA on every
+surface in both modes. The error message is `feedback-red` in light mode
+(5.74:1 on the page background) and `red-300` in dark.
+
+`red-300` rather than the more obvious `red-400` because a field can sit on
+any of the three surfaces: `red-400` is 4.14:1 on `background-alt-dark` and
+would fail WCAG 1.4.3 inside a dark card, where `red-300` is 5.98:1 at its
+worst and 12.18:1 at its best.
+
+## Accessibility
+
+- **The error is announced twice over, deliberately.** `FieldError` carries
+  `role="alert"`, which announces a message that appears after the page has
+  loaded, and its id goes into the control's `aria-describedby`, which
+  announces a message that was already there when focus arrives. Neither
+  covers both cases alone.
+- **`aria-describedby` only ever points at something real.** A group whose
+  `error` is set but which renders no `FieldError` marks the control invalid
+  and says nothing else — a dangling `aria-describedby` is worse than none,
+  because a screen reader announces no description at all rather than falling
+  back.
+- **Colour is not the error.** The red border and red text reinforce a message
+  that has to say what is wrong in words (WCAG 1.4.1), and `aria-invalid` is
+  what carries the state to anyone who cannot see either.
+- **Nothing the caller set is overwritten.** A control that arrives with its
+  own `id`, `aria-describedby`, `aria-invalid`, `disabled` or `required` keeps
+  it, and the group builds the rest of the field around that id rather than
+  replacing it. `controlId` is the one override.
+- **`disabled` and `required` are only given to elements that can hold them.**
+  Forwarding `disabled` to a `<div>` would render an attribute the browser
+  ignores and tell nobody anything.
+- **The group is one field.** It renders no landmark and no `role="group"`,
+  so a set of related fields still needs a `<fieldset>` and a `<legend>` of
+  your own.
+
+## Attributes
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>orientation</td>
+      <td>`"vertical" | "horizontal"`</td>
+      <td>`"vertical"`</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>`React.ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>error</td>
+      <td>`React.ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>invalid</td>
+      <td>`boolean`</td>
+      <td>set by `error`</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>required</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>controlId</td>
+      <td>`string`</td>
+      <td>the control's own id, else generated</td>
+    </tr>
+  </tbody>
+</table>
+
+## Usage
+
+```tsx
+import {
+  FormGroup,
+  Label,
+  FieldDescription,
+  FieldError,
+  Checkbox
+} from '@nearform/quantum'
+
+// The message on the group, the placement in the children
+<FormGroup orientation="vertical" description="We never share it">
+  <Label>Email</Label>
+  <Input type="email" variant="primary" onClear={clear} />
+  <FieldDescription />
+  <FieldError />
+</FormGroup>
+
+// Or written inline, which marks the field invalid just the same
+<FormGroup orientation="horizontal">
+  <Label>Checkbox Label</Label>
+  <Checkbox name="form-field-name" />
+  <FieldError>Please accept the terms</FieldError>
+</FormGroup>
+```
