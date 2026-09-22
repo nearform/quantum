@@ -841,10 +841,45 @@ describe('FormGroup accessibility', () => {
     )
   })
 
+  it('flags a control invalid with no message to show', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup invalid>
+        <Label>Email</Label>
+        <input type="email" />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(attribute(input, 'aria-invalid')).toBe('true')
+    expect(attribute(input, 'aria-describedby')).toBeUndefined()
+  })
+
+  /**
+   * `error` is what the field says; `invalid` is what it claims about itself.
+   * Set explicitly, the claim wins, so a message can be shown without being
+   * treated as a validation failure.
+   */
+  it('lets invalid=false show the message without the flag', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" invalid={false} error="Check this address">
+        <input type="email" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(html).toContain('Check this address')
+    expect(attribute(input, 'aria-describedby')).toBe('email-error')
+    expect(attribute(input, 'aria-invalid')).toBeUndefined()
+  })
+
   /**
    * `useFormGroup()` hands these ids out for a control the group cannot
    * reach, so a caller who applies them to one it *can* reach would name the
-   * same element twice.
+   * same element twice. The group's own id lands after the caller's tokens
+   * because it is stripped and re-appended -- the description is announced in
+   * idref order, and the field's own message reading last is the right way
+   * round.
    */
   it('does not repeat an id the control already points at', () => {
     const html = renderToStaticMarkup(
@@ -855,7 +890,7 @@ describe('FormGroup accessibility', () => {
     )
 
     expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
-      'email-error policy'
+      'policy email-error'
     )
   })
 
@@ -888,6 +923,24 @@ describe('FormGroup accessibility', () => {
 
     expect(openingTag(html, 'div', 'id=')).not.toContain('disabled')
     expect(openingTag(html, 'div', 'id=')).not.toContain('required')
+  })
+
+  /**
+   * The group owns its message ids in both directions. A caller's copy of one
+   * would otherwise outlive the element it names -- a dangling idref, which
+   * announces nothing at all.
+   */
+  it('drops a message id the control kept after the message went away', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email">
+        <input type="email" aria-describedby="email-error policy" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
+      'policy'
+    )
   })
 
   it('gives the id to one control only', () => {

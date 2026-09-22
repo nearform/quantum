@@ -61,6 +61,12 @@ separate `variant` on the control, so a field can be flagged to assistive
 technology without being repainted, and repainted without being flagged —
 which is what you want while a field is being typed into.
 
+`invalid` splits those two apart when you need it to, and wins over `error` in
+both directions: on its own it flags a control that has no message to show,
+and `invalid={false}` alongside an `error` renders the message without the
+flag. `error` is what the field says; `invalid` is what it claims about
+itself. Leave `invalid` unset — the usual case — and the error decides both.
+
 <Canvas of={FormGroupStories.WithError} />
 
 ### One message at a time
@@ -162,9 +168,14 @@ worst and 12.18:1 at its best.
   with an error and render a field that looks invalid, says it is invalid, and
   tells a screen reader it is fine. `true`, `grammar` and `spelling` are real
   assertions and are kept.
-- **`aria-describedby` is deduplicated.** `useFormGroup()` hands out the very
-  ids the group computes, so a caller who applies them to a control the group
-  can also reach would otherwise name the same element twice.
+- **The group owns its two message ids outright.** It strips
+  `<id>-description` and `<id>-error` from whatever the control arrived with
+  and puts them back only while the message they name is on the page.
+  `useFormGroup()` hands out those very ids, so a caller who pre-wires one on
+  a control the group can also reach would otherwise both double it up now and
+  be left pointing at a removed element once the message cleared. Every other
+  token the control points at is left alone, and the group's own id is
+  announced last.
 - **`disabled` and `required` are only given to elements that can hold them.**
   Forwarding `disabled` to a `<div>` would render an attribute the browser
   ignores and tell nobody anything.
@@ -203,7 +214,7 @@ worst and 12.18:1 at its best.
     <tr>
       <td>invalid</td>
       <td>`boolean`</td>
-      <td>set by `error`</td>
+      <td>follows `error`</td>
     </tr>
     <tr>
       <td>disabled</td>

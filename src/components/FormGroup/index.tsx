@@ -160,7 +160,15 @@ interface FormGroupProps
    * it marks the control invalid.
    */
   error?: React.ReactNode
-  /** Marks the control invalid independently of `error`. */
+  /**
+   * Marks the control invalid independently of `error`, and wins over it in
+   * both directions -- `invalid` alone flags a control with no message to
+   * show, and `invalid={false}` alongside an `error` renders the message
+   * without the flag. The two are deliberately separate: `error` is what the
+   * field says, `invalid` is what it claims about itself, and a field can
+   * reasonably carry a message it does not want treated as a validation
+   * failure. Leave it unset and the error decides.
+   */
   invalid?: boolean
   /** Passed to the control, for the whole field to be disabled in one place. */
   disabled?: boolean
@@ -290,18 +298,28 @@ const FormGroup = React.forwardRef<HTMLDivElement, FormGroupProps>(
     const isInvalid = invalid ?? Boolean(error || shownError)
 
     /**
-     * Deduplicated, because the control's own value and the group's can name
-     * the same element. That is not a hypothetical: `useFormGroup()` hands out
-     * these very ids for a control the group cannot reach, and a caller who
-     * uses them on one it *can* reach would otherwise have the id counted
-     * twice. Repeating an idref is not fatal, but it is a misconfiguration
-     * that leaves no trace, so it is worth not manufacturing.
+     * The group owns its two message ids outright: it strips them from
+     * whatever the control arrived with and puts them back only while the
+     * message they name is on the page. Everything else the control points at
+     * is left exactly as it was.
+     *
+     * Owning them in both directions is what matters. Only adding them would
+     * leave a caller who pre-wired `aria-describedby="<id>-error"` -- which
+     * `useFormGroup()` invites, since it hands out these very ids -- pointing
+     * at a removed element the moment the error cleared, because the group
+     * would have stopped appending the id while the caller's copy stayed put.
+     * A dangling idref announces nothing at all, which is the failure this
+     * component exists to prevent.
      */
+    const managedIds = new Set([descriptionId, errorId])
+
     const describedBy = (existing?: string) =>
       [
         ...new Set(
           [
-            ...(existing?.split(/\s+/) ?? []),
+            ...(existing?.split(/\s+/) ?? []).filter(
+              token => token && !managedIds.has(token)
+            ),
             descriptionShown ? descriptionId : undefined,
             errorShown ? errorId : undefined
           ].filter(Boolean)
