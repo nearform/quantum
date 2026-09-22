@@ -43,6 +43,8 @@ interface FormGroupContextValue {
   error?: React.ReactNode
   descriptionId: string
   errorId: string
+  /** Whether a `FieldError` in this group has something to render. */
+  errorShown: boolean
 }
 
 const FormGroupContext = React.createContext<FormGroupContextValue | null>(null)
@@ -81,13 +83,22 @@ interface FieldMessageProps extends React.ComponentPropsWithoutRef<'p'> {}
 /**
  * The hint under the control. Takes its text from the group's `description`,
  * or from its own children when you would rather write it inline.
+ *
+ * Stands down while the group's `FieldError` has something to say, so the two
+ * can be written side by side once and the field shows one message at a time
+ * rather than growing a second line as it is validated. The error is the more
+ * urgent of the two and it takes the place, not the space below it. A field
+ * that genuinely needs both messages at once wants a second element of its
+ * own rather than this one.
  */
 const FieldDescription = React.forwardRef<
   HTMLParagraphElement,
   FieldMessageProps
 >(({ className, children, ...props }, ref) => {
   const group = useFormGroup()
-  const content = children ?? group?.description
+  const content = group?.errorShown
+    ? undefined
+    : (children ?? group?.description)
 
   if (!content) return null
 
@@ -266,15 +277,19 @@ const FormGroup = React.forwardRef<HTMLDivElement, FormGroupProps>(
       return own ?? fallback
     }
 
-    const shownDescription = contentOf('description', description)
     const shownError = contentOf('error', error)
+    const errorShown = Boolean(shownError)
+    // The error replaces the hint rather than joining it, so on an invalid
+    // field there is no hint left to describe the control with.
+    const descriptionShown =
+      !errorShown && Boolean(contentOf('description', description))
     const isInvalid = invalid ?? Boolean(error || shownError)
 
     const describedBy = (existing?: string) =>
       [
         existing,
-        shownDescription ? descriptionId : undefined,
-        shownError ? errorId : undefined
+        descriptionShown ? descriptionId : undefined,
+        errorShown ? errorId : undefined
       ]
         .filter(Boolean)
         .join(' ') || undefined
@@ -303,18 +318,32 @@ const FormGroup = React.forwardRef<HTMLDivElement, FormGroupProps>(
         } as Partial<typeof own>)
       }
 
+      // Read before the flag is set, not inside `place` -- `place` runs after
+      // the assignment below, so a closure over `controlWired` would see
+      // `true` for the first control as well and never anchor it to the
+      // label's row.
+      const isFirstControl = !controlWired
+      controlWired = true
+
       // Every control is wrapped in horizontal mode rather than given the
       // placement classes directly: a control's `className` does not
       // necessarily land on its outermost element -- `Input` puts it on the
       // `<input>` inside its border -- so it is not a reliable way to position
       // one in a grid.
+      //
+      // The first control is pinned to row 1 rather than left to
+      // auto-placement, which would happen to put it there only while the
+      // children are written in the order they are drawn in. A group whose
+      // `FieldError` comes first would otherwise give row 1 to the message and
+      // push the control below its own label.
       const place = (node: React.ReactNode) =>
         horizontal ? (
           <div
             key={element.key}
             className={cn(
               'min-w-0',
-              controlWired ? 'col-start-2' : 'col-start-2 row-start-1'
+              'col-start-2',
+              isFirstControl && 'row-start-1'
             )}
           >
             {node}
@@ -323,8 +352,7 @@ const FormGroup = React.forwardRef<HTMLDivElement, FormGroupProps>(
           node
         )
 
-      if (controlWired) return place(element)
-      controlWired = true
+      if (!isFirstControl) return place(element)
 
       const wiring: Record<string, unknown> = {
         // Already the control's own id unless `controlId` overrode it.
@@ -349,8 +377,8 @@ const FormGroup = React.forwardRef<HTMLDivElement, FormGroupProps>(
     }
 
     const context = React.useMemo(
-      () => ({ description, error, descriptionId, errorId }),
-      [description, error, descriptionId, errorId]
+      () => ({ description, error, descriptionId, errorId, errorShown }),
+      [description, error, descriptionId, errorId, errorShown]
     )
 
     return (

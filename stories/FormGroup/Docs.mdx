@@ -46,6 +46,11 @@ A group with no label, or no message, is just a group with fewer children.
 Nothing shifts to fill the gap, and in horizontal orientation a group with no
 label has no empty column to show for it.
 
+Dropping the `Label` drops the visible text, not the control's name. A field
+whose label lives somewhere else — a column header, say — takes an
+`aria-label` instead, as the middle example does. A placeholder is not a
+label.
+
 <Canvas of={FormGroupStories.Parts} />
 
 ### Errors
@@ -60,9 +65,15 @@ which is what you want while a field is being typed into.
 
 ### One message at a time
 
-`FieldDescription` and `FieldError` can both be present; whichever has content
-renders. Set `error` and the hint stays silent rather than being pushed down
-the page, so the field does not change height as it is validated.
+Write `FieldDescription` and `FieldError` side by side once and leave them.
+The error is the more urgent of the two, so it takes the hint's place rather
+than the space below it: set `error` and the hint stands down, and the field
+does not change height as it is validated. Clear the error and the hint comes
+back.
+
+The hint's id leaves `aria-describedby` with it, since the element it names is
+no longer rendered. A field that genuinely needs both messages at once wants a
+second element of its own rather than a `FieldDescription`.
 
 <Canvas of={FormGroupStories.HintThenError} />
 
@@ -135,7 +146,8 @@ worst and 12.18:1 at its best.
   `error` is set but which renders no `FieldError` marks the control invalid
   and says nothing else — a dangling `aria-describedby` is worse than none,
   because a screen reader announces no description at all rather than falling
-  back.
+  back. The same holds for the hint an error has stood down: it leaves
+  `aria-describedby` at the moment it leaves the page.
 - **Colour is not the error.** The red border and red text reinforce a message
   that has to say what is wrong in words (WCAG 1.4.1), and `aria-invalid` is
   what carries the state to anyone who cannot see either.
@@ -149,6 +161,10 @@ worst and 12.18:1 at its best.
 - **The group is one field.** It renders no landmark and no `role="group"`,
   so a set of related fields still needs a `<fieldset>` and a `<legend>` of
   your own.
+- **A group without a `Label` still needs a name.** `FormGroup` wires up
+  whatever label it is given; it cannot supply one. Leave the `Label` out and
+  the control needs an `aria-label`, or a `Label` elsewhere pointed at it with
+  `controlId`.
 
 ## Attributes
 

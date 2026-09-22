@@ -694,7 +694,14 @@ describe('FormGroup accessibility', () => {
     expect(attribute(openingTag(html, 'p'), 'role')).toBe('alert')
   })
 
-  it('points at the hint and the error together', () => {
+  /**
+   * The error takes the hint's place rather than the space below it, so a
+   * field does not change height as it is validated. That makes the pair safe
+   * to write once and leave, which is what the stories do -- and it means the
+   * hint's id has to leave `aria-describedby` with it, since the element it
+   * names is no longer rendered.
+   */
+  it('replaces the hint with the error rather than showing both', () => {
     const html = renderToStaticMarkup(
       <FormGroup
         controlId="email"
@@ -707,9 +714,43 @@ describe('FormGroup accessibility', () => {
       </FormGroup>
     )
 
+    expect(html).toContain('Enter a valid address')
+    expect(html).not.toContain('We never share it')
     expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
-      'email-description email-error'
+      'email-error'
     )
+  })
+
+  it('shows the hint again once the error clears', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" description="We never share it">
+        <input type="email" />
+        <FieldDescription />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(html).toContain('We never share it')
+    expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
+      'email-description'
+    )
+  })
+
+  /**
+   * Auto-placement would put the control in row 1 only while the children
+   * happen to be written in the order they are drawn. Written error-first, an
+   * unpinned control would be pushed to row 2 -- below its own label.
+   */
+  it('keeps the control in the label row whatever order it is written in', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup orientation="horizontal" error="Enter a valid address">
+        <FieldError />
+        <Label>Email</Label>
+        <input type="email" />
+      </FormGroup>
+    )
+
+    expect(openingTag(html, 'div', 'min-w-0')).toContain('row-start-1')
   })
 
   it('keeps a caller-supplied description alongside its own', () => {

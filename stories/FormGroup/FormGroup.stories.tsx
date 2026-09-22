@@ -74,7 +74,13 @@ export const Orientation: Story = {
   )
 }
 
-/** Any part can be left out. The rest still lines up. */
+/**
+ * Any part can be left out. The rest still lines up.
+ *
+ * Dropping the `Label` drops the visible text, not the control's name -- a
+ * field whose label lives somewhere else, such as a column header, takes an
+ * `aria-label` instead. A placeholder is not a label.
+ */
 export const Parts: Story = {
   args: {},
   render: props => (
@@ -85,7 +91,7 @@ export const Parts: Story = {
         <FieldDescription />
       </FormGroup>
       <FormGroup {...props} description="This is a hint" className="w-72">
-        <TextControl />
+        <TextControl aria-label="Label" />
         <FieldDescription />
       </FormGroup>
       <FormGroup {...props} className="w-72">
@@ -115,7 +121,11 @@ export const WithError: Story = {
   )
 }
 
-/** The hint is replaced by the error, not pushed down by it. */
+/**
+ * The hint is replaced by the error, not pushed down by it. Both groups below
+ * are written identically, down to the children; the second one only adds
+ * `error`.
+ */
 export const HintThenError: Story = {
   args: {
     description: 'This is a hint',
@@ -132,8 +142,7 @@ export const HintThenError: Story = {
       <FormGroup {...props} error={error} className="w-72">
         <Label>Label</Label>
         <TextControl variant="error" />
-        {/* With an error to show, FieldError renders and FieldDescription
-            stays silent -- one message at a time, in one place. */}
+        <FieldDescription />
         <FieldError />
       </FormGroup>
     </div>
