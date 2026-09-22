@@ -809,7 +809,15 @@ describe('FormGroup accessibility', () => {
     expect(attribute(openingTag(html, 'input'), 'aria-invalid')).toBeUndefined()
   })
 
-  it('lets a control state its own validity', () => {
+  /**
+   * The one place the group overrules the control. `aria-invalid="false"` is
+   * the attribute's default and is indistinguishable from no attribute at all
+   * in the accessibility tree, so a control carrying it has asserted nothing
+   * -- and a template that ships it by default would otherwise sit inside a
+   * group with an error and announce itself as valid while rendering an error
+   * message.
+   */
+  it('marks a control invalid over its own aria-invalid=false', () => {
     const html = renderToStaticMarkup(
       <FormGroup error="Enter a valid address">
         <input type="email" aria-invalid={false} />
@@ -817,7 +825,38 @@ describe('FormGroup accessibility', () => {
       </FormGroup>
     )
 
-    expect(attribute(openingTag(html, 'input'), 'aria-invalid')).toBe('false')
+    expect(attribute(openingTag(html, 'input'), 'aria-invalid')).toBe('true')
+  })
+
+  it('keeps a control that says something more specific than invalid', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup error="Check the spelling">
+        <input type="text" aria-invalid="spelling" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-invalid')).toBe(
+      'spelling'
+    )
+  })
+
+  /**
+   * `useFormGroup()` hands these ids out for a control the group cannot
+   * reach, so a caller who applies them to one it *can* reach would name the
+   * same element twice.
+   */
+  it('does not repeat an id the control already points at', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" error="Enter a valid address">
+        <input type="email" aria-describedby="email-error policy" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
+      'email-error policy'
+    )
   })
 
   it('forwards disabled and required to the control', () => {

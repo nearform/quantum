@@ -152,9 +152,19 @@ worst and 12.18:1 at its best.
   that has to say what is wrong in words (WCAG 1.4.1), and `aria-invalid` is
   what carries the state to anyone who cannot see either.
 - **Nothing the caller set is overwritten.** A control that arrives with its
-  own `id`, `aria-describedby`, `aria-invalid`, `disabled` or `required` keeps
-  it, and the group builds the rest of the field around that id rather than
-  replacing it. `controlId` is the one override.
+  own `id`, `aria-describedby`, `disabled` or `required` keeps it, and the
+  group builds the rest of the field around that id rather than replacing it.
+  `controlId` is the one override.
+- **`aria-invalid="false"` is the exception.** It is the attribute's default
+  and reads identically to no attribute at all, so a control carrying it has
+  asserted nothing and the group's `error` wins. Without that, a control
+  template shipping `aria-invalid={false}` by default would sit in a group
+  with an error and render a field that looks invalid, says it is invalid, and
+  tells a screen reader it is fine. `true`, `grammar` and `spelling` are real
+  assertions and are kept.
+- **`aria-describedby` is deduplicated.** `useFormGroup()` hands out the very
+  ids the group computes, so a caller who applies them to a control the group
+  can also reach would otherwise name the same element twice.
 - **`disabled` and `required` are only given to elements that can hold them.**
   Forwarding `disabled` to a `<div>` would render an attribute the browser
   ignores and tell nobody anything.

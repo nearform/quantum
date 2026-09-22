@@ -217,11 +217,15 @@ const slotOf = (node: React.ReactNode): Slot | null => {
  * belong to one element.
  *
  * Nothing is overwritten. A child that already has an `htmlFor`, an
- * `aria-describedby`, an `aria-invalid`, a `disabled` or a `required` keeps
- * it, and its own `className` is applied after the group's. A control that
- * already has an `id` keeps that too, and the label and the messages are built
- * around it -- `controlId` is the one way to override it, since a group asked
- * for a specific id has been asked by the only party above both of them.
+ * `aria-describedby`, a `disabled` or a `required` keeps it, and its own
+ * `className` is applied after the group's. A control that already has an `id`
+ * keeps that too, and the label and the messages are built around it --
+ * `controlId` is the one way to override it, since a group asked for a
+ * specific id has been asked by the only party above both of them.
+ *
+ * `aria-invalid="false"` is the single exception, because it is the only one
+ * of these that says nothing by being there: it is the attribute's default
+ * and reads identically to its absence. See the guard below.
  */
 const FormGroup = React.forwardRef<HTMLDivElement, FormGroupProps>(
   (
@@ -285,14 +289,24 @@ const FormGroup = React.forwardRef<HTMLDivElement, FormGroupProps>(
       !errorShown && Boolean(contentOf('description', description))
     const isInvalid = invalid ?? Boolean(error || shownError)
 
+    /**
+     * Deduplicated, because the control's own value and the group's can name
+     * the same element. That is not a hypothetical: `useFormGroup()` hands out
+     * these very ids for a control the group cannot reach, and a caller who
+     * uses them on one it *can* reach would otherwise have the id counted
+     * twice. Repeating an idref is not fatal, but it is a misconfiguration
+     * that leaves no trace, so it is worth not manufacturing.
+     */
     const describedBy = (existing?: string) =>
       [
-        existing,
-        descriptionShown ? descriptionId : undefined,
-        errorShown ? errorId : undefined
-      ]
-        .filter(Boolean)
-        .join(' ') || undefined
+        ...new Set(
+          [
+            ...(existing?.split(/\s+/) ?? []),
+            descriptionShown ? descriptionId : undefined,
+            errorShown ? errorId : undefined
+          ].filter(Boolean)
+        )
+      ].join(' ') || undefined
 
     let controlWired = false
 
@@ -360,7 +374,26 @@ const FormGroup = React.forwardRef<HTMLDivElement, FormGroupProps>(
         'aria-describedby': describedBy(own['aria-describedby'] as string)
       }
 
-      if (isInvalid && own['aria-invalid'] === undefined) {
+      /**
+       * The one place the group overrules the control, and only because
+       * `aria-invalid="false"` is indistinguishable from no attribute at all
+       * in the accessibility tree. It is the attribute's default, so a control
+       * carrying it has asserted nothing, and treating it as a considered
+       * "this field is valid" would let a template that ships
+       * `aria-invalid={false}` -- a common enough default -- sit inside a
+       * group with an error and render a field that is visibly invalid,
+       * announces an error message, and tells a screen reader it is fine.
+       *
+       * Every other value is an assertion and is kept, including `grammar`
+       * and `spelling`, which say more than the group's `true` would.
+       */
+      const ownInvalid = own['aria-invalid']
+      const assertsValidity =
+        ownInvalid !== undefined &&
+        ownInvalid !== false &&
+        ownInvalid !== 'false'
+
+      if (isInvalid && !assertsValidity) {
         wiring['aria-invalid'] = true
       }
 
