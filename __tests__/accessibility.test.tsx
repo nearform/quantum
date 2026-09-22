@@ -264,6 +264,45 @@ describe('Badge accessibility', () => {
     expect(attribute(tag, 'role')).toBe('status')
   })
 
+  // `role="img"` replaces the text with the accessible name, so without one
+  // it fails 4.1.2 and hides the text it was put on. The badge refuses it
+  // whoever asked, rather than only keeping its own generated role valid.
+  it('refuses an unnamed img role even from the caller', () => {
+    const bare = openingTag(
+      renderToStaticMarkup(<Badge role="img">3</Badge>),
+      'span'
+    )
+    const empty = openingTag(
+      renderToStaticMarkup(
+        <Badge role="img" aria-label="">
+          3
+        </Badge>
+      ),
+      'span'
+    )
+    const named = openingTag(
+      renderToStaticMarkup(
+        <Badge role="img" aria-label="3 unread">
+          3
+        </Badge>
+      ),
+      'span'
+    )
+
+    expect(attribute(bare, 'role')).toBeUndefined()
+    expect(attribute(empty, 'role')).toBeUndefined()
+    expect(attribute(named, 'role')).toBe('img')
+  })
+
+  it('passes every other caller-supplied role through unnamed', () => {
+    const tag = openingTag(
+      renderToStaticMarkup(<Badge role="status">3 unread</Badge>),
+      'span'
+    )
+
+    expect(attribute(tag, 'role')).toBe('status')
+  })
+
   it('hides its decorative dot and icon from assistive technology', () => {
     const dot = renderToStaticMarkup(<Badge dot>Online</Badge>)
     const icon = renderToStaticMarkup(<Badge icon={<svg />}>Verified</Badge>)

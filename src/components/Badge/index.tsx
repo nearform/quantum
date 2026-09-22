@@ -108,7 +108,9 @@ interface BadgeProps
  * ordinary content. A badge whose text does not say enough on its own -- a
  * bare `3` -- takes an `aria-label`, and with it `role="img"`, which is what
  * makes that label reach a screen reader at all: `aria-label` on a plain
- * `<span>` has no role to name and most screen readers drop it.
+ * `<span>` has no role to name and most screen readers drop it. The badge
+ * never carries that role without a name to go in it, however the role
+ * arrived.
  */
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   (
@@ -120,11 +122,23 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     // leave the badge as the plain text it already was.
     const labelled = Boolean(props['aria-label'] || props['aria-labelledby'])
 
+    // `role="img"` swaps the badge's text for its accessible name, so a badge
+    // with no name to swap in must not carry the role: it fails 4.1.2 and puts
+    // the text out of reach at the same time. That holds whoever asked for the
+    // role. Ours is only generated when there is a label; a caller's is
+    // dropped when there is not, rather than forwarding an element we would
+    // never have produced ourselves and whose only possible reading is a
+    // mistake. Every other role is passed through untouched -- `role="status"`
+    // on a badge that changes while the page is open is the point of the
+    // override.
+    const requested = role ?? (labelled ? 'img' : undefined)
+    const resolved = requested === 'img' && !labelled ? undefined : requested
+
     return (
       <span
         ref={ref}
         className={cn(badgeVariants({ variant, size, shape }), className)}
-        role={role ?? (labelled ? 'img' : undefined)}
+        role={resolved}
         {...props}
       >
         {dot && (

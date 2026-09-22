@@ -84,7 +84,11 @@ visible badge at all.
   and most screen readers ignore it.
 - **A badge that changes while the page is open needs announcing.** Pass
   `role="status"` and the new text is read out when it changes. Your `role`
-  wins over the generated one.
+  wins over the generated one, with one exception: `role="img"` without a name
+  to go with it is dropped. That role replaces the badge's text with its
+  accessible name, so unnamed it fails WCAG 4.1.2 and puts the text out of
+  reach at the same time -- there is no reading of it that is not a mistake.
+  Pass an `aria-label` with it and it is kept.
 - Icons are always `aria-hidden`, so an icon-only badge is silent. Give it an
   `aria-label` too.
 

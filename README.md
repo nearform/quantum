@@ -216,6 +216,8 @@ props rather than guessing:
   colours are indistinguishable to a good share of readers. A badge whose text
   is not self-explanatory, such as a bare count, takes an `aria-label`, which
   also gives it the `role="img"` that makes that label reach a screen reader.
+  It never carries that role without a name, whether the role came from the
+  badge or from you.
 - **Icon-only controls need names in your language.** `Pagination`
   (`previousLabel`, `nextLabel`, `pageLabel`), `StepsIndicator` (`label`,
   `stepLabel`), `Input` (`clearLabel`) and `Password` (`showLabel`,
