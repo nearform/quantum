@@ -98,6 +98,16 @@ The measured heights, in a row:
   </tbody>
 </table>
 
+The `Button` column holds for **every** button variant, not just `primary`.
+A button's height is arithmetic rather than a class — padding, line box and
+border — and `secondary` is the one variant with a border, so the compound
+variants in `Button` take its 2px back out of its padding to keep it level:
+`secondary lg` is `py-2.5` where `primary lg` is `py-3`, and `border-box`
+counts the difference. Read off the class lists that looks like a 4px
+discrepancy; measured, both are 48px. `Button`'s **Sizes** story asserts it in
+the browser on every CI run, so a variant that gains a border, or a compound
+dropped as redundant, fails rather than quietly moving one button in a row.
+
 So the pairs that line up are:
 
 - **37px** — `Input size="sm"` with `Select size="sm"`
