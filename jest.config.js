@@ -1,5 +1,6 @@
 module.exports = {
   preset: 'ts-jest',
+  setupFiles: ['<rootDir>/jest.module-hooks.setup.js'],
   // Mirrors the `@/*` path alias in tsconfig.json. ts-jest type-checks against
   // that alias but does not resolve it at runtime, so `src/` imports of
   // `@/assets` or `@/lib/utils` would otherwise fail to load.
@@ -21,7 +22,17 @@ module.exports = {
     // node16 honours `exports` while still emitting CommonJS for these files.
     '^.+\\.(ts|tsx)?$': [
       'ts-jest',
-      { tsconfig: { module: 'node16', moduleResolution: 'node16' } }
+      {
+        tsconfig: {
+          module: 'node16',
+          moduleResolution: 'node16',
+          // ts-jest >=29.4 refuses a hybrid module kind unless the file is
+          // compilable in isolation, and silently falls back to `commonjs` +
+          // `node10` when it is not -- which reinstates the TS2307 failures
+          // that `node16` is here to avoid.
+          isolatedModules: true
+        }
+      }
     ],
     '^.+\\.(js|jsx)$': 'babel-jest'
   }
