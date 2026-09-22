@@ -5,6 +5,8 @@
    which the published stylesheet does not — that difference is the point of
    listing both explicitly. */
 @import 'tailwindcss' source(none);
+/* The same generated theme the published stylesheet compiles against, so the
+   preview cannot drift from what consumers get. */
+@import '../src/quantum.css';
 @source '../src';
 @source '../stories';
-@config './tailwind.config.js';

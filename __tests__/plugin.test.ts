@@ -220,7 +220,7 @@ describeBuilt('published artifact loads in a real Tailwind build', () => {
     ).toBe('published base cursor rule: true')
   })
 
-  // The `@config` route loads the CJS build through `require` in a JS config.
+  // The README's JS-config routes load the CJS build through `require`.
   it('is requireable from CJS and carries the full theme', () => {
     const required = requireCjs(path.join(repoRoot, exported.require))
     const plugin = required.default ?? required
@@ -256,10 +256,11 @@ describeBuilt('published artifact loads in a real Tailwind build', () => {
  * `src/global.css` is a tsup entry, so it ships as `dist/global.css` — the
  * stylesheet the README's Tailwind-free route imports.
  *
- * Under v4 a JS config is loaded only when a CSS entrypoint asks for it, so
- * without an `@config` this file still compiles to preflight plus the default
- * theme and every Quantum token silently vanishes. It is not empty and it does
- * not error, so neither `npm run build` nor a file-exists check notices.
+ * It gets its theme from the native `@theme` block in `src/quantum.css`, which
+ * it `@import`s. Drop that import and the file still compiles to preflight plus
+ * the default theme, with every Quantum token silently gone — it is not empty
+ * and it does not error, so neither `npm run build` nor a file-exists check
+ * notices.
  */
 describeBuilt('published global.css carries the Quantum theme', () => {
   const globalCss = () =>
@@ -268,22 +269,27 @@ describeBuilt('published global.css carries the Quantum theme', () => {
   /**
    * One declaration per theme key, as it appears in the *built* stylesheet.
    *
-   * Separate from `CANDIDATES` above on purpose. These must be classes `src/`
-   * genuinely uses, and `src/` uses most of them only in variant form
-   * (`focus-within:shadow-brandGreen`, `data-[state=open]:animate-slideDown`),
-   * so the selector text belongs to the component while the declaration is what
-   * the config contributes. The built file also goes through Lightning CSS,
-   * which normalises `'Inter'` to `"Inter"` — hence its own expectations rather
-   * than reusing the plugin-level ones.
+   * Separate from `CANDIDATES` above on purpose, and not interchangeable with
+   * it: the plugin hands consumers a JS theme and Tailwind inlines those values
+   * into the utilities, while `@theme` emits them as custom properties the
+   * utilities then reference. So the same token is `color: #f4f8fa` on the
+   * plugin route and `--color-primary-10: #f4f8fa` here. The built file also
+   * goes through Lightning CSS, which normalises `'Inter'` to `"Inter"`.
    *
-   * Each of these is absent when the `@config` is removed from src/global.css.
+   * `boxShadow` is the exception that stays a literal: Tailwind has to rewrite
+   * the colour slot to pick up `--tw-shadow-color`, so it cannot hand the whole
+   * value over as a variable.
+   *
+   * Each of these is absent when the `@import './quantum.css'` is removed from
+   * src/global.css.
    */
   const THEME_DECLARATIONS = {
-    colors: 'color: #f4f8fa',
+    colors: '--color-primary-10: #f4f8fa',
     boxShadow: '--tw-shadow: 0px 0px 0px 4px var(--tw-shadow-color, #03e5a4)',
     fontFamily: '"Inter",',
-    strokeWidth: 'stroke-width: 1px',
-    animation: 'animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)'
+    strokeWidth: '--stroke-width-1: 1px',
+    animation:
+      '--animate-slideDown: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)'
   } as const
 
   it('emits the configured declaration for every theme key', () => {
@@ -296,8 +302,61 @@ describeBuilt('published global.css carries the Quantum theme', () => {
     }
   })
 
-  // `darkMode: 'class'` lives in tailwind.config.ts, so a class-based `dark:`
-  // is second proof the config was actually loaded — v4 defaults to a
+  /**
+   * The point of the CSS-first migration: a consumer can restyle the library by
+   * redeclaring a custom property, because the utilities read the theme through
+   * `var()` rather than having the value baked in.
+   *
+   * Declaring the variable is not enough on its own — a `@theme` block whose
+   * namespace Tailwind does not recognise emits the custom property and no
+   * utility ever reads it, which the `THEME_DECLARATIONS` check above would not
+   * catch. `--stroke-width-*` is the one most at risk: v4 resolves `stroke-2`
+   * from a bare value when no theme key matches, so the utility exists either
+   * way and only the unit gives it away.
+   */
+  it('resolves those utilities through the custom properties', () => {
+    const css = globalCss()
+
+    const REFERENCES = {
+      colors: 'color: var(--color-primary-10)',
+      strokeWidth: 'stroke-width: var(--stroke-width-1)',
+      animation: 'animation: var(--animate-slideDown)',
+      fontFamily: 'var(--default-font-family'
+    } as const
+
+    for (const [themeKey, reference] of Object.entries(REFERENCES)) {
+      expect(`${themeKey}: ${css.includes(reference)}`).toBe(
+        `${themeKey}: true`
+      )
+    }
+  })
+
+  /**
+   * `colors`, `boxShadow`, `fontFamily` and `strokeWidth` sat outside `extend`
+   * in the old JS config, so they *replaced* Tailwind's defaults. `@theme`
+   * merges instead, and `src/quantum.css` reproduces the old behaviour with a
+   * `--<namespace>-*: initial` reset before each group.
+   *
+   * Drop one and there is no error — the default palette simply reappears.
+   * Measured: without the resets this file grows by 322 bytes, gains
+   * `--font-mono` and `--color-gray-800`, and emits a `.text-gray-800` utility
+   * for the misspelt class in Accordion (our palette is `grey`) that today
+   * resolves to nothing. `oklch` is the tell: every Quantum colour is a hex
+   * literal and every default v4 colour is `oklch()`, so one cannot be mistaken
+   * for the other.
+   */
+  it('reproduces the old replace semantics, so no default theme leaks in', () => {
+    const css = globalCss()
+
+    expect(`default colours: ${css.includes('oklch(')}`).toBe(
+      'default colours: false'
+    )
+    expect(css).not.toContain('--font-mono:')
+    expect(css).not.toContain('.text-gray-800')
+  })
+
+  // The `@custom-variant dark` in src/quantum.css, which replaces the old
+  // config's `darkMode: 'class'`. v4 defaults `dark:` to a
   // `prefers-color-scheme` media query, which would make the components' dark
   // mode operating-system dependent.
   it('drives dark mode from the .dark class, not the OS', () => {
@@ -335,9 +394,9 @@ describeBuilt('published global.css carries the Quantum theme', () => {
    * The other half of the base-layer check in the plugin suite above, and a
    * genuinely separate route: that one covers consumers who load the plugin,
    * this one covers the consumer who imports this stylesheet instead and never
-   * touches the plugin. They arrive by different paths — `@plugin` there, the
-   * `@config` in src/global.css here — so removing either registration leaves
-   * the other test green.
+   * touches the plugin. They arrive by different paths — `addBase` there, the
+   * `@layer base` block of src/quantum.css here — so removing either
+   * registration leaves the other test green.
    */
   it('carries the pointer-cursor base rule for the Tailwind-free route', () => {
     const inBaseLayer = BASE_CURSOR_RULE.test(baseLayerOf(globalCss()))

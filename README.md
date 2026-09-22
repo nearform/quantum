@@ -27,6 +27,12 @@ npm install --save @nearform/quantum
 > animations vanish with no error, so focus rings and the Accordion animation
 > silently stop working while lowercase tokens keep resolving.
 >
+> Those camelCase names are deliberate and are not changing. `bg-brandGreen-100`,
+> `text-brandMidnight-80` and `animate-slideDown` are the spellings in your
+> markup; renaming them to v4's idiomatic `brand-green` would rewrite every one
+> of those class names in every consuming app. Raising the floor to `4.1.18` is
+> the price of keeping them, and it is the cheaper of the two.
+>
 > **Tailwind v4 also raises the browser baseline** to Safari 16.4, Chrome 111
 > and Firefox 128. If you need to support anything older, stay on the previous
 > release of this library.
@@ -141,6 +147,37 @@ import '@nearform/quantum/dist/global.css'
 import { Button } from '@nearform/quantum'
 ```
 
+#### Overriding a token
+
+`dist/global.css` carries our theme as CSS custom properties, and the utilities
+read them through `var()` rather than having the values baked in, so a token can
+be restyled without a Tailwind build:
+
+```css
+@import '@nearform/quantum/dist/global.css';
+
+:root {
+  --color-accent: #123456;
+}
+```
+
+Your declaration is unlayered and ours is in the `theme` layer, so yours wins,
+and every utility that reads the token follows it — `bg-accent`,
+`[&>*:focus]:bg-accent`, `dark:bg-accent-dark` and the rest.
+
+The variable name is the token name with its namespace in front:
+`--color-brandGreen-100`, `--color-foreground-muted`, `--shadow-brandGreen`,
+`--font-sans`, `--stroke-width-2`, `--animate-slideDown`. The same names are
+available as JS objects — `import { colors } from '@nearform/quantum'`.
+
+Only tokens our components actually use are emitted, so redeclaring one we do
+not reference has no effect; there is no utility reading it either way.
+
+This applies to the prebuilt stylesheet only. On the Tailwind routes above the
+plugin hands your build a JS theme and your build inlines the values, so there
+is nothing to override at runtime — change them in your own `@theme` block or
+Tailwind config instead.
+
 ## Accessibility
 
 Components target [WCAG 2.2](https://www.w3.org/TR/WCAG22/) level AA. Every
@@ -186,6 +223,22 @@ props rather than guessing:
   ```
 
   `Tooltip` does this for you when its child is an element.
+
+## Design tokens
+
+The token values live in `src/theme.ts` (built from `src/colors` and
+`src/animations`) and the base styles in `src/tailwind-base.ts`. There is no
+`tailwind.config.*` and no `@config` directive: `src/quantum.css` is a native
+Tailwind v4 `@theme` block, generated from those files and committed, and it is
+what both `src/global.css` and `.storybook/global.css` compile against.
+
+After changing a token, regenerate it:
+
+```
+npm run build:theme
+```
+
+`npm test` fails if you forget.
 
 ## Tests
 
