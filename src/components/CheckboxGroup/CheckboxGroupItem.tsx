@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { Checkbox, type CheckboxProps } from '../Checkbox'
-import { ChoiceItem, useChoiceGroup } from '../choice-group'
+import { ChoiceItem, resolveAriaInvalid, useChoiceGroup } from '../choice-group'
 import { useCheckboxGroup } from './CheckboxGroup'
 
 interface CheckboxGroupItemProps
@@ -35,6 +35,7 @@ const CheckboxGroupItem = React.forwardRef<
       name,
       onCheckedChange,
       'aria-describedby': ariaDescribedBy,
+      'aria-invalid': ownAriaInvalid,
       ...props
     },
     ref
@@ -46,6 +47,12 @@ const CheckboxGroupItem = React.forwardRef<
     const descriptionId = `${controlId}-description`
 
     const isDisabled = disabled ?? choiceGroup?.disabled
+    // `Checkbox` derives its border from this same attribute, so resolving it
+    // here keeps what the box announces and what it draws in step.
+    const ariaInvalid = resolveAriaInvalid(
+      ownAriaInvalid,
+      Boolean(choiceGroup?.invalid)
+    )
     const describedBy =
       [ariaDescribedBy, description ? descriptionId : undefined]
         .filter(Boolean)
@@ -72,7 +79,7 @@ const CheckboxGroupItem = React.forwardRef<
             onCheckedChange?.(checked)
           }}
           aria-describedby={describedBy}
-          aria-invalid={choiceGroup?.invalid || undefined}
+          aria-invalid={ariaInvalid}
           {...props}
         />
       </ChoiceItem>

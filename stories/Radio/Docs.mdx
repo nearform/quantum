@@ -176,8 +176,18 @@ Everything Radix's radio group item takes, plus its own text.
       <td>`boolean`</td>
       <td>the group's</td>
     </tr>
+    <tr>
+      <td>aria-invalid</td>
+      <td>`boolean | "grammar" | "spelling"`</td>
+      <td>the group's</td>
+    </tr>
   </tbody>
 </table>
+
+A radio cannot opt out of a disabled group: Radix ORs the group's `disabled`
+with the item's, so `disabled={false}` on a `Radio` inside a disabled
+`RadioGroup` has no effect. `CheckboxGroupItem` can, because its group's
+`disabled` is ours rather than Radix's.
 
 A `Radio` with no `label` renders as the bare control it has always been, so an
 existing `ControlLabel` pairing keeps working. Prefer `label` for anything new:
@@ -196,7 +206,11 @@ row — the row is layout, and what a caller wants to restyle is the radio.
   is where the group's hint and its error are useful. Announcing either on
   every option would be one sentence read four times.
 - **`aria-invalid` is the per-radio half of an error**, and it is what draws
-  the red border.
+  the red border. A radio's own `aria-invalid` is kept, except for `false`:
+  that is the attribute's default and reads identically to its absence, so a
+  radio carrying it has asserted nothing and the group's error wins. The border
+  is derived from whatever the attribute ends up as rather than from the group,
+  so a radio that renders as invalid is a radio that announces it.
 - **A hint on one option is wired to that option**, through
   `aria-describedby`. On a radio group that matters more than anywhere else:
   the hint is frequently the whole difference between two choices.

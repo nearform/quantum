@@ -160,6 +160,11 @@ job.
       <td>the group's</td>
     </tr>
     <tr>
+      <td>aria-invalid</td>
+      <td>`boolean | "grammar" | "spelling"`</td>
+      <td>the group's</td>
+    </tr>
+    <tr>
       <td>onCheckedChange</td>
       <td>`(checked: boolean | "indeterminate") => void`</td>
       <td>-</td>
@@ -206,7 +211,21 @@ radio group can express natively.
   attribute. The browser applies that one to everything inside the element with
   no way for a single option to opt back in, so a group disabled that way could
   not leave one box live, and an item asking to stay enabled would render as
-  enabled and refuse to be clicked.
+  enabled and refuse to be clicked. Which is also what makes
+  `<CheckboxGroupItem disabled={false} />` meaningful inside a disabled group:
+  "all of these are unavailable except this one" is a thing a form legitimately
+  says. A `Radio` cannot do the same — a Radix radio group ORs its own
+  `disabled` with the item's, so the group always wins there.
+- **An option's own `aria-invalid` is kept, except for `false`.** The group
+  wins over `aria-invalid={false}` and only over that: `false` is the
+  attribute's default and reads identically to its absence, so an option
+  carrying it has asserted nothing, and letting it suppress the group's error
+  would render a box that is visibly invalid, inside a group showing an error
+  message, that tells a screen reader it is fine. Every other value is a real
+  assertion and is kept, including `grammar` and `spelling`, which say more
+  than the group's `true` would. The border is derived from whatever the
+  attribute ends up as rather than from the group, so a box that renders as
+  invalid is a box that announces it.
 
 ## Dark mode
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
-import { cn } from '@/lib/utils'
+import { assertsInvalid, cn } from '@/lib/utils'
 import { BsCheck, BsDash } from '@/assets'
 import { cva } from 'class-variance-authority'
 
@@ -85,10 +85,7 @@ const Checkbox = React.forwardRef<
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
-      checkboxVariants({
-        invalid:
-          props['aria-invalid'] === true || props['aria-invalid'] === 'true'
-      }),
+      checkboxVariants({ invalid: assertsInvalid(props['aria-invalid']) }),
       className
     )}
     {...props}

@@ -1,9 +1,9 @@
 import * as React from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
-import { cn } from '@/lib/utils'
+import { assertsInvalid, cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 import { BsCircleFill } from '@/assets'
-import { ChoiceItem, useChoiceGroup } from '../choice-group'
+import { ChoiceItem, resolveAriaInvalid, useChoiceGroup } from '../choice-group'
 
 interface RadioGroupItemProps
   extends React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> {
@@ -72,6 +72,7 @@ const RadioGroupItem = React.forwardRef<
       description,
       id,
       'aria-describedby': ariaDescribedBy,
+      'aria-invalid': ownAriaInvalid,
       ...props
     },
     ref
@@ -81,7 +82,12 @@ const RadioGroupItem = React.forwardRef<
     const controlId = id ?? generatedId
     const descriptionId = `${controlId}-description`
 
-    const invalid = Boolean(group?.invalid)
+    // One resolved value behind both the attribute and the border, so an
+    // option cannot announce one state and render the other.
+    const ariaInvalid = resolveAriaInvalid(
+      ownAriaInvalid,
+      Boolean(group?.invalid)
+    )
     const describedBy =
       [ariaDescribedBy, description ? descriptionId : undefined]
         .filter(Boolean)
@@ -99,9 +105,12 @@ const RadioGroupItem = React.forwardRef<
         <RadioGroupPrimitive.Item
           ref={ref}
           id={controlId}
-          className={cn(radioVariant({ invalid }), className)}
+          className={cn(
+            radioVariant({ invalid: assertsInvalid(ariaInvalid) }),
+            className
+          )}
           aria-describedby={describedBy}
-          aria-invalid={invalid || undefined}
+          aria-invalid={ariaInvalid}
           {...props}
         >
           <RadioGroupPrimitive.Indicator className="flex items-center justify-center">

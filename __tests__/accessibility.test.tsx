@@ -1313,6 +1313,89 @@ describe('CheckboxGroup accessibility', () => {
   })
 
   /**
+   * `aria-invalid="false"` is the attribute's default and reads identically to
+   * its absence, so an option carrying it has asserted nothing -- and letting
+   * it suppress the group's error would render a box that is visibly invalid,
+   * inside a group showing an error message, that tells a screen reader it is
+   * fine. The same line `FormGroup` draws.
+   */
+  it('overrules an option that claims to be valid', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" error="Choose at least one">
+        <CheckboxGroupItem value="email" label="Email" aria-invalid={false} />
+      </CheckboxGroup>
+    )
+
+    expect(attribute(openingTag(html, 'button'), 'aria-invalid')).toBe('true')
+  })
+
+  it('keeps an option that asserts something more specific', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" error="Choose at least one">
+        <CheckboxGroupItem
+          value="email"
+          label="Email"
+          aria-invalid="spelling"
+        />
+      </CheckboxGroup>
+    )
+
+    expect(attribute(openingTag(html, 'button'), 'aria-invalid')).toBe(
+      'spelling'
+    )
+  })
+
+  /**
+   * The box's border is derived from the attribute it ends up carrying rather
+   * than from the group's state, so the two cannot disagree -- a box that
+   * renders as invalid is a box that announces it.
+   */
+  it('draws the invalid border for exactly the boxes that announce it', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" error="Choose at least one">
+        <CheckboxGroupItem value="email" label="Email" />
+        <CheckboxGroupItem
+          value="phone"
+          label="Phone"
+          aria-invalid="spelling"
+        />
+      </CheckboxGroup>
+    )
+
+    openingTags(html, 'button').forEach(button => {
+      expect(attribute(button, 'aria-invalid')).toBeTruthy()
+      expect(button).toContain('border-feedback-red')
+    })
+
+    const valid = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact">
+        <CheckboxGroupItem value="email" label="Email" />
+      </CheckboxGroup>
+    )
+    expect(openingTag(valid, 'button')).not.toContain('border-feedback-red')
+  })
+
+  /**
+   * Which is why `disabled` is not the `<fieldset disabled>` attribute: the
+   * browser's version cannot be opted out of, and "all of these are
+   * unavailable except this one" is a thing a form legitimately says.
+   */
+  it('lets a single option stay live inside a disabled group', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" disabled>
+        <CheckboxGroupItem value="email" label="Email" />
+        <CheckboxGroupItem value="phone" label="Phone" disabled={false} />
+      </CheckboxGroup>
+    )
+
+    // The attribute itself, not the substring: every box carries
+    // `disabled:opacity-50` in its class list either way.
+    const [email, phone] = [0, 1].map(i => openingTags(html, 'button')[i])
+    expect(email).toMatch(/\sdisabled=""/)
+    expect(phone).not.toMatch(/\sdisabled=""/)
+  })
+
+  /**
    * The group's promise to the server: one field name, one entry per ticked
    * box. Radix submits through a hidden input beside each control, so the
    * name has to reach every one of them rather than the fieldset.
@@ -1343,11 +1426,11 @@ describe('CheckboxGroup accessibility', () => {
     )
 
     openingTags(html, 'button').forEach(button => {
-      expect(button).toContain('disabled')
+      expect(button).toMatch(/\sdisabled=""/)
     })
     // Not as the fieldset attribute, which the browser applies to everything
     // inside with no way for one option to opt back in.
-    expect(openingTag(html, 'fieldset')).not.toContain('disabled')
+    expect(openingTag(html, 'fieldset')).not.toMatch(/\sdisabled=""/)
   })
 })
 
@@ -1390,6 +1473,20 @@ describe('RadioGroup accessibility', () => {
     openingTags(html, 'button').forEach(button => {
       expect(attribute(button, 'aria-invalid')).toBe('true')
     })
+  })
+
+  it('overrules a radio that claims to be valid', () => {
+    const html = renderToStaticMarkup(
+      <RadioGroup legend="Delivery" error="Choose one to continue">
+        <Radio value="standard" label="Standard" aria-invalid={false} />
+      </RadioGroup>
+    )
+
+    const radio = openingTag(html, 'button')
+    expect(attribute(radio, 'aria-invalid')).toBe('true')
+    // The border follows the attribute rather than the group, so the two
+    // cannot come apart.
+    expect(radio).toContain('border-feedback-red')
   })
 
   it('describes a single radio with the hint that belongs to it', () => {

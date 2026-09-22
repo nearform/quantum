@@ -115,10 +115,9 @@ export const WithRadioGroup: Story = {
         <Button>Open Popover</Button>
       </PopoverTrigger>
       <PopoverContent>
-        <RadioGroup
-          className="flex flex-col space-y-4 pl-2 py-2"
-          defaultValue="option2"
-        >
+        {/* The column and the gaps are the group's own now; `className`
+            lands on its `<fieldset>`, so what is left here is the padding. */}
+        <RadioGroup className="pl-2 py-2" defaultValue="option2">
           <ControlLabel htmlFor="option1" label="Unchecked and label">
             <Radio id="option1" value="option1" />
           </ControlLabel>

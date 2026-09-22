@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { cva } from 'class-variance-authority'
 
-import { cn } from '@/lib/utils'
+import { assertsInvalid, cn, type AriaInvalid } from '@/lib/utils'
 import { FieldError } from './FormGroup'
 import { Label } from './Label'
 
@@ -87,6 +87,24 @@ const ChoiceGroupContext = React.createContext<ChoiceGroupContextValue | null>(
  * questions are the caller's.
  */
 const useChoiceGroup = () => React.useContext(ChoiceGroupContext)
+
+/**
+ * What an option's `aria-invalid` should end up as, given the group's state
+ * and whatever the caller asked for.
+ *
+ * The group wins over `aria-invalid={false}` and only over that, which is the
+ * line `FormGroup` already draws: `false` is the attribute's default and reads
+ * identically to its absence, so an option carrying it has asserted nothing,
+ * and letting it suppress the group's error would render an option that is
+ * visibly invalid inside a group showing an error message while telling a
+ * screen reader it is fine. Every other value is a real assertion and is kept.
+ *
+ * Returning the value the attribute will actually carry, rather than a
+ * boolean, is what keeps the styling and the announcement in step -- both are
+ * derived from this one result.
+ */
+const resolveAriaInvalid = (own: AriaInvalid, groupInvalid: boolean) =>
+  assertsInvalid(own) ? own : groupInvalid || undefined
 
 interface ChoiceGroupFieldsetProps
   extends React.ComponentPropsWithoutRef<'fieldset'> {
@@ -287,6 +305,7 @@ export {
   ChoiceGroupFieldset,
   ChoiceItem,
   choiceGroupItemsVariants,
+  resolveAriaInvalid,
   useChoiceGroup,
   type ChoiceGroupFieldsetProps
 }
