@@ -3,70 +3,76 @@ import { cva, VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 /**
- * The tinted variants are a `-700` foreground on a `-100` surface in light
- * mode and a `-300` on a `-900` in dark. Those weights are not arbitrary:
- * `__tests__/contrast.test.ts` records that the `-600`/`-100` pairing every
- * design system reaches for first drops below AA on four of our ramps, and
- * that `-700` clears it on all of them. The dark pairings are 6.16:1 at their
- * worst (red), so the whole set holds 1.4.3 without a per-hue exception.
+ * Badge wears the same clothes as `Chip`: a 2px coloured border around a `-50`
+ * fill, with the text in near-black `foreground` rather than a tint of the
+ * hue. The two are siblings in the design file and share the fills exactly, so
+ * they share the tokens here too.
  *
- * `default` is the odd one out and takes the semantic surface tokens instead
- * of a grey ramp, because a neutral badge has to sit on the page at both ends
- * of the theme: `grey-900` on a black background is 1.19:1 and would read as
- * no badge at all.
+ * Putting the colour in the border rather than the text is what makes the
+ * whole set comfortably accessible -- `foreground` on any of the `-50` fills
+ * is 16:1 or better, so there is no per-hue weight to tune and no ramp that
+ * has to be treated as a special case.
+ *
+ * Dark mode is not in the design file, so it is derived: the fill drops to the
+ * page background and the border keeps its colour and goes on carrying the
+ * meaning. Tinting the fill instead would have been prettier and would have
+ * hidden the border in it -- `feedback-red` on `red-900` is 1.85:1, which
+ * would leave error and success telling themselves apart by fill alone.
  */
 const badgeVariants = cva(
   [
-    'inline-flex',
-    'shrink-0',
-    'items-center',
-    'justify-center',
-    'font-semibold',
-    'leading-normal',
-    'whitespace-nowrap'
+    [
+      'inline-flex',
+      'shrink-0',
+      'items-center',
+      'justify-center',
+      'border-2',
+      'font-semibold',
+      'whitespace-nowrap'
+    ],
+    ['text-foreground', 'dark:text-foreground-dark', 'dark:bg-background-dark']
   ],
   {
     variants: {
       variant: {
         default: [
-          'bg-background-alt',
-          'text-foreground',
-          'dark:bg-background-alt-dark',
-          'dark:text-foreground-dark'
+          'bg-background',
+          'border-border-subtle',
+          'dark:border-border-subtle-dark'
         ],
-        info: [
-          'bg-blue-100',
-          'text-blue-700',
-          'dark:bg-blue-900',
-          'dark:text-blue-300'
+        info: ['bg-blue-50', 'border-blue-500'],
+        success: ['bg-green-50', 'border-feedback-green'],
+        warning: ['bg-yellow-50', 'border-feedback-yellow'],
+        error: ['bg-red-50', 'border-feedback-red'],
+        // The two flat variants keep `border-2` and paint it out rather than
+        // dropping it, so they stay exactly the same size as the bordered ones
+        // and a row of mixed badges still lines up.
+        active: [
+          'bg-foreground',
+          'border-transparent',
+          'text-foreground-inverse',
+          'dark:bg-foreground-dark',
+          'dark:text-foreground-inverse-dark'
         ],
-        success: [
-          'bg-green-100',
-          'text-green-700',
-          'dark:bg-green-900',
-          'dark:text-green-300'
-        ],
-        warning: [
-          'bg-yellow-100',
-          'text-yellow-700',
-          'dark:bg-yellow-900',
-          'dark:text-yellow-300'
-        ],
-        error: [
-          'bg-red-100',
-          'text-red-700',
-          'dark:bg-red-900',
-          'dark:text-red-300'
+        disabled: [
+          'bg-background-subtle',
+          'border-transparent',
+          'text-foreground-subtle',
+          'dark:bg-background-subtle-dark',
+          'dark:text-foreground-subtle-dark'
         ]
       },
+      // `min-w` matches the height, so a badge holding a single digit is a
+      // square or a circle rather than a letterbox, and longer text grows out
+      // of it from there.
       size: {
-        sm: ['text-[10px]', 'px-2', 'h-5', 'gap-1'],
-        default: ['text-xs', 'px-2.5', 'h-6', 'gap-1.5'],
-        lg: ['text-sm', 'px-3', 'h-7', 'gap-1.5']
+        sm: ['text-[10px]', 'h-5', 'min-w-5', 'px-1.5', 'gap-1'],
+        default: ['text-xs', 'h-6', 'min-w-6', 'px-2', 'gap-1.5'],
+        lg: ['text-sm', 'h-7', 'min-w-7', 'px-2.5', 'gap-1.5']
       },
       shape: {
         rounded: 'rounded-md',
-        pill: 'rounded-full'
+        circle: 'rounded-full'
       }
     },
     defaultVariants: {
@@ -100,9 +106,11 @@ interface BadgeProps
 }
 
 /**
- * A badge labels the thing beside it -- a status, a category, a count. It is
+ * A badge labels the thing beside it -- a count, a status, a category. It is
  * static: nothing about it responds to a click, and a badge that needs to be
- * pressed or removed is a `Chip`.
+ * pressed or removed is a `Chip`. `disabled` is an appearance only, for a
+ * badge attached to a control that is itself disabled; it does not disable
+ * anything, because there is nothing here to disable.
  *
  * The text inside is the label, so it is left in the accessibility tree as
  * ordinary content. A badge whose text does not say enough on its own -- a

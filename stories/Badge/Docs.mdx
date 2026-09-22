@@ -6,35 +6,47 @@ import * as BadgeStories from './Badge.stories'
 
 # Badge
 
-A badge labels the thing beside it — a status, a category, a count. It is
+A badge labels the thing beside it — a count, a status, a category. It is
 static: nothing about it responds to a click. A tag that can be pressed,
-toggled or removed is a [Chip](?path=/docs/components-chip--docs).
+toggled or removed is a [Chip](?path=/docs/components-chip--docs), whose
+appearance Badge deliberately shares.
 
 ### Default
 
-The text inside the badge is the label. With no `variant` it takes the neutral
-surface tokens, which is the right choice when the badge is categorising
-rather than reporting a state.
+A badge is sized from a single digit up, so the neutral variant with no other
+props is the counter you most often want.
 
 <Canvas of={BadgeStories.Default} />
 
 ### Variants
 
-`info`, `success`, `warning` and `error` tint the badge to reinforce what the
-text already says. They do not replace it — see Accessibility below.
+Seven, in both shapes. `default`, `warning`, `success`, `error` and `info` put
+the colour in a 2px border and leave the text near-black; `active` and
+`disabled` are flat.
+
+`disabled` is an appearance only — for a badge attached to a control that is
+itself disabled. It does not disable anything, because a badge has nothing to
+disable.
 
 <Canvas of={BadgeStories.Variants} />
+
+### Circle
+
+`shape="circle"` rounds the badge fully. On a single character that is a
+circle; on a word it becomes a pill.
+
+<Canvas of={BadgeStories.Circle} />
 
 ### Sizes
 
 <Canvas of={BadgeStories.Sizes} />
 
-### Pill
+### With text
 
-`shape="pill"` fully rounds the badge. It suits a single word or a count;
-`rounded`, the default, suits longer labels.
+The minimum width matches the height, so a digit renders as a square or a
+circle and anything longer simply grows out of it.
 
-<Canvas of={BadgeStories.Pill} />
+<Canvas of={BadgeStories.WithText} />
 
 ### With a dot
 
@@ -60,16 +72,20 @@ announces that instead of the digits.
 
 ## Dark mode
 
-Every variant ships its own dark pairing, so nothing extra is needed — toggle
-the theme in the toolbar to see it.
+Toggle the theme in the toolbar to see it.
 
-The tinted variants are a `-700` foreground on a `-100` surface in light mode
-and a `-300` on a `-900` in dark. Those weights are deliberate: the `-600` on
-`-100` pairing that most design systems reach for first falls below AA on four
-of the Quantum ramps, and `-700` clears it on all of them. The neutral variant
-takes the `background-alt` and `foreground` tokens rather than a grey ramp,
-because `grey-900` on the dark page background is 1.19:1 and would leave no
-visible badge at all.
+Dark mode is derived rather than designed — the design file covers light mode
+only. The fill drops to the page background and the border keeps its colour,
+so the border goes on carrying the meaning at both ends of the theme. Tinting
+the fill instead would have been prettier and would have buried the border in
+it: `feedback-red` on `red-900` is 1.85:1, which would leave `error` and
+`success` telling themselves apart by fill alone.
+
+Putting the colour in the border rather than the text is also what keeps the
+set accessible without tuning a weight per hue — `foreground` on any of the
+`-50` fills is 16:1 or better, so no ramp needs a special case. Compare
+`__tests__/contrast.test.ts`, which records how much narrower the margins get
+when the colour moves into the text.
 
 ## Accessibility
 
@@ -87,8 +103,11 @@ visible badge at all.
   wins over the generated one, with one exception: `role="img"` without a name
   to go with it is dropped. That role replaces the badge's text with its
   accessible name, so unnamed it fails WCAG 4.1.2 and puts the text out of
-  reach at the same time -- there is no reading of it that is not a mistake.
-  Pass an `aria-label` with it and it is kept.
+  reach at the same time. Pass an `aria-label` with it and it is kept.
+- **`disabled` text is deliberately low-contrast.** `foreground-subtle` on
+  `background-subtle` is 4.63:1 in light mode and 3.01:1 in dark, the same
+  pairing `Chip` uses for its disabled state. WCAG 1.4.3 exempts disabled
+  controls; do not use this variant to mean anything other than disabled.
 - Icons are always `aria-hidden`, so an icon-only badge is silent. Give it an
   `aria-label` too.
 
@@ -103,7 +122,10 @@ visible badge at all.
     </tr>
     <tr>
       <td>variant</td>
-      <td>`"default" | "info" | "success" | "warning" | "error"`</td>
+      <td>
+        `"default" | "info" | "success" | "warning" | "error" | "active" |
+        "disabled"`
+      </td>
       <td>`"default"`</td>
     </tr>
     <tr>
@@ -113,7 +135,7 @@ visible badge at all.
     </tr>
     <tr>
       <td>shape</td>
-      <td>`"rounded" | "pill"`</td>
+      <td>`"rounded" | "circle"`</td>
       <td>`"rounded"`</td>
     </tr>
     <tr>
@@ -134,14 +156,12 @@ visible badge at all.
 ```tsx
 import { Badge } from '@nearform/quantum'
 
+// A count, named for a screen reader
+<Badge variant="error" shape="circle" aria-label="3 unread">3</Badge>
+
 // A status, with the word doing the work
 <Badge variant="success">Published</Badge>
 
 // A state, with a dot
-<Badge variant="warning" shape="pill" dot>Away</Badge>
-
-// A count, named for a screen reader
-<Badge variant="error" shape="pill" size="sm" aria-label="3 unread">
-  3
-</Badge>
+<Badge variant="warning" dot>Away</Badge>
 ```

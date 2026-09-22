@@ -2,6 +2,16 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import { Badge, BsCheckCircleFill, BsEnvelopeFill } from '@/index'
 
+const VARIANTS = [
+  'default',
+  'warning',
+  'success',
+  'error',
+  'info',
+  'active',
+  'disabled'
+] as const
+
 const meta = {
   title: 'Components/Badge',
   component: Badge,
@@ -10,7 +20,7 @@ const meta = {
   },
   argTypes: {
     variant: {
-      options: ['default', 'info', 'success', 'warning', 'error'],
+      options: VARIANTS,
       control: 'select'
     },
     size: {
@@ -18,7 +28,7 @@ const meta = {
       control: 'inline-radio'
     },
     shape: {
-      options: ['rounded', 'pill'],
+      options: ['rounded', 'circle'],
       control: 'inline-radio'
     },
     icon: {
@@ -32,39 +42,42 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    children: 'Default'
+    children: '1'
   }
 }
 
 export const Variants: Story = {
   args: {
-    children: 'Badge'
+    children: '1'
   },
   render: props => (
-    <div className="flex flex-wrap items-center gap-2">
-      <Badge {...props} variant="default">
-        Default
-      </Badge>
-      <Badge {...props} variant="info">
-        Info
-      </Badge>
-      <Badge {...props} variant="success">
-        Success
-      </Badge>
-      <Badge {...props} variant="warning">
-        Warning
-      </Badge>
-      <Badge {...props} variant="error">
-        Error
-      </Badge>
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-2">
+        {VARIANTS.map(variant => (
+          <Badge {...props} key={variant} variant={variant} />
+        ))}
+      </div>
+      <div className="flex items-center gap-2">
+        {VARIANTS.map(variant => (
+          <Badge {...props} key={variant} variant={variant} shape="circle" />
+        ))}
+      </div>
     </div>
   )
+}
+
+export const Circle: Story = {
+  args: {
+    variant: 'error',
+    shape: 'circle',
+    children: '1'
+  }
 }
 
 export const Sizes: Story = {
   args: {
     variant: 'info',
-    children: 'Badge'
+    children: '1'
   },
   render: props => (
     <div className="flex items-center gap-2">
@@ -75,27 +88,26 @@ export const Sizes: Story = {
   )
 }
 
-export const Pill: Story = {
+// A badge is sized from a single digit up, so it holds a word without any
+// extra work -- the min-width simply stops applying.
+export const WithText: Story = {
   args: {
     variant: 'success',
-    shape: 'pill',
     children: 'Published'
   }
 }
 
 export const WithDot: Story = {
-  args: {
-    children: 'Badge'
-  },
-  render: props => (
+  args: {},
+  render: () => (
     <div className="flex flex-wrap items-center gap-2">
-      <Badge {...props} dot shape="pill" variant="success">
+      <Badge dot variant="success">
         Online
       </Badge>
-      <Badge {...props} dot shape="pill" variant="warning">
+      <Badge dot variant="warning">
         Away
       </Badge>
-      <Badge {...props} dot shape="pill" variant="error">
+      <Badge dot variant="error">
         Offline
       </Badge>
     </div>
@@ -116,7 +128,7 @@ export const Count: Story = {
     <span className="inline-flex items-center gap-2 text-foreground dark:text-foreground-dark">
       <BsEnvelopeFill aria-hidden="true" className="h-4 w-4" />
       Inbox
-      <Badge variant="error" shape="pill" size="sm" aria-label="3 unread">
+      <Badge variant="error" shape="circle" aria-label="3 unread">
         3
       </Badge>
     </span>

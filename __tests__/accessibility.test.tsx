@@ -315,38 +315,86 @@ describe('Badge accessibility', () => {
     ).toHaveLength(1)
   })
 
-  // The pairings are checked at the source in __tests__/contrast.test.ts,
-  // which records that a `-600` on a `-100` drops below AA on four ramps.
-  it('sets every tinted variant in a weight that clears AA', () => {
+  /**
+   * The design puts the colour in the border and leaves the text near-black,
+   * which is what keeps the whole set accessible without a per-hue weight:
+   * `foreground` on any of the `-50` fills is 16:1 or better. A variant that
+   * moved the colour into the text would be reintroducing the problem
+   * __tests__/contrast.test.ts records for the `-600`/`-100` pairing.
+   */
+  it('keeps its text near-black and puts the colour in the border', () => {
     const variants = ['info', 'success', 'warning', 'error'] as const
 
     for (const variant of variants) {
       const classes =
         attribute(
           openingTag(
-            renderToStaticMarkup(<Badge variant={variant}>Status</Badge>),
+            renderToStaticMarkup(<Badge variant={variant}>1</Badge>),
             'span'
           ),
           'class'
         ) ?? ''
 
-      expect(classes).toMatch(/(?:^| )text-[a-z]+-700(?: |$)/)
-      expect(classes).toMatch(/(?:^| )dark:text-[a-z]+-300(?: |$)/)
+      expect(classes).toContain('text-foreground')
+      expect(classes).toContain('dark:text-foreground-dark')
+      expect(classes).toMatch(/(?:^| )bg-[a-z]+-50(?: |$)/)
+      expect(classes).toMatch(/(?:^| )border-[a-z][a-z0-9-]*(?: |$)/)
     }
   })
 
-  // `grey-900` is 1.19:1 on the dark page background: a neutral badge built
-  // from the ramp would be invisible at that end of the theme.
+  /**
+   * Dark mode is derived rather than designed: the fill drops to the page
+   * background so the coloured border keeps carrying the meaning. Tinting the
+   * fill would bury the border in it -- `feedback-red` on `red-900` is
+   * 1.85:1 -- and leave error and success distinguished by fill alone.
+   */
+  it('drops the tinted fill in dark mode so the border still reads', () => {
+    const variants = ['info', 'success', 'warning', 'error'] as const
+
+    for (const variant of variants) {
+      const classes =
+        attribute(
+          openingTag(
+            renderToStaticMarkup(<Badge variant={variant}>1</Badge>),
+            'span'
+          ),
+          'class'
+        ) ?? ''
+
+      expect(classes).toContain('dark:bg-background-dark')
+      expect(classes).not.toMatch(/dark:bg-[a-z]+-900/)
+    }
+  })
+
+  // `border-none` would shrink these two by 4px and break the alignment of a
+  // row that mixes them with the bordered variants.
+  it('keeps the flat variants the same size as the bordered ones', () => {
+    for (const variant of ['active', 'disabled'] as const) {
+      const classes =
+        attribute(
+          openingTag(
+            renderToStaticMarkup(<Badge variant={variant}>1</Badge>),
+            'span'
+          ),
+          'class'
+        ) ?? ''
+
+      expect(classes).toContain('border-2')
+      expect(classes).toContain('border-transparent')
+      expect(classes).not.toContain('border-none')
+    }
+  })
+
   it('builds its neutral variant from the surface tokens', () => {
     const classes =
       attribute(
-        openingTag(renderToStaticMarkup(<Badge>Draft</Badge>), 'span'),
+        openingTag(renderToStaticMarkup(<Badge>1</Badge>), 'span'),
         'class'
       ) ?? ''
 
-    expect(classes).toContain('bg-background-alt')
-    expect(classes).toContain('dark:bg-background-alt-dark')
-    expect(classes).toContain('text-foreground')
+    expect(classes).toContain('bg-background')
+    expect(classes).toContain('border-border-subtle')
+    expect(classes).toContain('dark:bg-background-dark')
     expect(classes).toContain('dark:text-foreground-dark')
   })
 })
