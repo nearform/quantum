@@ -1,4 +1,7 @@
 module.exports = {
+  // ts-jest has no 30.x line to align with: 29.4.12 is its latest release and
+  // declares `jest: ^29.0.0 || ^30.0.0`, so it is the jest 30 pairing rather
+  // than a version lagging behind one.
   preset: 'ts-jest',
   setupFiles: ['<rootDir>/jest.module-hooks.setup.js'],
   // Mirrors the `@/*` path alias in tsconfig.json. ts-jest type-checks against
