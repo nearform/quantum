@@ -54,7 +54,7 @@ interface PasswordProps
   extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
   formClassName?: string
   variant?: 'primary' | 'error' | 'success'
-  size?: 'sm' | 'default'
+  size?: 'sm' | 'default' | 'lg'
   toggleMask?: boolean
   labelText?: string
   helpText?: string

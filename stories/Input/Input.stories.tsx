@@ -17,9 +17,9 @@ const meta = {
       control: false
     },
     size: {
-      options: ['sm', 'default'],
+      options: ['sm', 'default', 'lg'],
       control: 'inline-radio',
-      description: 'The height of the field: 37px or 42px'
+      description: 'The height of the field: 37px, 42px or 48px'
     },
     className: {
       controle: 'text',
@@ -89,6 +89,7 @@ export const Sizes: Story = {
     <div className="flex flex-col gap-4">
       <Input {...props} size="sm" labelText="Small — 37px" />
       <Input {...props} size="default" labelText="Default — 42px" />
+      <Input {...props} size="lg" labelText="Large — 48px" />
     </div>
   )
 }

@@ -88,21 +88,31 @@ const formVariants = cva(
         ]
       },
       /**
-       * The two heights the design file specifies. The field had neither: its
-       * height was a 12px padding plus whatever line box the inherited font
-       * produced, which was 40px when #264 was filed and is 52px today, and
-       * the design has no size that follows the text like that.
+       * `sm` and `default` are the two heights the design file specifies, and
+       * the field had neither: its height was a 12px padding plus whatever
+       * line box the inherited font produced, which was 40px when #264 was
+       * filed and is 52px today. The design has no size that follows the text
+       * like that.
        *
        * So they are heights rather than a padding that adds up to one. That
        * also fixes the disabled field, which drops its 2px border and was 4px
        * shorter than every other field because of it.
        *
-       * `sm` and `default` match `Select`'s `sm` and `lg` to the pixel, which
-       * is what lets a select and an input sit next to each other in a row.
+       * The two of them match `Select`'s `sm` and `lg` to the pixel, which is
+       * what lets a select and an input sit next to each other in a row. The
+       * names do not match, and cannot: 42px is the size the design calls
+       * regular, so it is the default here, and `Select` had already spent
+       * `lg` on it.
+       *
+       * `lg` is not in the design file. It is 48px because that is the height
+       * of a large `Button` -- both of its variants, which is what the
+       * compound variants in `Button` are there to line up -- so a large field
+       * and the button that submits it are the same height.
        */
       size: {
         sm: ['h-[37px]'],
-        default: ['h-[42px]']
+        default: ['h-[42px]'],
+        lg: ['h-[48px]']
       }
     },
     defaultVariants: {
@@ -152,7 +162,7 @@ type InputType =
  */
 interface InputProps extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
   variant: 'primary' | 'error' | 'success'
-  size?: 'sm' | 'default'
+  size?: 'sm' | 'default' | 'lg'
   type: InputType
   formClassName?: string
   leftSideClassName?: string

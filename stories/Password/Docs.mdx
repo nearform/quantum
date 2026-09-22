@@ -6,7 +6,10 @@ import * as PasswordStories from './Password.stories'
 
 # Password
 
-Password is an input field for entering passwords. The input is masked by default. The masking can be toggled using an optional reveal button.
+Password is an input field for entering passwords. The input is masked by
+default, and the masking can be toggled with an optional reveal button. It is
+[Input](?path=/docs/form-input--docs)'s field, so the two share their
+appearance, their sizes and their label and help text wiring.
 
 ## Default password
 
@@ -24,114 +27,101 @@ Password is an input field for entering passwords. The input is masked by defaul
 
 <Canvas of={PasswordStories.Error} />
 
+## Sizes
+
+The same three heights as `Input`, from the same variants: `sm` is 37px,
+`default` is 42px and `lg` is 48px. A password field and a text field with the
+same `size` are the same height, which is the point of sharing them.
+
+<Canvas of={PasswordStories.Small} />
+
+<Canvas of={PasswordStories.Large} />
+
 ## Attributes
 
-This component accepts all attributes for the input component of type text, with the addition of `toggleMask` boolena to toggle masking.
+Everything an `<input>` takes, plus the props below. The one exception is the
+HTML `size` attribute, which is displaced by the `size` prop; it asks for a
+width in characters, and the input grows to fill the field, so the layout was
+overruling it anyway.
 
-`size` sets the height of the field — `'sm'` (37px) or `'default'` (42px) — and is the same prop, with the same two heights, as [Input](?path=/docs/form-input--docs)'s, so a password and a text field line up in a form. It displaces the HTML attribute of that name, which the field's layout was overruling anyway.
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`'primary' | 'error' | 'success'`</td>
+      <td>`'primary'`</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`'sm' | 'default' | 'lg'`</td>
+      <td>`'default'`</td>
+    </tr>
+    <tr>
+      <td>toggleMask</td>
+      <td>`boolean`</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>showLabel</td>
+      <td>`string`</td>
+      <td>`'Show password'`</td>
+    </tr>
+    <tr>
+      <td>hideLabel</td>
+      <td>`string`</td>
+      <td>`'Hide password'`</td>
+    </tr>
+    <tr>
+      <td>labelText</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>helpText</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>formClassName</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
 
-## Input
+## Accessibility
 
-```tsx
-import React, { useState } from 'react'
-import { cva } from 'class-variance-authority'
-
-import { cn } from '@/lib/utils'
-import { BsEye, BsEyeSlash } from '@/assets'
-
-import { formVariants } from '../Input'
-
-const toggleMaskVariants = cva(['flex', 'self-center text-inherit'])
-
-const passwordVariants = cva(
-  ['flex', 'flex-grow', 'items-center', 'outline-hidden', 'bg-transparent'],
-  {
-    variants: {
-      variant: {
-        primary: ['text-foreground', 'dark:text-foreground-dark'],
-        error: ['text-feedback-red'],
-        success: ['text-green-700']
-      }
-    },
-    defaultVariants: {
-      variant: 'primary'
-    }
-  }
-)
-
-interface PasswordProps extends React.HTMLProps<HTMLInputElement> {
-  formClassName?: string
-  variant?: 'primary' | 'error' | 'success'
-  toggleMask?: boolean
-}
-
-const Password = React.forwardRef<HTMLInputElement, PasswordProps>(
-  (
-    {
-      className,
-      formClassName,
-      variant = 'primary',
-      toggleMask = true,
-      ...props
-    },
-    ref
-  ) => {
-    const [isMaskOn, setIsMaskOn] = useState(true)
-
-    const onToggleMask = () => setIsMaskOn(isMaskOn => !isMaskOn)
-
-    return (
-      <label className={cn(formVariants({ variant }), formClassName)}>
-        <input
-          type={isMaskOn ? 'password' : 'text'}
-          className={cn(passwordVariants({ variant }), className)}
-          ref={ref}
-          {...props}
-        />
-        <div className="input-right-side"></div>
-        {toggleMask && (
-          <button
-            type="button"
-            onClick={onToggleMask}
-            className={toggleMaskVariants()}
-          >
-            {isMaskOn ? <BsEye /> : <BsEyeSlash />}
-          </button>
-        )}
-      </label>
-    )
-  }
-)
-
-export { Password, PasswordProps }
-```
+- The mask toggle has no text, so it carries an accessible name of its own and
+  reports its state: `aria-pressed` follows the mask, and `showLabel` /
+  `hideLabel` translate the name. It sits in a 24×24 target, which is the
+  smallest [WCAG 2.5.8](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)
+  accepts.
+- `labelText` is associated with the field, and `helpText` describes it rather
+  than naming it. An `aria-describedby` you pass in is kept alongside the help
+  text rather than replaced by it.
+- A password field with no visible label still needs a name — pass `labelText`,
+  or an `aria-label` where the design has no room for one. A placeholder is not
+  a label.
 
 ## Usage
 
 ```tsx
 import { useState } from 'react'
-import { Password, PasswordProps } from '@/index'
+import { Password, PasswordProps } from '@nearform/quantum'
 
-const PasswordDemo = ({
-  variant,
-  toggleMask,
-  disabled
-}: PasswordProps) => {
-  const [trackedValue, setTrackedValue] = useState('')
+const PasswordDemo = (props: Omit<PasswordProps, 'onChange'>) => {
+  const [value, setValue] = useState('')
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setTrackedValue(e.currentTarget.value)
+    setValue(e.currentTarget.value)
   }
 
-  return (
-    <Password
-      variant={variant}
-      value={trackedValue}
-      onChange={handleOnChange}
-      disabled={disabled}
-      toggleMask={toggleMask}
-    />
-  )
+  return <Password value={value} onChange={handleOnChange} {...props} />
 }
 export { PasswordDemo }
 ```

@@ -11,7 +11,8 @@ import { Password } from '../src/components/Password'
  * #264 was opened because the component had neither: one height, which came
  * out of the padding and the inherited font rather than out of the design (it
  * was 40px when the issue was filed and 52px by the time it was fixed), and
- * icons left at whatever `1em` resolved to.
+ * icons left at whatever `1em` resolved to. `lg` is a third height, added on
+ * top of the two the design draws to match a large `Button`.
  *
  * Nothing here can measure a pixel — this suite has no DOM and no compiled
  * CSS, and the utility classes are the only place the numbers exist. So the
@@ -65,6 +66,14 @@ describe('Input dimensions', () => {
         <Input type="text" variant="primary" size="sm" onClear={() => {}} />
       )
     ).toContain('h-[37px]')
+  })
+
+  it('is 48px tall at the large size, which is a large Button', () => {
+    expect(
+      field(
+        <Input type="text" variant="primary" size="lg" onClear={() => {}} />
+      )
+    ).toContain('h-[48px]')
   })
 
   it('keeps its height when the field is disabled and drops its border', () => {
@@ -128,9 +137,10 @@ describe('Input dimensions', () => {
 })
 
 describe('Password dimensions', () => {
-  it('takes the same two heights as Input', () => {
+  it('takes the same three heights as Input', () => {
     expect(field(<Password />)).toContain('h-[42px]')
     expect(field(<Password size="sm" />)).toContain('h-[37px]')
+    expect(field(<Password size="lg" />)).toContain('h-[48px]')
   })
 
   it('gives the mask toggle a 24px target too', () => {

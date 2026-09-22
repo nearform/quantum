@@ -36,9 +36,17 @@ field. Giving it `type="search"` also puts a magnifier at the start.
 
 ## Sizes
 
-Two heights, from the design file: `sm` is 37px and `default` is 42px. They are
-the same two heights as `Select`'s `sm` and `lg`, so an input and a select sit
-in a row without either of them having to be nudged.
+Three heights: `sm` is 37px, `default` is 42px and `lg` is 48px.
+
+The first two come from the design file, and are the same two heights as
+[Select](?path=/docs/form-select--docs)'s `sm` and `lg`, so an input and a
+select sit in a row without either of them having to be nudged. The names are
+not the same — 42px is the size the design calls regular, so it is the default
+here, and `Select` had already spent `lg` on it.
+
+`lg` is not in the design file. It is 48px because that is the height of a
+large [Button](?path=/docs/form-button--docs), in both of that component's
+variants, so a large field and the button that submits it match.
 
 The height is set on the field rather than added up out of padding and text, so
 it holds whatever font size the field inherits, and a disabled field — which
@@ -79,7 +87,7 @@ overruling it anyway.
     </tr>
     <tr>
       <td>size</td>
-      <td>`'sm' | 'default'`</td>
+      <td>`'sm' | 'default' | 'lg'`</td>
       <td>`'default'`</td>
     </tr>
     <tr>
