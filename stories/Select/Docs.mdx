@@ -15,11 +15,17 @@ Selects are elements that allow users to interact with and provide data to a sys
 ## Large
 
 The trigger has two heights: `sm` is 37px and `lg` is 42px, and `sm` is the
-default. They are the same two heights as
-[Input](?path=/docs/form-input--docs)'s `sm` and `default`, so a select and an
-input sit in a row without either of them having to be nudged — but not the
-same names, and an input defaults to the larger of the two where a select
-defaults to the smaller. Set both explicitly in a form that mixes them.
+default.
+
+They are the same two heights as [Input](?path=/docs/form-input--docs)'s `sm`
+and `default`, so a select and an input sit in a row without either of them
+having to be nudged — but not under the same names, and the two components
+default to opposite ends of the pair. A select of the same height as an
+`Input size="default"` is `size="lg"`; giving both `size="lg"` puts a 42px
+select beside a 48px input. There is a table of every form control's height in
+[Input's docs](?path=/docs/form-input--docs#matching-the-other-form-controls)
+— read the height rather than the name, and set `size` explicitly on every
+control in a row.
 
 <Canvas of={SelectStories.Large} />
 

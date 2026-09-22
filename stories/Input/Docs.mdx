@@ -38,21 +38,78 @@ field. Giving it `type="search"` also puts a magnifier at the start.
 
 Three heights: `sm` is 37px, `default` is 42px and `lg` is 48px.
 
-The first two come from the design file, and are the same two heights as
-[Select](?path=/docs/form-select--docs)'s `sm` and `lg`, so an input and a
-select sit in a row without either of them having to be nudged. The names are
-not the same — 42px is the size the design calls regular, so it is the default
-here, and `Select` had already spent `lg` on it.
-
-`lg` is not in the design file. It is 48px because that is the height of a
-large [Button](?path=/docs/form-button--docs), in both of that component's
-variants, so a large field and the button that submits it match.
+The first two come from the design file. `lg` is not in it — it is 48px
+because that is the height of a large [Button](?path=/docs/form-button--docs),
+so a large field and the button that submits it match.
 
 The height is set on the field rather than added up out of padding and text, so
 it holds whatever font size the field inherits, and a disabled field — which
 drops its border — is the same height as an enabled one.
 
 <Canvas of={InputStories.Sizes} />
+
+### Matching the other form controls
+
+**The size names do not line up across components, so read the height, not the
+name.** An `Input` and a `Select` of the same height are `size="default"` and
+`size="lg"`; giving both `size="lg"` puts a 48px input beside a 42px select,
+and nothing will warn you.
+
+The measured heights, in a row:
+
+<table>
+  <tbody>
+    <tr>
+      <td>Height</td>
+      <td>Input, Password</td>
+      <td>Select</td>
+      <td>Button</td>
+    </tr>
+    <tr>
+      <td>36px</td>
+      <td>-</td>
+      <td>-</td>
+      <td>`xs`, `sm`</td>
+    </tr>
+    <tr>
+      <td>37px</td>
+      <td>`sm`</td>
+      <td>`sm` (its default)</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>40px</td>
+      <td>-</td>
+      <td>-</td>
+      <td>`md` (its default)</td>
+    </tr>
+    <tr>
+      <td>42px</td>
+      <td>`default`</td>
+      <td>`lg`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>48px</td>
+      <td>`lg`</td>
+      <td>-</td>
+      <td>`lg`</td>
+    </tr>
+  </tbody>
+</table>
+
+So the pairs that line up are:
+
+- **37px** — `Input size="sm"` with `Select size="sm"`
+- **42px** — `Input size="default"` with `Select size="lg"`
+- **48px** — `Input size="lg"` with `Button size="lg"`, which is the only field
+  and button that meet exactly; a 42px field beside a 40px `Button size="md"`
+  is 2px out, and `Select` has no 48px tier
+
+Two components defaulting to different ends of the same pair is the trap worth
+knowing about: an `Input` with no `size` is 42px and a `Select` with no `size`
+is 37px, so a form that leaves both alone is already misaligned. Set `size`
+explicitly on every control in a row.
 
 ## Icons
 
