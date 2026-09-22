@@ -211,6 +211,11 @@ props rather than guessing:
   back to `name`. Given neither it renders as decoration (`aria-hidden`), which
   is what you want when the person's name is already in the text beside it --
   the initials themselves are never announced.
+- **Badges say their status in words.** `Badge` tints itself to reinforce the
+  text, never to replace it -- two identically-worded badges in different
+  colours are indistinguishable to a good share of readers. A badge whose text
+  is not self-explanatory, such as a bare count, takes an `aria-label`, which
+  also gives it the `role="img"` that makes that label reach a screen reader.
 - **Icon-only controls need names in your language.** `Pagination`
   (`previousLabel`, `nextLabel`, `pageLabel`), `StepsIndicator` (`label`,
   `stepLabel`), `Input` (`clearLabel`) and `Password` (`showLabel`,

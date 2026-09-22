@@ -8,6 +8,7 @@ import {
   AccordionTrigger
 } from '../src/components/Accordion'
 import { Avatar } from '../src/components/Avatar'
+import { Badge } from '../src/components/Badge'
 import { ButtonGroup } from '../src/components/ButtonGroup'
 import { Checkbox } from '../src/components/Checkbox'
 import { Chip } from '../src/components/Chip'
@@ -214,6 +215,100 @@ describe('Chip accessibility', () => {
     const html = renderToStaticMarkup(<Chip>Filter</Chip>)
 
     expect(html).toContain('aria-hidden="true"')
+  })
+})
+
+describe('Badge accessibility', () => {
+  it('leaves its own text in the accessibility tree unnamed', () => {
+    const tag = openingTag(renderToStaticMarkup(<Badge>Live</Badge>), 'span')
+
+    expect(attribute(tag, 'role')).toBeUndefined()
+    expect(attribute(tag, 'aria-label')).toBeUndefined()
+  })
+
+  // `aria-label` on a plain `<span>` has no role to name, and most screen
+  // readers drop it, so a badge given one takes `role="img"` to hold it.
+  it('gives a labelled badge a role for its label to name', () => {
+    const labelled = openingTag(
+      renderToStaticMarkup(<Badge aria-label="3 unread">3</Badge>),
+      'span'
+    )
+    const referenced = openingTag(
+      renderToStaticMarkup(<Badge aria-labelledby="inbox">3</Badge>),
+      'span'
+    )
+
+    expect(attribute(labelled, 'role')).toBe('img')
+    expect(attribute(referenced, 'role')).toBe('img')
+  })
+
+  it('leaves an empty label alone rather than naming nothing', () => {
+    const tag = openingTag(
+      renderToStaticMarkup(<Badge aria-label="">Live</Badge>),
+      'span'
+    )
+
+    expect(attribute(tag, 'role')).toBeUndefined()
+  })
+
+  it("keeps the caller's own role", () => {
+    const tag = openingTag(
+      renderToStaticMarkup(
+        <Badge role="status" aria-label="3 unread">
+          3
+        </Badge>
+      ),
+      'span'
+    )
+
+    expect(attribute(tag, 'role')).toBe('status')
+  })
+
+  it('hides its decorative dot and icon from assistive technology', () => {
+    const dot = renderToStaticMarkup(<Badge dot>Online</Badge>)
+    const icon = renderToStaticMarkup(<Badge icon={<svg />}>Verified</Badge>)
+
+    expect(
+      openingTags(dot, 'span').filter(tag => tag.includes('aria-hidden'))
+    ).toHaveLength(1)
+    expect(
+      openingTags(icon, 'span').filter(tag => tag.includes('aria-hidden'))
+    ).toHaveLength(1)
+  })
+
+  // The pairings are checked at the source in __tests__/contrast.test.ts,
+  // which records that a `-600` on a `-100` drops below AA on four ramps.
+  it('sets every tinted variant in a weight that clears AA', () => {
+    const variants = ['info', 'success', 'warning', 'error'] as const
+
+    for (const variant of variants) {
+      const classes =
+        attribute(
+          openingTag(
+            renderToStaticMarkup(<Badge variant={variant}>Status</Badge>),
+            'span'
+          ),
+          'class'
+        ) ?? ''
+
+      expect(classes).toMatch(/(?:^| )text-[a-z]+-700(?: |$)/)
+      expect(classes).toMatch(/(?:^| )dark:text-[a-z]+-300(?: |$)/)
+    }
+  })
+
+  // `grey-900` is 1.19:1 on the dark page background: a neutral badge built
+  // from the ramp would be invisible at that end of the theme.
+  it('builds its neutral variant from the surface tokens', () => {
+    const classes =
+      attribute(
+        openingTag(renderToStaticMarkup(<Badge>Draft</Badge>), 'span'),
+        'class'
+      ) ?? ''
+
+    expect(classes).toContain('bg-background-alt')
+    expect(classes).toContain('dark:bg-background-alt-dark')
+    expect(classes).toContain('text-foreground')
+    expect(classes).toContain('dark:text-foreground-dark')
   })
 })
 
