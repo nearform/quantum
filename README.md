@@ -203,7 +203,8 @@ props rather than guessing:
   through `aria-describedby`). `Checkbox`, `Radio`, `Switch` and
   `SelectTrigger` have no text of their own -- pair them with `ControlLabel`,
   an external `<label htmlFor>`, or give them an `aria-label`. A placeholder is
-  not a label.
+  not a label. Inside a `CheckboxGroup` or a `RadioGroup`, the option's `label`
+  prop does this, and its `description` is wired up with it.
 - **A control inside a `FormGroup` has to pass its props on.** The group
   derives the label's `htmlFor`, the message ids behind `aria-describedby` and
   the `aria-invalid` flag from one id and hands them to whichever direct child
@@ -213,7 +214,11 @@ props rather than guessing:
   `useFormGroup()` for a control the group cannot get to.
 - **Groups and landmarks need a name.** Give `ButtonGroup` an `aria-label` when
   a page holds more than one, and `Pagination` a `label` when it has more than
-  one pagination nav.
+  one pagination nav. `CheckboxGroup` and `RadioGroup` take a `legend`: without
+  it the options are a run of controls that a reader arriving at the third one
+  cannot place, and a form of several groups is one undifferentiated list. A
+  group whose name is already on the page -- a heading directly above it --
+  takes an `aria-labelledby` pointing at that instead of repeating it.
 - **Avatars need a name, or none at all.** `Avatar` announces `alt`, falling
   back to `name`. Given neither it renders as decoration (`aria-hidden`), which
   is what you want when the person's name is already in the text beside it --
