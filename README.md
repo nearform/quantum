@@ -207,6 +207,10 @@ props rather than guessing:
 - **Groups and landmarks need a name.** Give `ButtonGroup` an `aria-label` when
   a page holds more than one, and `Pagination` a `label` when it has more than
   one pagination nav.
+- **Avatars need a name, or none at all.** `Avatar` announces `alt`, falling
+  back to `name`. Given neither it renders as decoration (`aria-hidden`), which
+  is what you want when the person's name is already in the text beside it --
+  the initials themselves are never announced.
 - **Icon-only controls need names in your language.** `Pagination`
   (`previousLabel`, `nextLabel`, `pageLabel`), `StepsIndicator` (`label`,
   `stepLabel`), `Input` (`clearLabel`) and `Password` (`showLabel`,

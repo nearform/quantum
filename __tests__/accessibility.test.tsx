@@ -7,6 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger
 } from '../src/components/Accordion'
+import { Avatar } from '../src/components/Avatar'
 import { ButtonGroup } from '../src/components/ButtonGroup'
 import { Checkbox } from '../src/components/Checkbox'
 import { Chip } from '../src/components/Chip'
@@ -481,5 +482,97 @@ describe('ButtonGroup semantics', () => {
     )
 
     expect(attribute(openingTag(html, 'div'), 'role')).toBe('toolbar')
+  })
+})
+
+describe('Avatar accessibility', () => {
+  it('names the fallback with the person it stands for', () => {
+    const html = renderToStaticMarkup(<Avatar name="Ada Lovelace" />)
+
+    const root = openingTag(html, 'span')
+    expect(attribute(root, 'role')).toBe('img')
+    expect(attribute(root, 'aria-label')).toBe('Ada Lovelace')
+  })
+
+  it('hides the initials from the reading order', () => {
+    const html = renderToStaticMarkup(<Avatar name="Ada Lovelace" />)
+
+    expect(html).toMatch(/<span aria-hidden="true"[^>]*>\s*AL\s*<\/span>/)
+  })
+
+  it('hides an avatar that has no name to announce', () => {
+    const html = renderToStaticMarkup(<Avatar />)
+
+    const root = openingTag(html, 'span')
+    expect(attribute(root, 'aria-hidden')).toBe('true')
+    expect(attribute(root, 'role')).toBeUndefined()
+  })
+
+  it('moves the name onto the image once there is one', () => {
+    const html = renderToStaticMarkup(
+      <Avatar name="Ada Lovelace" src="/ada.jpg" />
+    )
+
+    expect(attribute(openingTag(html, 'img'), 'alt')).toBe('Ada Lovelace')
+    expect(attribute(openingTag(html, 'span'), 'role')).toBeUndefined()
+    expect(attribute(openingTag(html, 'span'), 'aria-label')).toBeUndefined()
+  })
+
+  it('prefers an explicit alt over the name', () => {
+    const html = renderToStaticMarkup(
+      <Avatar name="Ada Lovelace" alt="Ada Lovelace, project owner" />
+    )
+
+    expect(attribute(openingTag(html, 'span'), 'aria-label')).toBe(
+      'Ada Lovelace, project owner'
+    )
+  })
+
+  it('leaves an image with no name of any kind decorative', () => {
+    const html = renderToStaticMarkup(<Avatar src="/ada.jpg" />)
+
+    expect(attribute(openingTag(html, 'img'), 'alt')).toBe('')
+  })
+
+  it('lets the caller override the role it picks', () => {
+    const html = renderToStaticMarkup(
+      <Avatar name="Ada Lovelace" role="presentation" />
+    )
+
+    expect(attribute(openingTag(html, 'span'), 'role')).toBe('presentation')
+  })
+})
+
+describe('Avatar initials', () => {
+  it('takes the first and last word of a full name', () => {
+    const html = renderToStaticMarkup(<Avatar name="Ada  Byron King" />)
+
+    expect(html).toContain('>AK<')
+  })
+
+  it('takes a single letter from a mononym', () => {
+    const html = renderToStaticMarkup(<Avatar name="Ada" />)
+
+    expect(html).toContain('>A<')
+  })
+
+  it('keeps an astral first letter whole', () => {
+    const html = renderToStaticMarkup(<Avatar name={'\u{1D4D0}da Lovelace'} />)
+
+    expect(html).toContain('>\u{1D4D0}L<')
+  })
+
+  it('falls back to the icon when the name is blank', () => {
+    const html = renderToStaticMarkup(<Avatar name="   " alt="Unknown" />)
+
+    expect(html).toContain('<svg')
+  })
+
+  it('renders caller-supplied initials verbatim', () => {
+    const html = renderToStaticMarkup(
+      <Avatar name="Quantum Design System" initials="QDS" />
+    )
+
+    expect(html).toContain('>QDS<')
   })
 })
