@@ -10,3 +10,6 @@ node_modules
 .DS_Store
 dist/
 storybook-static/
+
+# Transient probe files watchman drops in the root while jest watches
+.watchman-cookie-*

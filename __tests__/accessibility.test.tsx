@@ -13,7 +13,13 @@ import { ButtonGroup } from '../src/components/ButtonGroup'
 import { Checkbox } from '../src/components/Checkbox'
 import { Chip } from '../src/components/Chip'
 import { ControlLabel } from '../src/components/ControlLabel'
+import {
+  FieldDescription,
+  FieldError,
+  FormGroup
+} from '../src/components/FormGroup'
 import { Input } from '../src/components/Input'
+import { Label } from '../src/components/Label'
 import { Link } from '../src/components/Link'
 import { Pagination } from '../src/components/Pagination'
 import { Password } from '../src/components/Password'
@@ -604,6 +610,349 @@ describe('ControlLabel accessibility', () => {
     )
 
     expect(attribute(openingTag(html, 'label'), 'for')).toBe('elsewhere')
+  })
+})
+
+describe('FormGroup accessibility', () => {
+  it('associates the label with the control it wraps', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup>
+        <Label>Email</Label>
+        <input type="email" />
+      </FormGroup>
+    )
+
+    const labelFor = attribute(openingTag(html, 'label'), 'for')
+    expect(labelFor).toBeTruthy()
+    expect(attribute(openingTag(html, 'input'), 'id')).toBe(labelFor)
+  })
+
+  it('keeps the id the control already had', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup>
+        <Label>Email</Label>
+        <input type="email" id="email" />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'label'), 'for')).toBe('email')
+    expect(attribute(openingTag(html, 'input'), 'id')).toBe('email')
+  })
+
+  it('wires a control that is not a host element, such as Checkbox', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup>
+        <Label>Notify me</Label>
+        <Checkbox />
+      </FormGroup>
+    )
+
+    const labelFor = attribute(openingTag(html, 'label'), 'for')
+    expect(labelFor).toBeTruthy()
+    expect(attribute(openingTag(html, 'button'), 'id')).toBe(labelFor)
+  })
+
+  it('describes the control with its hint rather than naming it', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" description="We never share it">
+        <Label>Email</Label>
+        <input type="email" />
+        <FieldDescription />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(attribute(input, 'aria-describedby')).toBe('email-description')
+    expect(attribute(input, 'aria-labelledby')).toBeUndefined()
+    expect(html).toContain('id="email-description"')
+  })
+
+  it('describes the control with its error and marks it invalid', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" error="Enter a valid address">
+        <Label>Email</Label>
+        <input type="email" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(attribute(input, 'aria-describedby')).toBe('email-error')
+    expect(attribute(input, 'aria-invalid')).toBe('true')
+    expect(html).toContain('id="email-error"')
+    expect(html).toContain('Enter a valid address')
+  })
+
+  it('announces an error that appears after the page has loaded', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup error="Enter a valid address">
+        <input type="email" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'p'), 'role')).toBe('alert')
+  })
+
+  /**
+   * The error takes the hint's place rather than the space below it, so a
+   * field does not change height as it is validated. That makes the pair safe
+   * to write once and leave, which is what the stories do -- and it means the
+   * hint's id has to leave `aria-describedby` with it, since the element it
+   * names is no longer rendered.
+   */
+  it('replaces the hint with the error rather than showing both', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup
+        controlId="email"
+        description="We never share it"
+        error="Enter a valid address"
+      >
+        <input type="email" />
+        <FieldDescription />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(html).toContain('Enter a valid address')
+    expect(html).not.toContain('We never share it')
+    expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
+      'email-error'
+    )
+  })
+
+  it('shows the hint again once the error clears', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" description="We never share it">
+        <input type="email" />
+        <FieldDescription />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(html).toContain('We never share it')
+    expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
+      'email-description'
+    )
+  })
+
+  /**
+   * Auto-placement would put the control in row 1 only while the children
+   * happen to be written in the order they are drawn. Written error-first, an
+   * unpinned control would be pushed to row 2 -- below its own label.
+   */
+  it('keeps the control in the label row whatever order it is written in', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup orientation="horizontal" error="Enter a valid address">
+        <FieldError />
+        <Label>Email</Label>
+        <input type="email" />
+      </FormGroup>
+    )
+
+    expect(openingTag(html, 'div', 'min-w-0')).toContain('row-start-1')
+  })
+
+  it('keeps a caller-supplied description alongside its own', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" error="Enter a valid address">
+        <input type="email" aria-describedby="policy" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
+      'policy email-error'
+    )
+  })
+
+  /**
+   * `aria-describedby` pointing at an id that is not in the document is worse
+   * than saying nothing: a screen reader announces no description at all, so
+   * the field loses the hint it would otherwise have had from its label.
+   */
+  it('does not point at a message that is not rendered', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" error="Enter a valid address">
+        <input type="email" />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(attribute(input, 'aria-describedby')).toBeUndefined()
+    expect(attribute(input, 'aria-invalid')).toBe('true')
+  })
+
+  it('takes the error written inline as the invalid state', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email">
+        <input type="email" />
+        <FieldError>Enter a valid address</FieldError>
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(attribute(input, 'aria-invalid')).toBe('true')
+    expect(attribute(input, 'aria-describedby')).toBe('email-error')
+  })
+
+  it('renders no message, and marks nothing invalid, when there is none', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup>
+        <input type="email" />
+        <FieldDescription />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(html).not.toContain('<p')
+    expect(attribute(openingTag(html, 'input'), 'aria-invalid')).toBeUndefined()
+  })
+
+  /**
+   * The one place the group overrules the control. `aria-invalid="false"` is
+   * the attribute's default and is indistinguishable from no attribute at all
+   * in the accessibility tree, so a control carrying it has asserted nothing
+   * -- and a template that ships it by default would otherwise sit inside a
+   * group with an error and announce itself as valid while rendering an error
+   * message.
+   */
+  it('marks a control invalid over its own aria-invalid=false', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup error="Enter a valid address">
+        <input type="email" aria-invalid={false} />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-invalid')).toBe('true')
+  })
+
+  it('keeps a control that says something more specific than invalid', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup error="Check the spelling">
+        <input type="text" aria-invalid="spelling" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-invalid')).toBe(
+      'spelling'
+    )
+  })
+
+  it('flags a control invalid with no message to show', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup invalid>
+        <Label>Email</Label>
+        <input type="email" />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(attribute(input, 'aria-invalid')).toBe('true')
+    expect(attribute(input, 'aria-describedby')).toBeUndefined()
+  })
+
+  /**
+   * `error` is what the field says; `invalid` is what it claims about itself.
+   * Set explicitly, the claim wins, so a message can be shown without being
+   * treated as a validation failure.
+   */
+  it('lets invalid=false show the message without the flag', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" invalid={false} error="Check this address">
+        <input type="email" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(html).toContain('Check this address')
+    expect(attribute(input, 'aria-describedby')).toBe('email-error')
+    expect(attribute(input, 'aria-invalid')).toBeUndefined()
+  })
+
+  /**
+   * `useFormGroup()` hands these ids out for a control the group cannot
+   * reach, so a caller who applies them to one it *can* reach would name the
+   * same element twice. The group's own id lands after the caller's tokens
+   * because it is stripped and re-appended -- the description is announced in
+   * idref order, and the field's own message reading last is the right way
+   * round.
+   */
+  it('does not repeat an id the control already points at', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email" error="Enter a valid address">
+        <input type="email" aria-describedby="email-error policy" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
+      'policy email-error'
+    )
+  })
+
+  it('forwards disabled and required to the control', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup disabled required>
+        <Label>Email</Label>
+        <input type="email" />
+      </FormGroup>
+    )
+
+    const input = openingTag(html, 'input')
+    expect(input).toContain('disabled')
+    expect(input).toContain('required')
+  })
+
+  /**
+   * React renders an unknown attribute on a host element verbatim, so a
+   * `<div disabled="true">` would be markup the browser ignores and a console
+   * warning -- and, worse, would read as a disabled field to nobody at all.
+   */
+  it('does not put form attributes on an element that cannot hold them', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup disabled required>
+        <div>
+          <input type="email" />
+        </div>
+      </FormGroup>
+    )
+
+    expect(openingTag(html, 'div', 'id=')).not.toContain('disabled')
+    expect(openingTag(html, 'div', 'id=')).not.toContain('required')
+  })
+
+  /**
+   * The group owns its message ids in both directions. A caller's copy of one
+   * would otherwise outlive the element it names -- a dangling idref, which
+   * announces nothing at all.
+   */
+  it('drops a message id the control kept after the message went away', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="email">
+        <input type="email" aria-describedby="email-error policy" />
+        <FieldError />
+      </FormGroup>
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
+      'policy'
+    )
+  })
+
+  it('gives the id to one control only', () => {
+    const html = renderToStaticMarkup(
+      <FormGroup controlId="range">
+        <input type="number" />
+        <input type="number" />
+      </FormGroup>
+    )
+
+    const ids = openingTags(html, 'input').map(tag => attribute(tag, 'id'))
+    expect(ids).toEqual(['range', undefined])
   })
 })
 
