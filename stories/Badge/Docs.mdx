@@ -1,0 +1,167 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as BadgeStories from './Badge.stories'
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+A badge labels the thing beside it — a count, a status, a category. It is
+static: nothing about it responds to a click. A tag that can be pressed,
+toggled or removed is a [Chip](?path=/docs/components-chip--docs), whose
+appearance Badge deliberately shares.
+
+### Default
+
+A badge is sized from a single digit up, so the neutral variant with no other
+props is the counter you most often want.
+
+<Canvas of={BadgeStories.Default} />
+
+### Variants
+
+Seven, in both shapes. `default`, `warning`, `success`, `error` and `info` put
+the colour in a 2px border and leave the text near-black; `active` and
+`disabled` are flat.
+
+`disabled` is an appearance only — for a badge attached to a control that is
+itself disabled. It does not disable anything, because a badge has nothing to
+disable.
+
+<Canvas of={BadgeStories.Variants} />
+
+### Circle
+
+`shape="circle"` rounds the badge fully. On a single character that is a
+circle; on a word it becomes a pill.
+
+<Canvas of={BadgeStories.Circle} />
+
+### Sizes
+
+<Canvas of={BadgeStories.Sizes} />
+
+### With text
+
+The minimum width matches the height, so a digit renders as a square or a
+circle and anything longer simply grows out of it.
+
+<Canvas of={BadgeStories.WithText} />
+
+### With a dot
+
+`dot` puts a filled circle before the text in the badge's own colour, for the
+online/away/offline kind of status. It is decorative, so the word beside it
+still has to carry the meaning.
+
+<Canvas of={BadgeStories.WithDot} />
+
+### With an icon
+
+`icon` takes any node — size it yourself, so it can match the surrounding
+text. It is hidden from assistive technology.
+
+<Canvas of={BadgeStories.WithIcon} />
+
+### As a count
+
+A bare number says nothing on its own. Give the badge an `aria-label` and it
+announces that instead of the digits.
+
+<Canvas of={BadgeStories.Count} />
+
+## Dark mode
+
+Toggle the theme in the toolbar to see it.
+
+Dark mode is derived rather than designed — the design file covers light mode
+only. The fill drops to the page background and the border keeps its colour,
+so the border goes on carrying the meaning at both ends of the theme. Tinting
+the fill instead would have been prettier and would have buried the border in
+it: `feedback-red` on `red-900` is 1.85:1, which would leave `error` and
+`success` telling themselves apart by fill alone.
+
+Putting the colour in the border rather than the text is also what keeps the
+set accessible without tuning a weight per hue — `foreground` on any of the
+`-50` fills is 16:1 or better, so no ramp needs a special case. Compare
+`__tests__/contrast.test.ts`, which records how much narrower the margins get
+when the colour moves into the text.
+
+## Accessibility
+
+- **The text is the status; the colour only reinforces it.** A green badge
+  reading "Live" and a red one reading "Stopped" are distinguishable to
+  everyone; two identically-worded badges in different colours are not
+  (WCAG 1.4.1). The same goes for `dot`, which is decorative.
+- **A badge that is not self-explanatory takes an `aria-label`.** `3` on its
+  own is meaningless out of context, so `aria-label="3 unread"` replaces it.
+  Doing that also gives the badge `role="img"`, which is what makes the label
+  reach a screen reader — `aria-label` on a plain `<span>` has no role to name
+  and most screen readers ignore it.
+- **A badge that changes while the page is open needs announcing.** Pass
+  `role="status"` and the new text is read out when it changes. Your `role`
+  wins over the generated one, with one exception: `role="img"` without a name
+  to go with it is dropped. That role replaces the badge's text with its
+  accessible name, so unnamed it fails WCAG 4.1.2 and puts the text out of
+  reach at the same time. Pass an `aria-label` with it and it is kept.
+- **`disabled` text is deliberately low-contrast.** `foreground-subtle` on
+  `background-subtle` is 4.63:1 in light mode and 3.01:1 in dark, the same
+  pairing `Chip` uses for its disabled state. WCAG 1.4.3 exempts disabled
+  controls; do not use this variant to mean anything other than disabled.
+- Icons are always `aria-hidden`, so an icon-only badge is silent. Give it an
+  `aria-label` too.
+
+## Attributes
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>
+        `"default" | "info" | "success" | "warning" | "error" | "active" |
+        "disabled"`
+      </td>
+      <td>`"default"`</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`"sm" | "default" | "lg"`</td>
+      <td>`"default"`</td>
+    </tr>
+    <tr>
+      <td>shape</td>
+      <td>`"rounded" | "circle"`</td>
+      <td>`"rounded"`</td>
+    </tr>
+    <tr>
+      <td>icon</td>
+      <td>`React.ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>dot</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Usage
+
+```tsx
+import { Badge } from '@nearform/quantum'
+
+// A count, named for a screen reader
+<Badge variant="error" shape="circle" aria-label="3 unread">3</Badge>
+
+// A status, with the word doing the work
+<Badge variant="success">Published</Badge>
+
+// A state, with a dot
+<Badge variant="warning" dot>Away</Badge>
+```

@@ -8,6 +8,7 @@ import {
   AccordionTrigger
 } from '../src/components/Accordion'
 import { Avatar } from '../src/components/Avatar'
+import { Badge } from '../src/components/Badge'
 import { ButtonGroup } from '../src/components/ButtonGroup'
 import { Checkbox } from '../src/components/Checkbox'
 import { Chip } from '../src/components/Chip'
@@ -214,6 +215,187 @@ describe('Chip accessibility', () => {
     const html = renderToStaticMarkup(<Chip>Filter</Chip>)
 
     expect(html).toContain('aria-hidden="true"')
+  })
+})
+
+describe('Badge accessibility', () => {
+  it('leaves its own text in the accessibility tree unnamed', () => {
+    const tag = openingTag(renderToStaticMarkup(<Badge>Live</Badge>), 'span')
+
+    expect(attribute(tag, 'role')).toBeUndefined()
+    expect(attribute(tag, 'aria-label')).toBeUndefined()
+  })
+
+  // `aria-label` on a plain `<span>` has no role to name, and most screen
+  // readers drop it, so a badge given one takes `role="img"` to hold it.
+  it('gives a labelled badge a role for its label to name', () => {
+    const labelled = openingTag(
+      renderToStaticMarkup(<Badge aria-label="3 unread">3</Badge>),
+      'span'
+    )
+    const referenced = openingTag(
+      renderToStaticMarkup(<Badge aria-labelledby="inbox">3</Badge>),
+      'span'
+    )
+
+    expect(attribute(labelled, 'role')).toBe('img')
+    expect(attribute(referenced, 'role')).toBe('img')
+  })
+
+  it('leaves an empty label alone rather than naming nothing', () => {
+    const tag = openingTag(
+      renderToStaticMarkup(<Badge aria-label="">Live</Badge>),
+      'span'
+    )
+
+    expect(attribute(tag, 'role')).toBeUndefined()
+  })
+
+  it("keeps the caller's own role", () => {
+    const tag = openingTag(
+      renderToStaticMarkup(
+        <Badge role="status" aria-label="3 unread">
+          3
+        </Badge>
+      ),
+      'span'
+    )
+
+    expect(attribute(tag, 'role')).toBe('status')
+  })
+
+  // `role="img"` replaces the text with the accessible name, so without one
+  // it fails 4.1.2 and hides the text it was put on. The badge refuses it
+  // whoever asked, rather than only keeping its own generated role valid.
+  it('refuses an unnamed img role even from the caller', () => {
+    const bare = openingTag(
+      renderToStaticMarkup(<Badge role="img">3</Badge>),
+      'span'
+    )
+    const empty = openingTag(
+      renderToStaticMarkup(
+        <Badge role="img" aria-label="">
+          3
+        </Badge>
+      ),
+      'span'
+    )
+    const named = openingTag(
+      renderToStaticMarkup(
+        <Badge role="img" aria-label="3 unread">
+          3
+        </Badge>
+      ),
+      'span'
+    )
+
+    expect(attribute(bare, 'role')).toBeUndefined()
+    expect(attribute(empty, 'role')).toBeUndefined()
+    expect(attribute(named, 'role')).toBe('img')
+  })
+
+  it('passes every other caller-supplied role through unnamed', () => {
+    const tag = openingTag(
+      renderToStaticMarkup(<Badge role="status">3 unread</Badge>),
+      'span'
+    )
+
+    expect(attribute(tag, 'role')).toBe('status')
+  })
+
+  it('hides its decorative dot and icon from assistive technology', () => {
+    const dot = renderToStaticMarkup(<Badge dot>Online</Badge>)
+    const icon = renderToStaticMarkup(<Badge icon={<svg />}>Verified</Badge>)
+
+    expect(
+      openingTags(dot, 'span').filter(tag => tag.includes('aria-hidden'))
+    ).toHaveLength(1)
+    expect(
+      openingTags(icon, 'span').filter(tag => tag.includes('aria-hidden'))
+    ).toHaveLength(1)
+  })
+
+  /**
+   * The design puts the colour in the border and leaves the text near-black,
+   * which is what keeps the whole set accessible without a per-hue weight:
+   * `foreground` on any of the `-50` fills is 16:1 or better. A variant that
+   * moved the colour into the text would be reintroducing the problem
+   * __tests__/contrast.test.ts records for the `-600`/`-100` pairing.
+   */
+  it('keeps its text near-black and puts the colour in the border', () => {
+    const variants = ['info', 'success', 'warning', 'error'] as const
+
+    for (const variant of variants) {
+      const classes =
+        attribute(
+          openingTag(
+            renderToStaticMarkup(<Badge variant={variant}>1</Badge>),
+            'span'
+          ),
+          'class'
+        ) ?? ''
+
+      expect(classes).toContain('text-foreground')
+      expect(classes).toContain('dark:text-foreground-dark')
+      expect(classes).toMatch(/(?:^| )bg-[a-z]+-50(?: |$)/)
+      expect(classes).toMatch(/(?:^| )border-[a-z][a-z0-9-]*(?: |$)/)
+    }
+  })
+
+  /**
+   * Dark mode is derived rather than designed: the fill drops to the page
+   * background so the coloured border keeps carrying the meaning. Tinting the
+   * fill would bury the border in it -- `feedback-red` on `red-900` is
+   * 1.85:1 -- and leave error and success distinguished by fill alone.
+   */
+  it('drops the tinted fill in dark mode so the border still reads', () => {
+    const variants = ['info', 'success', 'warning', 'error'] as const
+
+    for (const variant of variants) {
+      const classes =
+        attribute(
+          openingTag(
+            renderToStaticMarkup(<Badge variant={variant}>1</Badge>),
+            'span'
+          ),
+          'class'
+        ) ?? ''
+
+      expect(classes).toContain('dark:bg-background-dark')
+      expect(classes).not.toMatch(/dark:bg-[a-z]+-900/)
+    }
+  })
+
+  // `border-none` would shrink these two by 4px and break the alignment of a
+  // row that mixes them with the bordered variants.
+  it('keeps the flat variants the same size as the bordered ones', () => {
+    for (const variant of ['active', 'disabled'] as const) {
+      const classes =
+        attribute(
+          openingTag(
+            renderToStaticMarkup(<Badge variant={variant}>1</Badge>),
+            'span'
+          ),
+          'class'
+        ) ?? ''
+
+      expect(classes).toContain('border-2')
+      expect(classes).toContain('border-transparent')
+      expect(classes).not.toContain('border-none')
+    }
+  })
+
+  it('builds its neutral variant from the surface tokens', () => {
+    const classes =
+      attribute(
+        openingTag(renderToStaticMarkup(<Badge>1</Badge>), 'span'),
+        'class'
+      ) ?? ''
+
+    expect(classes).toContain('bg-background')
+    expect(classes).toContain('border-border-subtle')
+    expect(classes).toContain('dark:bg-background-dark')
+    expect(classes).toContain('dark:text-foreground-dark')
   })
 })
 
