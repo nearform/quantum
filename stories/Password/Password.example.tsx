@@ -3,6 +3,7 @@ import { Password, PasswordProps } from '@/index'
 
 const PasswordDemo = ({
   variant,
+  size,
   toggleMask,
   disabled,
   value,
@@ -17,6 +18,7 @@ const PasswordDemo = ({
   return (
     <Password
       variant={variant}
+      size={size}
       value={trackedValue}
       onChange={handleOnChange}
       disabled={disabled}

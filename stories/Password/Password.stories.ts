@@ -12,6 +12,11 @@ const meta = {
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   argTypes: {
+    size: {
+      options: ['sm', 'default', 'lg'],
+      control: 'inline-radio',
+      description: 'The height of the field: 37px, 42px or 48px'
+    },
     disabled: {
       options: [true, false, 'indeterminate'],
       control: { type: 'radio' }
@@ -53,6 +58,20 @@ export const Disabled: Story = {
 export const Error: Story = {
   args: {
     variant: 'error',
+    labelText: 'Password'
+  }
+}
+
+export const Small: Story = {
+  args: {
+    size: 'sm',
+    labelText: 'Password'
+  }
+}
+
+export const Large: Story = {
+  args: {
+    size: 'lg',
     labelText: 'Password'
   }
 }

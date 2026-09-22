@@ -3,15 +3,45 @@ import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 import { BsX, BsSearch } from '@/assets'
 
-const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
+/**
+ * The design draws the leading icon at 16x16, so the size is set here rather
+ * than left to the icon that is passed in. `react-icons` renders at `1em`,
+ * which ties every glyph to whatever font size the field inherits -- a search
+ * icon and a caller's own icon then come out at different sizes in the same
+ * form, and both move when the surrounding text does.
+ */
+const leftSideVariants = cva([
+  'flex',
+  'shrink-0',
+  'items-center',
+  'text-inherit',
+  '[&>svg]:h-4',
+  '[&>svg]:w-4'
+])
 
+/**
+ * The clear control is a 24x24 target around a 12x12 glyph: the cross is drawn
+ * at 12, and 24 is the smallest target WCAG 2.5.8 accepts. The negative margin
+ * is half the difference between the two -- the padding the target gains on
+ * the right is taken back out of the field's own padding, so the target grows
+ * around the cross rather than pushing it inwards, and the cross stays exactly
+ * where the design puts it.
+ */
 const rightSideVariants = cva([
   'flex',
+  'h-6',
+  'w-6',
+  'shrink-0',
+  '-mr-1.5',
+  'items-center',
+  'justify-center',
   'self-center text-inherit',
   'rounded-xs',
   'focus-visible:outline-2',
   'focus-visible:outline-offset-2',
-  'focus-visible:outline-current'
+  'focus-visible:outline-current',
+  '[&>svg]:h-3',
+  '[&>svg]:w-3'
 ])
 
 const formVariants = cva(
@@ -21,7 +51,7 @@ const formVariants = cva(
     'border-2',
     'rounded-lg',
     'overflow-hidden',
-    'p-3',
+    'px-3',
     'items-center',
     'gap-1.5',
     '[&:has(:disabled)]:border-none'
@@ -56,7 +86,37 @@ const formVariants = cva(
           'hover:border-green-700',
           'focus-within:shadow-green'
         ]
+      },
+      /**
+       * `sm` and `default` are the two heights the design file specifies, and
+       * the field had neither: its height was a 12px padding plus whatever
+       * line box the inherited font produced, which was 40px when #264 was
+       * filed and is 52px today. The design has no size that follows the text
+       * like that.
+       *
+       * So they are heights rather than a padding that adds up to one. That
+       * also fixes the disabled field, which drops its 2px border and was 4px
+       * shorter than every other field because of it.
+       *
+       * The two of them match `Select`'s `sm` and `lg` to the pixel, which is
+       * what lets a select and an input sit next to each other in a row. The
+       * names do not match, and cannot: 42px is the size the design calls
+       * regular, so it is the default here, and `Select` had already spent
+       * `lg` on it.
+       *
+       * `lg` is not in the design file. It is 48px because that is the height
+       * of a large `Button` -- both of its variants, which is what the
+       * compound variants in `Button` are there to line up -- so a large field
+       * and the button that submits it are the same height.
+       */
+      size: {
+        sm: ['h-[37px]'],
+        default: ['h-[42px]'],
+        lg: ['h-[48px]']
       }
+    },
+    defaultVariants: {
+      size: 'default'
     }
   }
 )
@@ -94,8 +154,15 @@ type InputType =
   // eslint-disable-next-line @typescript-eslint/ban-types
   | (string & {})
 
-interface InputProps extends React.HTMLProps<HTMLInputElement> {
+/**
+ * `size` is the field's height rather than the HTML attribute of that name,
+ * which is omitted. The attribute asks for a width in characters, and the
+ * `<input>` here is `flex-grow` inside the field, so it was already being
+ * overruled by the layout before it could mean anything.
+ */
+interface InputProps extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
   variant: 'primary' | 'error' | 'success'
+  size?: 'sm' | 'default' | 'lg'
   type: InputType
   formClassName?: string
   leftSideClassName?: string
@@ -123,6 +190,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       formClassName,
       leftSideClassName,
       variant,
+      size,
       leftSideChild,
       rightSideChild,
       labelText,
@@ -148,7 +216,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     )
 
     const field = (
-      <div className={cn(formVariants({ variant }), formClassName)}>
+      <div className={cn(formVariants({ variant, size }), formClassName)}>
         {leftSideComponent && (
           <div className={cn(leftSideVariants(), leftSideClassName)}>
             {leftSideComponent}
@@ -162,7 +230,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           aria-describedby={describedBy}
           {...props}
         />
-        <div className="input-right-side"></div>
         <button
           type="button"
           onClick={onClear}

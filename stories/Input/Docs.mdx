@@ -6,7 +6,9 @@ import * as InputStories from './Input.stories'
 
 # Input
 
-A search is a user interface element that includes a search bar or input field, often accompanied by a search button or icon. It enables users to enter keywords or queries and initiate a search for specific content or information within an application or website. The search component helps users quickly find relevant data or resources by matching their input with the available content.
+A single-line text field. It renders the label, the field and its help text as
+one group, wires them to each other, and puts a clear button at the end of the
+field. Giving it `type="search"` also puts a magnifier at the start.
 
 ## Primary Text
 
@@ -32,166 +34,196 @@ A search is a user interface element that includes a search bar or input field, 
 
 <Canvas of={InputStories.LeftIcon} />
 
+## Sizes
+
+Three heights: `sm` is 37px, `default` is 42px and `lg` is 48px.
+
+The first two come from the design file. `lg` is not in it — it is 48px
+because that is the height of a large [Button](?path=/docs/form-button--docs),
+so a large field and the button that submits it match.
+
+The height is set on the field rather than added up out of padding and text, so
+it holds whatever font size the field inherits, and a disabled field — which
+drops its border — is the same height as an enabled one.
+
+<Canvas of={InputStories.Sizes} />
+
+### Matching the other form controls
+
+**The size names do not line up across components, so read the height, not the
+name.** An `Input` and a `Select` of the same height are `size="default"` and
+`size="lg"`; giving both `size="lg"` puts a 48px input beside a 42px select,
+and nothing will warn you.
+
+The measured heights, in a row:
+
+<table>
+  <tbody>
+    <tr>
+      <td>Height</td>
+      <td>Input, Password</td>
+      <td>Select</td>
+      <td>Button</td>
+    </tr>
+    <tr>
+      <td>36px</td>
+      <td>-</td>
+      <td>-</td>
+      <td>`xs`, `sm`</td>
+    </tr>
+    <tr>
+      <td>37px</td>
+      <td>`sm`</td>
+      <td>`sm` (its default)</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>40px</td>
+      <td>-</td>
+      <td>-</td>
+      <td>`md` (its default)</td>
+    </tr>
+    <tr>
+      <td>42px</td>
+      <td>`default`</td>
+      <td>`lg`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>48px</td>
+      <td>`lg`</td>
+      <td>-</td>
+      <td>`lg`</td>
+    </tr>
+  </tbody>
+</table>
+
+The `Button` column holds for **every** button variant, not just `primary`.
+A button's height is arithmetic rather than a class — padding, line box and
+border — and `secondary` is the one variant with a border, so the compound
+variants in `Button` take its 2px back out of its padding to keep it level:
+`secondary lg` is `py-2.5` where `primary lg` is `py-3`, and `border-box`
+counts the difference. Read off the class lists that looks like a 4px
+discrepancy; measured, both are 48px. `Button`'s **Sizes** story asserts it in
+the browser on every CI run, so a variant that gains a border, or a compound
+dropped as redundant, fails rather than quietly moving one button in a row.
+
+So the pairs that line up are:
+
+- **37px** — `Input size="sm"` with `Select size="sm"`
+- **42px** — `Input size="default"` with `Select size="lg"`
+- **48px** — `Input size="lg"` with `Button size="lg"`, which is the only field
+  and button that meet exactly; a 42px field beside a 40px `Button size="md"`
+  is 2px out, and `Select` has no 48px tier
+
+Two components defaulting to different ends of the same pair is the trap worth
+knowing about: an `Input` with no `size` is 42px and a `Select` with no `size`
+is 37px, so a form that leaves both alone is already misaligned. Set `size`
+explicitly on every control in a row.
+
+## Icons
+
+The leading icon is drawn at 16×16 and the clear icon at 12×12, and the field
+sizes both of them, so an icon passed as `leftSideChild` or `rightSideChild`
+comes out at the size the design specifies rather than at the `1em` that
+`react-icons` defaults to.
+
+The clear button itself is 24×24 — the smallest target
+[WCAG 2.5.8](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)
+accepts. It grows into the field's own padding rather than pushing the icon
+inwards, so the cross stays where it is drawn.
+
 ## Attributes
 
-This component accepts all attributes for the input component of type text, with the addition of `onClear` function which declares the clear button functionality.
+Everything an `<input>` takes, plus the props below. The one exception is the
+HTML `size` attribute, which is displaced by the `size` prop; it asks for a
+width in characters, and the input grows to fill the field, so the layout was
+overruling it anyway.
 
-## Input
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`'primary' | 'error' | 'success'`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`'sm' | 'default' | 'lg'`</td>
+      <td>`'default'`</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onClear</td>
+      <td>`function`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>clearLabel</td>
+      <td>`string`</td>
+      <td>`'Clear input'`</td>
+    </tr>
+    <tr>
+      <td>labelText</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>helpText</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>leftSideChild</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>rightSideChild</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>formClassName</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>leftSideClassName</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
 
-```tsx
-iimport React, { HTMLInputTypeAttribute } from 'react'
-import { cn } from '@/lib/utils'
-import { cva } from 'class-variance-authority'
-import { BsX, BsSearch } from '@/assets'
+## Accessibility
 
-const leftSideVariants = cva(['flex', 'items-center', 'text-inherit'])
-
-const rightSideVariants = cva(['flex', 'self-center text-inherit'])
-
-const formVariants = cva(
-  [
-    'flex',
-    'border',
-    'border-2',
-    'rounded-lg',
-    'overflow-hidden',
-    'p-3',
-    'items-center',
-    'gap-1.5',
-    '[&:has(:disabled)]:border-none'
-  ],
-  {
-    variants: {
-      variant: {
-        primary: [
-          'border-border-subtle',
-          'dark:border-border-subtle-dark',
-          'bg-background-alt',
-          'dark:bg-background-alt-dark',
-          'hover:border-border-hover',
-          'hover:focus-within:border-border-focus',
-          'dark:hover:focus-within:border-border-focus-dark',
-          'focus-within:shadow-brandGreen',
-          'text-foreground-muted',
-          'dark:text-foreground-muted-dark',
-          'dark:focus-within:shadow-brandGreen-10'
-        ],
-        error: [
-          'border-feedback-red',
-          'text-feedback-red',
-          'bg-red-50',
-          'hover:border-red-700',
-          'focus-within:shadow-red'
-        ],
-        success: [
-          'border-feedback-green',
-          'text-feedback-green',
-          'bg-green-50',
-          'hover:border-green-700',
-          'focus-within:shadow-green'
-        ]
-      }
-    }
-  }
-)
-
-const inputVariants = cva(
-  ['flex', 'flex-grow', 'items-center', 'outline-hidden', 'bg-transparent'],
-  {
-    variants: {
-      variant: {
-        primary: ['text-foreground', 'dark:text-foreground-dark'],
-        error: ['text-feedback-red'],
-        success: ['text-green-700']
-      }
-    },
-    defaultVariants: {
-      variant: 'primary'
-    }
-  }
-)
-
-interface InputProps extends React.HTMLProps<HTMLInputElement> {
-  variant: 'primary' | 'error' | 'success'
-  type:
-    | 'color'
-    | 'date'
-    | 'datetime-local'
-    | 'email'
-    | 'month'
-    | 'number'
-    | 'password'
-    | 'search'
-    | 'tel'
-    | 'text'
-    | 'time'
-    | 'url'
-    | 'week'
-    | (string & {})
-  formClassName?: string
-  leftSideClassName?: string
-  leftSideChild?: React.ReactNode
-  rightSideChild?: React.ReactNode
-  onClear: () => void
-}
-
-const convertTypeToLeftComponent = (type: HTMLInputTypeAttribute) => {
-  const mapping: Partial<Record<HTMLInputTypeAttribute, React.ReactNode>> = {
-    search: <BsSearch />
-  }
-  return mapping[type] ?? null
-}
-
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
-      type,
-      className,
-      formClassName,
-      leftSideClassName,
-      variant,
-      leftSideChild,
-      rightSideChild,
-      onClear,
-      ...props
-    },
-    ref
-  ) => {
-    const leftSideComponent = leftSideChild ?? convertTypeToLeftComponent(type)
-    const rightSideComponent = rightSideChild ?? <BsX strokeWidth={0.6} />
-
-    return (
-      <label className={cn(formVariants({ variant }), formClassName)}>
-        {leftSideComponent && (
-          <div className={cn(leftSideVariants(), leftSideClassName)}>
-            {leftSideComponent}
-          </div>
-        )}
-        <input
-          type={type}
-          className={cn(inputVariants({ variant }), className)}
-          ref={ref}
-          {...props}
-        />
-        <div className="input-right-side"></div>
-        <button type="button" onClick={onClear} className={rightSideVariants()}>
-          {rightSideComponent}
-        </button>
-      </label>
-    )
-  }
-)
-
-export { Input, InputProps, formVariants }
-```
+- The clear button has no text, so it carries an accessible name of its own.
+  `clearLabel` renames it for its context — "Clear search" reads better than
+  "Clear input" on a search field.
+- `labelText` is associated with the field, and `helpText` describes it rather
+  than naming it. An `aria-describedby` you pass in is kept alongside the help
+  text rather than replaced by it.
+- Both icons are hidden from assistive technology. An icon passed in as
+  `leftSideChild` or `rightSideChild` should be too — it repeats what the label
+  already says.
 
 ## Usage
 
 ```tsx
 import { useState } from 'react'
-import { Input, InputProps } from '@/index'
+import { Input, InputProps } from '@nearform/quantum'
 
-const InputDemo = ({ variant, type, disabled }: InputProps) => {
+const InputDemo = (props: Omit<InputProps, 'onChange' | 'onClear'>) => {
   const [value, setValue] = useState('')
   const handleOnClear = () => {
     setValue('')
@@ -202,11 +234,9 @@ const InputDemo = ({ variant, type, disabled }: InputProps) => {
   return (
     <Input
       value={value}
-      variant={variant}
-      type={type}
       onClear={handleOnClear}
       onChange={handleOnChange}
-      disabled={disabled}
+      {...props}
     />
   )
 }
