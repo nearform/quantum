@@ -21,7 +21,7 @@ export const button = {
       dark: background.subtle.dark
     },
     selected: {
-      DEFAILT: colors.grey['100'],
+      DEFAULT: colors.grey['100'],
       dark: background.subtle.dark
     }
   },
@@ -56,7 +56,7 @@ export const button = {
         dark: border.subtle.dark
       },
       selected: {
-        DEFAILT: colors.grey['100'],
+        DEFAULT: colors.grey['100'],
         dark: background.subtle.dark
       }
     }
@@ -71,7 +71,7 @@ export const button = {
       dark: colors.blue['900']
     },
     selected: {
-      DEFAILT: colors.grey['100'],
+      DEFAULT: colors.grey['100'],
       dark: background.subtle.dark
     }
   },
@@ -87,7 +87,7 @@ export const button = {
       DEFAULT: colors.grey['50']
     },
     selected: {
-      DEFAILT: colors.grey['100'],
+      DEFAULT: colors.grey['100'],
       dark: background.subtle.dark
     }
   },
@@ -103,7 +103,7 @@ export const button = {
       DEFAULT: colors.grey['50']
     },
     selected: {
-      DEFAILT: colors.grey['100'],
+      DEFAULT: colors.grey['100'],
       dark: background.subtle.dark
     }
   }
