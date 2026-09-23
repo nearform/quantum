@@ -90,6 +90,8 @@ describe('tertiary Button in dark mode', () => {
   })
 })
 
+const AA_TEXT = 4.5
+
 /**
  * WCAG 2.x contrast, as `contrast.test.ts` computes it. Repeated rather than
  * shared because that suite checks the palette at the source and this one
@@ -112,16 +114,41 @@ const luminance = (hex: string) => {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b
 }
 
+/** Rounded the way a report states a ratio, as `contrast.test.ts` rounds it. */
 const ratioOf = (fg: string, bg: string) => {
   const [hi, lo] = [luminance(fg), luminance(bg)].sort((x, y) => y - x)
-  return (hi + 0.05) / (lo + 0.05)
+  return Math.round(((hi + 0.05) / (lo + 0.05)) * 100) / 100
 }
 
 describe('tertiary Button text against its dark surfaces', () => {
+  /**
+   * 4.5:1 is the contract -- it is what 1.4.3 asks of the text and what a
+   * substituted palette would still owe.
+   */
   it.each([
     ['hover and active', button.tertiary.hover.dark],
     ['focus', button.tertiary.focus.dark]
   ])('clears AA on %s', (_state, surface) => {
-    expect(ratioOf(foreground.dark, surface)).toBeGreaterThanOrEqual(4.5)
+    expect(ratioOf(foreground.dark, surface)).toBeGreaterThanOrEqual(AA_TEXT)
+  })
+
+  /**
+   * ...and these are the ratios the pairing actually has, which is a separate
+   * thing worth holding. The figures are quoted in `Button`'s own comment and
+   * in #86, and nothing above stops a later palette edit from halving them and
+   * leaving both readings stale while the suite stays green -- there is a lot
+   * of room between here and the floor.
+   *
+   * Recorded rather than bounded, the way `contrast.test.ts` records which
+   * ramps fail at `-600` on `-100`: a number that moves should fail, and the
+   * failure should say what it moved to, so the comment and the test are
+   * updated in the same edit as the colour. Loosening this to a bound is
+   * always available and is a decision rather than a detail.
+   */
+  it('has the ratios the component comment quotes', () => {
+    expect({
+      hover: ratioOf(foreground.dark, button.tertiary.hover.dark),
+      focus: ratioOf(foreground.dark, button.tertiary.focus.dark)
+    }).toEqual({ hover: 14.54, focus: 18.75 })
   })
 })

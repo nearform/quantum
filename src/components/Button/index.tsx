@@ -86,7 +86,7 @@ const buttonVariants = cva(
          * drawn -- nothing here was reaching for them. So each state takes its
          * own dark surface and the text goes back to `foreground-dark`
          * throughout, which is what Input, Textarea, Select, Badge and Chip
-         * all write their dark text as: 14.58:1 on hover and active, 18.75:1
+         * all write their dark text as: 14.54:1 on hover and active, 18.75:1
          * on focus. `__tests__/button-dark-mode.test.tsx` is
          * what keeps a light-mode-only background from being added back.
          */
