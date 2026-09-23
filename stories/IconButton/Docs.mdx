@@ -143,6 +143,15 @@ already does.
   `aria-label` at all is plainly unnamed and axe's `button-name` rule reports
   it in your own CI. A placeholder name would be worse than either, because it
   would silence the failure with something untrue.
+- **An empty label logs an error in development.** No other component in this
+  library warns, and the line is worth stating. What the others cannot express
+  is contextual — whether the page holds a second `ButtonGroup`, whether the
+  heading above a `RadioGroup` already names it — so they cannot know they are
+  wrong. This one knows: an icon button with no accessible name has no valid
+  reading whatever surrounds it. That certainty is what earns the warning, and
+  it is why the warning does not generalise to a convention for the rest of
+  the library. It is stripped from production builds, and it stays quiet for
+  `aria-labelledby`, which is a real name and only falls foul of the type.
 - **Say what the button does, not what the icon shows.** "Delete article"
   beats "bin", and beats "Delete" on a page holding several deletes. The
   label is read on its own, out of the context the icon sits in.
@@ -152,8 +161,16 @@ already does.
   says "Notifications", the `label` starts with "Notifications".
 - **The icon must not carry a `title`.** `aria-label` already replaces the
   button's contents when its name is computed, so the icon needs no
-  `aria-hidden` — but a `title` on it puts a second, competing name in the
-  accessibility tree and a browser tooltip the `Tooltip` did not put there.
+  `aria-hidden` — but a `title` on it puts a browser tooltip there that your
+  `Tooltip` did not. Nothing type-checks this: `icon` is a `ReactNode`.
+- **A `title` on the button is allowed, and is not how you name it.** `title`
+  is the last resort in the naming order, behind both `aria-label` and the
+  element's contents, so it cannot compete with `label` for the name. It does
+  add a native tooltip that will double up with `Tooltip`, and it is a poor
+  way to name anything — invisible to touch and to the keyboard. It is left
+  available because it is legal HTML with uses of its own, and the one case
+  where it could have become the name is the case where `label` resolved
+  empty, which warns.
 - **`aria-labelledby` wins where the name is already on the page**, and an
   `aria-label` of your own overrides `label`. That is the naming order in the
   specification rather than anything this component decides; `label` is simply

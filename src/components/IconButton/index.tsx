@@ -84,10 +84,21 @@ interface IconButtonProps
  * one rather than inventing it (WCAG 4.1.2).
  *
  * The icon is left out of the accessibility tree by `aria-label` itself,
- * which replaces an element's contents when the name is computed, so it needs
- * no `aria-hidden` of its own. What it must not carry is a `title`: that
- * would put a second, competing name in the tree and a tooltip the button's
- * own `Tooltip` did not put there.
+ * which replaces an element's contents when the name is computed, so the icon
+ * needs no `aria-hidden` of its own. What the icon must not carry is a
+ * `title`, which would put a browser tooltip on it that the button's own
+ * `Tooltip` did not put there. That one is unreachable from here: `icon` is a
+ * `ReactNode`, so there is nothing to type-check.
+ *
+ * A `title` on the button itself is a different thing and is deliberately
+ * left available. It does not become the name while there is a label to
+ * compute one from -- `title` is the last resort in the naming order, behind
+ * both `aria-label` and the contents -- so it cannot compete with `label`. It
+ * does add a native tooltip, which will double up with `Tooltip`, and it is a
+ * poor way to name anything, being invisible to touch and to the keyboard.
+ * But it is legal HTML with uses of its own, and the one case where it could
+ * have become the name is the case where `label` resolved empty, which now
+ * warns in development. So it is documented rather than banned.
  *
  * `type` defaults to `"button"`. A bare `<button>` inside a form is a submit
  * button, and an icon button is most often a close or a remove -- the one
@@ -134,6 +145,36 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     // consumer's own CI rather than the component quietly asserting a name it
     // does not have.
     const name = ariaLabel?.trim() || label?.trim() || undefined
+
+    // ...and says so in development, where the person who can fix it is
+    // looking, rather than leaving it for a consumer's axe run to find.
+    //
+    // No other component here warns, and the line between them is worth
+    // stating rather than assuming. What the others cannot express is
+    // contextual -- whether the page holds a second `ButtonGroup`, whether a
+    // heading above a `RadioGroup` already carries its name -- so they cannot
+    // know they are wrong and would have to guess. This one knows. An icon
+    // button with no accessible name has no valid reading at all, whatever
+    // surrounds it, so the certainty is what earns the warning and it does not
+    // generalise to a convention for the rest of the library.
+    //
+    // `aria-labelledby` is exempt: it names the button from text already on
+    // the page and beats `aria-label` wherever both appear, so a caller using
+    // it has named the button and only fallen foul of the type. It is read
+    // from `props` rather than destructured so that it still reaches the
+    // element through the spread.
+    if (
+      process.env.NODE_ENV !== 'production' &&
+      !name &&
+      !props['aria-labelledby']
+    ) {
+      console.error(
+        'IconButton: `label` is required and cannot be empty. This button has ' +
+          'rendered with no accessible name, and a screen reader will announce ' +
+          'it as "button" and nothing more. Pass a label saying what the button ' +
+          'does -- "Delete article", not "bin".'
+      )
+    }
 
     return (
       <button

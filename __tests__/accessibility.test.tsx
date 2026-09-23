@@ -1,4 +1,11 @@
-import { describe, expect, it } from '@jest/globals'
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  jest
+} from '@jest/globals'
 import * as React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 
@@ -500,19 +507,87 @@ describe('IconButton accessibility', () => {
     ['empty', ''],
     ['whitespace', '  ']
   ])('refuses to assert a name it does not have (%s)', (_name, label) => {
-    const tag = openingTag(
-      renderToStaticMarkup(<IconButton icon={<svg />} label={label} />),
-      'button'
-    )
-    const overridden = openingTag(
-      renderToStaticMarkup(
-        <IconButton icon={<svg />} label={label} aria-label="Delete article" />
-      ),
-      'button'
-    )
+    const quiet = jest.spyOn(console, 'error').mockImplementation(() => {})
 
-    expect(tag).not.toContain('aria-label')
-    expect(attribute(overridden, 'aria-label')).toBe('Delete article')
+    try {
+      const tag = openingTag(
+        renderToStaticMarkup(<IconButton icon={<svg />} label={label} />),
+        'button'
+      )
+      const overridden = openingTag(
+        renderToStaticMarkup(
+          <IconButton
+            icon={<svg />}
+            label={label}
+            aria-label="Delete article"
+          />
+        ),
+        'button'
+      )
+
+      expect(tag).not.toContain('aria-label')
+      expect(attribute(overridden, 'aria-label')).toBe('Delete article')
+    } finally {
+      quiet.mockRestore()
+    }
+  })
+
+  /**
+   * The rest of the library stays silent, and the line between it and this is
+   * worth holding to. What the other components cannot express is contextual
+   * -- whether the page holds a second `ButtonGroup`, whether the heading
+   * above a `RadioGroup` already names it -- so they cannot know they are
+   * wrong. This one knows: an icon button with no accessible name has no
+   * valid reading whatever surrounds it. That certainty is what earns the
+   * warning, so it has to fire exactly where it is certain and nowhere else.
+   */
+  describe('the development warning', () => {
+    let warn: jest.Spied<typeof console.error>
+
+    beforeEach(() => {
+      warn = jest.spyOn(console, 'error').mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+      warn.mockRestore()
+    })
+
+    it.each([
+      ['an empty label', <IconButton key="a" icon={<svg />} label="" />],
+      ['a whitespace label', <IconButton key="b" icon={<svg />} label="  " />],
+      [
+        'a label emptied by an override',
+        <IconButton key="c" icon={<svg />} label="" aria-label=" " />
+      ]
+    ])('fires on %s', (_case, element) => {
+      renderToStaticMarkup(element)
+
+      expect(warn).toHaveBeenCalledTimes(1)
+      expect(warn.mock.calls[0][0]).toContain('IconButton')
+      expect(warn.mock.calls[0][0]).toContain('label')
+    })
+
+    /**
+     * `aria-labelledby` names the button from text already on the page and
+     * beats `aria-label` wherever both appear, so a caller reaching for it
+     * has named the button and only fallen foul of the type. Warning there
+     * would be crying wolf at the one alternative the docs recommend.
+     */
+    it.each([
+      ['a label', <IconButton key="a" icon={<svg />} label="Delete" />],
+      [
+        'an overriding aria-label',
+        <IconButton key="b" icon={<svg />} label="" aria-label="Delete" />
+      ],
+      [
+        'an aria-labelledby',
+        <IconButton key="c" icon={<svg />} label="" aria-labelledby="heading" />
+      ]
+    ])('stays quiet given %s', (_case, element) => {
+      renderToStaticMarkup(element)
+
+      expect(warn).not.toHaveBeenCalled()
+    })
   })
 
   it('renders the icon as the whole of its content', () => {
