@@ -30,8 +30,14 @@ const checkboxVariants = cva(
       'disabled:opacity-50',
       'disabled:cursor-not-allowed',
       'focus-visible:outline-hidden',
-      'focus-visible:shadow-brandGreen',
-      'dark:focus-visible:shadow-brandGreen-10'
+      'focus-visible:border-brandBlue-100',
+      'focus-visible:ring-[3px]',
+      'focus-visible:ring-brandBlue-10',
+      'dark:focus-visible:border-brandBlue-80',
+      'dark:focus-visible:ring-0',
+      'dark:focus-visible:outline-2',
+      'dark:focus-visible:outline-offset-2',
+      'dark:focus-visible:outline-brandGreen-100'
     ],
     [
       'data-[state=checked]:bg-border',

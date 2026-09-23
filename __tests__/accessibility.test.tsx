@@ -330,40 +330,77 @@ describe('Badge accessibility', () => {
   })
 
   /**
-   * The design puts the colour in the border and leaves the text near-black,
-   * which is what keeps the whole set accessible without a per-hue weight:
-   * `foreground` on any of the `-50` fills is 16:1 or better. A variant that
-   * moved the colour into the text would be reintroducing the problem
-   * __tests__/contrast.test.ts records for the `-600`/`-100` pairing.
+   * Pastel badges keep midnight or status-coloured text on a light fill, with
+   * the border painted the same as the fill (not a stripe). Brand variants
+   * (`info`, `green`, `purple`) use midnight text; status variants colour the
+   * text to the feedback token. Green never appears as text on a light fill.
    */
-  it('keeps its text near-black and puts the colour in the border', () => {
-    const variants = ['info', 'success', 'warning', 'error'] as const
+  it('keeps pastel fills with matching borders and readable text', () => {
+    const expectations = {
+      info: {
+        bg: 'bg-brandBlue-10',
+        border: 'border-brandBlue-10',
+        text: 'text-brandMidnight-100'
+      },
+      success: {
+        bg: 'bg-feedback-success10',
+        border: 'border-feedback-success10',
+        text: 'text-feedback-success'
+      },
+      warning: {
+        bg: 'bg-feedback-warning10',
+        border: 'border-feedback-warning10',
+        text: 'text-feedback-warning'
+      },
+      error: {
+        bg: 'bg-feedback-danger10',
+        border: 'border-feedback-danger10',
+        text: 'text-feedback-danger'
+      },
+      green: {
+        bg: 'bg-brandGreen-10',
+        border: 'border-brandGreen-10',
+        text: 'text-brandMidnight-100'
+      },
+      purple: {
+        bg: 'bg-brandPurple-10',
+        border: 'border-brandPurple-10',
+        text: 'text-brandMidnight-100'
+      }
+    } as const
 
-    for (const variant of variants) {
+    for (const [variant, expected] of Object.entries(expectations)) {
       const classes =
         attribute(
           openingTag(
-            renderToStaticMarkup(<Badge variant={variant}>1</Badge>),
+            renderToStaticMarkup(
+              <Badge variant={variant as keyof typeof expectations}>1</Badge>
+            ),
             'span'
           ),
           'class'
         ) ?? ''
 
-      expect(classes).toContain('text-foreground')
-      expect(classes).toContain('dark:text-foreground-dark')
-      expect(classes).toMatch(/(?:^| )bg-[a-z]+-50(?: |$)/)
-      expect(classes).toMatch(/(?:^| )border-[a-z][a-z0-9-]*(?: |$)/)
+      expect(classes).toContain(expected.bg)
+      expect(classes).toContain(expected.border)
+      expect(classes).toContain(expected.text)
+      expect(classes).not.toContain('text-brandGreen-100')
     }
   })
 
   /**
-   * Dark mode is derived rather than designed: the fill drops to the page
-   * background so the coloured border keeps carrying the meaning. Tinting the
-   * fill would bury the border in it -- `feedback-red` on `red-900` is
-   * 1.85:1 -- and leave error and success distinguished by fill alone.
+   * Pastel chips stay light in both themes: the base no longer swaps the fill
+   * for the page background in dark mode.
    */
-  it('drops the tinted fill in dark mode so the border still reads', () => {
-    const variants = ['info', 'success', 'warning', 'error'] as const
+  it('keeps the pastel fill in dark mode', () => {
+    const variants = [
+      'info',
+      'success',
+      'warning',
+      'error',
+      'green',
+      'purple'
+    ] as const
 
     for (const variant of variants) {
       const classes =
@@ -375,7 +412,7 @@ describe('Badge accessibility', () => {
           'class'
         ) ?? ''
 
-      expect(classes).toContain('dark:bg-background-dark')
+      expect(classes).not.toContain('dark:bg-background-dark')
       expect(classes).not.toMatch(/dark:bg-[a-z]+-900/)
     }
   })
@@ -399,17 +436,17 @@ describe('Badge accessibility', () => {
     }
   })
 
-  it('builds its neutral variant from the surface tokens', () => {
+  it('builds its neutral variant from the brand grey tokens', () => {
     const classes =
       attribute(
         openingTag(renderToStaticMarkup(<Badge>1</Badge>), 'span'),
         'class'
       ) ?? ''
 
-    expect(classes).toContain('bg-background')
-    expect(classes).toContain('border-border-subtle')
-    expect(classes).toContain('dark:bg-background-dark')
-    expect(classes).toContain('dark:text-foreground-dark')
+    expect(classes).toContain('bg-brandGrey-10')
+    expect(classes).toContain('border-brandGrey-10')
+    expect(classes).toContain('text-brandMidnight-100')
+    expect(classes).toContain('dark:text-brandMidnight-100')
   })
 })
 
@@ -448,7 +485,7 @@ describe('Link accessibility', () => {
     )
 
     expect(attribute(openingTag(html, 'a'), 'class')).toContain(
-      'focus:shadow-brandGreen'
+      'ring-brandBlue-10'
     )
   })
 })
@@ -969,7 +1006,7 @@ describe('focus indicators', () => {
     const html = renderToStaticMarkup(<Checkbox />)
 
     expect(attribute(openingTag(html, 'button'), 'class')).toContain(
-      'focus-visible:shadow-brandGreen'
+      'ring-brandBlue-10'
     )
   })
 
@@ -981,7 +1018,7 @@ describe('focus indicators', () => {
     )
 
     expect(attribute(openingTag(html, 'button'), 'class')).toContain(
-      'focus-visible:shadow-brandGreen'
+      'ring-brandBlue-10'
     )
   })
 
@@ -995,7 +1032,7 @@ describe('focus indicators', () => {
     )
 
     expect(attribute(openingTag(html, 'button'), 'class')).toContain(
-      'focus-visible:shadow-brandGreen'
+      'ring-brandBlue-10'
     )
   })
 

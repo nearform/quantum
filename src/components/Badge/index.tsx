@@ -3,21 +3,19 @@ import { cva, VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 /**
- * Badge wears the same clothes as `Chip`: a 2px coloured border around a `-50`
- * fill, with the text in near-black `foreground` rather than a tint of the
- * hue. The two are siblings in the design file and share the fills exactly, so
- * they share the tokens here too.
+ * Badge wears the same clothes as `Chip`: a pastel fill with a matching
+ * border (same colour as the fill, so it keeps the `border-2` size without
+ * reading as a stripe), and text in midnight or the status colour. Pastel
+ * chips stay light in both themes — the fill is not swapped for the page
+ * background in dark mode.
  *
- * Putting the colour in the border rather than the text is what makes the
- * whole set comfortably accessible -- `foreground` on any of the `-50` fills
- * is 16:1 or better, so there is no per-hue weight to tune and no ramp that
- * has to be treated as a special case.
+ * Status variants (`success`, `warning`, `error`) colour the text to match
+ * the feedback token. Brand variants (`info`, `green`, `purple`) keep midnight
+ * text and put the brand colour on a decorative dot instead, so green never
+ * ends up as text on a light fill.
  *
- * Dark mode is not in the design file, so it is derived: the fill drops to the
- * page background and the border keeps its colour and goes on carrying the
- * meaning. Tinting the fill instead would have been prettier and would have
- * hidden the border in it -- `feedback-red` on `red-900` is 1.85:1, which
- * would leave error and success telling themselves apart by fill alone.
+ * `active` and `disabled` stay flat: they keep `border-2` and paint it
+ * transparent so they line up with bordered badges in a mixed row.
  */
 const badgeVariants = cva(
   [
@@ -30,20 +28,50 @@ const badgeVariants = cva(
       'font-semibold',
       'whitespace-nowrap'
     ],
-    ['text-foreground', 'dark:text-foreground-dark', 'dark:bg-background-dark']
+    ['text-foreground']
   ],
   {
     variants: {
       variant: {
         default: [
-          'bg-background',
-          'border-border-subtle',
-          'dark:border-border-subtle-dark'
+          'bg-brandGrey-10',
+          'text-brandMidnight-100',
+          'border-brandGrey-10',
+          'dark:text-brandMidnight-100'
         ],
-        info: ['bg-blue-50', 'border-blue-500'],
-        success: ['bg-green-50', 'border-feedback-green'],
-        warning: ['bg-yellow-50', 'border-feedback-yellow'],
-        error: ['bg-red-50', 'border-feedback-red'],
+        info: [
+          'bg-brandBlue-10',
+          'text-brandMidnight-100',
+          'border-brandBlue-10',
+          'dark:text-brandMidnight-100'
+        ],
+        success: [
+          'bg-feedback-success10',
+          'text-feedback-success',
+          'border-feedback-success10'
+        ],
+        warning: [
+          'bg-feedback-warning10',
+          'text-feedback-warning',
+          'border-feedback-warning10'
+        ],
+        error: [
+          'bg-feedback-danger10',
+          'text-feedback-danger',
+          'border-feedback-danger10'
+        ],
+        green: [
+          'bg-brandGreen-10',
+          'text-brandMidnight-100',
+          'border-brandGreen-10',
+          'dark:text-brandMidnight-100'
+        ],
+        purple: [
+          'bg-brandPurple-10',
+          'text-brandMidnight-100',
+          'border-brandPurple-10',
+          'dark:text-brandMidnight-100'
+        ],
         // The two flat variants keep `border-2` and paint it out rather than
         // dropping it, so they stay exactly the same size as the bordered ones
         // and a row of mixed badges still lines up.
@@ -89,10 +117,24 @@ const dotVariants = cva(['shrink-0', 'rounded-full', 'bg-current'], {
       sm: ['h-1.5', 'w-1.5'],
       default: ['h-2', 'w-2'],
       lg: ['h-2.5', 'w-2.5']
+    },
+    // Midnight-text brand variants need an explicit fill; status variants
+    // inherit via `bg-current` from their coloured text.
+    variant: {
+      default: '',
+      info: 'bg-brandBlue-100',
+      success: '',
+      warning: '',
+      error: '',
+      green: 'bg-brandGreen-100',
+      purple: 'bg-brandPurple-100',
+      active: '',
+      disabled: ''
     }
   },
   defaultVariants: {
-    size: 'default'
+    size: 'default',
+    variant: 'default'
   }
 })
 
@@ -150,7 +192,10 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {...props}
       >
         {dot && (
-          <span aria-hidden="true" className={cn(dotVariants({ size }))} />
+          <span
+            aria-hidden="true"
+            className={cn(dotVariants({ size, variant }))}
+          />
         )}
         {icon && (
           <span aria-hidden="true" className="flex shrink-0 items-center">

@@ -37,16 +37,30 @@ const chipVariants = cva(
     variants: {
       variant: {
         default: [
-          'bg-background',
-          'border-border-subtle',
-          'dark:bg-background-dark',
-          'dark:border-border-subtle-dark',
-          'dark:text-foreground-dark'
+          'bg-brandGrey-10',
+          'text-brandMidnight-100',
+          'border-brandGrey-10'
         ],
-        warning: ['bg-yellow-50', 'border-feedback-yellow'],
-        success: ['bg-green-50', 'border-feedback-green'],
-        error: ['bg-red-50', 'border-feedback-red'],
-        info: ['bg-blue-50', 'border-primary-30', 'dark:border-primary-30']
+        warning: [
+          'bg-feedback-warning10',
+          'text-feedback-warning',
+          'border-feedback-warning10'
+        ],
+        success: [
+          'bg-feedback-success10',
+          'text-feedback-success',
+          'border-feedback-success10'
+        ],
+        error: [
+          'bg-feedback-danger10',
+          'text-feedback-danger',
+          'border-feedback-danger10'
+        ],
+        info: [
+          'bg-brandBlue-10',
+          'text-brandMidnight-100',
+          'border-brandBlue-10'
+        ]
       },
       size: {
         default: ['text-xs', 'px-2.5', 'py-2 h-[26px]', 'gap-1'],

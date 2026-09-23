@@ -67,10 +67,16 @@ const formVariants = cva(
           'hover:border-border-hover',
           'hover:focus-within:border-border-focus',
           'dark:hover:focus-within:border-border-focus-dark',
-          'focus-within:shadow-brandGreen',
+          'focus-within:border-brandBlue-100',
+          'focus-within:ring-[3px]',
+          'focus-within:ring-brandBlue-10',
           'text-foreground-muted',
           'dark:text-foreground-muted-dark',
-          'dark:focus-within:shadow-brandGreen-10'
+          'dark:focus-within:border-brandBlue-80',
+          'dark:focus-within:ring-0',
+          'dark:focus-within:outline-2',
+          'dark:focus-within:outline-offset-2',
+          'dark:focus-within:outline-brandGreen-100'
         ],
         error: [
           'border-feedback-red',
