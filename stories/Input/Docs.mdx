@@ -63,7 +63,7 @@ The measured heights, in a row:
       <td>Height</td>
       <td>Input, Password</td>
       <td>Select</td>
-      <td>Button</td>
+      <td>Button, IconButton</td>
     </tr>
     <tr>
       <td>36px</td>
@@ -98,7 +98,10 @@ The measured heights, in a row:
   </tbody>
 </table>
 
-The `Button` column holds for **every** button variant, not just `primary`.
+The `Button` column holds for **every** button variant, not just `primary`,
+and [IconButton](?path=/docs/form-iconbutton--docs) shares it by construction:
+its box is square and the side is the `Button` height of the same name, so an
+icon button belongs in any row a button does.
 A button's height is arithmetic rather than a class — padding, line box and
 border — and `secondary` is the one variant with a border, so the compound
 variants in `Button` take its 2px back out of its padding to keep it level:

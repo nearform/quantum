@@ -1,4 +1,11 @@
-import { describe, expect, it } from '@jest/globals'
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  jest
+} from '@jest/globals'
 import * as React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 
@@ -22,6 +29,7 @@ import {
   FieldError,
   FormGroup
 } from '../src/components/FormGroup'
+import { IconButton, iconButtonVariants } from '../src/components/IconButton'
 import { Input } from '../src/components/Input'
 import { Label } from '../src/components/Label'
 import { Link } from '../src/components/Link'
@@ -410,6 +418,293 @@ describe('Badge accessibility', () => {
     expect(classes).toContain('border-border-subtle')
     expect(classes).toContain('dark:bg-background-dark')
     expect(classes).toContain('dark:text-foreground-dark')
+  })
+})
+
+describe('IconButton accessibility', () => {
+  it('names the button from its label', () => {
+    const tag = openingTag(
+      renderToStaticMarkup(
+        <IconButton icon={<svg />} label="Delete article" />
+      ),
+      'button'
+    )
+
+    expect(attribute(tag, 'aria-label')).toBe('Delete article')
+  })
+
+  /**
+   * `label` goes on before the spread, so a caller who has a name of their
+   * own still wins. `aria-labelledby` is not fought over at all -- it beats
+   * `aria-label` in the naming order wherever both are present, which is the
+   * point of passing it.
+   */
+  it('lets the caller name it some other way', () => {
+    const overridden = openingTag(
+      renderToStaticMarkup(
+        <IconButton icon={<svg />} label="Delete" aria-label="Delete article" />
+      ),
+      'button'
+    )
+    const referenced = openingTag(
+      renderToStaticMarkup(
+        <IconButton icon={<svg />} label="Delete" aria-labelledby="heading" />
+      ),
+      'button'
+    )
+
+    expect(attribute(overridden, 'aria-label')).toBe('Delete article')
+    expect(attribute(referenced, 'aria-labelledby')).toBe('heading')
+    expect(attribute(referenced, 'aria-label')).toBe('Delete')
+  })
+
+  /**
+   * Spread over the top of the label, an empty or absent `aria-label` would
+   * leave the button nameless, which is the one outcome `label` being
+   * required exists to rule out. A button that names itself and then blanks
+   * it has no reading that is not a mistake, so the name it was given stands.
+   */
+  it('keeps its label rather than being blanked by an empty one', () => {
+    const empty = openingTag(
+      renderToStaticMarkup(
+        <IconButton icon={<svg />} label="Delete article" aria-label="" />
+      ),
+      'button'
+    )
+    const blank = openingTag(
+      renderToStaticMarkup(
+        <IconButton icon={<svg />} label="Delete article" aria-label="   " />
+      ),
+      'button'
+    )
+    const absent = openingTag(
+      renderToStaticMarkup(
+        <IconButton
+          icon={<svg />}
+          label="Delete article"
+          aria-label={undefined}
+        />
+      ),
+      'button'
+    )
+
+    expect(attribute(empty, 'aria-label')).toBe('Delete article')
+    expect(attribute(blank, 'aria-label')).toBe('Delete article')
+    expect(attribute(absent, 'aria-label')).toBe('Delete article')
+  })
+
+  /**
+   * `label: string` stops the prop being forgotten; it does not stop it being
+   * supplied empty, and the name-computation algorithm trims before it
+   * decides, so `" "` is exactly as unnamed as `""`. Neither goes on the
+   * element. The computed name is unchanged either way -- an empty
+   * `aria-label` is skipped and the algorithm falls through to the contents,
+   * which are an icon and say nothing -- but `aria-label=""` reads as a
+   * deliberate suppression and is taken for one. With no attribute at all the
+   * button is plainly unnamed, and axe's `button-name` rule reports it.
+   */
+  it.each([
+    ['empty', ''],
+    ['whitespace', '  ']
+  ])('refuses to assert a name it does not have (%s)', (_name, label) => {
+    const quiet = jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    try {
+      const tag = openingTag(
+        renderToStaticMarkup(<IconButton icon={<svg />} label={label} />),
+        'button'
+      )
+      const overridden = openingTag(
+        renderToStaticMarkup(
+          <IconButton
+            icon={<svg />}
+            label={label}
+            aria-label="Delete article"
+          />
+        ),
+        'button'
+      )
+
+      expect(tag).not.toContain('aria-label')
+      expect(attribute(overridden, 'aria-label')).toBe('Delete article')
+    } finally {
+      quiet.mockRestore()
+    }
+  })
+
+  /**
+   * `title` is the one prop of a `<button>` this component takes away. Not
+   * because it competes for the name -- it is the last resort in the naming
+   * order, behind both `aria-label` and the contents, so while there is a
+   * label it never wins -- but because every reason to reach for it here is
+   * already served better: a tooltip is `Tooltip`, reachable by keyboard and
+   * by touch as a native one is not, and a name is `label`.
+   *
+   * There is nothing to assert at runtime, so the lock is the compiler. If
+   * `title` is ever allowed back into the props, this directive stops
+   * suppressing anything and `tsc` fails on the unused `@ts-expect-error`,
+   * which `npm run typecheck` runs over this directory.
+   */
+  it('refuses a title at the type level', () => {
+    const html = renderToStaticMarkup(
+      // @ts-expect-error -- `title` is deliberately not one of the props
+      <IconButton icon={<svg />} label="Delete article" title="Delete" />
+    )
+
+    // Only the type stops it: a `title` arriving through an untyped spread is
+    // still rendered, because deleting an attribute a caller explicitly set
+    // is a worse surprise than passing it through.
+    expect(attribute(openingTag(html, 'button'), 'title')).toBe('Delete')
+  })
+
+  /**
+   * The rest of the library stays silent, and the line between it and this is
+   * worth holding to. What the other components cannot express is contextual
+   * -- whether the page holds a second `ButtonGroup`, whether the heading
+   * above a `RadioGroup` already names it -- so they cannot know they are
+   * wrong. This one knows: an icon button with no accessible name has no
+   * valid reading whatever surrounds it. That certainty is what earns the
+   * warning, so it has to fire exactly where it is certain and nowhere else.
+   */
+  describe('the development warning', () => {
+    let warn: jest.Spied<typeof console.error>
+
+    beforeEach(() => {
+      warn = jest.spyOn(console, 'error').mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+      warn.mockRestore()
+    })
+
+    it.each([
+      ['an empty label', <IconButton key="a" icon={<svg />} label="" />],
+      ['a whitespace label', <IconButton key="b" icon={<svg />} label="  " />],
+      [
+        'a label emptied by an override',
+        <IconButton key="c" icon={<svg />} label="" aria-label=" " />
+      ]
+    ])('fires on %s', (_case, element) => {
+      renderToStaticMarkup(element)
+
+      expect(warn).toHaveBeenCalledTimes(1)
+      expect(warn.mock.calls[0][0]).toContain('IconButton')
+      expect(warn.mock.calls[0][0]).toContain('label')
+    })
+
+    /**
+     * `aria-labelledby` names the button from text already on the page and
+     * beats `aria-label` wherever both appear, so a caller reaching for it
+     * has named the button and only fallen foul of the type. Warning there
+     * would be crying wolf at the one alternative the docs recommend.
+     */
+    it.each([
+      ['a label', <IconButton key="a" icon={<svg />} label="Delete" />],
+      [
+        'an overriding aria-label',
+        <IconButton key="b" icon={<svg />} label="" aria-label="Delete" />
+      ],
+      [
+        'an aria-labelledby',
+        <IconButton key="c" icon={<svg />} label="" aria-labelledby="heading" />
+      ]
+    ])('stays quiet given %s', (_case, element) => {
+      renderToStaticMarkup(element)
+
+      expect(warn).not.toHaveBeenCalled()
+    })
+  })
+
+  it('renders the icon as the whole of its content', () => {
+    const html = renderToStaticMarkup(
+      <IconButton icon={<svg data-icon="trash" />} label="Delete article" />
+    )
+
+    expect(html).toContain('data-icon="trash"')
+    expect(openingTags(html, 'svg')).toHaveLength(1)
+  })
+
+  /**
+   * A bare `<button>` inside a form submits it, and an icon button is most
+   * often a close or a remove sitting inside one.
+   */
+  it('does not submit the form it is standing in', () => {
+    const html = renderToStaticMarkup(
+      <IconButton icon={<svg />} label="Remove row" />
+    )
+
+    expect(attribute(openingTag(html, 'button'), 'type')).toBe('button')
+  })
+
+  it('still submits when asked to', () => {
+    const html = renderToStaticMarkup(
+      <IconButton icon={<svg />} label="Search" type="submit" />
+    )
+
+    expect(attribute(openingTag(html, 'button'), 'type')).toBe('submit')
+  })
+
+  it('draws the focus indicator the other buttons draw', () => {
+    const classes =
+      attribute(
+        openingTag(
+          renderToStaticMarkup(<IconButton icon={<svg />} label="Add" />),
+          'button'
+        ),
+        'class'
+      ) ?? ''
+
+    expect(classes).toContain('focus:shadow-brandGreen')
+  })
+
+  /**
+   * Every size clears the 24x24 CSS pixels WCAG 2.2 asks of a target (2.5.8),
+   * with the smallest at 36. Read off the classes rather than measured, so a
+   * size added later has to clear it too -- the measurement itself is in the
+   * `Sizes` story, which the test runner drives in a browser.
+   */
+  it.each(['xs', 'sm', 'md', 'lg'] as const)(
+    'gives %s a square target big enough to hit',
+    size => {
+      const classes = iconButtonVariants({ size }).split(' ')
+      const side = (prefix: string) => {
+        const match = classes.find(name =>
+          new RegExp(`^${prefix}-\\d`).test(name)
+        )
+        return Number(match?.slice(prefix.length + 1)) * 4
+      }
+
+      expect(side('h')).toBe(side('w'))
+      expect(side('h')).toBeGreaterThanOrEqual(24)
+    }
+  )
+
+  /**
+   * The colours come from `Button` so that the two stay in step where they
+   * sit side by side, and its paddings and text sizes are dropped so that
+   * nothing competes with the square. Both halves of that are load-bearing
+   * and neither is visible from this component's own class list.
+   */
+  it('wears Button’s colours without its box', () => {
+    const classes =
+      attribute(
+        openingTag(
+          renderToStaticMarkup(
+            <IconButton icon={<svg />} label="Delete" variant="danger" />
+          ),
+          'button'
+        ),
+        'class'
+      ) ?? ''
+
+    expect(classes).toContain('bg-button-danger')
+    expect(classes).toContain('hover:bg-button-danger-hover')
+    // `p-2.5 text-sm` is `Button`'s `md`, which is its default and so the one
+    // that leaks if `size: null` ever stops meaning "skip the default too".
+    // Neither survives `tailwind-merge` against the square, so their absence
+    // is the assertion that cva still behaves as the comment there claims.
+    expect(classes.split(' ')).not.toContain('p-2.5')
+    expect(classes.split(' ')).not.toContain('text-sm')
   })
 })
 
