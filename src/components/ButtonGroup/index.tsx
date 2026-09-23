@@ -5,50 +5,67 @@ import { cn } from '@/lib/utils'
 const buttonGroupVariants = cva(
   [
     'inline-flex',
-    '[&>*]:flex',
-    '[&>*]:rounded-none',
+    'items-start',
     'p-0',
-    '[&>*]:gap-[10px]',
+    'rounded-lg',
+    '[&>*]:flex',
     '[&>*]:items-center',
     '[&>*]:justify-center',
+    '[&>*]:gap-[10px]',
     '[&>*]:px-3',
-    '[&>*:focus]:shadow-none',
     '[&>*]:outline-hidden',
-    '[&>*:focus-visible]:outline-2',
-    '[&>*:focus-visible]:-outline-offset-2',
-    '[&>*:focus-visible]:outline-current',
-    'items-start',
-    'rounded-lg',
-    'overflow-hidden'
+    '[&>*:focus]:shadow-brandGreen',
+    '[&>*:focus]:z-10'
   ],
   {
     variants: {
       variant: {
         primary: [
-          '[&>*:focus]:bg-secondary-100',
-          '[&>*:focus]:text-foreground',
+          '[&>*]:bg-button-primary',
+          '[&>*]:text-white',
+          '[&>*:hover]:bg-button-primary-hover',
+          '[&>*:focus]:bg-button-primary-focus',
+          '[&>*:disabled]:bg-button-primary-disabled',
+          '[&>*:disabled]:text-foreground-subtle',
           'dark:[&>*]:bg-button-primary-dark',
           'dark:[&>*]:text-foreground-inverse-dark',
-          'dark:[&>*:hover]:bg-button-primary-hover',
-          'dark:[&>*:hover]:text-foreground-dark',
-          'dark:[&>*:focus]:bg-button-primary-focus',
-          'dark:[&>*:focus]:text-foreground-dark'
+          'dark:[&>*:hover]:bg-button-primary-hover-dark',
+          'dark:[&>*:focus]:bg-button-primary-dark',
+          'dark:[&>*:disabled]:bg-button-primary-disabled-dark',
+          'dark:[&>*:disabled]:text-foreground-subtle'
         ],
         secondary: [
-          'bg-background',
-          '[&>*]:bg-white [&>*]:text-grey-900',
-          '[&>*:focus]:bg-button-secondary-focus',
+          '[&>*]:bg-white',
+          '[&>*]:text-grey-900',
           '[&>*:hover]:bg-button-secondary-hover',
+          '[&>*:disabled]:bg-button-secondary-disabled',
+          '[&>*:disabled]:border-button-secondary-border-disabled',
+          '[&>*:disabled]:text-foreground-subtle',
+          'dark:[&>*]:bg-button-secondary-dark',
+          'dark:[&>*]:text-foreground-dark',
           'dark:[&>*:hover]:bg-button-secondary-hover-dark',
-          'dark:[&>*:hover]:text-foreground-dark',
-          'dark:[&>*:focus]:bg-button-secondary-focus-dark',
-          'dark:[&>*:focus]:text-foreground-dark',
-          '[&>*:disabled]:bg-button-secondary-disabled [&>*:disabled]:border-button-secondary-border-disabled [&>*:disabled]:text-foreground-subtle'
+          'dark:[&>*:focus]:shadow-brandGreen10',
+          'dark:[&>*:disabled]:bg-button-secondary-disabled-dark',
+          'dark:[&>*:disabled]:border-button-secondary-disabled-dark',
+          'dark:[&>*:disabled]:text-foreground-subtle-dark'
         ]
       },
       orientation: {
-        horizontal: ['inline-flex'],
-        vertical: ['flex-col', '[&>*]:self-stretch']
+        horizontal: [
+          'inline-flex',
+          '[&>*:first-child]:rounded-l-lg',
+          '[&>*:last-child]:rounded-r-lg',
+          '[&>*:not(:first-child)]:rounded-l-none',
+          '[&>*:not(:last-child)]:rounded-r-none'
+        ],
+        vertical: [
+          'flex-col',
+          '[&>*]:self-stretch',
+          '[&>*:first-child]:rounded-t-lg',
+          '[&>*:last-child]:rounded-b-lg',
+          '[&>*:not(:first-child)]:rounded-t-none',
+          '[&>*:not(:last-child)]:rounded-b-none'
+        ]
       },
       size: {
         md: ['[&>*]:py-2.5'],

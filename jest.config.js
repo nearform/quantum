@@ -4,6 +4,7 @@ module.exports = {
   // than a version lagging behind one.
   preset: 'ts-jest',
   setupFiles: ['<rootDir>/jest.module-hooks.setup.js'],
+  testMatch: ['<rootDir>/__tests__/**/*.test.[jt]s?(x)'],
   // Mirrors the `@/*` path alias in tsconfig.json. ts-jest type-checks against
   // that alias but does not resolve it at runtime, so `src/` imports of
   // `@/assets` or `@/lib/utils` would otherwise fail to load.
