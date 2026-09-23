@@ -1,6 +1,5 @@
 import { describe, expect, it } from '@jest/globals'
 import * as React from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
 
 import { Button } from '../src/components/Button'
 import { ButtonGroup } from '../src/components/ButtonGroup'
@@ -9,6 +8,7 @@ import { accent } from '../src/colors/accent'
 import { button } from '../src/colors/button'
 import { colors } from '../src/colors/base'
 import { foreground } from '../src/colors/foreground'
+import { classesOf } from './helpers/markup'
 
 /**
  * #162 asked the button group for four colour changes and expected all of them
@@ -24,24 +24,11 @@ import { foreground } from '../src/colors/foreground'
  * compiled CSS here, so the utility classes are the only place that agreement
  * exists -- the same reading `button-dark-mode.test.tsx` takes.
  */
-const classesOf = (element: React.ReactElement, tagName: string) => {
-  const html = renderToStaticMarkup(element)
-  const tag = html.match(new RegExp(`<${tagName}\\b[^>]*>`))?.[0]
-  if (!tag) {
-    throw new Error(`no <${tagName}> in ${html}`)
-  }
-  return (tag.match(/\sclass="([^"]*)"/)?.[1] ?? '')
-    .replace(/&amp;/g, '&')
-    .replace(/&gt;/g, '>')
-    .replace(/&lt;/g, '<')
-    .split(' ')
-}
-
 const groupClasses = (variant?: 'primary' | 'secondary') =>
-  classesOf(<ButtonGroup variant={variant}>{null}</ButtonGroup>, 'div')
+  classesOf(<ButtonGroup variant={variant}>{null}</ButtonGroup>)
 
 const buttonClasses = (variant: 'primary' | 'secondary') =>
-  classesOf(<Button variant={variant}>One</Button>, 'button')
+  classesOf(<Button variant={variant}>One</Button>)
 
 /**
  * The hex a Tailwind colour suffix names, walked out of the palette the theme

@@ -1,11 +1,11 @@
 import { describe, expect, it } from '@jest/globals'
 import * as React from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
 
 import { Button } from '../src/components/Button'
 import { IconButton } from '../src/components/IconButton'
 import { button } from '../src/colors/button'
 import { foreground } from '../src/colors/foreground'
+import { classesOf } from './helpers/markup'
 
 /**
  * #86 was filed against the tertiary button's text colour in dark mode, and
@@ -20,19 +20,6 @@ import { foreground } from '../src/colors/foreground'
  * classes are the only place the pairing exists -- so the classes are what is
  * asserted, the same way `input-dimensions.test.tsx` asserts its sizes.
  */
-const classesOf = (element: React.ReactElement) => {
-  const html = renderToStaticMarkup(element)
-  const tag = html.match(/<button\b[^>]*>/)?.[0]
-  if (!tag) {
-    throw new Error(`no <button> in ${html}`)
-  }
-  return (tag.match(/\sclass="([^"]*)"/)?.[1] ?? '')
-    .replace(/&amp;/g, '&')
-    .replace(/&gt;/g, '>')
-    .replace(/&lt;/g, '<')
-    .split(' ')
-}
-
 /**
  * The state prefixes of the backgrounds a class list paints in light mode:
  * `hover:bg-x` -> `'hover:'`, `bg-x` -> `''`, `dark:hover:bg-x` -> skipped.
