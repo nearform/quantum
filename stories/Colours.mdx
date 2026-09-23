@@ -59,6 +59,21 @@ the colour.
 
 ## Base Colours
 
+Two stops carry values from the rebrand rather than their Flowbite-derived
+originals, and both are visual changes for anything already using them
+directly:
+
+| Token | Was | Now | Why |
+| --- | --- | --- | --- |
+| `blue-900` | `#233876` | `#000E38` | The brand's darkest blue; the same value as `primary-100`. Raises `-900` on `blue-100` from 9.47:1 to 16.05:1, and white on `button-tertiary-focus-dark` — its one semantic use — from 11.06:1 to 18.75:1. |
+| `purple-500` | `#9061F9` | `#8950FF` | Brand purple. Takes `-500` on white from 3.99:1 to 4.51:1, so it clears AA as text where the old value did not. Not swept by `__tests__/contrast.test.ts`, which pairs `-600`/`-700` against `-100`. |
+
+`blue-700` is deliberately left at `#1A56DB`. See the note in
+`__tests__/contrast.test.ts` and PR discussion — the rebrand value proposed for
+it is lighter than `blue-600`, which would both invert the ramp and drop
+`-700` on `-100` below AA.
+
+
 <ColorPalette>
   {Object.keys(colors).map((token, index) => {
     const color = colors[token]

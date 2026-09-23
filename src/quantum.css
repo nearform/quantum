@@ -94,7 +94,7 @@
   --color-button-tertiary-hover: #F9FAFB;
   --color-button-tertiary-hover-dark: #1F2A37;
   --color-button-tertiary-focus: #FFF;
-  --color-button-tertiary-focus-dark: #233876;
+  --color-button-tertiary-focus-dark: #000E38;
   --color-button-tertiary-selected: #F3F4F6;
   --color-button-tertiary-selected-dark: #1F2A37;
   --color-button-success: #057A55;
@@ -130,7 +130,7 @@
   --color-blue-600: #2165E3;
   --color-blue-700: #1A56DB;
   --color-blue-800: #1E429F;
-  --color-blue-900: #233876;
+  --color-blue-900: #000E38;
   --color-red-50: #FDF2F2;
   --color-red-100: #FDE8E8;
   --color-red-200: #FBD5D5;
@@ -196,7 +196,7 @@
   --color-purple-200: #DCD7FE;
   --color-purple-300: #CABFFD;
   --color-purple-400: #AC94FA;
-  --color-purple-500: #9061F9;
+  --color-purple-500: #8950FF;
   --color-purple-600: #7E3AF2;
   --color-purple-700: #6C2BD9;
   --color-purple-800: #5521B5;

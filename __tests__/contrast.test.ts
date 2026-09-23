@@ -143,6 +143,16 @@ describe('a -600 foreground on a -100 background', () => {
     expect(failing.sort()).toEqual(['blue', 'orange', 'pink', 'red'])
   })
 
+  /**
+   * The rebrand proposes `#166BFF` for `blue-700` (nearform/quantum#929). It is
+   * not carried here: its luminance is 0.179 against `blue-600`'s 0.152, so it
+   * is the lighter of the two and `-700` stops being a dark weight at all. On
+   * `blue-100` it is 3.92:1, where the current value is 5.29:1. That is not an
+   * exception this assertion can absorb — excepting `blue` would leave the ramp
+   * with no readable weight on its own `-100`, which is the thing the test
+   * exists to guarantee. Moving the value to a lighter stop, or restating the
+   * pairing the docs send people to, is a design call rather than a test edit.
+   */
   it('clears AA at -700 on every ramp but pink, which needs -800', () => {
     const short = ramps
       .map(([name, shades]) => {
