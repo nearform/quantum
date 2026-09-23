@@ -70,15 +70,37 @@ const buttonVariants = cva(
           'dark:disabled:text-foreground-subtle-dark',
           'dark:disabled:border-button-secondary-disabled-dark'
         ],
+        /**
+         * The dark half of this variant was a text colour standing in for the
+         * surfaces underneath it (#86). `hover:bg-button-tertiary-hover` and
+         * `focus:bg-button-tertiary-focus` carried no `dark:` counterpart, so
+         * in dark mode they painted their light values -- `grey-50` and white
+         * -- and the button lit up as a pale chip on a black page. The text
+         * was then darkened to `button-tertiary-hover-dark` on hover to stay
+         * legible against that, which is a background token worn as a
+         * foreground one, and it only covered hover: focus left white text on
+         * the white background, at 1:1.
+         *
+         * The palette has held `button-tertiary-hover-dark` (`grey-800`) and
+         * `button-tertiary-focus-dark` (`blue-900`) since the states were
+         * drawn -- nothing here was reaching for them. So each state takes its
+         * own dark surface and the text goes back to `foreground-dark`
+         * throughout, which is what Input, Textarea, Select, Badge and Chip
+         * all write their dark text as: 14.58:1 on hover and active, 18.75:1
+         * on focus. `__tests__/button-dark-mode.test.tsx` is
+         * what keeps a light-mode-only background from being added back.
+         */
         tertiary: [
           'bg-transparent border-transparent',
           'text-foreground',
-          'dark:text-white',
+          'dark:text-foreground-dark',
           'hover:bg-button-tertiary-hover',
-          'hover:dark:text-button-tertiary-hover-dark',
+          'dark:hover:bg-button-tertiary-hover-dark',
           'focus:bg-button-tertiary-focus',
           'focus:shadow-brandGreen',
+          'dark:focus:bg-button-tertiary-focus-dark',
           'active:bg-button-tertiary-hover',
+          'dark:active:bg-button-tertiary-hover-dark',
           'active:shadow-none',
           'disabled:text-foreground-subtle'
         ],
