@@ -4,10 +4,6 @@ module.exports = {
   // than a version lagging behind one.
   preset: 'ts-jest',
   setupFiles: ['<rootDir>/jest.module-hooks.setup.js'],
-  // Narrower than the default `**/__tests__/**/*.[jt]s?(x)`, which collects
-  // every file under `__tests__/` as a suite and fails the shared helpers in
-  // `__tests__/helpers/` for containing no tests. Every suite here already
-  // ends in `.test.ts`/`.test.tsx`, so this changes nothing about what runs.
   testMatch: ['<rootDir>/__tests__/**/*.test.[jt]s?(x)'],
   // Mirrors the `@/*` path alias in tsconfig.json. ts-jest type-checks against
   // that alias but does not resolve it at runtime, so `src/` imports of

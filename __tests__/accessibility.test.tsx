@@ -1294,13 +1294,6 @@ describe('focus indicators', () => {
     )
   })
 
-  /**
-   * The button group used to suppress its members' ring with
-   * `[&>*:focus]:shadow-none` and stand an inset outline in its place. #162
-   * asked for the ring back -- the "colored dropshadow" on focus -- so the
-   * substitute has nothing left to substitute for, and the group draws the
-   * same indicator as everything above.
-   */
   it('draws one on each button group member', () => {
     const html = renderToStaticMarkup(<ButtonGroup>{null}</ButtonGroup>)
     const classes = attribute(openingTag(html, 'div'), 'class') ?? ''

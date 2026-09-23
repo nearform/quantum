@@ -10,38 +10,12 @@ import { colors } from '../src/colors/base'
 import { foreground } from '../src/colors/foreground'
 import { classesOf } from './helpers/markup'
 
-/**
- * #162 asked the button group for four colour changes and expected all of them
- * to arrive with the button's tokens. Three had: `accent.hover` left
- * `grey-900`, `accent.focus` left `#000` and `button.primary.dark` left `#FFF`
- * when the brand theme landed in #344. The group painted over them anyway --
- * a brandGreen fill on focus, `shadow-none` over the focus ring, and the
- * *light* halves of the hover and focus tokens under `dark:`.
- *
- * So what is asserted is agreement rather than appearance: the group and the
- * `Button` reach for the same token in the same state, and every surface the
- * group paints in light mode has a dark counterpart. There is no DOM and no
- * compiled CSS here, so the utility classes are the only place that agreement
- * exists -- the same reading `button-dark-mode.test.tsx` takes.
- */
 const groupClasses = (variant?: 'primary' | 'secondary') =>
   classesOf(<ButtonGroup variant={variant}>{null}</ButtonGroup>)
 
 const buttonClasses = (variant: 'primary' | 'secondary') =>
   classesOf(<Button variant={variant}>One</Button>)
 
-/**
- * The hex a Tailwind colour suffix names, walked out of the palette the theme
- * is built from: `button-primary-hover-dark` -> `button.primary.hover.dark`,
- * `grey-900` -> `colors.grey[900]`, `white` -> the `DEFAULT` under it. No
- * token name contains a hyphen, so one segment per step resolves it.
- *
- * Comparing the colours rather than the class names is the point of the
- * exercise: `text-white` and `text-foreground-dark` are the same white, and
- * `dark:[&>*:hover]:bg-button-primary-hover` was a *different* navy to the one
- * the Button painted while reading as the same token. Anything that does not
- * resolve is not a colour -- `text-sm`, `text-justify` -- and drops out here.
- */
 const hexOf = (suffix: string): string | undefined => {
   let node: unknown = palette
   for (const segment of suffix.split('-')) {
@@ -54,19 +28,12 @@ const hexOf = (suffix: string): string | undefined => {
   return typeof node === 'string' ? node.toLowerCase() : undefined
 }
 
-/**
- * `dark:[&>*:hover]:bg-x` -> `{ mode: 'dark', state: 'hover', hex }`,
- * `[&>*]:bg-x` -> `{ mode: 'light', state: '', hex }`. The member selector is
- * what distinguishes a colour the group paints on its children from one it
- * paints on itself.
- */
 const memberColours = (classNames: string[], property: 'bg' | 'text') =>
   parse(
     classNames,
     new RegExp(`^(dark:)?\\[&>\\*(:([a-z-]+))?\\]:${property}-(.+)$`)
   )
 
-/** The same shape, read off a `Button`: `dark:hover:bg-x`, `bg-x`. */
 const buttonColours = (classNames: string[], property: 'bg' | 'text') =>
   parse(classNames, new RegExp(`^(dark:)?(([a-z-]+):)?${property}-(.+)$`))
 
@@ -105,12 +72,6 @@ describe.each([
     }
   )
 
-  /**
-   * The regression itself, generalised: a `dark:` rule is only worth writing
-   * if it names a different colour than the light one, and `button-*-hover`
-   * under `dark:` names the same colour. Every background the group paints on
-   * a member in dark mode therefore has to come from a `-dark` token.
-   */
   it('takes its dark surfaces from dark tokens', () => {
     const lightTokensInDarkMode = group
       .filter(name => /^dark:\[&>\*[^\]]*\]:bg-button-/.test(name))
@@ -135,27 +96,18 @@ describe.each([
     expect(unpaired).toEqual([])
   })
 
-  /**
-   * The group has no background of its own to pair, and it used to: the
-   * secondary variant carried a bare `bg-background`, which is white in both
-   * modes, and it only went unseen because `overflow-hidden` kept it behind
-   * the members. Without the clip it would ring a dark page in white.
-   */
   it('paints nothing on the group box itself', () => {
     expect(group.filter(name => /^(dark:)?bg-/.test(name))).toEqual([])
   })
 })
 
 describe('ButtonGroup focus', () => {
-  // #162: "Focus changed from black to primary default", and the green that
-  // used to fill the member moves to the ring around it.
   it('fills with the primary default rather than a brandGreen wash', () => {
     expect(primary).toContain('[&>*:focus]:bg-button-primary-focus')
     expect(button.primary.focus.DEFAULT).toBe(accent.DEFAULT)
     expect(primary).not.toContain('[&>*:focus]:bg-secondary-100')
   })
 
-  // #162: "Colored dropshadow added to focus state".
   it.each([
     ['primary', primary],
     ['secondary', secondary]
@@ -167,11 +119,6 @@ describe('ButtonGroup focus', () => {
     }
   )
 
-  /**
-   * A 4px ring drawn outside a member is invisible under `overflow-hidden` and
-   * half-covered by the neighbour painted after it, so the two things that
-   * make it visible are asserted with it rather than left to be tidied away.
-   */
   it('gives that ring room to paint', () => {
     expect(primary).not.toContain('overflow-hidden')
     expect(primary).toContain('[&>*:focus]:z-10')
@@ -179,19 +126,12 @@ describe('ButtonGroup focus', () => {
 })
 
 describe('ButtonGroup in dark mode', () => {
-  // #162: "Primary button group changed from white to light blue."
   it('rests on the brand light blue, not white', () => {
     expect(primary).toContain('dark:[&>*]:bg-button-primary-dark')
     expect(button.primary.dark).toBe(colors.brandMidnight['10'])
     expect(button.primary.dark).not.toBe('#FFF')
   })
 
-  /**
-   * Every dark surface the primary group paints is a light one, so the text
-   * stays dark across all of them -- the white that used to be swapped in on
-   * hover and focus was there to survive the light-mode navy those states were
-   * wrongly painting.
-   */
   it('keeps one text colour across surfaces that are all light', () => {
     expect(primary).toContain('dark:[&>*]:text-foreground-inverse-dark')
     expect(
@@ -202,11 +142,6 @@ describe('ButtonGroup in dark mode', () => {
 
 const AA_TEXT = 4.5
 
-/**
- * WCAG 2.x contrast, as `contrast.test.ts` and `button-dark-mode.test.ts`
- * compute it. Repeated for the same reason they repeat it: this suite checks
- * one component's pairings, not the palette.
- */
 const luminance = (hex: string) => {
   const value = hex.replace('#', '')
   const full =
@@ -239,10 +174,7 @@ describe('primary ButtonGroup text against its surfaces', () => {
     expect(ratioOf(text, surface)).toBeGreaterThanOrEqual(AA_TEXT)
   })
 
-  // Recorded rather than bounded, the way `button-dark-mode.test.tsx` records
-  // the tertiary button's: the figures are quoted in the component's comment,
-  // and a palette edit that moves them should fail here and say what to.
-  it('has the ratios the component comment quotes', () => {
+  it('records the ratios its dark surfaces were chosen for', () => {
     expect({
       resting: ratioOf(foreground.inverse.dark, button.primary.dark),
       hover: ratioOf(foreground.inverse.dark, button.primary.hover.dark)
