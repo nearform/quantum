@@ -143,15 +143,30 @@ already does.
   `aria-label` at all is plainly unnamed and axe's `button-name` rule reports
   it in your own CI. A placeholder name would be worse than either, because it
   would silence the failure with something untrue.
-- **An empty label logs an error in development.** No other component in this
-  library warns, and the line is worth stating. What the others cannot express
-  is contextual — whether the page holds a second `ButtonGroup`, whether the
-  heading above a `RadioGroup` already names it — so they cannot know they are
-  wrong. This one knows: an icon button with no accessible name has no valid
-  reading whatever surrounds it. That certainty is what earns the warning, and
-  it is why the warning does not generalise to a convention for the rest of
-  the library. It is stripped from production builds, and it stays quiet for
-  `aria-labelledby`, which is a real name and only falls foul of the type.
+- **An empty label logs an error.** No other component in this library warns,
+  and the line is worth stating. What the others cannot express is contextual
+  — whether the page holds a second `ButtonGroup`, whether the heading above a
+  `RadioGroup` already names it — so they cannot know they are wrong. This one
+  knows: an icon button with no accessible name has no valid reading whatever
+  surrounds it. That certainty is what earns the warning, and it is why the
+  warning does not generalise to a convention for the rest of the library.
+
+  It fires whenever `NODE_ENV` is not `production`, so a test run surfaces it
+  as well as a dev server — you do not need axe to find this one. It stays
+  quiet for `aria-labelledby`, which is a real name and only falls foul of the
+  type. It fires once per render pass rather than once per invocation, so
+  `StrictMode`, which invokes a component body twice, still prints it once.
+
+- **In production the button renders unnamed, and that is the least bad of the
+  options.** The warning is compiled out, so a production build handed an
+  empty label renders a button with no accessible name. That is a real gap and
+  it is not closable here. Throwing would take down the page over a label.
+  Inventing a name would silence the failure with something untrue. Logging in
+  production would add noise a consumer cannot turn off without fixing
+  anything, since the button is unnamed either way. Every alternative to
+  rendering the button is worse than rendering it, so enforcement sits where
+  it can still be acted on: the type, the warning across dev and test, and
+  axe.
 - **Say what the button does, not what the icon shows.** "Delete article"
   beats "bin", and beats "Delete" on a page holding several deletes. The
   label is read on its own, out of the context the icon sits in.

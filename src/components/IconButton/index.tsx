@@ -58,6 +58,46 @@ const iconButtonVariants = cva(['shrink-0', '[&>svg]:shrink-0'], {
   }
 })
 
+/**
+ * Whether the unnamed-button warning has already gone out in this pass.
+ *
+ * `StrictMode` invokes a component body twice in development to surface impure
+ * renders, and both invocations reach the `console.error` below, so one button
+ * prints the message twice.
+ *
+ * `useRef` is the obvious guard and does not work: React rebuilds the hook
+ * state for the second invocation, so the ref arrives fresh with `current`
+ * false and both passes warn. Measured rather than assumed --
+ * `__tests__/icon-button-strict-mode.test.tsx` mounts one under `StrictMode`
+ * and counts, and it counts two without this. `useEffect` would dedupe and is
+ * worse: effects do not run on the server, so the warning would vanish from
+ * every server render and from the rest of this suite, which is where it is
+ * most likely to be seen.
+ *
+ * So a module-level flag, cleared on a microtask rather than never. Both of
+ * `StrictMode`'s invocations are synchronous and land in the same pass, so
+ * they collapse into one message, while a re-render in some later task warns
+ * again. That last part is the reason for the microtask: a warning that fires
+ * once per session and then goes quiet cannot be told apart from a warning you
+ * have fixed.
+ */
+let warnedThisPass = false
+
+const warnUnnamed = () => {
+  if (warnedThisPass) return
+  warnedThisPass = true
+  queueMicrotask(() => {
+    warnedThisPass = false
+  })
+
+  console.error(
+    'IconButton: `label` is required and cannot be empty. This button has ' +
+      'rendered with no accessible name, and a screen reader will announce ' +
+      'it as "button" and nothing more. Pass a label saying what the button ' +
+      'does -- "Delete article", not "bin".'
+  )
+}
+
 interface IconButtonProps
   extends Omit<
       React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -177,12 +217,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       !name &&
       !props['aria-labelledby']
     ) {
-      console.error(
-        'IconButton: `label` is required and cannot be empty. This button has ' +
-          'rendered with no accessible name, and a screen reader will announce ' +
-          'it as "button" and nothing more. Pass a label saying what the button ' +
-          'does -- "Delete article", not "bin".'
-      )
+      warnUnnamed()
     }
 
     return (
