@@ -51,7 +51,7 @@ export const LeftLabel: Story = {
     position: 'left'
   },
   render: props => (
-    <RadioGroup className="items-end">
+    <RadioGroup>
       <ControlLabel htmlFor="leftId" {...props}>
         <Radio id="leftId" value="value" />
       </ControlLabel>

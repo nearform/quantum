@@ -11,6 +11,10 @@ import { Avatar } from '../src/components/Avatar'
 import { Badge } from '../src/components/Badge'
 import { ButtonGroup } from '../src/components/ButtonGroup'
 import { Checkbox } from '../src/components/Checkbox'
+import {
+  CheckboxGroup,
+  CheckboxGroupItem
+} from '../src/components/CheckboxGroup'
 import { Chip } from '../src/components/Chip'
 import { ControlLabel } from '../src/components/ControlLabel'
 import {
@@ -38,8 +42,12 @@ const openingTag = (html: string, tag: string, marker = '') => {
   return match
 }
 
+// `matchAll` rather than `match`, for the types: a `RegExpMatchArray` is an
+// `Array<string | undefined>` past index 0, because a capture group can go
+// unmatched -- this pattern has none, and every entry of an exec result's
+// index 0 is a string.
 const openingTags = (html: string, tag: string) =>
-  html.match(new RegExp(`<${tag}\\b[^>]*>`, 'g')) ?? []
+  [...html.matchAll(new RegExp(`<${tag}\\b[^>]*>`, 'g'))].map(match => match[0])
 
 const attribute = (tag: string, name: string) =>
   tag
@@ -1129,5 +1137,391 @@ describe('Avatar initials', () => {
     )
 
     expect(html).toContain('>QDS<')
+  })
+})
+
+/**
+ * A group of choices is one question, and the thing that says so is the
+ * `<fieldset>`: it is what makes "How should we contact you?" reach a reader
+ * who has arrowed straight onto the third box, and what stops a form of
+ * several groups from being one undifferentiated run of checkboxes.
+ *
+ * The group's own messages are published to the fieldset rather than to the
+ * controls inside it, because a fieldset's description is announced when focus
+ * first enters the group -- once, before the options, instead of once per
+ * option. The per-control half of an error is `aria-invalid`, which is the
+ * part a reader needs when they arrive at a single box.
+ */
+describe('CheckboxGroup accessibility', () => {
+  it('names the group with its legend', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="How should we contact you?">
+        <CheckboxGroupItem value="email" label="Email" />
+      </CheckboxGroup>
+    )
+
+    // The caption only names the fieldset while it is the fieldset's own first
+    // child; nested a level deeper it is bold text that names nothing.
+    expect(html).toMatch(
+      /<fieldset[^>]*><legend[^>]*>How should we contact you\?/
+    )
+  })
+
+  it('associates each label with the box it belongs to', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact">
+        <CheckboxGroupItem value="email" label="Email" />
+      </CheckboxGroup>
+    )
+
+    const labelFor = attribute(openingTag(html, 'label'), 'for')
+    expect(labelFor).toBeTruthy()
+    expect(attribute(openingTag(html, 'button'), 'id')).toBe(labelFor)
+  })
+
+  it('describes the group with its hint', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" description="Select all that apply">
+        <CheckboxGroupItem value="email" label="Email" />
+      </CheckboxGroup>
+    )
+
+    const describedBy = attribute(
+      openingTag(html, 'fieldset'),
+      'aria-describedby'
+    )
+    expect(describedBy).toBeTruthy()
+    expect(html).toContain(`id="${describedBy}"`)
+    expect(html).toContain('Select all that apply')
+  })
+
+  it('describes the group with its error and marks every box invalid', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" error="Choose at least one">
+        <CheckboxGroupItem value="email" label="Email" />
+        <CheckboxGroupItem value="phone" label="Phone" />
+      </CheckboxGroup>
+    )
+
+    const describedBy = attribute(
+      openingTag(html, 'fieldset'),
+      'aria-describedby'
+    )
+    expect(html).toContain(`id="${describedBy}"`)
+    expect(openingTags(html, 'button')).toHaveLength(2)
+    openingTags(html, 'button').forEach(button => {
+      expect(attribute(button, 'aria-invalid')).toBe('true')
+    })
+  })
+
+  it('announces an error that appears after the page has loaded', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" error="Choose at least one">
+        <CheckboxGroupItem value="email" label="Email" />
+      </CheckboxGroup>
+    )
+
+    expect(attribute(openingTag(html, 'p', 'role="alert"'), 'role')).toBe(
+      'alert'
+    )
+    expect(html).toContain('Choose at least one')
+  })
+
+  it('keeps the hint alongside the error rather than replacing it', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup
+        legend="Contact"
+        description="Select all that apply"
+        error="Choose at least one"
+      >
+        <CheckboxGroupItem value="email" label="Email" />
+      </CheckboxGroup>
+    )
+
+    // Unlike a field, where the two share one line under one control: the
+    // group's hint is instructions for reading the options, printed above
+    // them, and an error below is not a reason to take the instructions away.
+    expect(html).toContain('Select all that apply')
+    expect(html).toContain('Choose at least one')
+    expect(
+      attribute(openingTag(html, 'fieldset'), 'aria-describedby')?.split(' ')
+    ).toHaveLength(2)
+  })
+
+  it('lets invalid flag the group with no message to show', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" invalid>
+        <CheckboxGroupItem value="email" label="Email" />
+      </CheckboxGroup>
+    )
+
+    expect(attribute(openingTag(html, 'button'), 'aria-invalid')).toBe('true')
+    expect(
+      attribute(openingTag(html, 'fieldset'), 'aria-describedby')
+    ).toBeUndefined()
+  })
+
+  it('lets invalid={false} render an error without the flag', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup
+        legend="Contact"
+        invalid={false}
+        error="Choose at least one"
+      >
+        <CheckboxGroupItem value="email" label="Email" />
+      </CheckboxGroup>
+    )
+
+    expect(html).toContain('Choose at least one')
+    expect(
+      attribute(openingTag(html, 'button'), 'aria-invalid')
+    ).toBeUndefined()
+  })
+
+  it('describes a single box with the hint that belongs to it', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Delivery updates">
+        <CheckboxGroupItem value="email" label="Email" />
+        <CheckboxGroupItem
+          value="push"
+          label="Push notification"
+          description="Requires the mobile app"
+        />
+      </CheckboxGroup>
+    )
+
+    const [plain, hinted] = openingTags(html, 'button')
+    const describedBy = attribute(hinted, 'aria-describedby')
+
+    expect(attribute(plain, 'aria-describedby')).toBeUndefined()
+    expect(describedBy).toBeTruthy()
+    expect(html).toContain(`id="${describedBy}"`)
+    expect(html).toContain('Requires the mobile app')
+  })
+
+  it('takes the ticked boxes from the group rather than from each box', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" value={['phone']}>
+        <CheckboxGroupItem value="email" label="Email" />
+        <CheckboxGroupItem value="phone" label="Phone" />
+      </CheckboxGroup>
+    )
+
+    const [email, phone] = openingTags(html, 'button')
+    expect(attribute(email, 'aria-checked')).toBe('false')
+    expect(attribute(phone, 'aria-checked')).toBe('true')
+  })
+
+  /**
+   * `aria-invalid="false"` is the attribute's default and reads identically to
+   * its absence, so an option carrying it has asserted nothing -- and letting
+   * it suppress the group's error would render a box that is visibly invalid,
+   * inside a group showing an error message, that tells a screen reader it is
+   * fine. The same line `FormGroup` draws.
+   */
+  it('overrules an option that claims to be valid', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" error="Choose at least one">
+        <CheckboxGroupItem value="email" label="Email" aria-invalid={false} />
+      </CheckboxGroup>
+    )
+
+    expect(attribute(openingTag(html, 'button'), 'aria-invalid')).toBe('true')
+  })
+
+  it('keeps an option that asserts something more specific', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" error="Choose at least one">
+        <CheckboxGroupItem
+          value="email"
+          label="Email"
+          aria-invalid="spelling"
+        />
+      </CheckboxGroup>
+    )
+
+    expect(attribute(openingTag(html, 'button'), 'aria-invalid')).toBe(
+      'spelling'
+    )
+  })
+
+  /**
+   * The box's border is derived from the attribute it ends up carrying rather
+   * than from the group's state, so the two cannot disagree -- a box that
+   * renders as invalid is a box that announces it.
+   */
+  it('draws the invalid border for exactly the boxes that announce it', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" error="Choose at least one">
+        <CheckboxGroupItem value="email" label="Email" />
+        <CheckboxGroupItem
+          value="phone"
+          label="Phone"
+          aria-invalid="spelling"
+        />
+      </CheckboxGroup>
+    )
+
+    openingTags(html, 'button').forEach(button => {
+      expect(attribute(button, 'aria-invalid')).toBeTruthy()
+      expect(button).toContain('border-feedback-red')
+    })
+
+    const valid = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact">
+        <CheckboxGroupItem value="email" label="Email" />
+      </CheckboxGroup>
+    )
+    expect(openingTag(valid, 'button')).not.toContain('border-feedback-red')
+  })
+
+  /**
+   * Which is why `disabled` is not the `<fieldset disabled>` attribute: the
+   * browser's version cannot be opted out of, and "all of these are
+   * unavailable except this one" is a thing a form legitimately says.
+   */
+  it('lets a single option stay live inside a disabled group', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" disabled>
+        <CheckboxGroupItem value="email" label="Email" />
+        <CheckboxGroupItem value="phone" label="Phone" disabled={false} />
+      </CheckboxGroup>
+    )
+
+    // The attribute itself, not the substring: every box carries
+    // `disabled:opacity-50` in its class list either way.
+    const [email, phone] = [0, 1].map(i => openingTags(html, 'button')[i])
+    expect(email).toMatch(/\sdisabled=""/)
+    expect(phone).not.toMatch(/\sdisabled=""/)
+  })
+
+  /**
+   * The group's promise to the server: one field name, one entry per ticked
+   * box. Radix submits through a hidden input beside each control, so the
+   * name has to reach every one of them rather than the fieldset.
+   */
+  it('submits every box under the group name', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" name="contact" value={['email']}>
+        <CheckboxGroupItem value="email" label="Email" />
+        <CheckboxGroupItem value="phone" label="Phone" />
+      </CheckboxGroup>
+    )
+
+    const inputs = openingTags(html, 'input')
+    expect(inputs).toHaveLength(2)
+    inputs.forEach(input => {
+      expect(attribute(input, 'name')).toBe('contact')
+    })
+    expect(inputs[0]).toContain('checked')
+    expect(inputs[1]).not.toContain('checked')
+  })
+
+  it('disables every box in a disabled group', () => {
+    const html = renderToStaticMarkup(
+      <CheckboxGroup legend="Contact" disabled>
+        <CheckboxGroupItem value="email" label="Email" />
+        <CheckboxGroupItem value="phone" label="Phone" />
+      </CheckboxGroup>
+    )
+
+    openingTags(html, 'button').forEach(button => {
+      expect(button).toMatch(/\sdisabled=""/)
+    })
+    // Not as the fieldset attribute, which the browser applies to everything
+    // inside with no way for one option to opt back in.
+    expect(openingTag(html, 'fieldset')).not.toMatch(/\sdisabled=""/)
+  })
+})
+
+describe('RadioGroup accessibility', () => {
+  it('names the group with its legend', () => {
+    const html = renderToStaticMarkup(
+      <RadioGroup legend="Delivery">
+        <Radio value="standard" label="Standard" />
+      </RadioGroup>
+    )
+
+    expect(html).toMatch(/<fieldset[^>]*><legend[^>]*>Delivery/)
+  })
+
+  it('associates each label with the radio it belongs to', () => {
+    const html = renderToStaticMarkup(
+      <RadioGroup legend="Delivery">
+        <Radio value="standard" label="Standard" />
+      </RadioGroup>
+    )
+
+    const labelFor = attribute(openingTag(html, 'label'), 'for')
+    expect(labelFor).toBeTruthy()
+    expect(attribute(openingTag(html, 'button'), 'id')).toBe(labelFor)
+  })
+
+  it('describes the group with its error and marks every radio invalid', () => {
+    const html = renderToStaticMarkup(
+      <RadioGroup legend="Delivery" error="Choose one to continue">
+        <Radio value="standard" label="Standard" />
+        <Radio value="express" label="Express" />
+      </RadioGroup>
+    )
+
+    const describedBy = attribute(
+      openingTag(html, 'fieldset'),
+      'aria-describedby'
+    )
+    expect(html).toContain(`id="${describedBy}"`)
+    openingTags(html, 'button').forEach(button => {
+      expect(attribute(button, 'aria-invalid')).toBe('true')
+    })
+  })
+
+  it('overrules a radio that claims to be valid', () => {
+    const html = renderToStaticMarkup(
+      <RadioGroup legend="Delivery" error="Choose one to continue">
+        <Radio value="standard" label="Standard" aria-invalid={false} />
+      </RadioGroup>
+    )
+
+    const radio = openingTag(html, 'button')
+    expect(attribute(radio, 'aria-invalid')).toBe('true')
+    // The border follows the attribute rather than the group, so the two
+    // cannot come apart.
+    expect(radio).toContain('border-feedback-red')
+  })
+
+  it('describes a single radio with the hint that belongs to it', () => {
+    const html = renderToStaticMarkup(
+      <RadioGroup legend="Delivery">
+        <Radio value="express" label="Express" description="Next working day" />
+      </RadioGroup>
+    )
+
+    const describedBy = attribute(
+      openingTag(html, 'button'),
+      'aria-describedby'
+    )
+    expect(describedBy).toBeTruthy()
+    expect(html).toContain(`id="${describedBy}"`)
+    expect(html).toContain('Next working day')
+  })
+
+  /**
+   * The pairing every existing caller writes, and the reason `label` is
+   * optional rather than required: a `Radio` given no label of its own is the
+   * bare control it has always been, with nothing wrapped around it for
+   * `ControlLabel` to fight with.
+   */
+  it('stays a bare control for an external label', () => {
+    const html = renderToStaticMarkup(
+      <RadioGroup legend="Delivery">
+        <ControlLabel htmlFor="standard" label="Standard">
+          <Radio id="standard" value="standard" />
+        </ControlLabel>
+      </RadioGroup>
+    )
+
+    expect(attribute(openingTag(html, 'label'), 'for')).toBe('standard')
+    expect(attribute(openingTag(html, 'button'), 'id')).toBe('standard')
+    expect(openingTags(html, 'label')).toHaveLength(1)
   })
 })

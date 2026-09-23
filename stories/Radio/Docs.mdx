@@ -1,28 +1,59 @@
-import { Canvas, Meta, Description } from '@storybook/addon-docs/blocks'
+import { Canvas, Description, Meta } from '@storybook/addon-docs/blocks'
 
 import * as RadioStories from './Radio.stories'
 
 <Meta of={RadioStories} />
 
-# Radio & Radio Groups
+# Radio & radio groups
 
-A radio button is a circular or round option that users can select from a list of choices. Unlike checkboxes, users can only choose one option at a time within a group of radio buttons. It's often used for exclusive selections, like choosing a single item from a set of related options.
-This is a set of two components, `Radio` and `RadioGroup`. The `RadioGroup` is used as a helper for the `Radio` components to order them neatly together.
+A set of radios that belong to one question, of which exactly one can be
+chosen. For a question where any number of the answers can be true at once,
+reach for [CheckboxGroup](?path=/docs/form-checkboxgroup--docs) instead.
 
-## No Default
+```tsx
+<RadioGroup legend="Delivery" name="delivery" defaultValue="standard">
+  <Radio value="standard" label="Standard" description="3-5 working days" />
+  <Radio value="express" label="Express" description="Next working day" />
+</RadioGroup>
+```
+
+`RadioGroup` is the question and `Radio` is one answer to it; a `Radio` only
+works inside a group, which is what makes exactly one of them selected and what
+moves the selection with the arrow keys.
+
+## No default
 <Canvas of={RadioStories.NoDefault} />
 
-## Default Set
+## Default set
 <Canvas of={RadioStories.DefaultSet} />
 
 ## Disabled
 <Canvas of={RadioStories.Disabled} />
 
+## Hints on a single option
+<Description of={RadioStories.WithOptionHints} />
+<Canvas of={RadioStories.WithOptionHints} />
+
+## Horizontal
+<Description of={RadioStories.Horizontal} />
+<Canvas of={RadioStories.Horizontal} />
+
+## With an error
+<Description of={RadioStories.WithAnError} />
+<Canvas of={RadioStories.WithAnError} />
+
 ## Labels on the left
 <Description of={RadioStories.LabelsOnTheLeft} />
 <Canvas of={RadioStories.LabelsOnTheLeft} />
 
-## Attributes
+## With ControlLabel
+<Description of={RadioStories.WithControlLabel} />
+<Canvas of={RadioStories.WithControlLabel} />
+
+## RadioGroup
+
+Everything [Radix's radio group root](https://www.radix-ui.com/primitives/docs/components/radio-group)
+takes, plus the group's own text and layout.
 
 <table>
   <tbody>
@@ -32,14 +63,34 @@ This is a set of two components, `Radio` and `RadioGroup`. The `RadioGroup` is u
       <td>Default</td>
     </tr>
     <tr>
-      <td>asChild</td>
-      <td>`boolean`</td>
-      <td>`false`</td>
+      <td>legend</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
     </tr>
     <tr>
-      <td>defaultValue</td>
-      <td>`string`</td>
+      <td>description</td>
+      <td>`ReactNode`</td>
       <td>-</td>
+    </tr>
+    <tr>
+      <td>error</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>invalid</td>
+      <td>`boolean`</td>
+      <td>`Boolean(error)`</td>
+    </tr>
+    <tr>
+      <td>orientation</td>
+      <td>`"vertical" | "horizontal"`</td>
+      <td>`"vertical"`</td>
+    </tr>
+    <tr>
+      <td>labelPosition</td>
+      <td>`"left" | "right"`</td>
+      <td>`"right"`</td>
     </tr>
     <tr>
       <td>value</td>
@@ -47,13 +98,13 @@ This is a set of two components, `Radio` and `RadioGroup`. The `RadioGroup` is u
       <td>-</td>
     </tr>
     <tr>
-      <td>onValueChange</td>
-      <td>`function`</td>
+      <td>defaultValue</td>
+      <td>`string`</td>
       <td>-</td>
     </tr>
     <tr>
-      <td>disabled</td>
-      <td>`boolean`</td>
+      <td>onValueChange</td>
+      <td>`(value: string) => void`</td>
       <td>-</td>
     </tr>
     <tr>
@@ -62,14 +113,14 @@ This is a set of two components, `Radio` and `RadioGroup`. The `RadioGroup` is u
       <td>-</td>
     </tr>
     <tr>
-      <td>required</td>
+      <td>disabled</td>
       <td>`boolean`</td>
       <td>-</td>
     </tr>
     <tr>
-      <td>orientation</td>
-      <td>`"horizontal" | "vertical" | undefined`</td>
-      <td>`undefined`</td>
+      <td>required</td>
+      <td>`boolean`</td>
+      <td>-</td>
     </tr>
     <tr>
       <td>dir</td>
@@ -84,4 +135,91 @@ This is a set of two components, `Radio` and `RadioGroup`. The `RadioGroup` is u
   </tbody>
 </table>
 
-Note: The orientation feature doesn't change the actual orientation of the radio elements, but instead, on how focus is changed. If you use `horizontal` you will need to use the left and right arrow keys to navigate through the options, as opposed to vertical which is the up and down keys.
+`orientation` lays the options out **and** sets which arrow keys move between
+them. It used to do only the second, so a horizontal group was a column you
+navigated with the left and right arrows; the two were never independent in
+practice, because a reader arrows in the direction the options are drawn.
+
+`className` lands on the `<fieldset>`, which is the group's outermost element
+and the one to size or space. The gaps between the options are `orientation`'s
+job, and `labelPosition` is what right-aligns a column of left-hand labels —
+neither needs a class of its own any more.
+
+## Radio
+
+Everything Radix's radio group item takes, plus its own text.
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td>`string`</td>
+      <td>required</td>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>`boolean`</td>
+      <td>the group's</td>
+    </tr>
+    <tr>
+      <td>aria-invalid</td>
+      <td>`boolean | "grammar" | "spelling"`</td>
+      <td>the group's</td>
+    </tr>
+  </tbody>
+</table>
+
+A radio cannot opt out of a disabled group: Radix ORs the group's `disabled`
+with the item's, so `disabled={false}` on a `Radio` inside a disabled
+`RadioGroup` has no effect. `CheckboxGroupItem` can, because its group's
+`disabled` is ours rather than Radix's.
+
+A `Radio` with no `label` renders as the bare control it has always been, so an
+existing `ControlLabel` pairing keeps working. Prefer `label` for anything new:
+`ControlLabel` has no way to wire up a per-option hint, and a hint nothing
+points at is not announced. `className` lands on the control rather than on the
+row — the row is layout, and what a caller wants to restyle is the radio.
+
+## Accessibility
+
+- **A group needs a name.** `legend` is it. Without one the options are a run
+  of radios that a reader arriving at the third one cannot place. If the name
+  is already on the page — a heading directly above the group — point at it
+  with `aria-labelledby` rather than repeating it.
+- **Both messages are published to the group, not to the radios.** A screen
+  reader announces a fieldset's description when focus first enters it, which
+  is where the group's hint and its error are useful. Announcing either on
+  every option would be one sentence read four times.
+- **`aria-invalid` is the per-radio half of an error**, and it is what draws
+  the red border. A radio's own `aria-invalid` is kept, except for `false`:
+  that is the attribute's default and reads identically to its absence, so a
+  radio carrying it has asserted nothing and the group's error wins. The border
+  is derived from whatever the attribute ends up as rather than from the group,
+  so a radio that renders as invalid is a radio that announces it.
+- **A hint on one option is wired to that option**, through
+  `aria-describedby`. On a radio group that matters more than anywhere else:
+  the hint is frequently the whole difference between two choices.
+
+## Dark mode
+
+Every part of the group has a dark half: the legend and labels take the same
+`foreground-inverse` the rest of the library's labels do, hints take
+`foreground-muted-dark`, and the error takes `red-300` rather than
+`feedback-red`, which is 3.66:1 on the dark page background. The invalid border
+takes `red-400`: a border owes only 3:1 under 1.4.11, and at 20px across
+`red-300` reads as pale grey rather than as red.
