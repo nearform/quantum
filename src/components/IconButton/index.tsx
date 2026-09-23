@@ -99,10 +99,8 @@ const warnUnnamed = () => {
 }
 
 interface IconButtonProps
-  extends Omit<
-      React.ButtonHTMLAttributes<HTMLButtonElement>,
-      'children' | 'title'
-    >,
+  extends
+    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'title'>,
     VariantProps<typeof iconButtonVariants> {
   /** The icon. It is the whole of the button's content. */
   icon: React.ReactNode

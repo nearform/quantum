@@ -7,12 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 /** Every value React accepts for the `aria-invalid` attribute. */
 export type AriaInvalid =
-  | boolean
-  | 'false'
-  | 'true'
-  | 'grammar'
-  | 'spelling'
-  | undefined
+  boolean | 'false' | 'true' | 'grammar' | 'spelling' | undefined
 
 /**
  * Whether an `aria-invalid` value asserts that the control is invalid.
