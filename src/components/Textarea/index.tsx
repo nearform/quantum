@@ -25,12 +25,19 @@ const textareaVariants = cva(
           'bg-background-alt',
           'dark:bg-background-alt-dark',
           'hover:border-border-hover',
-          'hover:focus-within:shadow-brandGreen',
-          'dark:hover:focus-within:border-border-focus-dark',
-          'focus-within:shadow-brandGreen',
+          'hover:focus-within:border-brandBlue-100',
+          'dark:hover:focus-within:border-brandBlue-80',
+          'focus-within:border-brandBlue-100',
+          'focus-within:ring-[3px]',
+          'focus-within:ring-brandBlue-10',
           'text-foreground',
           'dark:text-foreground-dark',
-          'dark:focus-within:shadow-brandGreen-10'
+          'dark:focus-within:border-brandBlue-80',
+          'dark:focus-within:ring-0',
+          'dark:focus-within:outline-solid',
+          'dark:focus-within:outline-2',
+          'dark:focus-within:outline-offset-2',
+          'dark:focus-within:outline-brandGreen-100'
         ],
         error: [
           'border-feedback-red',

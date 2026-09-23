@@ -129,8 +129,34 @@ export const colors = {
   brandGreen: {
     10: '#e5fcf5',
     30: '#b2f7e1',
-    50: '#78edc4',
-    80: '#32ebae',
-    100: '#03e5a4'
+    50: '#78EEC5',
+    80: '#33EAAE',
+    100: '#00E5A4'
+  },
+  brandPurple: {
+    10: '#F3EDFF',
+    30: '#DCCAFF',
+    50: '#C4A7FF',
+    80: '#A173FF',
+    100: '#8950FF'
+  },
+  brandBlue: {
+    10: '#E8F0FF',
+    30: '#B9D3FF',
+    50: '#8AB5FF',
+    80: '#4589FF',
+    100: '#166BFF'
+  },
+  brandGrey: {
+    10: '#EAEBED',
+    30: '#D9D9D9',
+    80: '#454551'
+  },
+  brandDark: {
+    bg: '#070A14',
+    surface: '#0D1220',
+    raised: '#151B2C',
+    border: '#222941',
+    borderStrong: '#354061'
   }
 }

@@ -52,6 +52,51 @@ describe('the generated Tailwind stylesheet', () => {
   })
 
   /**
+   * Type scale, radii, and motion tokens live inside `extend` so they merge with
+   * Tailwind defaults. Emitting `--text-*: initial` (etc.) would wipe `text-sm`,
+   * `rounded-lg`, `ease-out`, and `duration-*`.
+   */
+  it('emits additive type, radius, and motion tokens without resets', () => {
+    const css = themeCss()
+
+    for (const variable of [
+      '--font-serif',
+      '--text-display',
+      '--text-title',
+      '--text-h24',
+      '--text-h20',
+      '--text-h16',
+      '--text-lede',
+      '--text-label',
+      '--text-caption',
+      '--radius-brandXs',
+      '--radius-brandSm',
+      '--radius-brandMd',
+      '--radius-brandLg',
+      '--radius-brandPill',
+      '--radius-brandControl',
+      '--ease-brandOut',
+      '--ease-brandSoft',
+      '--duration-brandFast',
+      '--duration-brandBase',
+      '--duration-brandSlow'
+    ]) {
+      expect(`${variable}: ${css.includes(`${variable}:`)}`).toBe(
+        `${variable}: true`
+      )
+    }
+
+    for (const reset of [
+      '--radius-*: initial;',
+      '--text-*: initial;',
+      '--ease-*: initial;',
+      '--duration-*: initial;'
+    ]) {
+      expect(css).not.toContain(reset)
+    }
+  })
+
+  /**
    * `brandGreen`, `brandMidnight` and the `slideDown`/`slideUp` animations are
    * camelCase, and that spelling is public API: renaming them to the idiomatic
    * `--color-brand-green` would rename the utility to `bg-brand-green` across

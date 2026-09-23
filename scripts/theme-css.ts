@@ -75,7 +75,9 @@ const rules = (
  * because `src/` happens not to use much of the default palette; nothing stops
  * the next component from picking up a token we never meant to offer.
  *
- * `keyframes`/`animation` are inside `extend` and are deliberately absent here.
+ * Additive `extend` groups (`fontSize`, `borderRadius`, `transitionTimingFunction`,
+ * `transitionDuration`, `keyframes`/`animation`) are deliberately absent here —
+ * a reset would wipe Tailwind's matching defaults.
  */
 const NAMESPACES = [
   ['color', 'colors'],
@@ -109,6 +111,21 @@ export const themeCss = () =>
       ...declarations(namespace, theme[key] as TokenTree, '  '),
       ''
     ]),
+    '  /* Extends rather than replaces — no `--text-*: initial`, `--radius-*: initial`,',
+    '     `--ease-*: initial`, or `--duration-*: initial`, so Tailwind defaults stay. */',
+    ...declarations('text', theme.extend.fontSize as TokenTree, '  '),
+    ...declarations('radius', theme.extend.borderRadius as TokenTree, '  '),
+    ...declarations(
+      'ease',
+      theme.extend.transitionTimingFunction as TokenTree,
+      '  '
+    ),
+    ...declarations(
+      'duration',
+      theme.extend.transitionDuration as TokenTree,
+      '  '
+    ),
+    '',
     '  /* Extends rather than replaces, so no `--animate-*: initial` above. The',
     '     `@keyframes` live in here so Tailwind emits them only when the matching',
     '     `animate-*` utility is actually used. */',

@@ -19,14 +19,21 @@ const switchVariants = cva([
     'border-none',
     'transition-colors ',
     'focus-visible:outline-hidden',
-    'focus-visible:shadow-brandGreen',
+    'focus-visible:border-brandBlue-100',
+    'focus-visible:ring-[3px]',
+    'focus-visible:ring-brandBlue-10',
     'disabled:cursor-not-allowed'
   ],
   [
     'dark:enabled:data-[state=checked]:bg-accent-dark',
     'dark:enabled:bg-foreground-subtle-dark',
     'dark:disabled:bg-grey-200',
-    'dark:focus-visible:shadow-brandGreen-10'
+    'dark:focus-visible:border-brandBlue-80',
+    'dark:focus-visible:ring-0',
+    'dark:focus-visible:outline-solid',
+    'dark:focus-visible:outline-2',
+    'dark:focus-visible:outline-offset-2',
+    'dark:focus-visible:outline-brandGreen-100'
   ],
   [
     'enabled:data-[state=checked]:bg-accent',

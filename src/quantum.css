@@ -24,9 +24,9 @@
   --color-primary-100: #000e38;
   --color-secondary-10: #e5fcf5;
   --color-secondary-30: #b2f7e1;
-  --color-secondary-50: #78edc4;
-  --color-secondary-80: #32ebae;
-  --color-secondary-100: #03e5a4;
+  --color-secondary-50: #78EEC5;
+  --color-secondary-80: #33EAAE;
+  --color-secondary-100: #00E5A4;
   --color-foreground: #111928;
   --color-foreground-dark: #FFF;
   --color-foreground-muted: #4B5563;
@@ -63,10 +63,19 @@
   --color-feedback-yellow: #FACA15;
   --color-feedback-orange: #FF8A4C;
   --color-feedback-red: #C81E1E;
-  --color-button-primary: #000e38;
-  --color-button-primary-dark: #f4f8fa;
-  --color-button-primary-hover: #0c3d60;
-  --color-button-primary-hover-dark: #97a1b8;
+  --color-feedback-danger: #D92D20;
+  --color-feedback-danger10: #FEF1F0;
+  --color-feedback-dangerDark: #FF8177;
+  --color-feedback-warning: #B45309;
+  --color-feedback-warning10: #FDF6EC;
+  --color-feedback-warningDark: #F0B429;
+  --color-feedback-success: #2B7D63;
+  --color-feedback-success10: #E5FCF5;
+  --color-feedback-successDark: #33EAAE;
+  --color-button-primary: #00E5A4;
+  --color-button-primary-dark: #00E5A4;
+  --color-button-primary-hover: #F3EDFF;
+  --color-button-primary-hover-dark: #F3EDFF;
   --color-button-primary-focus: #000e38;
   --color-button-primary-focus-dark: #F3F4F6;
   --color-button-primary-disabled: #F9FAFB;
@@ -75,14 +84,14 @@
   --color-button-primary-selected-dark: #1F2A37;
   --color-button-secondary: #FFF;
   --color-button-secondary-dark: #111928;
-  --color-button-secondary-hover: #F9FAFB;
+  --color-button-secondary-hover: #f4f8fa;
   --color-button-secondary-hover-dark: #1F2A37;
   --color-button-secondary-focus: #F3F4F6;
   --color-button-secondary-focus-dark: #374151;
   --color-button-secondary-disabled: #F9FAFB;
   --color-button-secondary-disabled-dark: #1F2A37;
-  --color-button-secondary-border: #97a1b8;
-  --color-button-secondary-border-dark: #526288;
+  --color-button-secondary-border: #000e38;
+  --color-button-secondary-border-dark: #FFFFFF;
   --color-button-secondary-border-hover: #526288;
   --color-button-secondary-border-hover-dark: #0c3d60;
   --color-button-secondary-border-focus: #97a1b8;
@@ -97,13 +106,13 @@
   --color-button-tertiary-focus-dark: #000E38;
   --color-button-tertiary-selected: #F3F4F6;
   --color-button-tertiary-selected-dark: #1F2A37;
-  --color-button-success: #057A55;
+  --color-button-success: #2B7D63;
   --color-button-success-hover: #046C4E;
   --color-button-success-focus: #03543F;
   --color-button-success-disabled: #F9FAFB;
   --color-button-success-selected: #F3F4F6;
   --color-button-success-selected-dark: #1F2A37;
-  --color-button-danger: #C81E1E;
+  --color-button-danger: #D92D20;
   --color-button-danger-hover: #C81E1E;
   --color-button-danger-focus: #9B1C1C;
   --color-button-danger-disabled: #F9FAFB;
@@ -218,9 +227,27 @@
   --color-brandMidnight-100: #000e38;
   --color-brandGreen-10: #e5fcf5;
   --color-brandGreen-30: #b2f7e1;
-  --color-brandGreen-50: #78edc4;
-  --color-brandGreen-80: #32ebae;
-  --color-brandGreen-100: #03e5a4;
+  --color-brandGreen-50: #78EEC5;
+  --color-brandGreen-80: #33EAAE;
+  --color-brandGreen-100: #00E5A4;
+  --color-brandPurple-10: #F3EDFF;
+  --color-brandPurple-30: #DCCAFF;
+  --color-brandPurple-50: #C4A7FF;
+  --color-brandPurple-80: #A173FF;
+  --color-brandPurple-100: #8950FF;
+  --color-brandBlue-10: #E8F0FF;
+  --color-brandBlue-30: #B9D3FF;
+  --color-brandBlue-50: #8AB5FF;
+  --color-brandBlue-80: #4589FF;
+  --color-brandBlue-100: #166BFF;
+  --color-brandGrey-10: #EAEBED;
+  --color-brandGrey-30: #D9D9D9;
+  --color-brandGrey-80: #454551;
+  --color-brandDark-bg: #070A14;
+  --color-brandDark-surface: #0D1220;
+  --color-brandDark-raised: #151B2C;
+  --color-brandDark-border: #222941;
+  --color-brandDark-borderStrong: #354061;
 
   /* boxShadow replaces Tailwind's defaults rather than extending them. */
   --shadow-*: initial;
@@ -233,13 +260,14 @@
   --shadow-blue: 0px 0px 0px 4px rgb(118,169,250);
   --shadow-red: 0px 0px 0px 4px rgb(249,128,128);
   --shadow-green: 0px 0px 0px 4px rgb(49,196,141,1);
-  --shadow-brandGreen: 0px 0px 0px 4px #03e5a4;
+  --shadow-brandGreen: 0px 0px 0px 4px #00E5A4;
   --shadow-brandGreen10: 0px 0px 0px 4px #e5fcf5;
   --shadow-none: 0px 0px;
 
   /* fontFamily replaces Tailwind's defaults rather than extending them. */
   --font-*: initial;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: 'Bitter', Georgia, serif;
 
   /* strokeWidth replaces Tailwind's defaults rather than extending them. */
   --stroke-width-*: initial;
@@ -248,6 +276,28 @@
   --stroke-width-2: 2px;
   --stroke-width-3: 4px;
   --stroke-width-4: 6px;
+
+  /* Extends rather than replaces — no `--text-*: initial`, `--radius-*: initial`,
+     `--ease-*: initial`, or `--duration-*: initial`, so Tailwind defaults stay. */
+  --text-display: clamp(2.5rem, 5vw, 3.5rem);
+  --text-title: 2rem;
+  --text-h24: 1.5rem;
+  --text-h20: 1.25rem;
+  --text-h16: 1.0625rem;
+  --text-lede: 1.125rem;
+  --text-label: 0.8125rem;
+  --text-caption: 0.75rem;
+  --radius-brandXs: 6px;
+  --radius-brandSm: 8px;
+  --radius-brandMd: 10px;
+  --radius-brandLg: 12px;
+  --radius-brandPill: 999px;
+  --radius-brandControl: 8px;
+  --ease-brandOut: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-brandSoft: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  --duration-brandFast: 150ms;
+  --duration-brandBase: 200ms;
+  --duration-brandSlow: 400ms;
 
   /* Extends rather than replaces, so no `--animate-*: initial` above. The
      `@keyframes` live in here so Tailwind emits them only when the matching

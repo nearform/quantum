@@ -45,12 +45,19 @@ const triggerVariants = cva(
           'bg-grey-100',
           'hover:border-border-hover',
           'hover:text-foreground',
-          'focus-visible:shadow-brandGreen',
+          'focus-visible:border-brandBlue-100',
+          'focus-visible:ring-[3px]',
+          'focus-visible:ring-brandBlue-10',
           'dark:bg-background-alt-dark',
           'dark:border-border-subtle-dark',
           'dark:text-foreground-muted-dark',
           'data-[placeholder]:text-foreground-muted',
-          'dark:focus-visible:shadow-brandGreen-10'
+          'dark:focus-visible:border-brandBlue-80',
+          'dark:focus-visible:ring-0',
+          'dark:focus-visible:outline-solid',
+          'dark:focus-visible:outline-2',
+          'dark:focus-visible:outline-offset-2',
+          'dark:focus-visible:outline-brandGreen-100'
         ],
         error: [
           'bg-red-50',
@@ -190,10 +197,17 @@ const itemVariants = cva([
     'data-[highlighted]:outline-2',
     'data-[highlighted]:-outline-offset-2',
     'data-[highlighted]:outline-current',
-    'focus-visible:shadow-brandGreen'
+    'focus-visible:border-brandBlue-100',
+    'focus-visible:ring-[3px]',
+    'focus-visible:ring-brandBlue-10'
   ],
   [
-    'dark:focus-visible:shadow-brandGreen-10',
+    'dark:focus-visible:border-brandBlue-80',
+    'dark:focus-visible:ring-0',
+    'dark:focus-visible:outline-solid',
+    'dark:focus-visible:outline-2',
+    'dark:focus-visible:outline-offset-2',
+    'dark:focus-visible:outline-brandGreen-100',
     'dark:hover:bg-background-alt-dark',
     'dark:data-[highlighted]:bg-background-alt-dark'
   ]
