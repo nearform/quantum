@@ -39,7 +39,8 @@ export default {
     none: '0px 0px'
   },
   fontFamily: {
-    sans: ["'Inter'", ...defaultTheme.fontFamily.sans]
+    sans: ["'Inter'", ...defaultTheme.fontFamily.sans],
+    serif: ["'Bitter'", 'Georgia', 'serif']
   },
   strokeWidth: {
     0: '0px',
@@ -49,6 +50,33 @@ export default {
     4: '6px'
   },
   extend: {
+    fontSize: {
+      display: 'clamp(2.5rem, 5vw, 3.5rem)',
+      title: '2rem',
+      h24: '1.5rem',
+      h20: '1.25rem',
+      h16: '1.0625rem',
+      lede: '1.125rem',
+      label: '0.8125rem',
+      caption: '0.75rem'
+    },
+    borderRadius: {
+      brandXs: '6px',
+      brandSm: '8px',
+      brandMd: '10px',
+      brandLg: '12px',
+      brandPill: '999px',
+      brandControl: '8px'
+    },
+    transitionTimingFunction: {
+      brandOut: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      brandSoft: 'cubic-bezier(0.45, 0.05, 0.55, 0.95)'
+    },
+    transitionDuration: {
+      brandFast: '150ms',
+      brandBase: '200ms',
+      brandSlow: '400ms'
+    },
     keyframes: animations.keyframes,
     animation: animations.animation
   }

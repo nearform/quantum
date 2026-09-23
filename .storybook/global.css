@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Inter:ital,wght@0,100..900;1,100..900&display=swap');
 /* Scoped for the same reason as src/global.css: without `source(none)` v4 scans
    the whole repo, so the preview also renders classes that only exist in
    `__tests__/`. Storybook deliberately covers `stories/` as well as `src/`,

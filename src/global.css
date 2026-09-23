@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Inter:ital,wght@0,100..900;1,100..900&display=swap');
 /* `source(none)` disables v4's automatic source detection, which would
    otherwise scan the whole repo and pull classes out of `stories/` and
    `__tests__/` into the published stylesheet — so editing a story or renaming a

@@ -267,6 +267,7 @@
   /* fontFamily replaces Tailwind's defaults rather than extending them. */
   --font-*: initial;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: 'Bitter', Georgia, serif;
 
   /* strokeWidth replaces Tailwind's defaults rather than extending them. */
   --stroke-width-*: initial;
@@ -275,6 +276,28 @@
   --stroke-width-2: 2px;
   --stroke-width-3: 4px;
   --stroke-width-4: 6px;
+
+  /* Extends rather than replaces — no `--text-*: initial`, `--radius-*: initial`,
+     `--ease-*: initial`, or `--duration-*: initial`, so Tailwind defaults stay. */
+  --text-display: clamp(2.5rem, 5vw, 3.5rem);
+  --text-title: 2rem;
+  --text-h24: 1.5rem;
+  --text-h20: 1.25rem;
+  --text-h16: 1.0625rem;
+  --text-lede: 1.125rem;
+  --text-label: 0.8125rem;
+  --text-caption: 0.75rem;
+  --radius-brandXs: 6px;
+  --radius-brandSm: 8px;
+  --radius-brandMd: 10px;
+  --radius-brandLg: 12px;
+  --radius-brandPill: 999px;
+  --radius-brandControl: 8px;
+  --ease-brandOut: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-brandSoft: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  --duration-brandFast: 150ms;
+  --duration-brandBase: 200ms;
+  --duration-brandSlow: 400ms;
 
   /* Extends rather than replaces, so no `--animate-*: initial` above. The
      `@keyframes` live in here so Tailwind emits them only when the matching
