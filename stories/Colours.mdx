@@ -9,6 +9,16 @@ import { ColorWrapper } from './colorUtils.tsx'
 
 Base colours provide a full colour spectrum of dark to light hues, and are used as aliases in the [brand theme](#brand-theme-and-ui-colours).
 
+## Nearform brand
+
+`brandGreen` steps 50, 80, and 100 are now the published hex values `#78EEC5`, `#33EAAE`, and `#00E5A4`. Steps 10 and 30 were already correct. `brandMidnight` is unchanged.
+
+New families sit beside the existing ramps, which are all still there: `brandPurple`, `brandBlue`, `brandGrey` (10, 30, 80 only), and `brandDark` (`bg`, `surface`, `raised`, `border`, `borderStrong`). They render in Base Colours because that list is `Object.keys` of `src/colors/base.ts`.
+
+`feedback` keeps `green`, `yellow`, `orange`, and `red`, and adds `danger`, `warning`, and `success` with `10` and `Dark` partners.
+
+`font-serif` is Bitter. Added type utilities are `text-display`, `text-title`, `text-h24`, `text-h20`, `text-h16`, `text-lede`, `text-label`, and `text-caption`. Added radii are `rounded-brandXs`, `rounded-brandSm`, `rounded-brandMd`, `rounded-brandLg`, `rounded-brandPill`, and `rounded-brandControl`. Motion utilities are `ease-brandOut`, `ease-brandSoft`, `duration-brandFast`, `duration-brandBase`, and `duration-brandSlow`.
+
 ## Contrast
 
 WCAG 2.2 AA asks for 4.5:1 between text and its background, 3:1 for large text
