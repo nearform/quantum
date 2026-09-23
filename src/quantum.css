@@ -24,9 +24,9 @@
   --color-primary-100: #000e38;
   --color-secondary-10: #e5fcf5;
   --color-secondary-30: #b2f7e1;
-  --color-secondary-50: #78edc4;
-  --color-secondary-80: #32ebae;
-  --color-secondary-100: #03e5a4;
+  --color-secondary-50: #78EEC5;
+  --color-secondary-80: #33EAAE;
+  --color-secondary-100: #00E5A4;
   --color-foreground: #111928;
   --color-foreground-dark: #FFF;
   --color-foreground-muted: #4B5563;
@@ -63,6 +63,15 @@
   --color-feedback-yellow: #FACA15;
   --color-feedback-orange: #FF8A4C;
   --color-feedback-red: #C81E1E;
+  --color-feedback-danger: #D92D20;
+  --color-feedback-danger10: #FEF1F0;
+  --color-feedback-dangerDark: #FF8177;
+  --color-feedback-warning: #B45309;
+  --color-feedback-warning10: #FDF6EC;
+  --color-feedback-warningDark: #F0B429;
+  --color-feedback-success: #2B7D63;
+  --color-feedback-success10: #E5FCF5;
+  --color-feedback-successDark: #33EAAE;
   --color-button-primary: #000e38;
   --color-button-primary-dark: #f4f8fa;
   --color-button-primary-hover: #0c3d60;
@@ -218,9 +227,27 @@
   --color-brandMidnight-100: #000e38;
   --color-brandGreen-10: #e5fcf5;
   --color-brandGreen-30: #b2f7e1;
-  --color-brandGreen-50: #78edc4;
-  --color-brandGreen-80: #32ebae;
-  --color-brandGreen-100: #03e5a4;
+  --color-brandGreen-50: #78EEC5;
+  --color-brandGreen-80: #33EAAE;
+  --color-brandGreen-100: #00E5A4;
+  --color-brandPurple-10: #F3EDFF;
+  --color-brandPurple-30: #DCCAFF;
+  --color-brandPurple-50: #C4A7FF;
+  --color-brandPurple-80: #A173FF;
+  --color-brandPurple-100: #8950FF;
+  --color-brandBlue-10: #E8F0FF;
+  --color-brandBlue-30: #B9D3FF;
+  --color-brandBlue-50: #8AB5FF;
+  --color-brandBlue-80: #4589FF;
+  --color-brandBlue-100: #166BFF;
+  --color-brandGrey-10: #EAEBED;
+  --color-brandGrey-30: #D9D9D9;
+  --color-brandGrey-80: #454551;
+  --color-brandDark-bg: #070A14;
+  --color-brandDark-surface: #0D1220;
+  --color-brandDark-raised: #151B2C;
+  --color-brandDark-border: #222941;
+  --color-brandDark-borderStrong: #354061;
 
   /* boxShadow replaces Tailwind's defaults rather than extending them. */
   --shadow-*: initial;
@@ -233,7 +260,7 @@
   --shadow-blue: 0px 0px 0px 4px rgb(118,169,250);
   --shadow-red: 0px 0px 0px 4px rgb(249,128,128);
   --shadow-green: 0px 0px 0px 4px rgb(49,196,141,1);
-  --shadow-brandGreen: 0px 0px 0px 4px #03e5a4;
+  --shadow-brandGreen: 0px 0px 0px 4px #00E5A4;
   --shadow-brandGreen10: 0px 0px 0px 4px #e5fcf5;
   --shadow-none: 0px 0px;
 

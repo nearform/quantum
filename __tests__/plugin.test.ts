@@ -81,7 +81,7 @@ const countRule = (css: string) =>
 const CANDIDATES = {
   'bg-brandGreen-100': {
     themeKey: 'colors',
-    declaration: 'background-color: #03e5a4'
+    declaration: 'background-color: #00E5A4'
   },
   'text-primary-80': { themeKey: 'colors', declaration: 'color: #0c3d60' },
   'border-brandGreen-30': {
@@ -90,7 +90,7 @@ const CANDIDATES = {
   },
   'shadow-brandGreen': {
     themeKey: 'boxShadow',
-    declaration: '--tw-shadow: 0px 0px 0px 4px var(--tw-shadow-color, #03e5a4)'
+    declaration: '--tw-shadow: 0px 0px 0px 4px var(--tw-shadow-color, #00E5A4)'
   },
   'font-sans': { themeKey: 'fontFamily', declaration: "font-family: 'Inter'," },
   'stroke-1': { themeKey: 'strokeWidth', declaration: 'stroke-width: 1px' },
@@ -209,7 +209,7 @@ describeBuilt('published artifact loads in a real Tailwind build', () => {
     )
 
     expect(result.css).toContain('.bg-brandGreen-100')
-    expect(result.css).toContain('#03e5a4')
+    expect(result.css).toContain('#00E5A4')
 
     // The base rule has to be asserted here and not only at source level: the
     // source-level suite loads `src/tailwind-plugin.ts` directly, so a plugin
@@ -285,7 +285,7 @@ describeBuilt('published global.css carries the Quantum theme', () => {
    */
   const THEME_DECLARATIONS = {
     colors: '--color-primary-10: #f4f8fa',
-    boxShadow: '--tw-shadow: 0px 0px 0px 4px var(--tw-shadow-color, #03e5a4)',
+    boxShadow: '--tw-shadow: 0px 0px 0px 4px var(--tw-shadow-color, #00E5A4)',
     fontFamily: '"Inter",',
     strokeWidth: '--stroke-width-1: 1px',
     animation:
