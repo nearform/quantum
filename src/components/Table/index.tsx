@@ -24,7 +24,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
     <div
       tabIndex={0}
       className={cn(
-        'relative w-full overflow-auto',
+        'relative w-full overflow-auto rounded-2xl',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current',
         containerClassName
       )}
@@ -87,7 +87,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      'h-[50px] border-b-[1px] border-accent-alt dark:border-grey-500 self-stretch items-center gap-2 font-normal text-left',
+      'h-[50px] self-stretch items-center gap-2 font-normal text-left',
       className
     )}
     {...props}
