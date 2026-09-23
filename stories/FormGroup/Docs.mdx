@@ -134,12 +134,12 @@ Toggle the theme in the toolbar to see it.
 
 The hint uses `foreground-muted`, the body-text token that clears AA on every
 surface in both modes. The error message is `feedback-error` in light mode
-(5.74:1 on the page background) and `red-300` in dark.
+(5.74:1 on the page background) and `feedback-error-dark` in dark.
 
-`red-300` rather than the more obvious `red-400` because a field can sit on
-any of the three surfaces: `red-400` is 4.14:1 on `background-alt-dark` and
-would fail WCAG 1.4.3 inside a dark card, where `red-300` is 5.98:1 at its
-worst and 12.18:1 at its best.
+The dark half is `red-300` rather than the more obvious `red-400` because a
+field can sit on any of the three surfaces: `red-400` is 4.14:1 on
+`background-alt-dark` and would fail WCAG 1.4.3 inside a dark card, where
+`red-300` is 5.98:1 at its worst and 12.18:1 at its best.
 
 ## Accessibility
 

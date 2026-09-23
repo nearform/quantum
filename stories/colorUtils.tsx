@@ -5,13 +5,7 @@ type DarkMode = {
   dark?: string
 }
 type ColorPaletteType = {
-  DEFAULT?: string
-  dark?: string
-  focus?: DarkMode
-  hover?: DarkMode
-  alt?: DarkMode
-  subtle?: DarkMode
-  disabled?: DarkMode
+  [token: string]: string | DarkMode | undefined
 }
 
 export const ColorWrapper = ({
@@ -50,7 +44,7 @@ const remap = ({
 }) => {
   const r = Object.keys(colorPalette).reduce(
     (acc: Record<string, string>, token) => {
-      const color = colorPalette[token as keyof typeof colorPalette]
+      const color = colorPalette[token]
       if (color) {
         if (typeof color === 'object') {
           const colorMode = color[`${mode}`]

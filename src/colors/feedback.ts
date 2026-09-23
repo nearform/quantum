@@ -10,8 +10,20 @@ import { colors } from './base'
  * only describes the swatch under it.
  */
 export const feedback = {
-  success: colors.green['500'],
-  warning: colors.yellow['300'],
-  danger: colors.orange['400'],
-  error: colors.red['700']
+  success: {
+    DEFAULT: colors.green['500'],
+    dark: colors.green['300']
+  },
+  warning: {
+    DEFAULT: colors.yellow['300'],
+    dark: colors.yellow['300']
+  },
+  danger: {
+    DEFAULT: colors.orange['400'],
+    dark: colors.orange['300']
+  },
+  error: {
+    DEFAULT: colors.red['700'],
+    dark: colors.red['300']
+  }
 }

@@ -84,7 +84,8 @@ export const button = {
       DEFAULT: colors.green['800']
     },
     disabled: {
-      DEFAULT: colors.grey['50']
+      DEFAULT: colors.grey['50'],
+      dark: background.subtle.dark
     },
     selected: {
       DEFAULT: colors.grey['100'],
@@ -92,7 +93,7 @@ export const button = {
     }
   },
   danger: {
-    DEFAULT: feedback.error,
+    DEFAULT: feedback.error.DEFAULT,
     hover: {
       DEFAULT: colors.red['700']
     },
@@ -100,7 +101,8 @@ export const button = {
       DEFAULT: colors.red['800']
     },
     disabled: {
-      DEFAULT: colors.grey['50']
+      DEFAULT: colors.grey['50'],
+      dark: background.subtle.dark
     },
     selected: {
       DEFAULT: colors.grey['100'],

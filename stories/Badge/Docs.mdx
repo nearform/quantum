@@ -75,11 +75,11 @@ announces that instead of the digits.
 Toggle the theme in the toolbar to see it.
 
 Dark mode is derived rather than designed — the design file covers light mode
-only. The fill drops to the page background and the border keeps its colour,
-so the border goes on carrying the meaning at both ends of the theme. Tinting
-the fill instead would have been prettier and would have buried the border in
-it: `feedback-error` on `red-900` is 1.85:1, which would leave `error` and 
-`success` telling themselves apart by fill alone.
+only. The fill drops to the page background and the border takes the dark half
+of its descriptor, so the border goes on carrying the meaning at both ends of
+the theme. Tinting the fill instead would have been prettier and would have
+buried the border in it: `feedback-error` on `red-900` is 1.85:1, which would
+leave `error` and `success` telling themselves apart by fill alone.
 
 Putting the colour in the border rather than the text is also what keeps the
 set accessible without tuning a weight per hue — `foreground` on any of the

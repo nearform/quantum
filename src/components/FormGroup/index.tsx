@@ -64,13 +64,11 @@ const messageVariants = cva(['text-xs'], {
   variants: {
     tone: {
       description: ['text-foreground-muted', 'dark:text-foreground-muted-dark'],
-      // `feedback-error` is 5.74:1 on the light page background but only 3.66:1
-      // on the dark one, so dark mode takes `red-300` instead. That is the
-      // weight rather than the more obvious `red-400` because a field can sit
-      // on any of the three surfaces: `red-400` is 4.14:1 on
-      // `background-alt-dark` and would fail 1.4.3 inside a dark card, where
-      // `red-300` is 5.98:1 at its worst and 12.18:1 at its best.
-      error: ['font-medium', 'text-feedback-error', 'dark:text-red-300']
+      error: [
+        'font-medium',
+        'text-feedback-error',
+        'dark:text-feedback-error-dark'
+      ]
     }
   },
   defaultVariants: {

@@ -35,8 +35,8 @@ const passwordVariants = cva(
     variants: {
       variant: {
         primary: ['text-foreground', 'dark:text-foreground-dark'],
-        error: ['text-feedback-error'],
-        success: ['text-green-700']
+        error: ['text-feedback-error', 'dark:text-feedback-error-dark'],
+        success: ['text-green-700', 'dark:text-feedback-success-dark']
       }
     },
     defaultVariants: {
