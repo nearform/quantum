@@ -143,18 +143,18 @@ module.exports = {
 
 ```js
 //root component
-import '@nearform/quantum/dist/global.css'
+import '@nearform/quantum/global.css'
 import { Button } from '@nearform/quantum'
 ```
 
 #### Overriding a token
 
-`dist/global.css` carries our theme as CSS custom properties, and the utilities
+`global.css` carries our theme as CSS custom properties, and the utilities
 read them through `var()` rather than having the values baked in, so a token can
 be restyled without a Tailwind build:
 
 ```css
-@import '@nearform/quantum/dist/global.css';
+@import '@nearform/quantum/global.css';
 
 :root {
   --color-accent: #123456;
