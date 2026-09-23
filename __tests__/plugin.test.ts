@@ -438,6 +438,6 @@ describeBuilt('published global.css carries the Quantum theme', () => {
   })
 
   it('is resolvable through the exports map', () => {
-    expect(pkg.exports['./dist/global.css']).toBe('./dist/global.css')
+    expect(pkg.exports['./global.css']).toBe('./dist/global.css')
   })
 })
