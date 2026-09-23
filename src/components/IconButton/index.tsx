@@ -107,28 +107,50 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       ...props
     },
     ref
-  ) => (
-    <button
-      ref={ref}
-      type={type}
-      // An `aria-label` of the caller's own wins, and an empty or absent one
-      // falls back rather than being spread over the top of `label` -- a
-      // button holding a required name and then blanking it has only one
-      // reading, and it is not the one where the name goes away silently.
-      // `aria-labelledby` is not weighed against either: it beats them both
-      // wherever it is passed, which is the naming order in the
-      // specification rather than anything decided here.
-      aria-label={ariaLabel || label}
-      className={cn(
-        buttonVariants({ variant, size: null }),
-        iconButtonVariants({ size, shape }),
-        className
-      )}
-      {...props}
-    >
-      {icon}
-    </button>
-  )
+  ) => {
+    // An `aria-label` of the caller's own wins, and an empty one falls back
+    // rather than being spread over the top of `label` -- a button holding a
+    // required name and then blanking it has only one reading, and it is not
+    // the one where the name goes away silently. `aria-labelledby` is not
+    // weighed against either: it beats them both wherever it is passed, which
+    // is the naming order in the specification rather than anything decided
+    // here.
+    //
+    // Trimmed, because the name-computation algorithm trims before it decides
+    // whether a label is empty, so a `label` of `" "` is exactly as unnamed as
+    // one of `""` -- and `label` is typed `string`, which stops neither. The
+    // type is the guard against a name being forgotten; this is the guard
+    // against one being supplied and empty, which the type cannot express.
+    //
+    // Nothing is invented when both are empty. There is no name that could be
+    // guessed from an icon, and a placeholder would be worse than none: it
+    // would silence the failure with something untrue. So the attribute comes
+    // off entirely instead of going on empty. The computed name is the same
+    // either way -- an empty `aria-label` is skipped and the algorithm falls
+    // through to the contents, which are an icon and say nothing -- but the
+    // markup is not. `aria-label=""` reads as a deliberate suppression, and
+    // linters and reviewers take it for one. A button with no `aria-label` at
+    // all is plainly unnamed, and axe's `button-name` rule says so in the
+    // consumer's own CI rather than the component quietly asserting a name it
+    // does not have.
+    const name = ariaLabel?.trim() || label?.trim() || undefined
+
+    return (
+      <button
+        ref={ref}
+        type={type}
+        aria-label={name}
+        className={cn(
+          buttonVariants({ variant, size: null }),
+          iconButtonVariants({ size, shape }),
+          className
+        )}
+        {...props}
+      >
+        {icon}
+      </button>
+    )
+  }
 )
 
 IconButton.displayName = 'IconButton'

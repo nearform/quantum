@@ -464,6 +464,12 @@ describe('IconButton accessibility', () => {
       ),
       'button'
     )
+    const blank = openingTag(
+      renderToStaticMarkup(
+        <IconButton icon={<svg />} label="Delete article" aria-label="   " />
+      ),
+      'button'
+    )
     const absent = openingTag(
       renderToStaticMarkup(
         <IconButton
@@ -476,7 +482,37 @@ describe('IconButton accessibility', () => {
     )
 
     expect(attribute(empty, 'aria-label')).toBe('Delete article')
+    expect(attribute(blank, 'aria-label')).toBe('Delete article')
     expect(attribute(absent, 'aria-label')).toBe('Delete article')
+  })
+
+  /**
+   * `label: string` stops the prop being forgotten; it does not stop it being
+   * supplied empty, and the name-computation algorithm trims before it
+   * decides, so `" "` is exactly as unnamed as `""`. Neither goes on the
+   * element. The computed name is unchanged either way -- an empty
+   * `aria-label` is skipped and the algorithm falls through to the contents,
+   * which are an icon and say nothing -- but `aria-label=""` reads as a
+   * deliberate suppression and is taken for one. With no attribute at all the
+   * button is plainly unnamed, and axe's `button-name` rule reports it.
+   */
+  it.each([
+    ['empty', ''],
+    ['whitespace', '  ']
+  ])('refuses to assert a name it does not have (%s)', (_name, label) => {
+    const tag = openingTag(
+      renderToStaticMarkup(<IconButton icon={<svg />} label={label} />),
+      'button'
+    )
+    const overridden = openingTag(
+      renderToStaticMarkup(
+        <IconButton icon={<svg />} label={label} aria-label="Delete article" />
+      ),
+      'button'
+    )
+
+    expect(tag).not.toContain('aria-label')
+    expect(attribute(overridden, 'aria-label')).toBe('Delete article')
   })
 
   it('renders the icon as the whole of its content', () => {
@@ -563,7 +599,11 @@ describe('IconButton accessibility', () => {
 
     expect(classes).toContain('bg-button-danger')
     expect(classes).toContain('hover:bg-button-danger-hover')
-    expect(classes.split(' ')).not.toContain('px-4')
+    // `p-2.5 text-sm` is `Button`'s `md`, which is its default and so the one
+    // that leaks if `size: null` ever stops meaning "skip the default too".
+    // Neither survives `tailwind-merge` against the square, so their absence
+    // is the assertion that cva still behaves as the comment there claims.
+    expect(classes.split(' ')).not.toContain('p-2.5')
     expect(classes.split(' ')).not.toContain('text-sm')
   })
 })

@@ -132,6 +132,17 @@ already does.
   accessible name is announced as "button" and nothing else, and unlike a
   missing colour the problem is invisible to everyone it does not affect
   (WCAG 4.1.2). No name can be guessed from an icon, so the type asks for one.
+- **Nothing is invented when the label is empty.** `label: string` stops the
+  prop being forgotten; it cannot stop `""`, and the name-computation
+  algorithm trims before it decides, so `" "` is exactly as unnamed. In that
+  case the `aria-label` comes off the button entirely rather than going on
+  empty. The computed name is the same either way — an empty `aria-label` is
+  skipped and the algorithm falls through to the contents, which are an icon
+  and say nothing — but the markup is not: `aria-label=""` reads as a
+  deliberate suppression and is taken for one, while a button with no
+  `aria-label` at all is plainly unnamed and axe's `button-name` rule reports
+  it in your own CI. A placeholder name would be worse than either, because it
+  would silence the failure with something untrue.
 - **Say what the button does, not what the icon shows.** "Delete article"
   beats "bin", and beats "Delete" on a page holding several deletes. The
   label is read on its own, out of the context the icon sits in.
@@ -148,7 +159,8 @@ already does.
   specification rather than anything this component decides; `label` is simply
   the one that is required. An _empty_ `aria-label` is the exception: it falls
   back to `label` rather than blanking it, because a button that names itself
-  and then unnames itself has no reading that is not a mistake.
+  and then unnames itself has no reading that is not a mistake. Blank and
+  whitespace-only are read the same way, on both props.
 - **Every size clears the minimum target.** The smallest is 36×36, against the
   24×24 WCAG 2.2 asks for (2.5.8) and the 44×44 it recommends (2.5.5). The
   `Sizes` story measures it.
