@@ -6,11 +6,11 @@ import { feedback } from './feedback'
 
 export const button = {
   primary: {
-    DEFAULT: accent.DEFAULT,
-    dark: accent.dark,
+    DEFAULT: colors.brandGreen['100'],
+    dark: colors.brandGreen['100'],
     hover: {
-      DEFAULT: accent.hover.DEFAULT,
-      dark: accent.hover.dark
+      DEFAULT: colors.brandPurple['10'],
+      dark: colors.brandPurple['10']
     },
     focus: {
       DEFAULT: accent.focus.DEFAULT,
@@ -29,7 +29,7 @@ export const button = {
     DEFAULT: '#FFF',
     dark: colors.grey['900'],
     hover: {
-      DEFAULT: background.subtle.DEFAULT,
+      DEFAULT: colors.brandMidnight['10'],
       dark: background.subtle.dark
     },
     focus: {
@@ -41,8 +41,8 @@ export const button = {
       dark: background.subtle.dark
     },
     border: {
-      DEFAULT: border.DEFAULT,
-      dark: border.dark,
+      DEFAULT: colors.brandMidnight['100'],
+      dark: '#FFFFFF',
       hover: {
         DEFAULT: border.hover.DEFAULT,
         dark: border.hover.dark
@@ -76,7 +76,7 @@ export const button = {
     }
   },
   success: {
-    DEFAULT: colors.green['600'],
+    DEFAULT: feedback.success,
     hover: {
       DEFAULT: colors.green['700']
     },
@@ -92,7 +92,7 @@ export const button = {
     }
   },
   danger: {
-    DEFAULT: feedback.red,
+    DEFAULT: feedback.danger,
     hover: {
       DEFAULT: colors.red['700']
     },
