@@ -73,15 +73,15 @@ const formVariants = cva(
           'dark:focus-within:shadow-brandGreen-10'
         ],
         error: [
-          'border-feedback-red',
-          'text-feedback-red',
+          'border-feedback-error',
+          'text-feedback-error',
           'bg-red-50',
           'hover:border-red-700',
           'focus-within:shadow-red'
         ],
         success: [
-          'border-feedback-green',
-          'text-feedback-green',
+          'border-feedback-success',
+          'text-feedback-success',
           'bg-green-50',
           'hover:border-green-700',
           'focus-within:shadow-green'
@@ -127,7 +127,7 @@ const inputVariants = cva(
     variants: {
       variant: {
         primary: ['text-foreground', 'dark:text-foreground-dark'],
-        error: ['text-feedback-red'],
+        error: ['text-feedback-error'],
         success: ['text-green-700']
       }
     },

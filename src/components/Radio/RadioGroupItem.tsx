@@ -40,7 +40,7 @@ const radioVariant = cva(
     variants: {
       /** Driven by the radio's own `aria-invalid`. See `Checkbox`. */
       invalid: {
-        true: ['border-feedback-red', 'dark:border-red-400'],
+        true: ['border-feedback-error', 'dark:border-red-400'],
         false: [
           'border-border',
           'data-[state=checked]:border-border',

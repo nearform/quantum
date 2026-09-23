@@ -91,14 +91,19 @@ it is lighter than `blue-600`, which would both invert the ramp and drop
 
 ### Feedback
 
-<ColorPalette>
-{<ColorItem
-  key={0}
-  index={0}
-  title={'feedback'}
-  colors={aliasColors.feedback}
-/>}
+The four feedback descriptors name the role the colour plays rather than the hue
+it carries, so a control reaches for them by what it means (`border-feedback-success`,
+`text-feedback-error`) and not what it looks like.
 
+<ColorPalette>
+  {Object.entries(aliasColors.feedback).map(([token, value], index) => (
+    <ColorItem
+      key={index}
+      index={index}
+      title={`feedback-${token}`}
+      colors={{ DEFAULT: value }}
+    />
+  ))}
 </ColorPalette>
 ### Background
 <ColorWrapper darkMode={true} colorPalette={aliasColors.background} />

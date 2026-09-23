@@ -43,9 +43,9 @@ const chipVariants = cva(
           'dark:border-border-subtle-dark',
           'dark:text-foreground-dark'
         ],
-        warning: ['bg-yellow-50', 'border-feedback-yellow'],
-        success: ['bg-green-50', 'border-feedback-green'],
-        error: ['bg-red-50', 'border-feedback-red'],
+        warning: ['bg-yellow-50', 'border-feedback-warning'],
+        success: ['bg-green-50', 'border-feedback-success'],
+        error: ['bg-red-50', 'border-feedback-error'],
         info: ['bg-blue-50', 'border-primary-30', 'dark:border-primary-30']
       },
       size: {

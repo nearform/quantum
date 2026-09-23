@@ -51,7 +51,7 @@ const checkboxVariants = cva(
        * own, so the box that announces itself as invalid is the box that looks
        * it and the two cannot drift apart.
        *
-       * `red-400` in dark mode: `feedback-red` is 3.66:1 on the dark page
+       * `red-400` in dark mode: `feedback-error` is 3.66:1 on the dark page
        * background, and a border owes 3:1 under 1.4.11 on every surface a
        * group can sit on. Not `FieldError`'s `red-300`, which the message
        * takes because text owes 4.5:1 -- at 20px across, that weight reads as
@@ -60,7 +60,7 @@ const checkboxVariants = cva(
        * surface a card puts under it.
        */
       invalid: {
-        true: ['border-feedback-red', 'dark:border-red-400'],
+        true: ['border-feedback-error', 'dark:border-red-400'],
         false: [
           'border-border',
           'data-[state=checked]:border-border',
