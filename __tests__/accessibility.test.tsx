@@ -1294,12 +1294,12 @@ describe('focus indicators', () => {
     )
   })
 
-  it('replaces the one the button group suppresses', () => {
+  it('draws one on each button group member', () => {
     const html = renderToStaticMarkup(<ButtonGroup>{null}</ButtonGroup>)
     const classes = attribute(openingTag(html, 'div'), 'class') ?? ''
 
-    expect(classes).toContain('[&>*:focus]:shadow-none')
-    expect(classes).toContain('[&>*:focus-visible]:outline-2')
+    expect(classes).toContain('[&>*:focus]:shadow-brandGreen')
+    expect(classes).not.toContain('[&>*:focus]:shadow-none')
   })
 })
 
