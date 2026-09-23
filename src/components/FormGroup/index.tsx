@@ -149,7 +149,8 @@ const FieldError = React.forwardRef<HTMLParagraphElement, FieldMessageProps>(
 FieldError.displayName = 'FieldError'
 
 interface FormGroupProps
-  extends Omit<React.ComponentPropsWithoutRef<'div'>, 'id'>,
+  extends
+    Omit<React.ComponentPropsWithoutRef<'div'>, 'id'>,
     VariantProps<typeof formGroupVariants> {
   /** Given to the control and to the label's `htmlFor`. Generated when omitted. */
   controlId?: string

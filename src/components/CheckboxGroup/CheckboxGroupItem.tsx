@@ -4,8 +4,10 @@ import { Checkbox, type CheckboxProps } from '../Checkbox'
 import { ChoiceItem, resolveAriaInvalid, useChoiceGroup } from '../choice-group'
 import { useCheckboxGroup } from './CheckboxGroup'
 
-interface CheckboxGroupItemProps
-  extends Omit<CheckboxProps, 'checked' | 'defaultChecked' | 'value'> {
+interface CheckboxGroupItemProps extends Omit<
+  CheckboxProps,
+  'checked' | 'defaultChecked' | 'value'
+> {
   /** What this box contributes to the group's value when it is ticked. */
   value: string
   label?: React.ReactNode

@@ -25,8 +25,10 @@ const CheckboxGroupContext =
  */
 const useCheckboxGroup = () => React.useContext(CheckboxGroupContext)
 
-interface CheckboxGroupProps
-  extends Omit<ChoiceGroupFieldsetProps, 'defaultValue' | 'onChange'> {
+interface CheckboxGroupProps extends Omit<
+  ChoiceGroupFieldsetProps,
+  'defaultValue' | 'onChange'
+> {
   /** Ticked values. Supply it for a controlled group, with `onValueChange`. */
   value?: string[]
   /** Ticked values at first render, for a group that keeps its own state. */

@@ -76,7 +76,8 @@ const initialsFrom = (name: string) => {
 }
 
 interface AvatarProps
-  extends Omit<React.ComponentPropsWithoutRef<'span'>, 'children' | 'onError'>,
+  extends
+    Omit<React.ComponentPropsWithoutRef<'span'>, 'children' | 'onError'>,
     VariantProps<typeof avatarVariants> {
   /**
    * Image to show. Until it loads — and permanently, if it fails to load — the
