@@ -234,7 +234,14 @@ props rather than guessing:
 - **Icon-only controls need names in your language.** `Pagination`
   (`previousLabel`, `nextLabel`, `pageLabel`), `StepsIndicator` (`label`,
   `stepLabel`), `Input` (`clearLabel`) and `Password` (`showLabel`,
-  `hideLabel`) all default to English and accept overrides.
+  `hideLabel`) all default to English and accept overrides. `IconButton` has
+  no default to override: its `label` is required, because there is no name
+  that could be guessed from an icon, and it should say what the button does
+  rather than what the icon is a picture of -- "Delete article", not "bin".
+  Where the name is also made visible, by a `Tooltip` or otherwise, the two
+  have to agree: WCAG 2.5.3 asks that the accessible name contain the visible
+  text, so that someone speaking what they can see reaches the control they
+  are looking at.
 - **Triggers should merge into the control they wrap.** `ModalTrigger`,
   `PopoverTrigger` and `SelectTrigger` render a `<button>` of their own, so
   wrapping one around a `Button` nests a control inside a control. Pass

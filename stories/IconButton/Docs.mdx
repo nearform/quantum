@@ -1,0 +1,222 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as IconButtonStories from './IconButton.stories'
+
+<Meta of={IconButtonStories} />
+
+# IconButton
+
+A button whose content is an icon and nothing else: the close on a dialog, the
+actions at the end of a table row, a toolbar.
+
+It is a [Button](?path=/docs/form-button--docs) with the label taken out, and
+it imports that component's variants rather than restating them — the two sit
+beside each other, so a variant that gained a hover state or a focus ring in
+one and not the other would be visible in the gap between them.
+
+One thing it adds, and it is the reason the component exists: `label` is
+required. An icon button with no accessible name announces as "button" and
+nothing more.
+
+### Default
+
+<Canvas of={IconButtonStories.Default} />
+
+### Variants
+
+The five from `Button`, unchanged. `tertiary` is the one you want most often —
+a toolbar of `primary` icon buttons is a wall of colour with no hierarchy in
+it.
+
+<Canvas of={IconButtonStories.Variants} />
+
+### Shapes
+
+`circle` is the same box with the corners taken all the way round. `rounded`
+is `Button`'s own corner, for an icon button sitting beside a text one.
+
+<Canvas of={IconButtonStories.Shapes} />
+
+### Sizes
+
+Square, and the side is the height of the `Button` of the same name, so the
+two are level in a row:
+
+<table>
+  <tbody>
+    <tr>
+      <th>Size</th>
+      <th>Box</th>
+      <th>Icon</th>
+    </tr>
+    <tr>
+      <td>`xs`</td>
+      <td>36px</td>
+      <td>14px</td>
+    </tr>
+    <tr>
+      <td>`sm`</td>
+      <td>36px</td>
+      <td>16px</td>
+    </tr>
+    <tr>
+      <td>`md` (the default)</td>
+      <td>40px</td>
+      <td>16px</td>
+    </tr>
+    <tr>
+      <td>`lg`</td>
+      <td>48px</td>
+      <td>20px</td>
+    </tr>
+  </tbody>
+</table>
+
+`xs` and `sm` are deliberately the same box. They are in `Button` too; what
+changes between them is the size of the icon, exactly as the text size changes
+there.
+
+Read the height rather than the name when lining an icon button up against an
+`Input` or a `Select` — the size names do not agree across those components.
+[Input's docs](?path=/docs/form-input--docs) publish the full table.
+
+<Canvas of={IconButtonStories.Sizes} />
+
+### Disabled
+
+<Canvas of={IconButtonStories.Disabled} />
+
+### Naming the button
+
+The label says what the button does, not what the icon is a picture of:
+"Delete article", not "bin". A row of icons with nothing else to go on is the
+case this component exists for, and the case it is easiest to get wrong.
+
+<Canvas of={IconButtonStories.Labelled} />
+
+### With a tooltip
+
+A tooltip makes the name visible to everyone who is not using a screen reader,
+which is most of the people who cannot tell what an icon means. Keep the two
+in step — see the accessibility notes below.
+
+<Canvas of={IconButtonStories.WithTooltip} />
+
+### Icon size
+
+The button sizes the icon, so a row agrees without every caller repeating an
+`h-4 w-4`. Override it on the button, not on the icon.
+
+<Canvas of={IconButtonStories.IconSize} />
+
+### With a badge
+
+The badge is positioned by a wrapper rather than by the button, which stays
+square.
+
+<Canvas of={IconButtonStories.WithBadge} />
+
+### As a close
+
+<Canvas of={IconButtonStories.Close} />
+
+## Dark mode
+
+Toggle the theme in the toolbar to see it. There is nothing of its own here:
+the colours are `Button`'s, so both themes are whatever that component
+already does.
+
+## Accessibility
+
+- **`label` is required, and there is no default.** An icon button with no
+  accessible name is announced as "button" and nothing else, and unlike a
+  missing colour the problem is invisible to everyone it does not affect
+  (WCAG 4.1.2). No name can be guessed from an icon, so the type asks for one.
+- **Say what the button does, not what the icon shows.** "Delete article"
+  beats "bin", and beats "Delete" on a page holding several deletes. The
+  label is read on its own, out of the context the icon sits in.
+- **A visible label and the accessible name have to agree.** WCAG 2.5.3 asks
+  that the accessible name contain the visible text, so that someone speaking
+  what they can see reaches the control they are looking at. If the `Tooltip`
+  says "Notifications", the `label` starts with "Notifications".
+- **The icon must not carry a `title`.** `aria-label` already replaces the
+  button's contents when its name is computed, so the icon needs no
+  `aria-hidden` — but a `title` on it puts a second, competing name in the
+  accessibility tree and a browser tooltip the `Tooltip` did not put there.
+- **`aria-labelledby` wins where the name is already on the page**, and an
+  `aria-label` of your own overrides `label`. That is the naming order in the
+  specification rather than anything this component decides; `label` is simply
+  the one that is required. An _empty_ `aria-label` is the exception: it falls
+  back to `label` rather than blanking it, because a button that names itself
+  and then unnames itself has no reading that is not a mistake.
+- **Every size clears the minimum target.** The smallest is 36×36, against the
+  24×24 WCAG 2.2 asks for (2.5.8) and the 44×44 it recommends (2.5.5). The
+  `Sizes` story measures it.
+- **`type` defaults to `"button"`.** A bare `<button>` inside a form submits
+  it, and an icon button is most often a close or a remove — the one place
+  that default does the most damage. Pass `type="submit"` where you mean it.
+
+## Attributes
+
+Everything a `<button>` takes, plus:
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>icon</td>
+      <td>`React.ReactNode`</td>
+      <td>required</td>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>`string`</td>
+      <td>required</td>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`"primary" | "secondary" | "tertiary" | "success" | "danger"`</td>
+      <td>`"primary"`</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`"xs" | "sm" | "md" | "lg"`</td>
+      <td>`"md"`</td>
+    </tr>
+    <tr>
+      <td>shape</td>
+      <td>`"rounded" | "circle"`</td>
+      <td>`"rounded"`</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>`"button" | "submit" | "reset"`</td>
+      <td>`"button"`</td>
+    </tr>
+  </tbody>
+</table>
+
+`children` is deliberately not one of them. An icon button holds an icon, and
+a button holding text is a [Button](?path=/docs/form-button--docs), which
+takes an icon beside its label through `leftSideChild` and `rightSideChild`.
+
+## Usage
+
+```tsx
+import { IconButton, BsTrash, BsX } from '@nearform/quantum'
+
+// Named for what it does
+<IconButton icon={<BsTrash />} label="Delete article" variant="danger" />
+
+// A close, which should carry no weight of its own
+<IconButton icon={<BsX />} label="Close dialog" variant="tertiary" size="sm" />
+
+// With the name made visible too -- the two have to agree
+<Tooltip content="Notifications">
+  <IconButton icon={<BsBell />} label="Notifications" variant="secondary" />
+</Tooltip>
+```

@@ -22,6 +22,7 @@ import {
   FieldError,
   FormGroup
 } from '../src/components/FormGroup'
+import { IconButton, iconButtonVariants } from '../src/components/IconButton'
 import { Input } from '../src/components/Input'
 import { Label } from '../src/components/Label'
 import { Link } from '../src/components/Link'
@@ -410,6 +411,160 @@ describe('Badge accessibility', () => {
     expect(classes).toContain('border-border-subtle')
     expect(classes).toContain('dark:bg-background-dark')
     expect(classes).toContain('dark:text-foreground-dark')
+  })
+})
+
+describe('IconButton accessibility', () => {
+  it('names the button from its label', () => {
+    const tag = openingTag(
+      renderToStaticMarkup(
+        <IconButton icon={<svg />} label="Delete article" />
+      ),
+      'button'
+    )
+
+    expect(attribute(tag, 'aria-label')).toBe('Delete article')
+  })
+
+  /**
+   * `label` goes on before the spread, so a caller who has a name of their
+   * own still wins. `aria-labelledby` is not fought over at all -- it beats
+   * `aria-label` in the naming order wherever both are present, which is the
+   * point of passing it.
+   */
+  it('lets the caller name it some other way', () => {
+    const overridden = openingTag(
+      renderToStaticMarkup(
+        <IconButton icon={<svg />} label="Delete" aria-label="Delete article" />
+      ),
+      'button'
+    )
+    const referenced = openingTag(
+      renderToStaticMarkup(
+        <IconButton icon={<svg />} label="Delete" aria-labelledby="heading" />
+      ),
+      'button'
+    )
+
+    expect(attribute(overridden, 'aria-label')).toBe('Delete article')
+    expect(attribute(referenced, 'aria-labelledby')).toBe('heading')
+    expect(attribute(referenced, 'aria-label')).toBe('Delete')
+  })
+
+  /**
+   * Spread over the top of the label, an empty or absent `aria-label` would
+   * leave the button nameless, which is the one outcome `label` being
+   * required exists to rule out. A button that names itself and then blanks
+   * it has no reading that is not a mistake, so the name it was given stands.
+   */
+  it('keeps its label rather than being blanked by an empty one', () => {
+    const empty = openingTag(
+      renderToStaticMarkup(
+        <IconButton icon={<svg />} label="Delete article" aria-label="" />
+      ),
+      'button'
+    )
+    const absent = openingTag(
+      renderToStaticMarkup(
+        <IconButton
+          icon={<svg />}
+          label="Delete article"
+          aria-label={undefined}
+        />
+      ),
+      'button'
+    )
+
+    expect(attribute(empty, 'aria-label')).toBe('Delete article')
+    expect(attribute(absent, 'aria-label')).toBe('Delete article')
+  })
+
+  it('renders the icon as the whole of its content', () => {
+    const html = renderToStaticMarkup(
+      <IconButton icon={<svg data-icon="trash" />} label="Delete article" />
+    )
+
+    expect(html).toContain('data-icon="trash"')
+    expect(openingTags(html, 'svg')).toHaveLength(1)
+  })
+
+  /**
+   * A bare `<button>` inside a form submits it, and an icon button is most
+   * often a close or a remove sitting inside one.
+   */
+  it('does not submit the form it is standing in', () => {
+    const html = renderToStaticMarkup(
+      <IconButton icon={<svg />} label="Remove row" />
+    )
+
+    expect(attribute(openingTag(html, 'button'), 'type')).toBe('button')
+  })
+
+  it('still submits when asked to', () => {
+    const html = renderToStaticMarkup(
+      <IconButton icon={<svg />} label="Search" type="submit" />
+    )
+
+    expect(attribute(openingTag(html, 'button'), 'type')).toBe('submit')
+  })
+
+  it('draws the focus indicator the other buttons draw', () => {
+    const classes =
+      attribute(
+        openingTag(
+          renderToStaticMarkup(<IconButton icon={<svg />} label="Add" />),
+          'button'
+        ),
+        'class'
+      ) ?? ''
+
+    expect(classes).toContain('focus:shadow-brandGreen')
+  })
+
+  /**
+   * Every size clears the 24x24 CSS pixels WCAG 2.2 asks of a target (2.5.8),
+   * with the smallest at 36. Read off the classes rather than measured, so a
+   * size added later has to clear it too -- the measurement itself is in the
+   * `Sizes` story, which the test runner drives in a browser.
+   */
+  it.each(['xs', 'sm', 'md', 'lg'] as const)(
+    'gives %s a square target big enough to hit',
+    size => {
+      const classes = iconButtonVariants({ size }).split(' ')
+      const side = (prefix: string) => {
+        const match = classes.find(name =>
+          new RegExp(`^${prefix}-\\d`).test(name)
+        )
+        return Number(match?.slice(prefix.length + 1)) * 4
+      }
+
+      expect(side('h')).toBe(side('w'))
+      expect(side('h')).toBeGreaterThanOrEqual(24)
+    }
+  )
+
+  /**
+   * The colours come from `Button` so that the two stay in step where they
+   * sit side by side, and its paddings and text sizes are dropped so that
+   * nothing competes with the square. Both halves of that are load-bearing
+   * and neither is visible from this component's own class list.
+   */
+  it('wears Button’s colours without its box', () => {
+    const classes =
+      attribute(
+        openingTag(
+          renderToStaticMarkup(
+            <IconButton icon={<svg />} label="Delete" variant="danger" />
+          ),
+          'button'
+        ),
+        'class'
+      ) ?? ''
+
+    expect(classes).toContain('bg-button-danger')
+    expect(classes).toContain('hover:bg-button-danger-hover')
+    expect(classes.split(' ')).not.toContain('px-4')
+    expect(classes.split(' ')).not.toContain('text-sm')
   })
 })
 

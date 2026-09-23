@@ -1,0 +1,136 @@
+import * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+
+import { buttonVariants } from '@/components/Button'
+import { cn } from '@/lib/utils'
+
+/**
+ * An icon button is a `Button` with the label taken out, so it takes its
+ * colours from `buttonVariants` rather than restating them. That import is
+ * the point rather than an economy: the two sit beside each other in a
+ * toolbar, so a variant that gained a hover state or a focus ring in one and
+ * not the other would be visible in the gap between them.
+ *
+ * `size: null` is how cva is told to skip a variant *and* its default, so
+ * `Button`'s padding and text sizes are left off entirely and the square
+ * below is the only thing setting the box.
+ *
+ * Which is the other half of the borrowing: a `Button`'s height is arithmetic
+ * -- padding plus line box plus border, with compound variants putting
+ * `secondary`'s 2px back -- and there is no line box here to add up, because
+ * there is no text. So the height is set outright, as `Input` sets its own,
+ * and `border-box` absorbs `secondary`'s border rather than a compound
+ * variant having to. The numbers are `Button`'s, measured: an icon button
+ * belongs in a row with one.
+ */
+const iconButtonVariants = cva(['shrink-0', '[&>svg]:shrink-0'], {
+  variants: {
+    /**
+     * The box is square and matches the `Button` of the same name, so the two
+     * line up in a row. `xs` and `sm` are the same 36px box there as well --
+     * what separates them is the size of what is inside, `text-xs` against
+     * `text-sm` in `Button` and a 14px icon against a 16px one here.
+     *
+     * The icon is sized from here rather than left to the caller, so a row of
+     * them agrees without each one repeating an `h-4 w-4` and an icon drawn
+     * at some other size cannot set the row's height. `[&>svg]` is the same
+     * selector `Input` and `Password` size their own icons with. Being a
+     * selector it also outranks a class on the icon itself, so the override
+     * is `[&>svg]:h-6 [&>svg]:w-6` in the button's `className`, which
+     * `tailwind-merge` takes as replacing this rather than joining it.
+     */
+    size: {
+      lg: ['h-12', 'w-12', '[&>svg]:h-5', '[&>svg]:w-5'],
+      md: ['h-10', 'w-10', '[&>svg]:h-4', '[&>svg]:w-4'],
+      sm: ['h-9', 'w-9', '[&>svg]:h-4', '[&>svg]:w-4'],
+      xs: ['h-9', 'w-9', '[&>svg]:h-3.5', '[&>svg]:w-3.5']
+    },
+    shape: {
+      // `Button`'s own corner, so a square icon button beside a text one is
+      // the same shape.
+      rounded: 'rounded-lg',
+      circle: 'rounded-full'
+    }
+  },
+  defaultVariants: {
+    size: 'md',
+    shape: 'rounded'
+  }
+})
+
+interface IconButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>,
+    VariantProps<typeof iconButtonVariants> {
+  /** The icon. It is the whole of the button's content. */
+  icon: React.ReactNode
+  /**
+   * What the button does, in words -- "Close", "Add to basket", not "cross"
+   * or "plus". Required, because there is no text for a screen reader to fall
+   * back on.
+   */
+  label: string
+  variant?: VariantProps<typeof buttonVariants>['variant']
+}
+
+/**
+ * A button whose content is an icon and nothing else: the close on a dialog,
+ * the actions at the end of a table row, a toolbar.
+ *
+ * `label` is required and has no default, which is the one way this differs
+ * from every other prop here. An icon button with no accessible name is a
+ * control a screen reader announces as "button" and nothing more, and unlike
+ * a missing colour it is invisible to everyone who is not affected by it.
+ * There is no name that could be guessed from an icon, so the type asks for
+ * one rather than inventing it (WCAG 4.1.2).
+ *
+ * The icon is left out of the accessibility tree by `aria-label` itself,
+ * which replaces an element's contents when the name is computed, so it needs
+ * no `aria-hidden` of its own. What it must not carry is a `title`: that
+ * would put a second, competing name in the tree and a tooltip the button's
+ * own `Tooltip` did not put there.
+ *
+ * `type` defaults to `"button"`. A bare `<button>` inside a form is a submit
+ * button, and an icon button is most often a close or a remove -- the one
+ * place that default does the most damage.
+ */
+const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
+  (
+    {
+      className,
+      variant,
+      size,
+      shape,
+      icon,
+      label,
+      type = 'button',
+      'aria-label': ariaLabel,
+      ...props
+    },
+    ref
+  ) => (
+    <button
+      ref={ref}
+      type={type}
+      // An `aria-label` of the caller's own wins, and an empty or absent one
+      // falls back rather than being spread over the top of `label` -- a
+      // button holding a required name and then blanking it has only one
+      // reading, and it is not the one where the name goes away silently.
+      // `aria-labelledby` is not weighed against either: it beats them both
+      // wherever it is passed, which is the naming order in the
+      // specification rather than anything decided here.
+      aria-label={ariaLabel || label}
+      className={cn(
+        buttonVariants({ variant, size: null }),
+        iconButtonVariants({ size, shape }),
+        className
+      )}
+      {...props}
+    >
+      {icon}
+    </button>
+  )
+)
+
+IconButton.displayName = 'IconButton'
+
+export { IconButton, iconButtonVariants, type IconButtonProps }
