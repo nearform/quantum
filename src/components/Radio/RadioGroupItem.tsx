@@ -5,8 +5,9 @@ import { cva } from 'class-variance-authority'
 import { BsCircleFill } from '@/assets'
 import { ChoiceItem, resolveAriaInvalid, useChoiceGroup } from '../choice-group'
 
-interface RadioGroupItemProps
-  extends React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> {
+interface RadioGroupItemProps extends React.ComponentPropsWithoutRef<
+  typeof RadioGroupPrimitive.Item
+> {
   label?: React.ReactNode
   /** Hint for this option alone, announced with the radio it belongs to. */
   description?: React.ReactNode

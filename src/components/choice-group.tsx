@@ -106,8 +106,7 @@ const useChoiceGroup = () => React.useContext(ChoiceGroupContext)
 const resolveAriaInvalid = (own: AriaInvalid, groupInvalid: boolean) =>
   assertsInvalid(own) ? own : groupInvalid || undefined
 
-interface ChoiceGroupFieldsetProps
-  extends React.ComponentPropsWithoutRef<'fieldset'> {
+interface ChoiceGroupFieldsetProps extends React.ComponentPropsWithoutRef<'fieldset'> {
   /** The group's name, rendered as its `<legend>`. */
   legend?: React.ReactNode
   /** Hint under the legend, reached through the fieldset's `aria-describedby`. */

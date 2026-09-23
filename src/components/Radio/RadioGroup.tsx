@@ -8,8 +8,9 @@ import {
   choiceGroupItemsVariants
 } from '../choice-group'
 
-interface RadioGroupProps
-  extends React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root> {
+interface RadioGroupProps extends React.ComponentPropsWithoutRef<
+  typeof RadioGroupPrimitive.Root
+> {
   /** The group's name, rendered as its `<legend>`. */
   legend?: React.ReactNode
   /** Hint under the legend, announced when focus enters the group. */

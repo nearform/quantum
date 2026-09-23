@@ -87,7 +87,8 @@ const linkColumnVariants = cva(
 )
 
 interface WebsiteFooterProps
-  extends React.ComponentPropsWithoutRef<'footer'>,
+  extends
+    React.ComponentPropsWithoutRef<'footer'>,
     VariantProps<typeof websiteFooterVariants> {}
 
 const WebsiteFooter = React.forwardRef<HTMLElement, WebsiteFooterProps>(
@@ -101,7 +102,8 @@ const WebsiteFooter = React.forwardRef<HTMLElement, WebsiteFooterProps>(
 )
 
 interface FooterStatementProps
-  extends React.ComponentPropsWithoutRef<'div'>,
+  extends
+    React.ComponentPropsWithoutRef<'div'>,
     VariantProps<typeof footerStatementVariants> {}
 
 const FooterStatement = React.forwardRef<HTMLDivElement, FooterStatementProps>(
@@ -129,7 +131,8 @@ const LinkRow = React.forwardRef<HTMLDivElement, LinkRowProps>(
 )
 
 interface LinkColumnProps
-  extends React.ComponentPropsWithoutRef<'div'>,
+  extends
+    React.ComponentPropsWithoutRef<'div'>,
     VariantProps<typeof linkColumnVariants> {}
 
 const LinkColumn = React.forwardRef<HTMLDivElement, LinkColumnProps>(

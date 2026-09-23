@@ -50,8 +50,10 @@ const passwordVariants = cva(
  * `Input` uses so the two line up in a form. As there, it displaces the HTML
  * attribute of that name, which the `flex-grow` input was overruling anyway.
  */
-interface PasswordProps
-  extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
+interface PasswordProps extends Omit<
+  React.HTMLProps<HTMLInputElement>,
+  'size'
+> {
   formClassName?: string
   variant?: 'primary' | 'error' | 'success'
   size?: 'sm' | 'default' | 'lg'
