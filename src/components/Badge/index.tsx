@@ -97,7 +97,8 @@ const dotVariants = cva(['shrink-0', 'rounded-full', 'bg-current'], {
 })
 
 interface BadgeProps
-  extends React.ComponentPropsWithoutRef<'span'>,
+  extends
+    React.ComponentPropsWithoutRef<'span'>,
     VariantProps<typeof badgeVariants> {
   /** Decorative icon shown before the text. */
   icon?: React.ReactNode
