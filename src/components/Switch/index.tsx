@@ -30,6 +30,7 @@ const switchVariants = cva([
     'dark:disabled:bg-grey-200',
     'dark:focus-visible:border-brandBlue-80',
     'dark:focus-visible:ring-0',
+    'dark:focus-visible:outline-solid',
     'dark:focus-visible:outline-2',
     'dark:focus-visible:outline-offset-2',
     'dark:focus-visible:outline-brandGreen-100'

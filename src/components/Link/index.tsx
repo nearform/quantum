@@ -25,7 +25,7 @@ const Link = React.forwardRef<HTMLAnchorElement, Props>(
     const hoverClasses =
       'hover:bg-grey-100 hover:underline dark:hover:bg-grey-700'
     const focusClasses =
-      'focus:border-brandBlue-100 focus:ring-[3px] focus:ring-brandBlue-10 focus:underline dark:focus:border-brandBlue-80 dark:focus:ring-0 dark:focus:outline-2 dark:focus:outline-offset-2 dark:focus:outline-brandGreen-100'
+      'focus:border-brandBlue-100 focus:ring-[3px] focus:ring-brandBlue-10 focus:underline dark:focus:border-brandBlue-80 dark:focus:ring-0 dark:focus:outline-solid dark:focus:outline-2 dark:focus:outline-offset-2 dark:focus:outline-brandGreen-100'
     const unselectedFocusClasses = 'focus:bg-grey-100 dark:focus:bg-grey-700'
 
     return (

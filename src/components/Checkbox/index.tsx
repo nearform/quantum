@@ -35,6 +35,7 @@ const checkboxVariants = cva(
       'focus-visible:ring-brandBlue-10',
       'dark:focus-visible:border-brandBlue-80',
       'dark:focus-visible:ring-0',
+      'dark:focus-visible:outline-solid',
       'dark:focus-visible:outline-2',
       'dark:focus-visible:outline-offset-2',
       'dark:focus-visible:outline-brandGreen-100'
