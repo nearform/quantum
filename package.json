@@ -9,7 +9,7 @@
       "import": "./dist/tailwind-plugin.mjs",
       "require": "./dist/tailwind-plugin.js"
     },
-    "./dist/global.css": "./dist/global.css"
+    "./global.css": "./dist/global.css"
   },
   "scripts": {
     "prebuild": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
