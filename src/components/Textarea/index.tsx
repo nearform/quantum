@@ -33,14 +33,14 @@ const textareaVariants = cva(
           'dark:focus-within:shadow-brandGreen-10'
         ],
         error: [
-          'border-feedback-red',
-          'text-feedback-red',
+          'border-feedback-error',
+          'text-feedback-error',
           'bg-red-50',
           'hover:border-red-700',
           'focus-within:shadow-red'
         ],
         success: [
-          'border-feedback-green',
+          'border-feedback-success',
           'text-green-700',
           'bg-green-50',
           'hover:border-green-700',

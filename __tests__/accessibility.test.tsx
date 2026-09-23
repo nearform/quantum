@@ -367,7 +367,7 @@ describe('Badge accessibility', () => {
   /**
    * Dark mode is derived rather than designed: the fill drops to the page
    * background so the coloured border keeps carrying the meaning. Tinting the
-   * fill would bury the border in it -- `feedback-red` on `red-900` is
+   * fill would bury the border in it -- `feedback-error` on `red-900` is
    * 1.85:1 -- and leave error and success distinguished by fill alone.
    */
   it('drops the tinted fill in dark mode so the border still reads', () => {
@@ -1659,7 +1659,7 @@ describe('CheckboxGroup accessibility', () => {
 
     openingTags(html, 'button').forEach(button => {
       expect(attribute(button, 'aria-invalid')).toBeTruthy()
-      expect(button).toContain('border-feedback-red')
+      expect(button).toContain('border-feedback-error')
     })
 
     const valid = renderToStaticMarkup(
@@ -1667,7 +1667,7 @@ describe('CheckboxGroup accessibility', () => {
         <CheckboxGroupItem value="email" label="Email" />
       </CheckboxGroup>
     )
-    expect(openingTag(valid, 'button')).not.toContain('border-feedback-red')
+    expect(openingTag(valid, 'button')).not.toContain('border-feedback-error')
   })
 
   /**
@@ -1781,7 +1781,7 @@ describe('RadioGroup accessibility', () => {
     expect(attribute(radio, 'aria-invalid')).toBe('true')
     // The border follows the attribute rather than the group, so the two
     // cannot come apart.
-    expect(radio).toContain('border-feedback-red')
+    expect(radio).toContain('border-feedback-error')
   })
 
   it('describes a single radio with the hint that belongs to it', () => {

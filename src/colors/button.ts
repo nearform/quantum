@@ -92,7 +92,7 @@ export const button = {
     }
   },
   danger: {
-    DEFAULT: feedback.red,
+    DEFAULT: feedback.error,
     hover: {
       DEFAULT: colors.red['700']
     },

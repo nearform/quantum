@@ -54,14 +54,14 @@ const triggerVariants = cva(
         ],
         error: [
           'bg-red-50',
-          'border-feedback-red',
+          'border-feedback-error',
           'hover:border-red-700',
           'focus-visible:shadow-red',
           'text-red-700'
         ],
         success: [
           'bg-green-50',
-          'border-feedback-green',
+          'border-feedback-success',
           'hover:border-green-700',
           'focus-visible:shadow-green',
           'text-green-700'

@@ -59,10 +59,10 @@
   --color-border-focus-dark: #9CA3AF;
   --color-border-subtle: #f4f8fa;
   --color-border-subtle-dark: #374151;
-  --color-feedback-green: #0E9F6E;
-  --color-feedback-yellow: #FACA15;
-  --color-feedback-orange: #FF8A4C;
-  --color-feedback-red: #C81E1E;
+  --color-feedback-success: #0E9F6E;
+  --color-feedback-warning: #FACA15;
+  --color-feedback-danger: #FF8A4C;
+  --color-feedback-error: #C81E1E;
   --color-button-primary: #000e38;
   --color-button-primary-dark: #f4f8fa;
   --color-button-primary-hover: #0c3d60;
