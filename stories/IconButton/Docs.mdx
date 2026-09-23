@@ -163,14 +163,18 @@ already does.
   button's contents when its name is computed, so the icon needs no
   `aria-hidden` — but a `title` on it puts a browser tooltip there that your
   `Tooltip` did not. Nothing type-checks this: `icon` is a `ReactNode`.
-- **A `title` on the button is allowed, and is not how you name it.** `title`
-  is the last resort in the naming order, behind both `aria-label` and the
-  element's contents, so it cannot compete with `label` for the name. It does
-  add a native tooltip that will double up with `Tooltip`, and it is a poor
-  way to name anything — invisible to touch and to the keyboard. It is left
-  available because it is legal HTML with uses of its own, and the one case
-  where it could have become the name is the case where `label` resolved
-  empty, which warns.
+- **`title` is not one of the props.** It is the one attribute of a
+  `<button>` this component takes away. Not because it competes for the name —
+  `title` is the last resort in the naming order, behind both `aria-label` and
+  the element's contents, so while there is a label it never wins — but
+  because everything you would reach for it for is already served better here,
+  and served properly. A tooltip is `Tooltip`, which is reachable by keyboard
+  and by touch as a native one is not. A name is `label`. What `title` adds on
+  top of those is a second tooltip doubling up with the first, and a name
+  appearing out of nowhere in the one case where `label` resolved empty.
+  Passing it is a type error. Only the type stops it, though: a `title`
+  arriving through an untyped spread is still rendered, because deleting an
+  attribute you explicitly set would be the worse surprise.
 - **`aria-labelledby` wins where the name is already on the page**, and an
   `aria-label` of your own overrides `label`. That is the naming order in the
   specification rather than anything this component decides; `label` is simply
@@ -229,9 +233,12 @@ Everything a `<button>` takes, plus:
   </tbody>
 </table>
 
-`children` is deliberately not one of them. An icon button holds an icon, and
-a button holding text is a [Button](?path=/docs/form-button--docs), which
-takes an icon beside its label through `leftSideChild` and `rightSideChild`.
+`children` and `title` are deliberately not among them. An icon button holds
+an icon, and a button holding text is a
+[Button](?path=/docs/form-button--docs), which takes an icon beside its label
+through `leftSideChild` and `rightSideChild`. For `title`, see the
+accessibility notes above — `Tooltip` and `label` between them cover what it
+would have been for.
 
 ## Usage
 

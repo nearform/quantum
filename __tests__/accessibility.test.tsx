@@ -533,6 +533,31 @@ describe('IconButton accessibility', () => {
   })
 
   /**
+   * `title` is the one prop of a `<button>` this component takes away. Not
+   * because it competes for the name -- it is the last resort in the naming
+   * order, behind both `aria-label` and the contents, so while there is a
+   * label it never wins -- but because every reason to reach for it here is
+   * already served better: a tooltip is `Tooltip`, reachable by keyboard and
+   * by touch as a native one is not, and a name is `label`.
+   *
+   * There is nothing to assert at runtime, so the lock is the compiler. If
+   * `title` is ever allowed back into the props, this directive stops
+   * suppressing anything and `tsc` fails on the unused `@ts-expect-error`,
+   * which `npm run typecheck` runs over this directory.
+   */
+  it('refuses a title at the type level', () => {
+    const html = renderToStaticMarkup(
+      // @ts-expect-error -- `title` is deliberately not one of the props
+      <IconButton icon={<svg />} label="Delete article" title="Delete" />
+    )
+
+    // Only the type stops it: a `title` arriving through an untyped spread is
+    // still rendered, because deleting an attribute a caller explicitly set
+    // is a worse surprise than passing it through.
+    expect(attribute(openingTag(html, 'button'), 'title')).toBe('Delete')
+  })
+
+  /**
    * The rest of the library stays silent, and the line between it and this is
    * worth holding to. What the other components cannot express is contextual
    * -- whether the page holds a second `ButtonGroup`, whether the heading

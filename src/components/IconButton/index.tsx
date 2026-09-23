@@ -59,7 +59,10 @@ const iconButtonVariants = cva(['shrink-0', '[&>svg]:shrink-0'], {
 })
 
 interface IconButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>,
+  extends Omit<
+      React.ButtonHTMLAttributes<HTMLButtonElement>,
+      'children' | 'title'
+    >,
     VariantProps<typeof iconButtonVariants> {
   /** The icon. It is the whole of the button's content. */
   icon: React.ReactNode
@@ -90,15 +93,21 @@ interface IconButtonProps
  * `Tooltip` did not put there. That one is unreachable from here: `icon` is a
  * `ReactNode`, so there is nothing to type-check.
  *
- * A `title` on the button itself is a different thing and is deliberately
- * left available. It does not become the name while there is a label to
- * compute one from -- `title` is the last resort in the naming order, behind
- * both `aria-label` and the contents -- so it cannot compete with `label`. It
- * does add a native tooltip, which will double up with `Tooltip`, and it is a
- * poor way to name anything, being invisible to touch and to the keyboard.
- * But it is legal HTML with uses of its own, and the one case where it could
- * have become the name is the case where `label` resolved empty, which now
- * warns in development. So it is documented rather than banned.
+ * `title` is off the button as well, which is the one prop of a `<button>`
+ * this component takes away. It is not that it competes for the name --
+ * `title` is the last resort in the naming order, behind both `aria-label`
+ * and the contents, so while there is a label it never wins. It is that every
+ * reason to reach for it here is already served by something better, and
+ * served properly: a tooltip is `Tooltip`, which is reachable by keyboard and
+ * by touch as a native one is not, and a name is `label`. What is left is a
+ * second tooltip doubling up with the first, and a name that appears out of
+ * nowhere in the one case where `label` resolved empty. Neither is worth a
+ * prop, so the type stops it at the point where it can still be changed
+ * cheaply.
+ *
+ * Only the type stops it. A `title` arriving through an untyped spread is
+ * passed to the element like any other attribute, because deleting an
+ * attribute a caller explicitly set is a worse surprise than rendering it.
  *
  * `type` defaults to `"button"`. A bare `<button>` inside a form is a submit
  * button, and an icon button is most often a close or a remove -- the one
