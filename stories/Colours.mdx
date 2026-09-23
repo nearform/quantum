@@ -57,6 +57,32 @@ values themselves are left alone: an app may be using any of them away from its
 own `-100`, and moving them to fix one pairing would shift every other use of
 the colour.
 
+### A feedback descriptor on a dark surface
+
+The light half of a feedback descriptor is chosen against a white page, and
+three of the four do not survive a black one. Write the `dark:` counterpart —
+the whole point of the pair is that you do not have to work out which weight it
+should be:
+
+| Descriptor | Light half | Worst dark surface | Dark half | Worst dark surface |
+| --- | --- | --- | --- | --- |
+| `success` | `green-500` | 3.04:1 ✗ | `green-300` | 6.62:1 ✓ |
+| `warning` | `yellow-300` | 6.64:1 ✓ | `yellow-300` | 6.64:1 ✓ |
+| `danger` | `orange-400` | 4.41:1 ✗ | `orange-300` | 6.17:1 ✓ |
+| `error` | `red-700` | 1.80:1 ✗ | `red-300` | 5.98:1 ✓ |
+
+"Worst dark surface" is the lowest of `background`, `background-alt` and
+`background-subtle` in dark mode, and ✓ is the 4.5:1 of 1.4.3. The dark halves
+are held to the text figure rather than the 3:1 a border owes under 1.4.11
+because the same four tokens are written both ways, and a descriptor should not
+need checking against which of the two a component picked. `warning`'s light
+half already sits at `-300`, so its two halves are the same value.
+
+`error` is the one to watch: at 1.80:1 on `background-alt-dark` it is close to
+invisible, so a light-only `text-feedback-error` inside a dark card is a message
+that is not there. `__tests__/contrast.test.ts` holds the dark halves to the
+figures above, but nothing can make a component reach for them.
+
 ## Base Colours
 
 Two stops carry values from the rebrand rather than their Flowbite-derived
@@ -95,16 +121,13 @@ The four feedback descriptors name the role the colour plays rather than the hue
 it carries, so a control reaches for them by what it means (`border-feedback-success`,
 `text-feedback-error`) and not what it looks like.
 
-<ColorPalette>
-  {Object.entries(aliasColors.feedback).map(([token, value], index) => (
-    <ColorItem
-      key={index}
-      index={index}
-      title={`feedback-${token}`}
-      colors={{ DEFAULT: value }}
-    />
-  ))}
-</ColorPalette>
+Each one is a light/dark pair like the rest of the theme, so a variant writes
+`border-feedback-error dark:border-feedback-error-dark` and is done. The dark
+half is the `-300` stop of the same ramp in every case — see [A feedback
+descriptor on a dark surface](#a-feedback-descriptor-on-a-dark-surface) for why
+it is that weight and not a nearer one.
+
+<ColorWrapper darkMode={true} colorPalette={aliasColors.feedback} />
 ### Background
 <ColorWrapper darkMode={true} colorPalette={aliasColors.background} />
 
@@ -131,8 +154,18 @@ it carries, so a control reaches for them by what it means (`border-feedback-suc
 ### Tertiary
 <ColorWrapper darkMode={true} colorPalette={aliasColors.button.tertiary} />
 ### Success
-<ColorWrapper darkMode={false} colorPalette={aliasColors.button.success} />
+
+White on all three of the resting, hover and focus states clears AA on a black
+page as readily as on a white one, so the variant keeps its light colours in
+dark mode. `disabled` is the exception: at `grey-50` it is a near-white pill on
+a black page, so it takes `background-subtle-dark` — the same surface the
+primary, secondary and tertiary variants disable onto.
+
+<ColorWrapper darkMode={true} colorPalette={aliasColors.button.success} />
 
 ### Danger
 
-<ColorWrapper darkMode={false} colorPalette={aliasColors.button.danger} />
+Reads in dark mode for the same reason `success` does, and disables onto the
+same surface.
+
+<ColorWrapper darkMode={true} colorPalette={aliasColors.button.danger} />

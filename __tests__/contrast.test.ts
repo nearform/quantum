@@ -2,6 +2,8 @@ import { describe, expect, it } from '@jest/globals'
 
 import { colors } from '../src/colors/base'
 import { background } from '../src/colors/background'
+import { button } from '../src/colors/button'
+import { feedback } from '../src/colors/feedback'
 import { foreground } from '../src/colors/foreground'
 
 /**
@@ -162,5 +164,36 @@ describe('a -600 foreground on a -100 background', () => {
       .filter(({ ratio }) => ratio < AA_TEXT)
 
     expect(short).toEqual([])
+  })
+})
+
+describe('feedback descriptors in dark mode', () => {
+  const descriptors = Object.entries(feedback)
+
+  it.each(descriptors)('%s has a dark half', (_name, descriptor) => {
+    expect(descriptor).toHaveProperty('dark')
+  })
+
+  it.each(
+    descriptors.flatMap(([name, descriptor]) =>
+      surfaceCases('dark').map(
+        ([surface, hex]) =>
+          [`${name} on ${surface}`, descriptor.dark, hex] as const
+      )
+    )
+  )('clears AA for %s', (_case, token, surface) => {
+    expect(ratioOf(token, surface)).toBeGreaterThanOrEqual(AA_TEXT)
+  })
+})
+
+describe('disabled success and danger Buttons in dark mode', () => {
+  it.each([
+    ['success', button.success.disabled],
+    ['danger', button.danger.disabled]
+  ])('disables %s onto a dark surface', (_variant, disabled) => {
+    expect(disabled.dark).toBe(background.subtle.dark)
+    expect(
+      ratioOf(foreground.subtle.dark, disabled.dark)
+    ).toBeGreaterThanOrEqual(AA_NON_TEXT)
   })
 })

@@ -14,10 +14,11 @@ import { cn } from '@/lib/utils'
  * has to be treated as a special case.
  *
  * Dark mode is not in the design file, so it is derived: the fill drops to the
- * page background and the border keeps its colour and goes on carrying the
- * meaning. Tinting the fill instead would have been prettier and would have
- * hidden the border in it -- `feedback-error` on `red-900` is 1.85:1, which
- * would leave error and success telling themselves apart by fill alone.
+ * page background, the border takes the dark half of its descriptor, and the
+ * border goes on carrying the meaning. Tinting the fill instead would have
+ * been prettier and would have hidden the border in it -- `feedback-error` on
+ * `red-900` is 1.85:1, which would leave error and success telling themselves
+ * apart by fill alone.
  */
 const badgeVariants = cva(
   [
@@ -41,9 +42,21 @@ const badgeVariants = cva(
           'dark:border-border-subtle-dark'
         ],
         info: ['bg-blue-50', 'border-blue-500'],
-        success: ['bg-green-50', 'border-feedback-success'],
-        warning: ['bg-yellow-50', 'border-feedback-warning'],
-        error: ['bg-red-50', 'border-feedback-error'],
+        success: [
+          'bg-green-50',
+          'border-feedback-success',
+          'dark:border-feedback-success-dark'
+        ],
+        warning: [
+          'bg-yellow-50',
+          'border-feedback-warning',
+          'dark:border-feedback-warning-dark'
+        ],
+        error: [
+          'bg-red-50',
+          'border-feedback-error',
+          'dark:border-feedback-error-dark'
+        ],
         // The two flat variants keep `border-2` and paint it out rather than
         // dropping it, so they stay exactly the same size as the bordered ones
         // and a row of mixed badges still lines up.

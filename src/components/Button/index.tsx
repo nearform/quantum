@@ -112,7 +112,8 @@ const buttonVariants = cva(
           'focus:shadow-green',
           'active:shadow-none',
           'disabled:bg-button-success-disabled',
-          'disabled:text-foreground-subtle'
+          'disabled:text-foreground-subtle',
+          'dark:disabled:bg-button-success-disabled-dark'
         ],
         danger: [
           'bg-button-danger',
@@ -122,7 +123,8 @@ const buttonVariants = cva(
           'focus:shadow-red',
           'active:shadow-none',
           'disabled:bg-button-danger-disabled',
-          'disabled:text-foreground-subtle'
+          'disabled:text-foreground-subtle',
+          'dark:disabled:bg-button-danger-disabled-dark'
         ]
       },
       size: {

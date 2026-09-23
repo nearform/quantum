@@ -37,14 +37,20 @@ const textareaVariants = cva(
           'text-feedback-error',
           'bg-red-50',
           'hover:border-red-700',
-          'focus-within:shadow-red'
+          'focus-within:shadow-red',
+          'dark:border-feedback-error-dark',
+          'dark:text-feedback-error-dark',
+          'dark:bg-background-alt-dark'
         ],
         success: [
           'border-feedback-success',
           'text-green-700',
           'bg-green-50',
           'hover:border-green-700',
-          'focus-within:shadow-green'
+          'focus-within:shadow-green',
+          'dark:border-feedback-success-dark',
+          'dark:text-feedback-success-dark',
+          'dark:bg-background-alt-dark'
         ],
         disabled: [
           'bg-background-subtle',

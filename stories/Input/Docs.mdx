@@ -208,6 +208,17 @@ overruling it anyway.
   </tbody>
 </table>
 
+## Dark mode
+
+Toggle the theme in the toolbar to see it.
+
+The `error` and `success` variants drop their `-50` fill to
+`background-alt-dark` — the surface the resting field already uses — and the
+border and text take the dark half of their descriptor. The light weights are
+picked against a white page and do not survive a black one: `feedback-error` is
+1.80:1 on `background-alt-dark`, so the field that says something is wrong would
+be the one you could not read.
+
 ## Accessibility
 
 - The clear button has no text, so it carries an accessible name of its own.
