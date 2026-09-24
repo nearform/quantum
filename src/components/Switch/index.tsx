@@ -25,8 +25,8 @@ const switchVariants = cva([
     'disabled:cursor-not-allowed'
   ],
   [
-    'dark:enabled:data-[state=checked]:bg-accent-dark',
-    'dark:enabled:bg-foreground-subtle-dark',
+    'dark:enabled:data-[state=checked]:bg-brandGreen-100',
+    'dark:enabled:bg-brandMidnight-30',
     'dark:disabled:bg-grey-200',
     'dark:focus-visible:border-brandBlue-80',
     'dark:focus-visible:ring-0',
@@ -36,9 +36,9 @@ const switchVariants = cva([
     'dark:focus-visible:outline-brandGreen-100'
   ],
   [
-    'enabled:data-[state=checked]:bg-accent',
-    'enabled:bg-foreground-subtle',
-    'disabled:bg-grey-200'
+    'enabled:data-[state=checked]:bg-brandGreen-100',
+    'enabled:bg-brandGrey-30',
+    'disabled:bg-brandGrey-10'
   ]
 ])
 
@@ -58,14 +58,14 @@ const Switch = React.forwardRef<
         'h-4',
         'w-4',
         'rounded-full',
-        'bg-background',
+        'bg-brandMidnight-100',
         'ring-0',
         'transition-transform ',
         'data-[state=checked]:translate-x-[22px]',
         'data-[state=unchecked]:translate-x-[2px]',
-        'data-[disabled]:bg-grey-300',
-        'dark:bg-black',
-        'dark:data-[disabled]:bg-grey-300'
+        'data-[disabled]:bg-brandMidnight-30',
+        'dark:bg-brandMidnight-100',
+        'dark:data-[disabled]:bg-brandMidnight-30'
       ])}
     />
   </SwitchPrimitives.Root>

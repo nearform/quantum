@@ -187,14 +187,13 @@ const ChoiceGroupFieldset = React.forwardRef<
           its type identical to the labels on the options below it.
         */}
         {legend && (
-          <Label asChild>
-            <legend
-              className={cn(
-                'p-0',
-                description ? 'mb-1' : 'mb-3',
-                disabled && 'opacity-70'
-              )}
-            >
+          <Label
+            asChild
+            className={cn(
+              disabled && 'text-brandMidnight-30 dark:text-brandMidnight-50'
+            )}
+          >
+            <legend className={cn('p-0', description ? 'mb-1' : 'mb-3')}>
               {legend}
             </legend>
           </Label>
@@ -265,14 +264,15 @@ const ChoiceItem: React.FC<ChoiceItemProps> = ({
         <Label
           htmlFor={controlId}
           align={labelPosition === 'left' ? 'right' : 'left'}
-          // The library's disabled label treatment, applied here rather than
-          // left to `Label`'s own `peer-disabled:`, which needs the control to
-          // be the label's previous sibling -- here it is a sibling of this
-          // wrapper. The hint below is deliberately not dimmed with it: at 70%
-          // `foreground-muted` is 3.5:1, and on a disabled option the hint is
-          // usually the reason it is disabled, which is the one line that has
-          // to stay readable.
-          className={cn(disabled && 'opacity-70')}
+          // Applied here rather than left to `Label`'s own `peer-disabled:`,
+          // which needs the control to be the label's previous sibling -- here
+          // it is a sibling of this wrapper. The colour is the brand's solid
+          // midnight-30, not an opacity of the live label: 70% of midnight is
+          // a different colour. The hint below stays at full strength, because
+          // on a disabled option it is usually the reason it is disabled.
+          className={cn(
+            disabled && 'text-brandMidnight-30 dark:text-brandMidnight-50'
+          )}
         >
           {label}
         </Label>

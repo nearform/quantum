@@ -21,14 +21,28 @@ const checkboxVariants = cva(
       'p-0.5',
       'shrink-0',
       'gap-0',
-      'rounded',
+      'rounded-brandXs',
       'border',
-      'bg-background-alt',
-      // The same dimming `Radio` has always had. Without it a disabled box was
-      // indistinguishable from a live one -- only its label dimmed, which
-      // reads as the label being disabled rather than the control.
-      'disabled:opacity-50',
+      'bg-white',
+      // A solid midnight-30 treatment, the same one the label uses. Opacity
+      // would wash the box into a different colour than that text.
       'disabled:cursor-not-allowed',
+      'disabled:border-brandMidnight-30',
+      'disabled:bg-brandMidnight-10',
+      'disabled:data-[state=checked]:border-brandMidnight-30',
+      'disabled:data-[state=checked]:bg-brandMidnight-30',
+      'disabled:data-[state=checked]:text-white',
+      'disabled:data-[state=indeterminate]:border-brandMidnight-30',
+      'disabled:data-[state=indeterminate]:bg-brandMidnight-30',
+      'disabled:data-[state=indeterminate]:text-white',
+      'dark:disabled:border-brandMidnight-50',
+      'dark:disabled:bg-brandDark-raised',
+      'dark:disabled:data-[state=checked]:border-brandMidnight-50',
+      'dark:disabled:data-[state=checked]:bg-brandMidnight-50',
+      'dark:disabled:data-[state=checked]:text-brandMidnight-100',
+      'dark:disabled:data-[state=indeterminate]:border-brandMidnight-50',
+      'dark:disabled:data-[state=indeterminate]:bg-brandMidnight-50',
+      'dark:disabled:data-[state=indeterminate]:text-brandMidnight-100',
       'focus-visible:outline-hidden',
       'focus-visible:border-brandBlue-100',
       'focus-visible:ring-[3px]',
@@ -41,14 +55,19 @@ const checkboxVariants = cva(
       'dark:focus-visible:outline-brandGreen-100'
     ],
     [
-      'data-[state=checked]:bg-border',
-      'data-[state=checked]:text-foreground-inverse',
-      'data-[state=indeterminate]:bg-border',
-      'data-[state=indeterminate]:text-foreground-inverse'
+      'data-[state=checked]:bg-brandMidnight-100',
+      'data-[state=checked]:border-brandMidnight-100',
+      'data-[state=checked]:text-white',
+      'data-[state=indeterminate]:bg-brandMidnight-100',
+      'data-[state=indeterminate]:border-brandMidnight-100',
+      'data-[state=indeterminate]:text-white'
     ],
     [
-      'dark:data-[state=unchecked]:bg-background-alt-dark',
-      'dark:data-[state=checked]:bg-border-dark'
+      'dark:data-[state=unchecked]:bg-brandDark-surface',
+      'dark:data-[state=checked]:bg-brandGreen-100',
+      'dark:data-[state=checked]:text-brandMidnight-100',
+      'dark:data-[state=indeterminate]:bg-brandGreen-100',
+      'dark:data-[state=indeterminate]:text-brandMidnight-100'
     ]
   ],
   {
@@ -67,12 +86,13 @@ const checkboxVariants = cva(
        * surface a card puts under it.
        */
       invalid: {
-        true: ['border-feedback-red', 'dark:border-red-400'],
+        true: ['border-feedback-danger', 'dark:border-feedback-dangerDark'],
         false: [
-          'border-border',
-          'data-[state=checked]:border-border',
-          'dark:data-[state=unchecked]:border-border-dark',
-          'dark:data-[state=checked]:border-border-dark'
+          'border-brandMidnight-100',
+          'data-[state=checked]:border-brandMidnight-100',
+          'dark:data-[state=unchecked]:border-brandMidnight-30',
+          'dark:data-[state=checked]:border-brandGreen-100',
+          'dark:data-[state=indeterminate]:border-brandGreen-100'
         ]
       }
     },

@@ -23,11 +23,19 @@ const radioVariant = cva(
     [
       'h-5 w-5',
       'rounded-full',
-      'border-[0.533px]',
-      'bg-background-alt',
-      'disabled:opacity-50',
+      'border',
+      'bg-white',
       'disabled:cursor-not-allowed',
-      'text-foreground-inverse',
+      'disabled:border-brandMidnight-30',
+      'disabled:bg-brandMidnight-10',
+      'disabled:data-[state=checked]:border-brandMidnight-30',
+      'disabled:data-[state=checked]:bg-brandMidnight-30',
+      'dark:disabled:border-brandMidnight-50',
+      'dark:disabled:bg-brandDark-raised',
+      'dark:disabled:data-[state=checked]:border-brandMidnight-50',
+      'dark:disabled:data-[state=checked]:bg-brandMidnight-50',
+      'dark:disabled:data-[state=checked]:text-brandMidnight-100',
+      'text-white',
       'focus-visible:outline-hidden',
       'focus-visible:border-brandBlue-100',
       'focus-visible:ring-[3px]',
@@ -39,18 +47,27 @@ const radioVariant = cva(
       'dark:focus-visible:outline-offset-2',
       'dark:focus-visible:outline-brandGreen-100'
     ],
-    ['data-[state=checked]:bg-border'],
-    ['dark:bg-background-alt-dark', 'dark:data-[state=checked]:bg-border-dark']
+    [
+      'data-[state=checked]:bg-brandMidnight-100',
+      'data-[state=checked]:border-brandMidnight-100'
+    ],
+    [
+      'dark:bg-brandDark-surface',
+      'dark:data-[state=checked]:bg-brandGreen-100',
+      'dark:data-[state=checked]:border-brandGreen-100',
+      'dark:data-[state=checked]:text-brandMidnight-100'
+    ]
   ],
   {
     variants: {
       /** Driven by the radio's own `aria-invalid`. See `Checkbox`. */
       invalid: {
-        true: ['border-feedback-red', 'dark:border-red-400'],
+        true: ['border-feedback-danger', 'dark:border-feedback-dangerDark'],
         false: [
-          'border-border',
-          'data-[state=checked]:border-border',
-          'dark:border-border-dark'
+          'border-brandMidnight-100',
+          'data-[state=checked]:border-brandMidnight-100',
+          'dark:border-brandMidnight-30',
+          'dark:data-[state=checked]:border-brandGreen-100'
         ]
       }
     },

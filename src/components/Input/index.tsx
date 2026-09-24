@@ -48,30 +48,38 @@ const formVariants = cva(
   [
     'flex',
     'border',
-    'border-2',
-    'rounded-lg',
+    'rounded-brandControl',
     'overflow-hidden',
     'px-3',
     'items-center',
     'gap-1.5',
-    '[&:has(:disabled)]:border-none'
+    // Brand disabled fields keep the 1px border and swap to a solid
+    // midnight-10 fill with midnight-30 text. Opacity would wash that text
+    // into a different colour than the one the brand specifies.
+    '[&:has(:disabled)]:bg-brandMidnight-10',
+    '[&:has(:disabled)]:text-brandMidnight-30',
+    '[&:has(:disabled)]:cursor-not-allowed',
+    '[&:has(:disabled)]:hover:border-brandGrey-30',
+    'dark:[&:has(:disabled)]:bg-brandDark-raised',
+    'dark:[&:has(:disabled)]:text-brandMidnight-50',
+    'dark:[&:has(:disabled)]:hover:border-brandDark-border'
   ],
   {
     variants: {
       variant: {
         primary: [
-          'border-border-subtle',
-          'dark:border-border-subtle-dark',
-          'bg-background-alt',
-          'dark:bg-background-alt-dark',
-          'hover:border-border-hover',
+          'border-brandGrey-30',
+          'bg-white',
+          'text-brandMidnight-100',
+          'dark:border-brandDark-border',
+          'dark:bg-brandDark-surface',
+          'dark:text-white',
+          'hover:border-brandGrey-80',
           'hover:focus-within:border-brandBlue-100',
           'dark:hover:focus-within:border-brandBlue-80',
           'focus-within:border-brandBlue-100',
           'focus-within:ring-[3px]',
           'focus-within:ring-brandBlue-10',
-          'text-foreground-muted',
-          'dark:text-foreground-muted-dark',
           'dark:focus-within:border-brandBlue-80',
           'dark:focus-within:ring-0',
           'dark:focus-within:outline-solid',
@@ -80,17 +88,17 @@ const formVariants = cva(
           'dark:focus-within:outline-brandGreen-100'
         ],
         error: [
-          'border-feedback-red',
-          'text-feedback-red',
-          'bg-red-50',
-          'hover:border-red-700',
+          'border-feedback-danger',
+          'text-feedback-danger',
+          'bg-feedback-danger10',
+          'hover:border-feedback-danger',
           'focus-within:shadow-red'
         ],
         success: [
-          'border-feedback-green',
-          'text-feedback-green',
-          'bg-green-50',
-          'hover:border-green-700',
+          'border-feedback-success',
+          'text-feedback-success',
+          'bg-feedback-success10',
+          'hover:border-feedback-success',
           'focus-within:shadow-green'
         ]
       },
@@ -101,9 +109,9 @@ const formVariants = cva(
        * filed and is 52px today. The design has no size that follows the text
        * like that.
        *
-       * So they are heights rather than a padding that adds up to one. That
-       * also fixes the disabled field, which drops its 2px border and was 4px
-       * shorter than every other field because of it.
+       * So they are heights rather than a padding that adds up to one. A
+       * disabled field keeps this height and its 1px border; dropping the
+       * border used to leave it 4px shorter than every other field.
        *
        * The two of them match `Select`'s `sm` and `lg` to the pixel, which is
        * what lets a select and an input sit next to each other in a row. The
@@ -118,7 +126,7 @@ const formVariants = cva(
        */
       size: {
         sm: ['h-[37px]'],
-        default: ['h-[42px]'],
+        default: ['h-10'],
         lg: ['h-[48px]']
       }
     },
@@ -129,13 +137,27 @@ const formVariants = cva(
 )
 
 const inputVariants = cva(
-  ['flex', 'flex-grow', 'items-center', 'outline-hidden', 'bg-transparent'],
+  [
+    'flex',
+    'flex-grow',
+    'items-center',
+    'outline-hidden',
+    'bg-transparent',
+    'disabled:text-brandMidnight-30',
+    'disabled:placeholder:text-brandMidnight-30',
+    'dark:disabled:text-brandMidnight-50',
+    'dark:disabled:placeholder:text-brandMidnight-50'
+  ],
   {
     variants: {
       variant: {
-        primary: ['text-foreground', 'dark:text-foreground-dark'],
-        error: ['text-feedback-red'],
-        success: ['text-green-700']
+        primary: [
+          'text-brandMidnight-100',
+          'dark:text-white',
+          'placeholder:text-brandMidnight-30'
+        ],
+        error: ['text-feedback-danger', 'placeholder:text-feedback-danger'],
+        success: ['text-feedback-success', 'placeholder:text-feedback-success']
       }
     },
     defaultVariants: {
@@ -241,6 +263,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           type="button"
           onClick={onClear}
           aria-label={clearLabel}
+          disabled={props.disabled}
           className={rightSideVariants()}
         >
           {rightSideComponent}
@@ -257,7 +280,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {labelText && (
           <label
             htmlFor={inputId}
-            className="text-m text-foreground dark:text-foreground-dark"
+            className={cn(
+              'text-label font-medium text-brandMidnight-100 dark:text-white',
+              props.disabled &&
+                'text-brandMidnight-30 dark:text-brandMidnight-50'
+            )}
           >
             {labelText}
           </label>
@@ -266,7 +293,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {helpText && (
           <span
             id={helpTextId}
-            className="text-sm text-foreground-muted dark:text-foreground-muted-dark"
+            className="text-caption text-brandMidnight-50 dark:text-brandMidnight-30"
           >
             {helpText}
           </span>

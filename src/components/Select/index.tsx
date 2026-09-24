@@ -21,18 +21,24 @@ const triggerVariants = cva(
     [
       'flex',
       'w-full',
-      'border border-[2px]',
-      'text-foreground',
+      'border',
       'items-center',
       'justify-between',
-      'rounded-lg',
+      'rounded-brandControl',
       'px-3',
       'py-2',
       'text-sm',
       'focus:outline-hidden',
-      'focus-visible:shadow-blue',
       'disabled:cursor-not-allowed',
-      'disabled:opacity-50',
+      'disabled:bg-brandMidnight-10',
+      'disabled:text-brandMidnight-30',
+      'disabled:border-brandGrey-30',
+      'disabled:hover:border-brandGrey-30',
+      'disabled:hover:text-brandMidnight-30',
+      'dark:disabled:bg-brandDark-raised',
+      'dark:disabled:text-brandMidnight-50',
+      'dark:disabled:border-brandDark-border',
+      'dark:disabled:hover:border-brandDark-border',
       '[&>span]:line-clamp-1'
     ]
   ],
@@ -40,17 +46,17 @@ const triggerVariants = cva(
     variants: {
       variant: {
         default: [
-          'text-foreground',
-          'border-border-subtle',
-          'bg-grey-100',
-          'hover:border-border-hover',
-          'hover:text-foreground',
+          'text-brandMidnight-100',
+          'border-brandGrey-30',
+          'bg-white',
+          'hover:border-brandGrey-80',
+          'hover:text-brandMidnight-100',
           'focus-visible:border-brandBlue-100',
           'focus-visible:ring-[3px]',
           'focus-visible:ring-brandBlue-10',
-          'dark:bg-background-alt-dark',
-          'dark:border-border-subtle-dark',
-          'dark:text-foreground-muted-dark',
+          'dark:bg-brandDark-surface',
+          'dark:border-brandDark-border',
+          'dark:text-white',
           'data-[placeholder]:text-foreground-muted',
           'dark:focus-visible:border-brandBlue-80',
           'dark:focus-visible:ring-0',
@@ -60,23 +66,23 @@ const triggerVariants = cva(
           'dark:focus-visible:outline-brandGreen-100'
         ],
         error: [
-          'bg-red-50',
-          'border-feedback-red',
-          'hover:border-red-700',
+          'bg-feedback-danger10',
+          'border-feedback-danger',
+          'hover:border-feedback-danger',
           'focus-visible:shadow-red',
-          'text-red-700'
+          'text-feedback-danger'
         ],
         success: [
-          'bg-green-50',
-          'border-feedback-green',
-          'hover:border-green-700',
+          'bg-feedback-success10',
+          'border-feedback-success',
+          'hover:border-feedback-success',
           'focus-visible:shadow-green',
-          'text-green-700'
+          'text-feedback-success'
         ]
       },
       size: {
-        sm: ['h-[37px]'],
-        lg: ['h-[42px]']
+        sm: ['h-10'],
+        lg: ['h-12']
       }
     },
     defaultVariants: {
@@ -191,7 +197,8 @@ const itemVariants = cva([
     'text-sm',
     'outline-hidden',
     'data-[disabled]:pointer-events-none',
-    'data-[disabled]:opacity-50',
+    'data-[disabled]:text-brandMidnight-30',
+    'dark:data-[disabled]:text-brandMidnight-50',
     'hover:bg-background-alt',
     'data-[highlighted]:bg-background-alt',
     'data-[highlighted]:outline-2',

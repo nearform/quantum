@@ -70,7 +70,11 @@ const messageVariants = cva(['text-xs'], {
       // on any of the three surfaces: `red-400` is 4.14:1 on
       // `background-alt-dark` and would fail 1.4.3 inside a dark card, where
       // `red-300` is 5.98:1 at its worst and 12.18:1 at its best.
-      error: ['font-medium', 'text-feedback-red', 'dark:text-red-300']
+      error: [
+        'font-medium',
+        'text-feedback-danger',
+        'dark:text-feedback-dangerDark'
+      ]
     }
   },
   defaultVariants: {
@@ -338,7 +342,7 @@ const FormGroup = React.forwardRef<HTMLDivElement, FormGroupProps>(
           htmlFor: own.htmlFor ?? fieldId,
           className: cn(
             horizontal && 'col-start-1 row-start-1 pe-3',
-            disabled && 'opacity-70',
+            disabled && 'text-brandMidnight-30 dark:text-brandMidnight-50',
             own.className
           )
         } as Partial<typeof own>)

@@ -1401,7 +1401,7 @@ describe('CheckboxGroup accessibility', () => {
 
     openingTags(html, 'button').forEach(button => {
       expect(attribute(button, 'aria-invalid')).toBeTruthy()
-      expect(button).toContain('border-feedback-red')
+      expect(button).toContain('border-feedback-danger')
     })
 
     const valid = renderToStaticMarkup(
@@ -1409,7 +1409,7 @@ describe('CheckboxGroup accessibility', () => {
         <CheckboxGroupItem value="email" label="Email" />
       </CheckboxGroup>
     )
-    expect(openingTag(valid, 'button')).not.toContain('border-feedback-red')
+    expect(openingTag(valid, 'button')).not.toContain('border-feedback-danger')
   })
 
   /**
@@ -1523,7 +1523,7 @@ describe('RadioGroup accessibility', () => {
     expect(attribute(radio, 'aria-invalid')).toBe('true')
     // The border follows the attribute rather than the group, so the two
     // cannot come apart.
-    expect(radio).toContain('border-feedback-red')
+    expect(radio).toContain('border-feedback-danger')
   })
 
   it('describes a single radio with the hint that belongs to it', () => {

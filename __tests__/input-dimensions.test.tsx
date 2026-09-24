@@ -54,10 +54,10 @@ const clearButton = (element: React.ReactElement) =>
   classesOf(element, 'button', 0)
 
 describe('Input dimensions', () => {
-  it('is 42px tall by default', () => {
+  it('is 40px tall by default', () => {
     expect(
       field(<Input type="text" variant="primary" onClear={() => {}} />)
-    ).toContain('h-[42px]')
+    ).toContain('h-10')
   })
 
   it('is 37px tall at the small size', () => {
@@ -76,12 +76,12 @@ describe('Input dimensions', () => {
     ).toContain('h-[48px]')
   })
 
-  it('keeps its height when the field is disabled and drops its border', () => {
-    // `[&:has(:disabled)]:border-none` takes 4px off the box, which is what
-    // used to leave a disabled field shorter than every other one.
+  it('keeps its height when the field is disabled', () => {
+    // The height is set on the field, so the disabled fill does not change it.
+    // Dropping the border used to leave a disabled field shorter than the rest.
     expect(
       field(<Input type="text" variant="primary" disabled onClear={() => {}} />)
-    ).toContain('h-[42px]')
+    ).toContain('h-10')
   })
 
   it('lets a caller replace the height rather than adding to it', () => {
@@ -95,7 +95,7 @@ describe('Input dimensions', () => {
     )
 
     expect(rendered).toContain('h-[50px]')
-    expect(rendered).not.toContain('h-[42px]')
+    expect(rendered).not.toContain('h-10')
   })
 
   it('sizes the leading icon at 16px, whoever supplied it', () => {
@@ -138,7 +138,7 @@ describe('Input dimensions', () => {
 
 describe('Password dimensions', () => {
   it('takes the same three heights as Input', () => {
-    expect(field(<Password />)).toContain('h-[42px]')
+    expect(field(<Password />)).toContain('h-10')
     expect(field(<Password size="sm" />)).toContain('h-[37px]')
     expect(field(<Password size="lg" />)).toContain('h-[48px]')
   })

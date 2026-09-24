@@ -19,7 +19,7 @@ const meta = {
     size: {
       options: ['sm', 'default', 'lg'],
       control: 'inline-radio',
-      description: 'The height of the field: 37px, 42px or 48px'
+      description: 'The height of the field: 37px, 40px or 48px'
     },
     className: {
       controle: 'text',

@@ -27,7 +27,7 @@ const PageNumberStyles = cva([
   'h-10',
   'px-4',
   'py-2',
-  'rounded-xs',
+  'rounded-brandControl',
   'text-foreground-muted',
   'active:bg-accent',
   'active:text-primary-10',
@@ -131,7 +131,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         {...props}
       >
         <ul>
-          <li className="hover:bg-background px-4 dark:hover:bg-background-dark rounded-xs">
+          <li className="hover:bg-background px-4 dark:hover:bg-background-dark rounded-brandControl">
             <button
               type="button"
               aria-label={previousLabel}
@@ -184,7 +184,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             </React.Fragment>
           ))}
 
-          <li className="hover:bg-background px-4  dark:hover:bg-background-dark rounded-xs">
+          <li className="hover:bg-background px-4  dark:hover:bg-background-dark rounded-brandControl">
             <button
               type="button"
               aria-label={nextLabel}

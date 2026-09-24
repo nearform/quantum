@@ -9,29 +9,39 @@ const textareaVariants = cva(
     'outline-hidden',
     'resize-none',
     'border',
-    'border-2',
-    'rounded-lg',
+    'rounded-brandControl',
     'field-sizing-content',
     'p-3',
     'gap-1.5',
-    '[&:has(:disabled)]:border-none'
+    'disabled:border-brandGrey-30',
+    'disabled:hover:border-brandGrey-30',
+    'disabled:bg-brandMidnight-10',
+    'disabled:text-brandMidnight-30',
+    'disabled:placeholder:text-brandMidnight-30',
+    'disabled:cursor-not-allowed',
+    'dark:disabled:border-brandDark-border',
+    'dark:disabled:hover:border-brandDark-border',
+    'dark:disabled:bg-brandDark-raised',
+    'dark:disabled:text-brandMidnight-50',
+    'dark:disabled:placeholder:text-brandMidnight-50'
   ],
   {
     variants: {
       variant: {
         primary: [
-          'border-border-subtle',
-          'dark:border-border-subtle-dark',
-          'bg-background-alt',
-          'dark:bg-background-alt-dark',
-          'hover:border-border-hover',
+          'border-brandGrey-30',
+          'bg-white',
+          'text-brandMidnight-100',
+          'placeholder:text-brandMidnight-30',
+          'dark:border-brandDark-border',
+          'dark:bg-brandDark-surface',
+          'dark:text-white',
+          'hover:border-brandGrey-80',
           'hover:focus-within:border-brandBlue-100',
           'dark:hover:focus-within:border-brandBlue-80',
           'focus-within:border-brandBlue-100',
           'focus-within:ring-[3px]',
           'focus-within:ring-brandBlue-10',
-          'text-foreground',
-          'dark:text-foreground-dark',
           'dark:focus-within:border-brandBlue-80',
           'dark:focus-within:ring-0',
           'dark:focus-within:outline-solid',
@@ -40,25 +50,29 @@ const textareaVariants = cva(
           'dark:focus-within:outline-brandGreen-100'
         ],
         error: [
-          'border-feedback-red',
-          'text-feedback-red',
-          'bg-red-50',
-          'hover:border-red-700',
+          'border-feedback-danger',
+          'text-feedback-danger',
+          'bg-feedback-danger10',
+          'hover:border-feedback-danger',
           'focus-within:shadow-red'
         ],
         success: [
-          'border-feedback-green',
-          'text-green-700',
-          'bg-green-50',
-          'hover:border-green-700',
+          'border-feedback-success',
+          'text-feedback-success',
+          'bg-feedback-success10',
+          'hover:border-feedback-success',
           'focus-within:shadow-green'
         ],
         disabled: [
-          'bg-background-subtle',
-          'dark:bg-background-subtle-dark',
+          'border-brandGrey-30',
+          'bg-brandMidnight-10',
+          'text-brandMidnight-30',
+          'placeholder:text-brandMidnight-30',
           'cursor-not-allowed',
-          'text-foreground-muted',
-          'dark:text-foreground-muted-dark'
+          'dark:border-brandDark-border',
+          'dark:bg-brandDark-raised',
+          'dark:text-brandMidnight-50',
+          'dark:placeholder:text-brandMidnight-50'
         ]
       },
       defaultVariants: {
@@ -103,7 +117,11 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           <label
             id={`${textareaId}-label`}
             htmlFor={textareaId}
-            className="text-m text-foreground dark:text-foreground-dark"
+            className={cn(
+              'text-label font-medium text-brandMidnight-100 dark:text-white',
+              (variant === 'disabled' || props.disabled) &&
+                'text-brandMidnight-30 dark:text-brandMidnight-50'
+            )}
           >
             {labelText}
           </label>
