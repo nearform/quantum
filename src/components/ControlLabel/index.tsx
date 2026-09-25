@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import { cn } from '@/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
 
@@ -29,8 +31,26 @@ const ControlLabel: React.FC<Props> = ({
   position = 'right',
   varticalAlign,
   children,
+  htmlFor,
   ...labelProps
 }) => {
+  const generatedId = React.useId()
+  const onlyChild = React.isValidElement<{ id?: string }>(children)
+    ? children
+    : null
+  const childId = onlyChild?.props.id
+  const controlId = htmlFor ?? childId ?? (onlyChild ? generatedId : undefined)
+  const control =
+    onlyChild && !childId && controlId
+      ? React.cloneElement(onlyChild, { id: controlId })
+      : children
+
+  const labelElement = (align: 'left' | 'right') => (
+    <Label {...labelProps} htmlFor={controlId} align={align}>
+      {label}
+    </Label>
+  )
+
   return (
     <div
       className={cn(
@@ -40,17 +60,9 @@ const ControlLabel: React.FC<Props> = ({
         'flex space-x-2'
       )}
     >
-      {position === 'left' && (
-        <Label {...labelProps} align="right">
-          {label}
-        </Label>
-      )}
-      {children}
-      {position === 'right' && (
-        <Label {...labelProps} align="left">
-          {label}
-        </Label>
-      )}
+      {position === 'left' && labelElement('right')}
+      {control}
+      {position === 'right' && labelElement('left')}
     </div>
   )
 }

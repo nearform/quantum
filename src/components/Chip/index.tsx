@@ -15,6 +15,7 @@ const chipVariants = cva(
       'font-semibold',
       'leading-normal',
       'text-foreground',
+      'dark:text-foreground-dark',
       'focus-visible:outline-hidden',
       'focus-visible:shadow-blue'
     ],
@@ -40,13 +41,32 @@ const chipVariants = cva(
           'bg-background',
           'border-border-subtle',
           'dark:bg-background-dark',
-          'dark:border-border-subtle-dark',
-          'dark:text-foreground-dark'
+          'dark:border-border-subtle-dark'
         ],
-        warning: ['bg-yellow-50', 'border-feedback-yellow'],
-        success: ['bg-green-50', 'border-feedback-green'],
-        error: ['bg-red-50', 'border-feedback-red'],
-        info: ['bg-blue-50', 'border-primary-30', 'dark:border-primary-30']
+        warning: [
+          'bg-yellow-50',
+          'border-feedback-warning',
+          'dark:bg-background-dark',
+          'dark:border-feedback-warning-dark'
+        ],
+        success: [
+          'bg-green-50',
+          'border-feedback-success',
+          'dark:bg-background-dark',
+          'dark:border-feedback-success-dark'
+        ],
+        error: [
+          'bg-red-50',
+          'border-feedback-error',
+          'dark:bg-background-dark',
+          'dark:border-feedback-error-dark'
+        ],
+        info: [
+          'bg-blue-50',
+          'border-primary-30',
+          'dark:bg-background-dark',
+          'dark:border-primary-30'
+        ]
       },
       size: {
         default: ['text-xs', 'px-2.5', 'py-2 h-[26px]', 'gap-1'],
@@ -61,24 +81,33 @@ const chipVariants = cva(
 )
 
 interface ChipProps
-  extends React.ComponentPropsWithRef<'button'>,
+  extends
+    React.ComponentPropsWithRef<'button'>,
     VariantProps<typeof chipVariants> {
   active?: boolean
 }
 
 const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
-  ({ variant, size, children, disabled, onClick, active, ...props }, ref) => {
+  (
+    { variant, size, children, disabled, onClick, active, type, ...props },
+    ref
+  ) => {
     return (
       <button
+        type={type ?? 'button'}
         onClick={onClick}
-        data-active={active}
+        data-active={active || undefined}
+        aria-pressed={active === undefined ? undefined : active}
         className={cn(chipVariants({ variant, size }))}
         disabled={disabled}
         ref={ref}
         {...props}
       >
         {children}
-        <div className="flex items-center justify-center w-6 h-6 p-2.5">
+        <div
+          aria-hidden="true"
+          className="flex items-center justify-center w-6 h-6 p-2.5"
+        >
           <BsPlus
             className={cn(size == 'lg' ? 'h-4 w-4' : 'h-3 w-3', [
               'stroke-current',
@@ -90,5 +119,7 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
     )
   }
 )
+
+Chip.displayName = 'Chip'
 
 export { Chip, ChipProps }

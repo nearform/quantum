@@ -25,7 +25,8 @@ const footerStatementVariants = cva(
     'flex-col',
     'gap-1',
     'items-center',
-    'text-foreground-subtle',
+    'text-foreground-muted',
+    'dark:text-foreground-muted-dark',
     'py-4',
     'text-sm'
   ],
@@ -86,21 +87,23 @@ const linkColumnVariants = cva(
 )
 
 interface WebsiteFooterProps
-  extends React.ComponentPropsWithoutRef<'div'>,
+  extends
+    React.ComponentPropsWithoutRef<'footer'>,
     VariantProps<typeof websiteFooterVariants> {}
 
-const WebsiteFooter = React.forwardRef<HTMLDivElement, WebsiteFooterProps>(
+const WebsiteFooter = React.forwardRef<HTMLElement, WebsiteFooterProps>(
   ({ className, size, ...props }, ref) => (
-    <div
+    <footer
       className={cn(websiteFooterVariants({ size }), className)}
       {...props}
       ref={ref}
-    ></div>
+    ></footer>
   )
 )
 
 interface FooterStatementProps
-  extends React.ComponentPropsWithoutRef<'div'>,
+  extends
+    React.ComponentPropsWithoutRef<'div'>,
     VariantProps<typeof footerStatementVariants> {}
 
 const FooterStatement = React.forwardRef<HTMLDivElement, FooterStatementProps>(
@@ -128,7 +131,8 @@ const LinkRow = React.forwardRef<HTMLDivElement, LinkRowProps>(
 )
 
 interface LinkColumnProps
-  extends React.ComponentPropsWithoutRef<'div'>,
+  extends
+    React.ComponentPropsWithoutRef<'div'>,
     VariantProps<typeof linkColumnVariants> {}
 
 const LinkColumn = React.forwardRef<HTMLDivElement, LinkColumnProps>(

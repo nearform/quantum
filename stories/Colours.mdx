@@ -9,7 +9,96 @@ import { ColorWrapper } from './colorUtils.tsx'
 
 Base colours provide a full colour spectrum of dark to light hues, and are used as aliases in the [brand theme](#brand-theme-and-ui-colours).
 
+## Contrast
+
+WCAG 2.2 AA asks for 4.5:1 between text and its background, 3:1 for large text
+(24px, or 18.66px bold) and for the parts of a control that carry meaning.
+Being a token pair the palette exposes is not by itself a guarantee that a pair
+clears those numbers, so the two rules below are worth knowing before reaching
+for a colour.
+
+### Foreground on background
+
+`foreground` and `foreground-muted` are the body-text tokens. Both clear 4.5:1
+on `background`, `background-alt` and `background-subtle` in light and dark
+mode — `foreground` from 10.31:1, `foreground-muted` from 6.87:1 — so either can
+be used for text without checking which surface it lands on.
+`background-inverse` is the exception every palette has: it takes
+`foreground-inverse`, which clears it at 17.59:1 in both modes.
+
+`foreground-subtle` cannot. It clears 4.5:1 on `background` (4.83:1) and
+`background-subtle` (4.63:1) but not on `background-alt` (4.39:1), and its dark
+half is 2.13:1 on `background-alt-dark`. It is a token for the things AA does
+not measure at 4.5:1: the text of a disabled control, which 1.4.3 exempts, and
+UI parts such as Switch's track and StepsIndicator's dots, which owe 3:1 under
+1.4.11. Text a user is meant to read takes `foreground-muted`.
+
+### A `-600` foreground on a `-100` background
+
+Several palettes pair a hue's `-600` with its own `-100` for a chip or a badge.
+That clears AA on most of the ramps but not all of them, and the four that
+fail are not otherwise distinguishable from the ones that pass:
+
+| Ramp | `-600` on `-100` | `-700` on `-100` |
+| --- | --- | --- |
+| `blue` | 4.46:1 ✗ | 5.29:1 ✓ |
+| `red` | 4.02:1 ✗ | 4.89:1 ✓ |
+| `orange` | 4.30:1 ✗ | 5.31:1 ✓ |
+| `pink` | 2.29:1 ✗ | 3.49:1 ✗ (`-800` is 6.89:1 ✓) |
+| `green` | 4.75:1 ✓ | 5.71:1 ✓ |
+| `teal` | 4.77:1 ✓ | 5.79:1 ✓ |
+| `indigo` | 4.74:1 ✓ | 5.80:1 ✓ |
+| `purple` | 4.75:1 ✓ | 6.00:1 ✓ |
+| `yellow` | 4.90:1 ✓ | 6.01:1 ✓ |
+| `grey` | 6.87:1 ✓ | 9.37:1 ✓ |
+
+`-700` on `-100` is safe on every ramp except `pink`, which needs `-800`. The
+values themselves are left alone: an app may be using any of them away from its
+own `-100`, and moving them to fix one pairing would shift every other use of
+the colour.
+
+### A feedback descriptor on a dark surface
+
+The light half of a feedback descriptor is chosen against a white page, and
+three of the four do not survive a black one. Write the `dark:` counterpart —
+the whole point of the pair is that you do not have to work out which weight it
+should be:
+
+| Descriptor | Light half | Worst dark surface | Dark half | Worst dark surface |
+| --- | --- | --- | --- | --- |
+| `success` | `green-500` | 3.04:1 ✗ | `green-300` | 6.62:1 ✓ |
+| `warning` | `yellow-300` | 6.64:1 ✓ | `yellow-300` | 6.64:1 ✓ |
+| `danger` | `orange-400` | 4.41:1 ✗ | `orange-300` | 6.17:1 ✓ |
+| `error` | `red-700` | 1.80:1 ✗ | `red-300` | 5.98:1 ✓ |
+
+"Worst dark surface" is the lowest of `background`, `background-alt` and
+`background-subtle` in dark mode, and ✓ is the 4.5:1 of 1.4.3. The dark halves
+are held to the text figure rather than the 3:1 a border owes under 1.4.11
+because the same four tokens are written both ways, and a descriptor should not
+need checking against which of the two a component picked. `warning`'s light
+half already sits at `-300`, so its two halves are the same value.
+
+`error` is the one to watch: at 1.80:1 on `background-alt-dark` it is close to
+invisible, so a light-only `text-feedback-error` inside a dark card is a message
+that is not there. `__tests__/contrast.test.ts` holds the dark halves to the
+figures above, but nothing can make a component reach for them.
+
 ## Base Colours
+
+Two stops carry values from the rebrand rather than their Flowbite-derived
+originals, and both are visual changes for anything already using them
+directly:
+
+| Token | Was | Now | Why |
+| --- | --- | --- | --- |
+| `blue-900` | `#233876` | `#000E38` | The brand's darkest blue; the same value as `primary-100`. Raises `-900` on `blue-100` from 9.47:1 to 16.05:1, and white on `button-tertiary-focus-dark` — its one semantic use — from 11.06:1 to 18.75:1. |
+| `purple-500` | `#9061F9` | `#8950FF` | Brand purple. Takes `-500` on white from 3.99:1 to 4.51:1, so it clears AA as text where the old value did not. Not swept by `__tests__/contrast.test.ts`, which pairs `-600`/`-700` against `-100`. |
+
+`blue-700` is deliberately left at `#1A56DB`. See the note in
+`__tests__/contrast.test.ts` and PR discussion — the rebrand value proposed for
+it is lighter than `blue-600`, which would both invert the ramp and drop
+`-700` on `-100` below AA.
+
 
 <ColorPalette>
   {Object.keys(colors).map((token, index) => {
@@ -28,15 +117,17 @@ Base colours provide a full colour spectrum of dark to light hues, and are used 
 
 ### Feedback
 
-<ColorPalette>
-{<ColorItem
-  key={0}
-  index={0}
-  title={'feedback'}
-  colors={aliasColors.feedback}
-/>}
+The four feedback descriptors name the role the colour plays rather than the hue
+it carries, so a control reaches for them by what it means (`border-feedback-success`,
+`text-feedback-error`) and not what it looks like.
 
-</ColorPalette>
+Each one is a light/dark pair like the rest of the theme, so a variant writes
+`border-feedback-error dark:border-feedback-error-dark` and is done. The dark
+half is the `-300` stop of the same ramp in every case — see [A feedback
+descriptor on a dark surface](#a-feedback-descriptor-on-a-dark-surface) for why
+it is that weight and not a nearer one.
+
+<ColorWrapper darkMode={true} colorPalette={aliasColors.feedback} />
 ### Background
 <ColorWrapper darkMode={true} colorPalette={aliasColors.background} />
 
@@ -63,8 +154,18 @@ Base colours provide a full colour spectrum of dark to light hues, and are used 
 ### Tertiary
 <ColorWrapper darkMode={true} colorPalette={aliasColors.button.tertiary} />
 ### Success
-<ColorWrapper darkMode={false} colorPalette={aliasColors.button.success} />
+
+White on all three of the resting, hover and focus states clears AA on a black
+page as readily as on a white one, so the variant keeps its light colours in
+dark mode. `disabled` is the exception: at `grey-50` it is a near-white pill on
+a black page, so it takes `background-subtle-dark` — the same surface the
+primary, secondary and tertiary variants disable onto.
+
+<ColorWrapper darkMode={true} colorPalette={aliasColors.button.success} />
 
 ### Danger
 
-<ColorWrapper darkMode={false} colorPalette={aliasColors.button.danger} />
+Reads in dark mode for the same reason `success` does, and disables onto the
+same surface.
+
+<ColorWrapper darkMode={true} colorPalette={aliasColors.button.danger} />

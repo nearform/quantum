@@ -114,16 +114,22 @@ const ModalClose = React.forwardRef<
     ref={ref}
     className={cn(
       'rounded-xs opacity-70 ring-offset-background transition-opacity disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-foreground-muted',
+      'hover:opacity-100 focus-visible:opacity-100',
+      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current',
       className
     )}
     {...props}
   >
-    <div className="text-foreground dark:text-foreground-inverse">
+    <div
+      aria-hidden="true"
+      className="text-foreground dark:text-foreground-inverse"
+    >
       <BsXLg className="w-5 h-5" strokeWidth={0.833} />
     </div>
     <span className="sr-only">Close</span>
   </DialogPrimitive.Close>
 ))
+ModalClose.displayName = 'ModalClose'
 
 const descriptionVariants = cva(
   [

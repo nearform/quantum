@@ -4,13 +4,12 @@
    `__tests__/` into the published stylesheet — so editing a story or renaming a
    test probe would change what consumers receive. The explicit `@source`
    restores the v3 guarantee that `src/` is the exhaustive source list, as the
-   `content` glob in tailwind.config.ts used to be.
+   `content` glob in the old tailwind.config.ts used to be.
    (Careful editing this comment: a `*` followed by a `/` ends it early.) */
 @import 'tailwindcss' source(none);
+/* Quantum's theme, dark variant and base styles, as a native v4 `@theme` block
+   rather than a JS config reached through `@config`. Generated from
+   src/theme.ts — see the header of src/quantum.css. Must stay after the
+   `@import` above, because its namespace resets undo what that line declares. */
+@import './quantum.css';
 @source '../src';
-/* Tailwind v4 only loads a JS config when a CSS entrypoint asks for it. Without
-   this line the theme block (colors, boxShadow, fontFamily, strokeWidth, the
-   animations) is out of scope and the published dist/global.css compiles to
-   preflight plus the default theme — no Quantum utilities at all. Must stay
-   after the `@import`; v4 drops an `@import` that follows an `@config`. */
-@config '../tailwind.config.ts';

@@ -15,18 +15,28 @@ const tableBodyVariants = cva('bg-background dark:bg-grey-900', {
   }
 })
 
-const Table = React.forwardRef<
-  HTMLTableElement,
-  React.HTMLAttributes<HTMLTableElement>
->(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
-    <table
-      ref={ref}
-      className={cn('caption-bottom text-sm dark:text-white', className)}
-      {...props}
-    />
-  </div>
-))
+interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
+  containerClassName?: string
+}
+
+const Table = React.forwardRef<HTMLTableElement, TableProps>(
+  ({ className, containerClassName, ...props }, ref) => (
+    <div
+      tabIndex={0}
+      className={cn(
+        'relative w-full overflow-auto rounded-2xl',
+        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current',
+        containerClassName
+      )}
+    >
+      <table
+        ref={ref}
+        className={cn('caption-bottom text-sm dark:text-white', className)}
+        {...props}
+      />
+    </div>
+  )
+)
 Table.displayName = 'Table'
 
 const TableHeader = React.forwardRef<
@@ -56,7 +66,8 @@ const TableHead = React.forwardRef<
 ))
 TableHead.displayName = 'TableHead'
 interface TableBodyProps
-  extends React.HTMLAttributes<HTMLTableSectionElement>,
+  extends
+    React.HTMLAttributes<HTMLTableSectionElement>,
     VariantProps<typeof tableBodyVariants> {}
 
 const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
@@ -77,7 +88,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      'h-[50px] border-b-[1px] border-accent-alt dark:border-grey-500 self-stretch items-center gap-2 font-normal text-left',
+      'h-[50px] self-stretch items-center gap-2 font-normal text-left',
       className
     )}
     {...props}
@@ -122,4 +133,4 @@ export {
   TableCell,
   TableCaption
 }
-export type { TableBodyProps }
+export type { TableBodyProps, TableProps }

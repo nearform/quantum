@@ -6,7 +6,12 @@ import globals from 'globals'
 
 export default [
   {
-    ignores: ['dist/**', 'postcss.config.js', '.storybook/tailwind.config.js']
+    ignores: [
+      'dist/**',
+      'storybook-static/**',
+      'postcss.config.js',
+      '.storybook/tailwind.config.js'
+    ]
   },
   js.configs.recommended,
   ...tsPlugin.configs['flat/recommended'],

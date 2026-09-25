@@ -17,10 +17,11 @@
  * `cursor-default` deliberately. Registered through `addBase` precisely so
  * Tailwind puts it in `base`, below `utilities`.
  *
- * Kept as a plain object with no imports so both `tailwind.config.ts` (which
- * reaches `dist/global.css` and the Storybook preview) and
- * `src/tailwind-plugin.ts` (which reaches consumers' own Tailwind builds) can
- * register it without importing each other.
+ * Kept as a plain object with no imports so both `scripts/theme-css.ts` (which
+ * renders it into the `@layer base` block of `src/quantum.css`, reaching
+ * `dist/global.css` and the Storybook preview) and `src/tailwind-plugin.ts`
+ * (which reaches consumers' own Tailwind builds through `addBase`) can register
+ * it without importing each other.
  */
 export default {
   'button:not(:disabled), [role="button"]:not(:disabled)': {

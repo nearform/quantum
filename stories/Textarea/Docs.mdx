@@ -24,6 +24,17 @@ A textarea is a multi-line input field for users to enter longer text, such as c
 
 <Canvas of={TextareaStories.Disabled} />
 
+## Dark mode
+
+Toggle the theme in the toolbar to see it.
+
+The `error` and `success` variants drop their `-50` fill to
+`background-alt-dark` — the surface the resting field already uses — and the
+border and text take the dark half of their descriptor. The light weights are
+picked against a white page and do not survive a black one: `feedback-error` is
+1.80:1 on `background-alt-dark`, so the field that says something is wrong would
+be the one you could not read.
+
 ## Attributes
 
 This component accepts all native HTML `<textarea>` attributes, plus:
@@ -71,18 +82,24 @@ const textareaVariants = cva(
           'dark:focus-within:shadow-brandGreen-10'
         ],
         error: [
-          'border-feedback-red',
-          'text-feedback-red',
+          'border-feedback-error',
+          'text-feedback-error',
           'bg-red-50',
           'hover:border-red-700',
-          'focus-within:shadow-red'
+          'focus-within:shadow-red',
+          'dark:border-feedback-error-dark',
+          'dark:text-feedback-error-dark',
+          'dark:bg-background-alt-dark'
         ],
         success: [
-          'border-feedback-green',
+          'border-feedback-success',
           'text-green-700',
           'bg-green-50',
           'hover:border-green-700',
-          'focus-within:shadow-green'
+          'focus-within:shadow-green',
+          'dark:border-feedback-success-dark',
+          'dark:text-feedback-success-dark',
+          'dark:bg-background-alt-dark'
         ],
         disabled: [
           'bg-background-subtle',

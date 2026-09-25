@@ -27,6 +27,12 @@ npm install --save @nearform/quantum
 > animations vanish with no error, so focus rings and the Accordion animation
 > silently stop working while lowercase tokens keep resolving.
 >
+> Those camelCase names are deliberate and are not changing. `bg-brandGreen-100`,
+> `text-brandMidnight-80` and `animate-slideDown` are the spellings in your
+> markup; renaming them to v4's idiomatic `brand-green` would rewrite every one
+> of those class names in every consuming app. Raising the floor to `4.1.18` is
+> the price of keeping them, and it is the cheaper of the two.
+>
 > **Tailwind v4 also raises the browser baseline** to Safari 16.4, Chrome 111
 > and Firefox 128. If you need to support anything older, stay on the previous
 > release of this library.
@@ -137,9 +143,133 @@ module.exports = {
 
 ```js
 //root component
-import '@nearform/quantum/dist/global.css'
+import '@nearform/quantum/global.css'
 import { Button } from '@nearform/quantum'
 ```
+
+#### Overriding a token
+
+`global.css` carries our theme as CSS custom properties, and the utilities
+read them through `var()` rather than having the values baked in, so a token can
+be restyled without a Tailwind build:
+
+```css
+@import '@nearform/quantum/global.css';
+
+:root {
+  --color-accent: #123456;
+}
+```
+
+Your declaration is unlayered and ours is in the `theme` layer, so yours wins,
+and every utility that reads the token follows it — `bg-accent`,
+`[&>*:focus]:bg-accent`, `dark:bg-accent-dark` and the rest.
+
+The variable name is the token name with its namespace in front:
+`--color-brandGreen-100`, `--color-foreground-muted`, `--shadow-brandGreen`,
+`--font-sans`, `--stroke-width-2`, `--animate-slideDown`. The same names are
+available as JS objects — `import { colors } from '@nearform/quantum'`.
+
+Only tokens our components actually use are emitted, so redeclaring one we do
+not reference has no effect; there is no utility reading it either way.
+
+This applies to the prebuilt stylesheet only. On the Tailwind routes above the
+plugin hands your build a JS theme and your build inlines the values, so there
+is nothing to override at runtime — change them in your own `@theme` block or
+Tailwind config instead.
+
+## Accessibility
+
+Components target [WCAG 2.2](https://www.w3.org/TR/WCAG22/) level AA. Every
+story is scanned with [axe](https://github.com/dequelabs/axe-core) as part of
+`npm run test-storybook`, against the `wcag2a`, `wcag2aa`, `wcag21a`,
+`wcag21aa` and `wcag22aa` rule sets, so a component that loses its accessible
+name, its focus indicator or its contrast fails CI.
+
+A story that is a deliberate exception opts out through its own parameters:
+
+```js
+parameters: { a11y: { disable: true } }             // skip the story
+parameters: { a11y: { config: { rules: [...] } } }  // tune individual rules
+```
+
+### What the library cannot do for you
+
+Some things depend on the surrounding page, so the components take them as
+props rather than guessing:
+
+- **Form controls need a label.** `Input`, `Password` and `Textarea` take
+  `labelText` (rendered and wired up with `htmlFor`) and `helpText` (exposed
+  through `aria-describedby`). `Checkbox`, `Radio`, `Switch` and
+  `SelectTrigger` have no text of their own -- pair them with `ControlLabel`,
+  an external `<label htmlFor>`, or give them an `aria-label`. A placeholder is
+  not a label. Inside a `CheckboxGroup` or a `RadioGroup`, the option's `label`
+  prop does this, and its `description` is wired up with it.
+- **A control inside a `FormGroup` has to pass its props on.** The group
+  derives the label's `htmlFor`, the message ids behind `aria-describedby` and
+  the `aria-invalid` flag from one id and hands them to whichever direct child
+  is the control. A wrapper of your own that drops them leaves the label
+  pointing at an element that does not exist, and nothing looks wrong. Spread
+  the props you are given, keep the parts as direct children, and reach for
+  `useFormGroup()` for a control the group cannot get to.
+- **Groups and landmarks need a name.** Give `ButtonGroup` an `aria-label` when
+  a page holds more than one, and `Pagination` a `label` when it has more than
+  one pagination nav. `CheckboxGroup` and `RadioGroup` take a `legend`: without
+  it the options are a run of controls that a reader arriving at the third one
+  cannot place, and a form of several groups is one undifferentiated list. A
+  group whose name is already on the page -- a heading directly above it --
+  takes an `aria-labelledby` pointing at that instead of repeating it.
+- **Avatars need a name, or none at all.** `Avatar` announces `alt`, falling
+  back to `name`. Given neither it renders as decoration (`aria-hidden`), which
+  is what you want when the person's name is already in the text beside it --
+  the initials themselves are never announced.
+- **Badges say their status in words.** `Badge` colours its border to
+  reinforce the text, never to replace it -- two identically-worded badges in
+  different colours are indistinguishable to a good share of readers. A badge
+  whose text is not self-explanatory, such as a bare count, takes an
+  `aria-label`, which also gives it the `role="img"` that makes that label
+  reach a screen reader. It never carries that role without a name, whether
+  the role came from the badge or from you. Its `disabled` variant is an
+  appearance for a badge beside a disabled control, not a state of its own.
+- **Icon-only controls need names in your language.** `Pagination`
+  (`previousLabel`, `nextLabel`, `pageLabel`), `StepsIndicator` (`label`,
+  `stepLabel`), `Input` (`clearLabel`) and `Password` (`showLabel`,
+  `hideLabel`) all default to English and accept overrides. `IconButton` has
+  no default to override: its `label` is required, because there is no name
+  that could be guessed from an icon, and it should say what the button does
+  rather than what the icon is a picture of -- "Delete article", not "bin".
+  Where the name is also made visible, by a `Tooltip` or otherwise, the two
+  have to agree: WCAG 2.5.3 asks that the accessible name contain the visible
+  text, so that someone speaking what they can see reaches the control they
+  are looking at.
+- **Triggers should merge into the control they wrap.** `ModalTrigger`,
+  `PopoverTrigger` and `SelectTrigger` render a `<button>` of their own, so
+  wrapping one around a `Button` nests a control inside a control. Pass
+  `asChild` to merge them instead:
+
+  ```jsx
+  <PopoverTrigger asChild>
+    <Button>Open</Button>
+  </PopoverTrigger>
+  ```
+
+  `Tooltip` does this for you when its child is an element.
+
+## Design tokens
+
+The token values live in `src/theme.ts` (built from `src/colors` and
+`src/animations`) and the base styles in `src/tailwind-base.ts`. There is no
+`tailwind.config.*` and no `@config` directive: `src/quantum.css` is a native
+Tailwind v4 `@theme` block, generated from those files and committed, and it is
+what both `src/global.css` and `.storybook/global.css` compile against.
+
+After changing a token, regenerate it:
+
+```
+npm run build:theme
+```
+
+`npm test` fails if you forget.
 
 ## Tests
 

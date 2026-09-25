@@ -54,17 +54,23 @@ const triggerVariants = cva(
         ],
         error: [
           'bg-red-50',
-          'border-feedback-red',
+          'border-feedback-error',
           'hover:border-red-700',
           'focus-visible:shadow-red',
-          'text-red-700'
+          'text-red-700',
+          'dark:bg-background-alt-dark',
+          'dark:border-feedback-error-dark',
+          'dark:text-feedback-error-dark'
         ],
         success: [
           'bg-green-50',
-          'border-feedback-green',
+          'border-feedback-success',
           'hover:border-green-700',
           'focus-visible:shadow-green',
-          'text-green-700'
+          'text-green-700',
+          'dark:bg-background-alt-dark',
+          'dark:border-feedback-success-dark',
+          'dark:text-feedback-success-dark'
         ]
       },
       size: {
@@ -80,7 +86,8 @@ const triggerVariants = cva(
 )
 
 export interface TriggerProps
-  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
+  extends
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
     VariantProps<typeof triggerVariants> {}
 
 const SelectTrigger = React.forwardRef<
@@ -186,11 +193,16 @@ const itemVariants = cva([
     'data-[disabled]:pointer-events-none',
     'data-[disabled]:opacity-50',
     'hover:bg-background-alt',
+    'data-[highlighted]:bg-background-alt',
+    'data-[highlighted]:outline-2',
+    'data-[highlighted]:-outline-offset-2',
+    'data-[highlighted]:outline-current',
     'focus-visible:shadow-brandGreen'
   ],
   [
     'dark:focus-visible:shadow-brandGreen-10',
-    'dark:hover:bg-background-alt-dark'
+    'dark:hover:bg-background-alt-dark',
+    'dark:data-[highlighted]:bg-background-alt-dark'
   ]
 ])
 

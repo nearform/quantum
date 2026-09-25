@@ -16,6 +16,11 @@ const meta = {
     leftSideChild: {
       control: false
     },
+    size: {
+      options: ['sm', 'default', 'lg'],
+      control: 'inline-radio',
+      description: 'The height of the field: 37px, 42px or 48px'
+    },
     className: {
       controle: 'text',
       description: 'Alter the className to change the style'
@@ -31,33 +36,38 @@ type Story = StoryObj<typeof meta>
 export const PrimaryInput: Story = {
   args: {
     variant: 'primary',
-    type: 'text'
+    type: 'text',
+    labelText: 'Full name'
   }
 }
 export const ErrorInput: Story = {
   args: {
     variant: 'error',
-    type: 'text'
+    type: 'text',
+    labelText: 'Full name'
   }
 }
 
 export const SuccessInput: Story = {
   args: {
     variant: 'success',
-    type: 'text'
+    type: 'text',
+    labelText: 'Full name'
   }
 }
 export const Disabled: Story = {
   args: {
     variant: 'primary',
     type: 'text',
-    disabled: true
+    disabled: true,
+    labelText: 'Full name'
   }
 }
 export const Search: Story = {
   args: {
     variant: 'primary',
-    type: 'search'
+    type: 'search',
+    labelText: 'Search'
   }
 }
 
@@ -65,6 +75,21 @@ export const LeftIcon: Story = {
   args: {
     variant: 'primary',
     type: 'text',
-    leftSideChild: <BsPersonFill />
+    labelText: 'Full name',
+    leftSideChild: <BsPersonFill aria-hidden="true" />
   }
+}
+
+export const Sizes: Story = {
+  args: {
+    variant: 'primary',
+    type: 'text'
+  },
+  render: props => (
+    <div className="flex flex-col gap-4">
+      <Input {...props} size="sm" labelText="Small — 37px" />
+      <Input {...props} size="default" labelText="Default — 42px" />
+      <Input {...props} size="lg" labelText="Large — 48px" />
+    </div>
+  )
 }

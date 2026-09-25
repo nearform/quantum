@@ -97,6 +97,16 @@ All the default sized chips above can be enlarged as shown below:
   </tbody>
 </table>
 
+## Dark mode
+
+Toggle the theme in the toolbar to see it.
+
+Dark mode is derived rather than designed, the same way `Badge` derives it: the
+fill drops to the page background, the text goes to `foreground`'s dark half and
+the border takes the dark half of its descriptor, so the border goes on carrying
+the meaning at both ends of the theme. The light `-50` fills stayed put before
+this and left a white chip on a black page.
+
 ## Chip
 
 ```tsx
@@ -116,7 +126,8 @@ const chipVariants = cva(
       'border border-[2px]',
       'font-semibold',
       'leading-normal',
-      'text-foreground'
+      'text-foreground',
+      'dark:text-foreground-dark'
     ],
     [
       'disabled:border-none',
@@ -140,13 +151,32 @@ const chipVariants = cva(
           'bg-background',
           'border-border-subtle',
           'dark:bg-background-dark',
-          'dark:border-border-subtle-dark',
-          'dark:text-foreground-dark'
+          'dark:border-border-subtle-dark'
         ],
-        warning: ['bg-yellow-50', 'border-feedback-yellow'],
-        success: ['bg-green-50', 'border-feedback-green'],
-        error: ['bg-red-50', 'border-feedback-red'],
-        info: ['bg-blue-50', 'border-primary-30', 'dark:border-primary-30']
+        warning: [
+          'bg-yellow-50',
+          'border-feedback-warning',
+          'dark:bg-background-dark',
+          'dark:border-feedback-warning-dark'
+        ],
+        success: [
+          'bg-green-50',
+          'border-feedback-success',
+          'dark:bg-background-dark',
+          'dark:border-feedback-success-dark'
+        ],
+        error: [
+          'bg-red-50',
+          'border-feedback-error',
+          'dark:bg-background-dark',
+          'dark:border-feedback-error-dark'
+        ],
+        info: [
+          'bg-blue-50',
+          'border-primary-30',
+          'dark:bg-background-dark',
+          'dark:border-primary-30'
+        ]
       },
       size: {
         default: ['text-xs', 'px-[10px]', 'py-[8px] h-[26px]', 'gap-[4px]'],

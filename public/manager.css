@@ -24,8 +24,12 @@
   height: 18px;
 }
 
-#root > div > div:nth-child(2) > main > div:nth-child(2) {
+body:not(.dark) #root > div > div:nth-child(2) > main > div:nth-child(2) {
   border-left: 1px solid #D1D5DB;
+}
+
+body.dark #root > div > div:nth-child(2) > main > div:nth-child(2) {
+  border-left: 1px solid hsl(0 0% 100% / 0.1);
 }
 
 /* Sidebar stuff */
@@ -67,21 +71,34 @@
   border-radius: 0px !important;
 }
 
-.sidebar-item[data-selected="true"] {
+body:not(.dark) .sidebar-item[data-selected="true"] {
   background: #F9FAFB !important;
   color: #111928 !important;
+}
+
+body.dark .sidebar-item[data-selected="true"] {
+  background: #233952 !important;
+  color: #C9CCCF !important;
 }
 
 .sidebar-item[data-selected="true"] > a {
   border-left: 2px solid #0C3D60;
 }
 
-.sidebar-item svg {
+body:not(.dark) .sidebar-item svg {
   color: #111928 !important;
 }
 
-.sidebar-item:hover {
+body.dark .sidebar-item svg {
+  color: #C9CCCF !important;
+}
+
+body:not(.dark) .sidebar-item:hover {
   background: #F3F4F6 !important;
+}
+
+body.dark .sidebar-item:hover {
+  background: #292B2E !important;
 }
 
 /* button sidebar item is top level */
@@ -122,8 +139,15 @@ div.sidebar-item[data-nodetype="story"] svg {
 div.sidebar-item > a {
   padding: 10px 0 10px 16px !important;
   gap: 0 !important;
-  border-left: 2px solid #E5E7EB;
   margin-left: 8px;
+}
+
+body:not(.dark) div.sidebar-item > a {
+  border-left: 2px solid #E5E7EB;
+}
+
+body.dark div.sidebar-item > a {
+  border-left: 2px solid hsl(0 0% 100% / 0.1);
 }
 
 div.sidebar-item > a:nth-child(2) {

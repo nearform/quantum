@@ -16,10 +16,12 @@ interface DemoProps extends TriggerProps {
 }
 
 export const SelectDemo = ({ variant, size, example }: DemoProps) => {
+  const label = 'Example select'
+
   if (example === 'small') {
     return (
       <Select>
-        <SelectTrigger variant={variant}>
+        <SelectTrigger variant={variant} aria-label={label}>
           <SelectValue placeholder="Small List" />
         </SelectTrigger>
         <SelectContent>
@@ -34,7 +36,12 @@ export const SelectDemo = ({ variant, size, example }: DemoProps) => {
   } else if (example === 'large') {
     return (
       <Select>
-        <SelectTrigger variant={variant} size={size} className="w-[180px]">
+        <SelectTrigger
+          variant={variant}
+          size={size}
+          aria-label={label}
+          className="w-[180px]"
+        >
           <SelectValue placeholder="Choose" />
           {/* Something going wrong with placement of select value when it overflows */}
         </SelectTrigger>
@@ -66,7 +73,11 @@ export const SelectDemo = ({ variant, size, example }: DemoProps) => {
   } else if (example === 'item-aligned') {
     return (
       <Select>
-        <SelectTrigger variant={variant} className="w-[180px]">
+        <SelectTrigger
+          variant={variant}
+          aria-label={label}
+          className="w-[180px]"
+        >
           <SelectValue placeholder="Choose" />
         </SelectTrigger>
 
@@ -101,7 +112,7 @@ export const SelectDemo = ({ variant, size, example }: DemoProps) => {
   }
   return (
     <Select>
-      <SelectTrigger variant={variant} className="w-[180px]">
+      <SelectTrigger variant={variant} aria-label={label} className="w-[180px]">
         <SelectValue placeholder="Choose" />
       </SelectTrigger>
 

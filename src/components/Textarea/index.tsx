@@ -33,18 +33,24 @@ const textareaVariants = cva(
           'dark:focus-within:shadow-brandGreen-10'
         ],
         error: [
-          'border-feedback-red',
-          'text-feedback-red',
+          'border-feedback-error',
+          'text-feedback-error',
           'bg-red-50',
           'hover:border-red-700',
-          'focus-within:shadow-red'
+          'focus-within:shadow-red',
+          'dark:border-feedback-error-dark',
+          'dark:text-feedback-error-dark',
+          'dark:bg-background-alt-dark'
         ],
         success: [
-          'border-feedback-green',
+          'border-feedback-success',
           'text-green-700',
           'bg-green-50',
           'hover:border-green-700',
-          'focus-within:shadow-green'
+          'focus-within:shadow-green',
+          'dark:border-feedback-success-dark',
+          'dark:text-feedback-success-dark',
+          'dark:bg-background-alt-dark'
         ],
         disabled: [
           'bg-background-subtle',
@@ -61,8 +67,7 @@ const textareaVariants = cva(
   }
 )
 
-interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   variant: 'primary' | 'error' | 'success' | 'disabled'
   labelText?: string
   helpText?: string
@@ -70,28 +75,47 @@ interface TextareaProps
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, variant, labelText, helpText, id, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      labelText,
+      helpText,
+      id,
+      'aria-describedby': ariaDescribedby,
+      ...props
+    },
+    ref
+  ) => {
+    const generatedId = React.useId()
+    const textareaId = id ?? generatedId
+    const helpTextId = `${textareaId}-helptext`
+    const describedBy =
+      [ariaDescribedby, helpText ? helpTextId : undefined]
+        .filter(Boolean)
+        .join(' ') || undefined
+
     return (
       <div className="flex flex-col gap-3">
         {labelText && (
           <label
-            id={`${id}-label`}
-            htmlFor={id}
+            id={`${textareaId}-label`}
+            htmlFor={textareaId}
             className="text-m text-foreground dark:text-foreground-dark"
           >
             {labelText}
           </label>
         )}
         <textarea
-          id={id}
+          id={textareaId}
           className={cn(textareaVariants({ variant }), className)}
           ref={ref}
+          aria-describedby={describedBy}
           {...props}
-          aria-labelledby={`${labelText ? `${id}-label` : ''} ${helpText ? `${id}-helptext` : ''}`.trim()}
         />
         {helpText && (
           <span
-            id={`${id}-helptext`}
+            id={helpTextId}
             className="text-sm text-foreground-muted dark:text-foreground-muted-dark"
           >
             {helpText}
@@ -101,5 +125,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     )
   }
 )
+
+Textarea.displayName = 'Textarea'
 
 export { Textarea, TextareaProps, textareaVariants }

@@ -21,7 +21,7 @@ export const button = {
       dark: background.subtle.dark
     },
     selected: {
-      DEFAILT: colors.grey['100'],
+      DEFAULT: colors.grey['100'],
       dark: background.subtle.dark
     }
   },
@@ -56,7 +56,7 @@ export const button = {
         dark: border.subtle.dark
       },
       selected: {
-        DEFAILT: colors.grey['100'],
+        DEFAULT: colors.grey['100'],
         dark: background.subtle.dark
       }
     }
@@ -71,28 +71,29 @@ export const button = {
       dark: colors.blue['900']
     },
     selected: {
-      DEFAILT: colors.grey['100'],
+      DEFAULT: colors.grey['100'],
       dark: background.subtle.dark
     }
   },
   success: {
-    DEFAULT: feedback.green,
+    DEFAULT: colors.green['600'],
     hover: {
-      DEFAULT: colors.green['600']
-    },
-    focus: {
       DEFAULT: colors.green['700']
     },
+    focus: {
+      DEFAULT: colors.green['800']
+    },
     disabled: {
-      DEFAULT: colors.grey['50']
+      DEFAULT: colors.grey['50'],
+      dark: background.subtle.dark
     },
     selected: {
-      DEFAILT: colors.grey['100'],
+      DEFAULT: colors.grey['100'],
       dark: background.subtle.dark
     }
   },
   danger: {
-    DEFAULT: feedback.red,
+    DEFAULT: feedback.error.DEFAULT,
     hover: {
       DEFAULT: colors.red['700']
     },
@@ -100,10 +101,11 @@ export const button = {
       DEFAULT: colors.red['800']
     },
     disabled: {
-      DEFAULT: colors.grey['50']
+      DEFAULT: colors.grey['50'],
+      dark: background.subtle.dark
     },
     selected: {
-      DEFAILT: colors.grey['100'],
+      DEFAULT: colors.grey['100'],
       dark: background.subtle.dark
     }
   }

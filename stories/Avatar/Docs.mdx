@@ -1,0 +1,158 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as AvatarStories from './Avatar.stories'
+
+<Meta of={AvatarStories} />
+
+# Avatar
+
+An avatar is a small, usually circular graphic that stands for a person, an
+organisation or an account. It shows a picture when there is one to show, and
+falls back to the initials of the name — or to a generic person icon — when
+there is not.
+
+### Default
+
+Give the avatar a `name` and it renders the initials of the first and last
+word, and announces the full name to a screen reader.
+
+<Canvas of={AvatarStories.Default} />
+
+### With an image
+
+`src` layers an image over the initials. The initials stay underneath, so the
+avatar never flashes empty while the image loads.
+
+<Canvas of={AvatarStories.WithImage} />
+
+### When the image fails
+
+An image that cannot be loaded uncovers the fallback rather than leaving a
+broken-image icon behind. Changing `src` retries.
+
+<Canvas of={AvatarStories.BrokenImage} />
+
+### Without a name
+
+With no `name`, `alt` or `initials`, the avatar renders a person icon and is
+hidden from assistive technology as decoration — the surrounding text is
+expected to carry the name.
+
+<Canvas of={AvatarStories.WithoutName} />
+
+### Custom initials
+
+`initials` overrides the two letters derived from `name`, for an acronym or a
+counter.
+
+<Canvas of={AvatarStories.CustomInitials} />
+
+### Custom icon
+
+`icon` replaces the default person glyph. Pair it with `alt` when the avatar
+stands for something that is not a person.
+
+<Canvas of={AvatarStories.CustomIcon} />
+
+### Square
+
+<Canvas of={AvatarStories.Square} />
+
+### Sizes
+
+<Canvas of={AvatarStories.Sizes} />
+
+### Stacked
+
+Avatars are plain inline elements, so a group is a flex row with a negative
+gap. The ring colour matches the surface they sit on.
+
+<Canvas of={AvatarStories.Stacked} />
+
+## Dark mode
+
+The avatar reads its surface and text colour from the `background-alt` and
+`foreground` tokens, both of which have a dark counterpart, so nothing extra is
+needed — toggle the theme in the toolbar to see it. An image is untouched by
+the theme; only the fallback changes.
+
+## Accessibility
+
+- The accessible name comes from `alt`, falling back to `name`. When an image
+  is rendered it becomes the image's `alt` text; otherwise the avatar itself
+  takes `role="img"` with that name.
+- With no name of any kind the avatar is `aria-hidden`, which is the right
+  answer for the common case of an avatar sitting next to the name it depicts —
+  announcing it twice helps nobody.
+- Initials are never announced on their own: "AL" is not a name. They are
+  always inside the `aria-hidden` fallback layer.
+- `role` and the generated name travel together. Passing a `role` of your own
+  drops the `aria-label` the avatar would have added, so
+  `<Avatar role="presentation" />` really is silent — a presentational element
+  that still carries a name gets re-exposed by the browser. Pass your own
+  `aria-label` alongside the role when you do want it named.
+
+## Attributes
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>src</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>initials</td>
+      <td>`string`</td>
+      <td>derived from `name`</td>
+    </tr>
+    <tr>
+      <td>alt</td>
+      <td>`string`</td>
+      <td>`name`</td>
+    </tr>
+    <tr>
+      <td>icon</td>
+      <td>`React.ReactNode`</td>
+      <td>`<BsPersonFill />`</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`"xs" | "sm" | "default" | "lg" | "xl"`</td>
+      <td>`"default"`</td>
+    </tr>
+    <tr>
+      <td>shape</td>
+      <td>`"circle" | "square"`</td>
+      <td>`"circle"`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Usage
+
+```tsx
+import { Avatar } from '@nearform/quantum'
+
+// Initials, derived from the name
+<Avatar name="Ada Lovelace" />
+
+// Picture, with the initials as the fallback
+<Avatar name="Ada Lovelace" src="/ada.jpg" size="lg" />
+
+// Decorative, next to the name it depicts
+<span className="flex items-center gap-2">
+  <Avatar size="sm" />
+  Ada Lovelace
+</span>
+```

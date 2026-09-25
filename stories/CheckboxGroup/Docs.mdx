@@ -1,0 +1,238 @@
+import { Canvas, Description, Meta } from '@storybook/addon-docs/blocks'
+
+import * as CheckboxGroupStories from './CheckboxGroup.stories'
+
+<Meta of={CheckboxGroupStories} />
+
+# Checkbox group
+
+A set of checkboxes that belong to one question, where any number of the
+answers can be true at once. For a question with exactly one answer, reach for
+[RadioGroup](?path=/docs/form-radiogroup--docs) instead.
+
+```tsx
+<CheckboxGroup
+  legend="How should we contact you?"
+  description="Select all that apply"
+  name="contact"
+  defaultValue={['email']}
+  onValueChange={setContact}
+>
+  <CheckboxGroupItem value="email" label="Email" />
+  <CheckboxGroupItem value="phone" label="Phone" description="Weekdays only" />
+</CheckboxGroup>
+```
+
+The group owns the selection and the items read it, rather than each box
+holding a boolean of its own. "Which of these are ticked" is one piece of
+state, one `onValueChange`, and — under one `name` — one field on the server,
+which is what a set of checkboxes already is once it is submitted.
+
+## Default
+<Canvas of={CheckboxGroupStories.Default} />
+
+## Without a legend
+<Description of={CheckboxGroupStories.WithoutALegend} />
+<Canvas of={CheckboxGroupStories.WithoutALegend} />
+
+## Hints on a single option
+<Description of={CheckboxGroupStories.WithOptionHints} />
+<Canvas of={CheckboxGroupStories.WithOptionHints} />
+
+## Horizontal
+<Description of={CheckboxGroupStories.Horizontal} />
+<Canvas of={CheckboxGroupStories.Horizontal} />
+
+## Labels on the left
+<Description of={CheckboxGroupStories.LabelsOnTheLeft} />
+<Canvas of={CheckboxGroupStories.LabelsOnTheLeft} />
+
+## With an error
+<Description of={CheckboxGroupStories.WithAnError} />
+<Canvas of={CheckboxGroupStories.WithAnError} />
+
+## Disabled
+<Description of={CheckboxGroupStories.Disabled} />
+<Canvas of={CheckboxGroupStories.Disabled} />
+
+## Controlled
+<Description of={CheckboxGroupStories.Controlled} />
+<Canvas of={CheckboxGroupStories.Controlled} />
+
+## CheckboxGroup
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>legend</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>error</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>invalid</td>
+      <td>`boolean`</td>
+      <td>`Boolean(error)`</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td>`string[]`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>defaultValue</td>
+      <td>`string[]`</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>onValueChange</td>
+      <td>`(value: string[]) => void`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>orientation</td>
+      <td>`"vertical" | "horizontal"`</td>
+      <td>`"vertical"`</td>
+    </tr>
+    <tr>
+      <td>labelPosition</td>
+      <td>`"left" | "right"`</td>
+      <td>`"right"`</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+`className` lands on the `<fieldset>`, which is the group's outermost element
+and the one to size or space. The gaps between the options are `orientation`'s
+job.
+
+## CheckboxGroupItem
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td>`string`</td>
+      <td>required</td>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>`boolean`</td>
+      <td>the group's</td>
+    </tr>
+    <tr>
+      <td>aria-invalid</td>
+      <td>`boolean | "grammar" | "spelling"`</td>
+      <td>the group's</td>
+    </tr>
+    <tr>
+      <td>onCheckedChange</td>
+      <td>`(checked: boolean | "indeterminate") => void`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+Whether a box is ticked comes from the group, so there is no `checked` prop
+here. `onCheckedChange` is still available for a caller who wants to know about
+one box as well as about the group. Everything else a
+[Checkbox](?path=/docs/form-checkbox--docs) takes is passed through, including
+`className`, which lands on the control rather than on the row — the row is
+layout, and what a caller wants to restyle is the box.
+
+## There is no `required`
+
+A checkbox group's rule is almost always "at least one", and that is not
+something HTML can say. `required` on a checkbox means *that box*, so
+forwarding the group's to the options would demand every one of them, and
+`aria-required` on each box tells a screen reader the same thing. The rule
+belongs to the form; what it produces is an `error`.
+
+`RadioGroup` does take `required`, because "exactly one of these" is a rule a
+radio group can express natively.
+
+## Accessibility
+
+- **A group needs a name.** `legend` is it. Without one the options are a run
+  of checkboxes that a reader arriving at the third one cannot place. If the
+  name is already on the page — a heading directly above the group — point at
+  it with `aria-labelledby` rather than repeating it.
+- **Both messages are published to the group, not to the boxes.** A screen
+  reader announces a fieldset's description when focus first enters it, which
+  is where "Select all that apply" and "Choose at least one" are useful.
+  Announcing either on every option would be one sentence read five times.
+- **`aria-invalid` is the per-box half of an error**, and it is what draws the
+  red border. A reader who arrives at a single box still learns the group is in
+  an error state.
+- **A hint on one option is wired to that option.** When the hint is the
+  difference between two choices, a reader who only hears the labels has not
+  been told what they are choosing between — so it goes in
+  `aria-describedby` rather than being left as text that happens to sit nearby.
+- **`disabled` is applied to each box**, not as the `<fieldset disabled>`
+  attribute. The browser applies that one to everything inside the element with
+  no way for a single option to opt back in, so a group disabled that way could
+  not leave one box live, and an item asking to stay enabled would render as
+  enabled and refuse to be clicked. Which is also what makes
+  `<CheckboxGroupItem disabled={false} />` meaningful inside a disabled group:
+  "all of these are unavailable except this one" is a thing a form legitimately
+  says. A `Radio` cannot do the same — a Radix radio group ORs its own
+  `disabled` with the item's, so the group always wins there.
+- **An option's own `aria-invalid` is kept, except for `false`.** The group
+  wins over `aria-invalid={false}` and only over that: `false` is the
+  attribute's default and reads identically to its absence, so an option
+  carrying it has asserted nothing, and letting it suppress the group's error
+  would render a box that is visibly invalid, inside a group showing an error
+  message, that tells a screen reader it is fine. Every other value is a real
+  assertion and is kept, including `grammar` and `spelling`, which say more
+  than the group's `true` would. The border is derived from whatever the
+  attribute ends up as rather than from the group, so a box that renders as
+  invalid is a box that announces it.
+
+## Dark mode
+
+Every part of the group has a dark half: the legend and labels take the same
+`foreground-inverse` the rest of the library's labels do, hints take
+`foreground-muted-dark`, and the error takes `red-300` rather than
+`feedback-error` — `feedback-error` is 3.66:1 on the dark page background, and the
+message owes 4.5:1 on all three of the surfaces a form can sit on. The invalid
+border takes `red-400` instead: a border owes only 3:1 under 1.4.11, and at
+20px across `red-300` reads as pale grey rather than as red.

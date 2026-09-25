@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { StepsIndicator } from '@/components/StepsIndicator'
+import { StepsIndicator } from '@/index'
 
 export const StepsIndicatorDemo: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(1)
