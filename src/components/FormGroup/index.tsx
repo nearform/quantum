@@ -76,7 +76,7 @@ const messageVariants = cva(['text-xs'], {
   }
 })
 
-interface FieldMessageProps extends React.ComponentPropsWithoutRef<'p'> {}
+type FieldMessageProps = React.ComponentPropsWithoutRef<'p'>
 
 /**
  * The hint under the control. Takes its text from the group's `description`,
