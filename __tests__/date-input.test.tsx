@@ -680,6 +680,79 @@ describe('DateInput', () => {
     expect(document.querySelector('[role="dialog"]')).toBeNull()
   })
 
+  describe('focus', () => {
+    const openCalendar = () => {
+      const trigger = document.querySelector<HTMLButtonElement>(
+        'button[aria-label="Choose date"]'
+      )!
+      act(() => {
+        trigger.focus()
+        trigger.click()
+      })
+      return trigger
+    }
+
+    const afterClose = () =>
+      act(async () => {
+        await new Promise(resolve => setTimeout(resolve, 0))
+      })
+
+    const focusedDay = () =>
+      document.activeElement?.closest('[data-day]')?.getAttribute('data-day')
+
+    it('moves to the selected day when the calendar opens', () => {
+      mount(<Controlled value={new Date(2024, 5, 15)} />)
+
+      openCalendar()
+
+      expect(focusedDay()).toBe('2024-06-15')
+      expect(document.activeElement?.tagName).toBe('BUTTON')
+    })
+
+    it('moves to today when nothing is selected', () => {
+      mount(<Controlled />)
+
+      openCalendar()
+
+      const today = new Date()
+      const iso = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, '0'),
+        String(today.getDate()).padStart(2, '0')
+      ].join('-')
+      expect(focusedDay()).toBe(iso)
+    })
+
+    it('returns to the calendar button after a day is picked', async () => {
+      mount(<Controlled value={new Date(2024, 5, 15)} />)
+      const trigger = openCalendar()
+
+      act(() => {
+        document
+          .querySelector<HTMLButtonElement>('[data-day="2024-06-20"] button')!
+          .click()
+      })
+      await afterClose()
+
+      expect(document.activeElement).toBe(trigger)
+    })
+
+    it('returns to the calendar button on Escape', async () => {
+      mount(<Controlled value={new Date(2024, 5, 15)} />)
+      const trigger = openCalendar()
+
+      act(() => {
+        document.activeElement!.dispatchEvent(
+          new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
+        )
+      })
+      await afterClose()
+
+      expect(document.querySelector('[role="dialog"]')).toBeNull()
+      expect(document.activeElement).toBe(trigger)
+    })
+  })
+
   it('keeps the date when the selected day is picked again', () => {
     const onValueChange = jest.fn()
     mount(
