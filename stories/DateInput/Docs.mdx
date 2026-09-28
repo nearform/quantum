@@ -35,23 +35,44 @@ the text is rewritten in full when the field loses focus.
 `onValueChange` is called with the date as soon as the text is a complete,
 valid date, and with `null` as soon as it stops being one. Anything else --
 half a date, 31 February, a date outside `min` and `max` -- leaves the text as
-it was typed and the value `null`, so the form can say what is wrong with it.
-Read the text itself from the input's `onChange` or `onBlur` if the message
-needs it.
+it was typed and the value `null`.
+
+`null` alone cannot tell an empty field from one holding text that is not a
+date, so the second argument says which: `{ text, invalid }`. `invalid` is
+`true` when there is text and it is not an acceptable date. `onValueChange` is
+called whenever the date or `invalid` changes, so a form learns both that the
+date went away and that the field is now holding something it will not send.
+It is not called again for every keystroke while the text stays invalid; read
+those from the input's `onChange` if you need them.
+
+The field also flags that text itself. When it loses focus holding text that
+is not a date, it takes the `error` variant's styling and `aria-invalid`, and
+drops both as soon as the text becomes a date or is cleared. While the text is
+invalid the input also carries a custom validity message, `invalidMessage`, so
+a form using the browser's own validation will not submit and will say why.
+Show your own message beside the field as well, as with any other control.
 
 <Canvas of={DateInputStories.CustomFormat} />
 
 ## Minimum and maximum
 
-`min` and `max` are `Date`s. Days outside them are disabled in the calendar,
+`min` and `max` are `Date`s, compared by day: a `min` of `new Date()`
+allows today whatever the time. Days outside them are disabled in the calendar,
 the calendar cannot be paged past them, and a typed date outside them is not a
 value.
+
+If the bounds change and the selected date falls outside them, the field
+drops it: `onValueChange` is called with `null` and `invalid: true`, the date
+stays in the text so the user can see what was rejected, and the field is
+flagged as above.
 
 <Canvas of={DateInputStories.MinAndMax} />
 
 ## Variants
 
 `error` also sets `aria-invalid` on the input, unless you pass one yourself.
+The field switches to `error` on its own when it is left holding text that is
+not a date.
 
 <Canvas of={DateInputStories.Error} />
 
@@ -81,6 +102,11 @@ With a `name`, the field adds a hidden input carrying the date as
 way the date is displayed, and it is the value a server expects from
 `<input type="date">`. The text input itself has no name.
 
+The hidden input follows the field: it is disabled along with it, so a
+disabled field posts nothing, as a disabled `<input type="date">` does, and a
+`form` attribute is passed to it so the value reaches a form the field is not
+inside.
+
 ## Attributes
 
 Everything an `<input>` takes, plus the props below. `type`, `size`, `min`,
@@ -105,7 +131,7 @@ Everything an `<input>` takes, plus the props below. `type`, `size`, `min`,
     </tr>
     <tr>
       <td>onValueChange</td>
-      <td>`(date: Date | null) => void`</td>
+      <td>`(date: Date | null, details: { text: string; invalid: boolean }) => void`</td>
       <td>-</td>
     </tr>
     <tr>
@@ -142,6 +168,11 @@ Everything an `<input>` takes, plus the props below. `type`, `size`, `min`,
       <td>calendarLabel</td>
       <td>`string`</td>
       <td>`'Choose date'`</td>
+    </tr>
+    <tr>
+      <td>invalidMessage</td>
+      <td>`string`</td>
+      <td>`'Enter a valid date'`</td>
     </tr>
     <tr>
       <td>labelText</td>

@@ -82,13 +82,21 @@ const parseDate = (
 const sameDay = (a: Date | null, b: Date | null) =>
   a === b || (!!a && !!b && a.toDateString() === b.toDateString())
 
+const isInvalidText = (text: string, date: Date | null) =>
+  !date && text.trim() !== ''
+
+interface DateInputValueDetails {
+  text: string
+  invalid: boolean
+}
+
 interface DateInputProps extends Omit<
   React.ComponentPropsWithoutRef<'input'>,
   'size' | 'type' | 'value' | 'defaultValue' | 'min' | 'max'
 > {
   value?: Date | null
   defaultValue?: Date | null
-  onValueChange?: (date: Date | null) => void
+  onValueChange?: (date: Date | null, details: DateInputValueDetails) => void
   format?: string
   formatHint?: string
   min?: Date
@@ -99,6 +107,7 @@ interface DateInputProps extends Omit<
   labelText?: string
   helpText?: string
   calendarLabel?: string
+  invalidMessage?: string
 }
 
 const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
@@ -120,7 +129,9 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
       labelText,
       helpText,
       calendarLabel = 'Choose date',
+      invalidMessage = 'Enter a valid date',
       disabled,
+      form,
       placeholder,
       onChange,
       onBlur,
@@ -138,10 +149,31 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
       selected ? formatDate(selected, format) : ''
     )
     const [open, setOpen] = React.useState(false)
+    const [showInvalid, setShowInvalid] = React.useState(false)
+
+    const minTime = min?.getTime()
+    const maxTime = max?.getTime()
+    const lower = minTime === undefined ? undefined : new Date(minTime)
+    const upper = maxTime === undefined ? undefined : new Date(maxTime)
+
+    const invalid = isInvalidText(text, parseDate(text, format, lower, upper))
+    const reportedInvalid = React.useRef(invalid)
+
+    const commit = (date: Date | null, nextText: string) => {
+      const nextInvalid = isInvalidText(nextText, date)
+      if (sameDay(date, selected) && nextInvalid === reportedInvalid.current) {
+        return
+      }
+      reportedInvalid.current = nextInvalid
+      if (!isControlled) {
+        setInternalValue(date)
+      }
+      onValueChange?.(date, { text: nextText, invalid: nextInvalid })
+    }
 
     React.useEffect(() => {
       setText(current => {
-        const parsed = parseDate(current, format, min, max)
+        const parsed = parseDate(current, format, lower, upper)
         if (selected) {
           return sameDay(parsed, selected)
             ? current
@@ -149,38 +181,63 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
         }
         return parsed ? '' : current
       })
-    }, [selected, format, min, max])
+    }, [selected, format, minTime, maxTime])
 
-    const commit = (date: Date | null) => {
-      if (sameDay(date, selected)) {
-        return
+    React.useEffect(() => {
+      if (
+        selected &&
+        !parseDate(formatDate(selected, format), format, lower, upper)
+      ) {
+        commit(null, formatDate(selected, format))
+        setShowInvalid(true)
       }
-      if (!isControlled) {
-        setInternalValue(date)
+    }, [selected, minTime, maxTime])
+
+    const inputRef = React.useRef<HTMLInputElement | null>(null)
+    const setRefs = (node: HTMLInputElement | null) => {
+      inputRef.current = node
+      if (typeof ref === 'function') {
+        ref(node)
+      } else if (ref) {
+        ref.current = node
       }
-      onValueChange?.(date)
     }
 
+    React.useEffect(() => {
+      inputRef.current?.setCustomValidity(invalid ? invalidMessage : '')
+    }, [invalid, invalidMessage])
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setText(event.target.value)
-      commit(parseDate(event.target.value, format, min, max))
+      const nextText = event.target.value
+      const parsed = parseDate(nextText, format, lower, upper)
+      setText(nextText)
+      commit(parsed, nextText)
+      if (!isInvalidText(nextText, parsed)) {
+        setShowInvalid(false)
+      }
       onChange?.(event)
     }
 
     const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-      const parsed = parseDate(text, format, min, max)
+      const parsed = parseDate(text, format, lower, upper)
       if (parsed) {
         setText(formatDate(parsed, format))
       }
+      setShowInvalid(invalid)
       onBlur?.(event)
     }
 
     const handleSelect = (date: Date | undefined) => {
       const next = date ?? null
-      setText(next ? formatDate(next, format) : '')
-      commit(next)
+      const nextText = next ? formatDate(next, format) : ''
+      setText(nextText)
+      commit(next, nextText)
+      setShowInvalid(false)
       setOpen(false)
     }
+
+    const flagged = showInvalid && invalid
+    const shownVariant = flagged ? 'error' : variant
 
     const hint = formatHint ?? format.toUpperCase()
 
@@ -197,30 +254,41 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
       .join(' ')
 
     const disabledDays: Matcher[] = []
-    if (min) {
-      disabledDays.push({ before: startOfDay(min) })
+    if (lower) {
+      disabledDays.push({ before: startOfDay(lower) })
     }
-    if (max) {
-      disabledDays.push({ after: startOfDay(max) })
+    if (upper) {
+      disabledDays.push({ after: startOfDay(upper) })
     }
 
     const field = (
       <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
         <PopoverPrimitive.Anchor asChild>
-          <div className={cn(formVariants({ variant, size }), formClassName)}>
+          <div
+            className={cn(
+              formVariants({ variant: shownVariant, size }),
+              formClassName
+            )}
+          >
             <input
               id={inputId}
               type="text"
               autoComplete="off"
-              className={cn(dateInputVariants({ variant }), className)}
-              ref={ref}
+              className={cn(
+                dateInputVariants({ variant: shownVariant }),
+                className
+              )}
+              ref={setRefs}
+              form={form}
               value={text}
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={disabled}
               placeholder={placeholder ?? hint}
               aria-describedby={describedBy}
-              aria-invalid={ariaInvalid ?? (variant === 'error' || undefined)}
+              aria-invalid={
+                ariaInvalid ?? (shownVariant === 'error' || undefined)
+              }
               {...props}
             />
             <span id={formatHintId} className="sr-only">
@@ -250,8 +318,8 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
               selected={selected ?? undefined}
               onSelect={handleSelect}
               defaultMonth={selected ?? undefined}
-              startMonth={min}
-              endMonth={max}
+              startMonth={lower}
+              endMonth={upper}
               disabled={disabledDays}
             />
           </PopoverPrimitive.Content>
@@ -260,6 +328,8 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
           <input
             type="hidden"
             name={name}
+            form={form}
+            disabled={disabled}
             value={selected ? formatDate(selected, ISO_FORMAT) : ''}
           />
         )}
@@ -296,4 +366,4 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
 
 DateInput.displayName = 'DateInput'
 
-export { DateInput, DateInputProps }
+export { DateInput, DateInputProps, DateInputValueDetails }

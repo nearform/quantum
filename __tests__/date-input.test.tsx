@@ -71,9 +71,9 @@ const Controlled = (props: DateInputProps) => {
     <DateInput
       {...props}
       value={date}
-      onValueChange={next => {
+      onValueChange={(next, details) => {
         setDate(next)
-        props.onValueChange?.(next)
+        props.onValueChange?.(next, details)
       }}
     />
   )
@@ -97,11 +97,16 @@ describe('DateInput', () => {
     mount(<DateInput onValueChange={onValueChange} />)
 
     type('15/06/20')
-    expect(onValueChange).not.toHaveBeenCalled()
+    expect(onValueChange).toHaveBeenLastCalledWith(null, {
+      text: '15/06/20',
+      invalid: true
+    })
 
     type('15/06/2024')
-    expect(onValueChange).toHaveBeenCalledTimes(1)
-    expect(onValueChange.mock.calls[0][0]).toEqual(new Date(2024, 5, 15))
+    expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 15), {
+      text: '15/06/2024',
+      invalid: false
+    })
   })
 
   it('reports null when a complete date is edited into an incomplete one', () => {
@@ -111,8 +116,39 @@ describe('DateInput', () => {
     type('15/06/2024')
     type('15/06/202')
 
-    expect(onValueChange).toHaveBeenLastCalledWith(null)
+    expect(onValueChange).toHaveBeenLastCalledWith(null, {
+      text: '15/06/202',
+      invalid: true
+    })
     expect(textInput().value).toBe('15/06/202')
+  })
+
+  it('tells a cleared field apart from a rejected one', () => {
+    const onValueChange = jest.fn()
+    mount(<Controlled onValueChange={onValueChange} />)
+
+    type('tomorrow')
+    expect(onValueChange).toHaveBeenLastCalledWith(null, {
+      text: 'tomorrow',
+      invalid: true
+    })
+
+    type('')
+    expect(onValueChange).toHaveBeenLastCalledWith(null, {
+      text: '',
+      invalid: false
+    })
+  })
+
+  it('does not report again while the text stays invalid', () => {
+    const onValueChange = jest.fn()
+    mount(<DateInput onValueChange={onValueChange} />)
+
+    type('1')
+    type('15')
+    type('15/')
+
+    expect(onValueChange).toHaveBeenCalledTimes(1)
   })
 
   it.each(['31/02/2024', '32/01/2024', 'tomorrow'])(
@@ -123,7 +159,10 @@ describe('DateInput', () => {
 
       type(text)
 
-      expect(onValueChange).not.toHaveBeenCalled()
+      expect(onValueChange).toHaveBeenLastCalledWith(null, {
+        text,
+        invalid: true
+      })
       expect(textInput().value).toBe(text)
     }
   )
@@ -133,7 +172,10 @@ describe('DateInput', () => {
     mount(<Controlled onValueChange={onValueChange} />)
 
     type('1/6/2024')
-    expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 1))
+    expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 1), {
+      text: '1/6/2024',
+      invalid: false
+    })
 
     blur()
     expect(textInput().value).toBe('01/06/2024')
@@ -151,10 +193,116 @@ describe('DateInput', () => {
 
     type('31/05/2024')
     type('01/07/2024')
-    expect(onValueChange).not.toHaveBeenCalled()
+    expect(onValueChange).toHaveBeenLastCalledWith(null, {
+      text: '31/05/2024',
+      invalid: true
+    })
+    expect(onValueChange).toHaveBeenCalledTimes(1)
 
     type('30/06/2024')
-    expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 30))
+    expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 30), {
+      text: '30/06/2024',
+      invalid: false
+    })
+  })
+
+  it('accepts today when min is a time later in the day', () => {
+    const onValueChange = jest.fn()
+    mount(
+      <DateInput
+        value={new Date(2024, 5, 20)}
+        min={new Date(2024, 5, 15, 14, 30)}
+        onValueChange={onValueChange}
+      />
+    )
+
+    type('15/06/2024')
+    expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 15), {
+      text: '15/06/2024',
+      invalid: false
+    })
+
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>('button[aria-label="Choose date"]')!
+        .click()
+    })
+    expect(
+      document.querySelector<HTMLButtonElement>(
+        '[data-day="2024-06-15"] button'
+      )!.disabled
+    ).toBe(false)
+  })
+
+  it('marks rejected text invalid on blur, and clears it once fixed', () => {
+    mount(<Controlled />)
+
+    type('31/02/2024')
+    expect(textInput().getAttribute('aria-invalid')).toBeNull()
+
+    blur()
+    expect(textInput().getAttribute('aria-invalid')).toBe('true')
+    expect(textInput().className).toContain('text-feedback-error')
+
+    type('28/02/2024')
+    expect(textInput().getAttribute('aria-invalid')).toBeNull()
+  })
+
+  it('stops a form submitting text it cannot send', () => {
+    mount(<Controlled invalidMessage="Enter a real date" />)
+
+    type('31/02/2024')
+    expect(textInput().validity.customError).toBe(true)
+    expect(textInput().validationMessage).toBe('Enter a real date')
+
+    type('')
+    expect(textInput().validity.valid).toBe(true)
+  })
+
+  it('drops a selected date that tightened bounds rule out', () => {
+    const onValueChange = jest.fn()
+    const element = (min: Date) => (
+      <DateInput
+        name="start"
+        value={new Date(2024, 5, 15)}
+        min={min}
+        onValueChange={onValueChange}
+      />
+    )
+    mount(element(new Date(2024, 5, 1)))
+    expect(onValueChange).not.toHaveBeenCalled()
+
+    rerender(element(new Date(2024, 6, 1)))
+
+    expect(onValueChange).toHaveBeenCalledTimes(1)
+    expect(onValueChange).toHaveBeenLastCalledWith(null, {
+      text: '15/06/2024',
+      invalid: true
+    })
+    expect(textInput().getAttribute('aria-invalid')).toBe('true')
+  })
+
+  it('clears the posted value when tightened bounds rule it out', () => {
+    const Harness = () => {
+      const [min, setMin] = React.useState(new Date(2024, 5, 1))
+      return (
+        <>
+          <Controlled name="start" value={new Date(2024, 5, 15)} min={min} />
+          <button type="button" onClick={() => setMin(new Date(2024, 6, 1))}>
+            tighten
+          </button>
+        </>
+      )
+    }
+    mount(<Harness />)
+    expect(hiddenInput()!.value).toBe('2024-06-15')
+
+    act(() => {
+      document.querySelectorAll<HTMLButtonElement>('button')[1].click()
+    })
+
+    expect(hiddenInput()!.value).toBe('')
+    expect(textInput().value).toBe('15/06/2024')
   })
 
   it('follows a controlled value that changes from outside', () => {
@@ -201,6 +349,19 @@ describe('DateInput', () => {
     expect(hiddenInput()!.value).toBe('')
   })
 
+  it('does not post a value while disabled', () => {
+    mount(<DateInput name="start" value={new Date(2024, 5, 15)} disabled />)
+
+    expect(hiddenInput()!.disabled).toBe(true)
+  })
+
+  it('posts to the form it is pointed at', () => {
+    mount(<DateInput name="start" form="signup" />)
+
+    expect(hiddenInput()!.getAttribute('form')).toBe('signup')
+    expect(textInput().getAttribute('form')).toBe('signup')
+  })
+
   it('adds no hidden input without a name', () => {
     mount(<DateInput />)
 
@@ -230,7 +391,10 @@ describe('DateInput', () => {
       day.click()
     })
 
-    expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 20))
+    expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 20), {
+      text: '20/06/2024',
+      invalid: false
+    })
     expect(textInput().value).toBe('20/06/2024')
     expect(document.querySelector('[role="dialog"]')).toBeNull()
   })
