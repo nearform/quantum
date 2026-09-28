@@ -169,6 +169,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     const isControlled = value !== undefined
     const [internalValue, setInternalValue] = React.useState(defaultValue)
     const selected = validOrNull(isControlled ? value : internalValue)
+    const selectedDay = selected ? startOfDay(selected).getTime() : null
 
     const [text, setText] = React.useState(() =>
       selected ? formatDate(selected, format) : ''
@@ -212,14 +213,14 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
         }
         return parsed ? '' : current
       })
-    }, [selected, format, minTime, maxTime])
+    }, [selectedDay, format, minTime, maxTime])
 
     React.useEffect(() => {
       if (selected && !withinBounds(selected, lower, upper)) {
         commit(null, formatDate(selected, format), 'range')
         setShowInvalid(true)
       }
-    }, [selected, format, minTime, maxTime])
+    }, [selectedDay, format, minTime, maxTime])
 
     const inputRef = React.useRef<HTMLInputElement | null>(null)
     const setRefs = (node: HTMLInputElement | null) => {

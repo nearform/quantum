@@ -569,6 +569,68 @@ describe('DateInput', () => {
     expect(textInput().value).toBe('')
   })
 
+  it('keeps in-progress text when the parent re-creates the same date', () => {
+    const Harness = () => {
+      const [iso, setIso] = React.useState('2024-06-15')
+      const [, setRenders] = React.useState(0)
+      const [year, month, day] = iso.split('-').map(Number)
+      return (
+        <DateInput
+          value={new Date(year, month - 1, day)}
+          onValueChange={next => {
+            if (next) {
+              setIso(
+                [
+                  next.getFullYear(),
+                  String(next.getMonth() + 1).padStart(2, '0'),
+                  String(next.getDate()).padStart(2, '0')
+                ].join('-')
+              )
+            }
+            setRenders(count => count + 1)
+          }}
+        />
+      )
+    }
+    mount(<Harness />)
+
+    type('15/06/202')
+    expect(textInput().value).toBe('15/06/202')
+
+    type('16/06/2024')
+    expect(textInput().value).toBe('16/06/2024')
+  })
+
+  it('still follows a re-created value that changes the day', () => {
+    const element = (day: number) => (
+      <DateInput value={new Date(2024, 5, day)} />
+    )
+    mount(element(15))
+
+    rerender(element(15))
+    expect(textInput().value).toBe('15/06/2024')
+
+    rerender(element(20))
+    expect(textInput().value).toBe('20/06/2024')
+  })
+
+  it('drops a re-created out-of-range date once, not on every render', () => {
+    const onValueChange = jest.fn()
+    const element = () => (
+      <DateInput
+        value={new Date(2024, 4, 31)}
+        min={new Date(2024, 5, 1)}
+        onValueChange={onValueChange}
+      />
+    )
+    mount(element())
+
+    rerender(element())
+    rerender(element())
+
+    expect(onValueChange).toHaveBeenCalledTimes(1)
+  })
+
   it('keeps an unfinished date when the value is already null', () => {
     mount(<Controlled />)
 
