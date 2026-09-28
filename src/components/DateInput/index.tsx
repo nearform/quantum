@@ -157,14 +157,12 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     const upper = maxTime === undefined ? undefined : new Date(maxTime)
 
     const invalid = isInvalidText(text, parseDate(text, format, lower, upper))
-    const reportedInvalid = React.useRef(invalid)
 
     const commit = (date: Date | null, nextText: string) => {
       const nextInvalid = isInvalidText(nextText, date)
-      if (sameDay(date, selected) && nextInvalid === reportedInvalid.current) {
+      if (sameDay(date, selected) && nextInvalid === invalid) {
         return
       }
-      reportedInvalid.current = nextInvalid
       if (!isControlled) {
         setInternalValue(date)
       }
@@ -227,9 +225,8 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
       onBlur?.(event)
     }
 
-    const handleSelect = (date: Date | undefined) => {
-      const next = date ?? null
-      const nextText = next ? formatDate(next, format) : ''
+    const handleSelect = (next: Date) => {
+      const nextText = formatDate(next, format)
       setText(nextText)
       commit(next, nextText)
       setShowInvalid(false)
@@ -314,6 +311,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
           >
             <Calendar
               mode="single"
+              required
               autoFocus
               selected={selected ?? undefined}
               onSelect={handleSelect}

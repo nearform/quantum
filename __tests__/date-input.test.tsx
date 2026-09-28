@@ -151,6 +151,75 @@ describe('DateInput', () => {
     expect(onValueChange).toHaveBeenCalledTimes(1)
   })
 
+  it('judges the next edit against a value the parent reset', () => {
+    const onValueChange = jest.fn()
+    const Harness = () => {
+      const [date, setDate] = React.useState<Date | null>(null)
+      return (
+        <>
+          <DateInput
+            value={date}
+            onValueChange={(next, details) => {
+              setDate(next)
+              onValueChange(next, details)
+            }}
+          />
+          <button type="button" onClick={() => setDate(new Date(2024, 5, 15))}>
+            reset
+          </button>
+        </>
+      )
+    }
+    mount(<Harness />)
+
+    type('tomorrow')
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>('button:not([aria-label])')!
+        .click()
+    })
+    expect(textInput().value).toBe('15/06/2024')
+    onValueChange.mockClear()
+
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>('button[aria-label="Choose date"]')!
+        .click()
+    })
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>('[data-day="2024-06-15"] button')!
+        .click()
+    })
+    expect(onValueChange).not.toHaveBeenCalled()
+
+    type('15/06/202')
+    expect(onValueChange).toHaveBeenCalledTimes(1)
+    expect(onValueChange).toHaveBeenLastCalledWith(null, {
+      text: '15/06/202',
+      invalid: true
+    })
+  })
+
+  it('leaves text that names the same day to onChange', () => {
+    const onValueChange = jest.fn()
+    const onChange = jest.fn()
+    mount(
+      <Controlled
+        value={new Date(2024, 5, 15)}
+        onValueChange={onValueChange}
+        onChange={onChange}
+      />
+    )
+
+    type('15/6/2024')
+    blur()
+
+    expect(onValueChange).not.toHaveBeenCalled()
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(textInput().value).toBe('15/06/2024')
+  })
+
   it.each(['31/02/2024', '32/01/2024', 'tomorrow'])(
     'does not treat %s as a date',
     text => {
@@ -396,6 +465,28 @@ describe('DateInput', () => {
       invalid: false
     })
     expect(textInput().value).toBe('20/06/2024')
+    expect(document.querySelector('[role="dialog"]')).toBeNull()
+  })
+
+  it('keeps the date when the selected day is picked again', () => {
+    const onValueChange = jest.fn()
+    mount(
+      <Controlled value={new Date(2024, 5, 15)} onValueChange={onValueChange} />
+    )
+
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>('button[aria-label="Choose date"]')!
+        .click()
+    })
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>('[data-day="2024-06-15"] button')!
+        .click()
+    })
+
+    expect(onValueChange).not.toHaveBeenCalled()
+    expect(textInput().value).toBe('15/06/2024')
     expect(document.querySelector('[role="dialog"]')).toBeNull()
   })
 

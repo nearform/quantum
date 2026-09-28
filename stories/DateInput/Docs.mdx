@@ -42,8 +42,16 @@ date, so the second argument says which: `{ text, invalid }`. `invalid` is
 `true` when there is text and it is not an acceptable date. `onValueChange` is
 called whenever the date or `invalid` changes, so a form learns both that the
 date went away and that the field is now holding something it will not send.
-It is not called again for every keystroke while the text stays invalid; read
-those from the input's `onChange` if you need them.
+It is not called for edits that change neither -- another keystroke while the
+text stays invalid, `15/6/2024` retyped over `15/06/2024`, or the rewrite to
+the full format on blur. `{ text, invalid }` is a snapshot of the field at the
+moment the date or its validity changed, not a live copy of the text; read the
+text from the input's `onChange` if you need every edit.
+
+Each change is judged against what the field shows now, so a value the parent
+sets from outside -- a form reset, a linked field -- is the starting point for
+the next edit. Picking the day that is already selected keeps it: the calendar
+does not toggle a date off, and the field is cleared by deleting its text.
 
 The field also flags that text itself. When it loses focus holding text that
 is not a date, it takes the `error` variant's styling and `aria-invalid`, and
