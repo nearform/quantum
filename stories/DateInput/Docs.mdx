@@ -18,6 +18,10 @@ wiring.
 
 The value is a `Date`, or `null` when the field is empty. Pass `value` and
 `onValueChange` to control it, or `defaultValue` to leave it to the field.
+An invalid `Date` -- `new Date('2024-13-45')`, or an unparsed string from an
+API run through `new Date` -- is treated as no date, so the field renders
+empty, not failing to render. The same goes for an invalid `min` or `max`,
+which is treated as no bound.
 
 <Canvas of={DateInputStories.WithValue} />
 

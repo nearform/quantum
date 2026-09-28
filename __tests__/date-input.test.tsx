@@ -92,6 +92,59 @@ describe('DateInput', () => {
     expect(textInput().value).toBe('2024-06-15')
   })
 
+  it.each([
+    ['value', { value: new Date('2024-13-45') }],
+    ['defaultValue', { defaultValue: new Date('not a date') }]
+  ])('renders an empty field for an invalid Date as %s', (_, props) => {
+    const onValueChange = jest.fn()
+    mount(<DateInput name="start" onValueChange={onValueChange} {...props} />)
+
+    expect(textInput().value).toBe('')
+    expect(hiddenInput()!.value).toBe('')
+    expect(textInput().getAttribute('aria-invalid')).toBeNull()
+    expect(onValueChange).not.toHaveBeenCalled()
+  })
+
+  it('takes a typed date after an invalid Date value', () => {
+    const onValueChange = jest.fn()
+    mount(<DateInput value={new Date(NaN)} onValueChange={onValueChange} />)
+
+    type('15/06/2024')
+
+    expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 15), {
+      text: '15/06/2024',
+      invalid: false
+    })
+  })
+
+  it('ignores an invalid Date as min or max', () => {
+    const onValueChange = jest.fn()
+    mount(
+      <DateInput
+        value={new Date(2024, 5, 15)}
+        min={new Date(NaN)}
+        max={new Date('nope')}
+        onValueChange={onValueChange}
+      />
+    )
+
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>('button[aria-label="Choose date"]')!
+        .click()
+    })
+
+    expect(onValueChange).not.toHaveBeenCalled()
+    expect(document.querySelector('[role="dialog"]')!.textContent).toContain(
+      'June 2024'
+    )
+    expect(
+      document.querySelector<HTMLButtonElement>(
+        '[data-day="2024-06-01"] button'
+      )!.disabled
+    ).toBe(false)
+  })
+
   it('reports a typed date once it is complete', () => {
     const onValueChange = jest.fn()
     mount(<DateInput onValueChange={onValueChange} />)

@@ -78,6 +78,9 @@ const parseDate = (
   return withinBounds(date, min, max) ? date : null
 }
 
+const validOrNull = (date: Date | null | undefined) =>
+  date && isValid(date) ? date : null
+
 const sameDay = (a: Date | null, b: Date | null) =>
   a === b || (!!a && !!b && a.toDateString() === b.toDateString())
 
@@ -142,7 +145,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
   ) => {
     const isControlled = value !== undefined
     const [internalValue, setInternalValue] = React.useState(defaultValue)
-    const selected = isControlled ? value : internalValue
+    const selected = validOrNull(isControlled ? value : internalValue)
 
     const [text, setText] = React.useState(() =>
       selected ? formatDate(selected, format) : ''
@@ -150,8 +153,8 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     const [open, setOpen] = React.useState(false)
     const [showInvalid, setShowInvalid] = React.useState(false)
 
-    const minTime = min?.getTime()
-    const maxTime = max?.getTime()
+    const minTime = validOrNull(min)?.getTime()
+    const maxTime = validOrNull(max)?.getTime()
     const lower = minTime === undefined ? undefined : new Date(minTime)
     const upper = maxTime === undefined ? undefined : new Date(maxTime)
 
