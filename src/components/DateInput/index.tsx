@@ -198,10 +198,10 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
 
     const disabledDays: Matcher[] = []
     if (min) {
-      disabledDays.push({ before: min })
+      disabledDays.push({ before: startOfDay(min) })
     }
     if (max) {
-      disabledDays.push({ after: max })
+      disabledDays.push({ after: startOfDay(max) })
     }
 
     const field = (
