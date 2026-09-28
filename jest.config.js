@@ -37,7 +37,6 @@ module.exports = {
           isolatedModules: true
         }
       }
-    ],
-    '^.+\\.(js|jsx)$': 'babel-jest'
+    ]
   }
 }

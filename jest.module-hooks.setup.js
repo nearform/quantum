@@ -27,7 +27,9 @@
  * not only the ones that throw. Inside a worker `node:module` is Jest's own
  * sandboxed copy, so this never reaches the real loader.
  */
-import Module from 'module'
+// Jest runs this file untransformed as CommonJS, so ESM `import` is unavailable.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const Module = require('node:module')
 
 if (process.env.JEST_WORKER_ID === undefined) {
   throw new Error(
