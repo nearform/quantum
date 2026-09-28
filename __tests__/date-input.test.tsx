@@ -351,6 +351,38 @@ describe('DateInput', () => {
     expect(textInput().getAttribute('aria-invalid')).toBe('true')
   })
 
+  it('judges the selection against the bounds whatever the format', () => {
+    const onValueChange = jest.fn()
+    const element = (format: string) => (
+      <DateInput
+        value={new Date(2024, 5, 15)}
+        min={new Date(2024, 5, 1)}
+        max={new Date(2024, 5, 30)}
+        format={format}
+        onValueChange={onValueChange}
+      />
+    )
+    mount(element('dd/MM/yyyy'))
+
+    rerender(element('MM/dd'))
+
+    expect(onValueChange).not.toHaveBeenCalled()
+    expect(textInput().value).toBe('06/15')
+  })
+
+  it('keeps a selection on the last allowed day whatever its time', () => {
+    const onValueChange = jest.fn()
+    mount(
+      <DateInput
+        value={new Date(2024, 5, 30, 18, 0)}
+        max={new Date(2024, 5, 30)}
+        onValueChange={onValueChange}
+      />
+    )
+
+    expect(onValueChange).not.toHaveBeenCalled()
+  })
+
   it('clears the posted value when tightened bounds rule it out', () => {
     const Harness = () => {
       const [min, setMin] = React.useState(new Date(2024, 5, 1))

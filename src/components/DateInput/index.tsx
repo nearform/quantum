@@ -56,6 +56,11 @@ const dateInputVariants = cva(
 
 const ISO_FORMAT = 'yyyy-MM-dd'
 
+const withinBounds = (date: Date, min?: Date, max?: Date) => {
+  const day = startOfDay(date)
+  return !(min && day < startOfDay(min)) && !(max && day > startOfDay(max))
+}
+
 const parseDate = (
   text: string,
   pattern: string,
@@ -70,13 +75,7 @@ const parseDate = (
   if (!isValid(date) || date.getFullYear() < 1000) {
     return null
   }
-  if (min && date < startOfDay(min)) {
-    return null
-  }
-  if (max && date > startOfDay(max)) {
-    return null
-  }
-  return date
+  return withinBounds(date, min, max) ? date : null
 }
 
 const sameDay = (a: Date | null, b: Date | null) =>
@@ -182,14 +181,11 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     }, [selected, format, minTime, maxTime])
 
     React.useEffect(() => {
-      if (
-        selected &&
-        !parseDate(formatDate(selected, format), format, lower, upper)
-      ) {
+      if (selected && !withinBounds(selected, lower, upper)) {
         commit(null, formatDate(selected, format))
         setShowInvalid(true)
       }
-    }, [selected, minTime, maxTime])
+    }, [selected, format, minTime, maxTime])
 
     const inputRef = React.useRef<HTMLInputElement | null>(null)
     const setRefs = (node: HTMLInputElement | null) => {
