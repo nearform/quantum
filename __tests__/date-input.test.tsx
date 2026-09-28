@@ -113,7 +113,8 @@ describe('DateInput', () => {
 
     expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 15), {
       text: '15/06/2024',
-      invalid: false
+      invalid: false,
+      reason: null
     })
   })
 
@@ -152,13 +153,15 @@ describe('DateInput', () => {
     type('15/06/20')
     expect(onValueChange).toHaveBeenLastCalledWith(null, {
       text: '15/06/20',
-      invalid: true
+      invalid: true,
+      reason: 'format'
     })
 
     type('15/06/2024')
     expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 15), {
       text: '15/06/2024',
-      invalid: false
+      invalid: false,
+      reason: null
     })
   })
 
@@ -171,7 +174,8 @@ describe('DateInput', () => {
 
     expect(onValueChange).toHaveBeenLastCalledWith(null, {
       text: '15/06/202',
-      invalid: true
+      invalid: true,
+      reason: 'format'
     })
     expect(textInput().value).toBe('15/06/202')
   })
@@ -183,13 +187,15 @@ describe('DateInput', () => {
     type('tomorrow')
     expect(onValueChange).toHaveBeenLastCalledWith(null, {
       text: 'tomorrow',
-      invalid: true
+      invalid: true,
+      reason: 'format'
     })
 
     type('')
     expect(onValueChange).toHaveBeenLastCalledWith(null, {
       text: '',
-      invalid: false
+      invalid: false,
+      reason: null
     })
   })
 
@@ -250,7 +256,8 @@ describe('DateInput', () => {
     expect(onValueChange).toHaveBeenCalledTimes(1)
     expect(onValueChange).toHaveBeenLastCalledWith(null, {
       text: '15/06/202',
-      invalid: true
+      invalid: true,
+      reason: 'format'
     })
   })
 
@@ -283,7 +290,8 @@ describe('DateInput', () => {
 
       expect(onValueChange).toHaveBeenLastCalledWith(null, {
         text,
-        invalid: true
+        invalid: true,
+        reason: 'format'
       })
       expect(textInput().value).toBe(text)
     }
@@ -296,7 +304,8 @@ describe('DateInput', () => {
     type('1/6/2024')
     expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 1), {
       text: '1/6/2024',
-      invalid: false
+      invalid: false,
+      reason: null
     })
 
     blur()
@@ -317,14 +326,16 @@ describe('DateInput', () => {
     type('01/07/2024')
     expect(onValueChange).toHaveBeenLastCalledWith(null, {
       text: '31/05/2024',
-      invalid: true
+      invalid: true,
+      reason: 'range'
     })
     expect(onValueChange).toHaveBeenCalledTimes(1)
 
     type('30/06/2024')
     expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 30), {
       text: '30/06/2024',
-      invalid: false
+      invalid: false,
+      reason: null
     })
   })
 
@@ -341,7 +352,8 @@ describe('DateInput', () => {
     type('15/06/2024')
     expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 15), {
       text: '15/06/2024',
-      invalid: false
+      invalid: false,
+      reason: null
     })
 
     act(() => {
@@ -381,6 +393,93 @@ describe('DateInput', () => {
     expect(textInput().validity.valid).toBe(true)
   })
 
+  it.each([
+    [
+      'both bounds',
+      { min: new Date(2024, 5, 1), max: new Date(2024, 5, 30) },
+      '31/05/2024',
+      'Enter a date from 01/06/2024 to 30/06/2024'
+    ],
+    [
+      'a minimum',
+      { min: new Date(2024, 5, 1) },
+      '31/05/2024',
+      'Enter a date on or after 01/06/2024'
+    ],
+    [
+      'a maximum',
+      { max: new Date(2024, 5, 30) },
+      '01/07/2024',
+      'Enter a date on or before 30/06/2024'
+    ]
+  ])(
+    'names the range when a real date falls outside %s',
+    (_, bounds, text, message) => {
+      mount(<Controlled {...bounds} />)
+
+      type(text)
+
+      expect(textInput().validationMessage).toBe(message)
+    }
+  )
+
+  it('writes the range in the display format', () => {
+    mount(<Controlled min={new Date(2024, 5, 1)} format="yyyy-MM-dd" />)
+
+    type('2024-05-31')
+
+    expect(textInput().validationMessage).toBe(
+      'Enter a date on or after 2024-06-01'
+    )
+  })
+
+  it('lets the range message be reworded', () => {
+    mount(
+      <Controlled
+        min={new Date(2024, 5, 1)}
+        rangeMessage="Pick a day in June"
+        invalidMessage="Not a date"
+      />
+    )
+
+    type('31/05/2024')
+    expect(textInput().validationMessage).toBe('Pick a day in June')
+
+    type('31/02/2024')
+    expect(textInput().validationMessage).toBe('Not a date')
+  })
+
+  it('reports when the reason changes, even while invalid throughout', () => {
+    const onValueChange = jest.fn()
+    mount(
+      <Controlled min={new Date(2024, 5, 1)} onValueChange={onValueChange} />
+    )
+
+    type('31/05/2024')
+    type('31/05/20')
+
+    expect(onValueChange).toHaveBeenCalledTimes(2)
+    expect(onValueChange).toHaveBeenNthCalledWith(1, null, {
+      text: '31/05/2024',
+      invalid: true,
+      reason: 'range'
+    })
+    expect(onValueChange).toHaveBeenNthCalledWith(2, null, {
+      text: '31/05/20',
+      invalid: true,
+      reason: 'format'
+    })
+  })
+
+  it('flags an out-of-range date on blur like any other rejected text', () => {
+    mount(<Controlled max={new Date(2024, 5, 30)} />)
+
+    type('01/07/2024')
+    blur()
+
+    expect(textInput().getAttribute('aria-invalid')).toBe('true')
+  })
+
   it('drops a selected date that tightened bounds rule out', () => {
     const onValueChange = jest.fn()
     const element = (min: Date) => (
@@ -399,7 +498,8 @@ describe('DateInput', () => {
     expect(onValueChange).toHaveBeenCalledTimes(1)
     expect(onValueChange).toHaveBeenLastCalledWith(null, {
       text: '15/06/2024',
-      invalid: true
+      invalid: true,
+      reason: 'range'
     })
     expect(textInput().getAttribute('aria-invalid')).toBe('true')
   })
@@ -573,7 +673,8 @@ describe('DateInput', () => {
 
     expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 20), {
       text: '20/06/2024',
-      invalid: false
+      invalid: false,
+      reason: null
     })
     expect(textInput().value).toBe('20/06/2024')
     expect(document.querySelector('[role="dialog"]')).toBeNull()

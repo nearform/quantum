@@ -42,15 +42,22 @@ half a date, 31 February, a date outside `min` and `max` -- leaves the text as
 it was typed and the value `null`.
 
 `null` alone cannot tell an empty field from one holding text that is not a
-date, so the second argument says which: `{ text, invalid }`. `invalid` is
-`true` when there is text and it is not an acceptable date. `onValueChange` is
-called whenever the date or `invalid` changes, so a form learns both that the
-date went away and that the field is now holding something it will not send.
-It is not called for edits that change neither -- another keystroke while the
-text stays invalid, `15/6/2024` retyped over `15/06/2024`, or the rewrite to
-the full format on blur. `{ text, invalid }` is a snapshot of the field at the
-moment the date or its validity changed, not a live copy of the text; read the
-text from the input's `onChange` if you need every edit.
+date, so the second argument says which: `{ text, invalid, reason }`.
+`invalid` is `true` when there is text and it is not an acceptable date, and
+`reason` says what is wrong with it:
+
+- `'format'` -- the text is not a date: half a date, 31 February, a word.
+- `'range'` -- the text is a real date, but outside `min` and `max`.
+- `null` -- nothing is wrong: the field holds a date, or is empty.
+
+`onValueChange` is called whenever the date or `reason` changes, so a form
+learns that the date went away, that the field is now holding something it
+will not send, and which message to show for it. It is not called for edits
+that change neither -- another keystroke while the text stays wrong in the
+same way, `15/6/2024` retyped over `15/06/2024`, or the rewrite to the full
+format on blur. The details are a snapshot of the field at the moment the date
+or its validity changed, not a live copy of the text; read the text from the
+input's `onChange` if you need every edit.
 
 Each change is judged against what the field shows now, so a value the parent
 sets from outside -- a form reset, a linked field -- is the starting point for
@@ -60,9 +67,14 @@ does not toggle a date off, and the field is cleared by deleting its text.
 The field also flags that text itself. When it loses focus holding text that
 is not a date, it takes the `error` variant's styling and `aria-invalid`, and
 drops both as soon as the text becomes a date or is cleared. While the text is
-invalid the input also carries a custom validity message, `invalidMessage`, so
-a form using the browser's own validation will not submit and will say why.
-Show your own message beside the field as well, as with any other control.
+invalid the input also carries a custom validity message, so a form using the
+browser's own validation will not submit and will say why. Text that is not a
+date gets `invalidMessage`. A real date outside the bounds gets a message that
+names them -- "Enter a date on or after 01/06/2024", written in `format` --
+or `rangeMessage` if you pass one, since telling someone who typed a real date
+to enter a valid one asks them to fix something that is not wrong. Show your
+own message beside the field as well, as with any other control; `reason`
+says which one.
 
 <Canvas of={DateInputStories.CustomFormat} />
 
@@ -74,7 +86,7 @@ the calendar cannot be paged past them, and a typed date outside them is not a
 value.
 
 If the bounds change and the selected date falls outside them, the field
-drops it: `onValueChange` is called with `null` and `invalid: true`, the date
+drops it: `onValueChange` is called with `null` and `reason: 'range'`, the date
 stays in the text so the user can see what was rejected, and the field is
 flagged as above.
 
@@ -147,7 +159,7 @@ Everything an `<input>` takes, plus the props below. `type`, `size`, `min`,
     </tr>
     <tr>
       <td>onValueChange</td>
-      <td>`(date: Date | null, details: { text: string; invalid: boolean }) => void`</td>
+      <td>`(date: Date | null, details: { text: string; invalid: boolean; reason: 'format' | 'range' | null }) => void`</td>
       <td>-</td>
     </tr>
     <tr>
@@ -189,6 +201,11 @@ Everything an `<input>` takes, plus the props below. `type`, `size`, `min`,
       <td>invalidMessage</td>
       <td>`string`</td>
       <td>`'Enter a valid date'`</td>
+    </tr>
+    <tr>
+      <td>rangeMessage</td>
+      <td>`string`</td>
+      <td>names `min` and `max` in `format`</td>
     </tr>
     <tr>
       <td>labelText</td>

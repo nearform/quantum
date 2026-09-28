@@ -61,21 +61,43 @@ const withinBounds = (date: Date, min?: Date, max?: Date) => {
   return !(min && day < startOfDay(min)) && !(max && day > startOfDay(max))
 }
 
-const parseDate = (
+type DateInputInvalidReason = 'format' | 'range'
+
+interface ReadDate {
+  date: Date | null
+  reason: DateInputInvalidReason | null
+}
+
+const readDate = (
   text: string,
   pattern: string,
   min?: Date,
   max?: Date
-): Date | null => {
+): ReadDate => {
   const trimmed = text.trim()
   if (!trimmed) {
-    return null
+    return { date: null, reason: null }
   }
   const date = parse(trimmed, pattern, new Date())
   if (!isValid(date) || date.getFullYear() < 1000) {
-    return null
+    return { date: null, reason: 'format' }
   }
-  return withinBounds(date, min, max) ? date : null
+  return withinBounds(date, min, max)
+    ? { date, reason: null }
+    : { date: null, reason: 'range' }
+}
+
+const describeRange = (pattern: string, min?: Date, max?: Date) => {
+  if (min && max) {
+    return `Enter a date from ${formatDate(min, pattern)} to ${formatDate(max, pattern)}`
+  }
+  if (min) {
+    return `Enter a date on or after ${formatDate(min, pattern)}`
+  }
+  if (max) {
+    return `Enter a date on or before ${formatDate(max, pattern)}`
+  }
+  return ''
 }
 
 const validOrNull = (date: Date | null | undefined) =>
@@ -84,12 +106,10 @@ const validOrNull = (date: Date | null | undefined) =>
 const sameDay = (a: Date | null, b: Date | null) =>
   a === b || (!!a && !!b && a.toDateString() === b.toDateString())
 
-const isInvalidText = (text: string, date: Date | null) =>
-  !date && text.trim() !== ''
-
 interface DateInputValueDetails {
   text: string
   invalid: boolean
+  reason: DateInputInvalidReason | null
 }
 
 interface DateInputProps extends Omit<
@@ -110,6 +130,7 @@ interface DateInputProps extends Omit<
   helpText?: string
   calendarLabel?: string
   invalidMessage?: string
+  rangeMessage?: string
 }
 
 const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
@@ -132,6 +153,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
       helpText,
       calendarLabel = 'Choose date',
       invalidMessage = 'Enter a valid date',
+      rangeMessage,
       disabled,
       readOnly,
       form,
@@ -159,22 +181,30 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     const lower = minTime === undefined ? undefined : new Date(minTime)
     const upper = maxTime === undefined ? undefined : new Date(maxTime)
 
-    const invalid = isInvalidText(text, parseDate(text, format, lower, upper))
+    const { reason } = readDate(text, format, lower, upper)
+    const invalid = reason !== null
 
-    const commit = (date: Date | null, nextText: string) => {
-      const nextInvalid = isInvalidText(nextText, date)
-      if (sameDay(date, selected) && nextInvalid === invalid) {
+    const commit = (
+      date: Date | null,
+      nextText: string,
+      nextReason: DateInputInvalidReason | null
+    ) => {
+      if (sameDay(date, selected) && nextReason === reason) {
         return
       }
       if (!isControlled) {
         setInternalValue(date)
       }
-      onValueChange?.(date, { text: nextText, invalid: nextInvalid })
+      onValueChange?.(date, {
+        text: nextText,
+        invalid: nextReason !== null,
+        reason: nextReason
+      })
     }
 
     React.useEffect(() => {
       setText(current => {
-        const parsed = parseDate(current, format, lower, upper)
+        const parsed = readDate(current, format, lower, upper).date
         if (selected) {
           return sameDay(parsed, selected)
             ? current
@@ -186,7 +216,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
 
     React.useEffect(() => {
       if (selected && !withinBounds(selected, lower, upper)) {
-        commit(null, formatDate(selected, format))
+        commit(null, formatDate(selected, format), 'range')
         setShowInvalid(true)
       }
     }, [selected, format, minTime, maxTime])
@@ -201,25 +231,32 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
       }
     }
 
+    const validityMessage =
+      reason === 'range'
+        ? (rangeMessage ?? describeRange(format, lower, upper))
+        : reason === 'format'
+          ? invalidMessage
+          : ''
+
     React.useEffect(() => {
-      inputRef.current?.setCustomValidity(invalid ? invalidMessage : '')
-    }, [invalid, invalidMessage])
+      inputRef.current?.setCustomValidity(validityMessage)
+    }, [validityMessage])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const nextText = event.target.value
-      const parsed = parseDate(nextText, format, lower, upper)
+      const next = readDate(nextText, format, lower, upper)
       setText(nextText)
-      commit(parsed, nextText)
-      if (!isInvalidText(nextText, parsed)) {
+      commit(next.date, nextText, next.reason)
+      if (next.reason === null) {
         setShowInvalid(false)
       }
       onChange?.(event)
     }
 
     const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-      const parsed = parseDate(text, format, lower, upper)
-      if (parsed) {
-        setText(formatDate(parsed, format))
+      const { date } = readDate(text, format, lower, upper)
+      if (date) {
+        setText(formatDate(date, format))
       }
       setShowInvalid(invalid)
       onBlur?.(event)
@@ -228,7 +265,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     const handleSelect = (next: Date) => {
       const nextText = formatDate(next, format)
       setText(nextText)
-      commit(next, nextText)
+      commit(next, nextText, null)
       setShowInvalid(false)
       setOpen(false)
     }
@@ -365,4 +402,9 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
 
 DateInput.displayName = 'DateInput'
 
-export { DateInput, DateInputProps, DateInputValueDetails }
+export {
+  DateInput,
+  DateInputProps,
+  DateInputValueDetails,
+  DateInputInvalidReason
+}
