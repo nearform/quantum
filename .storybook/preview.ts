@@ -1,7 +1,7 @@
-import './global.css';
-import { Preview } from '@storybook/react-vite';
-import { DarkModeDocsContainer } from './DarkModeDocsContainer';
-import theme, { darkTheme } from './theme';
+import './global.css'
+import { Preview } from '@storybook/react-vite'
+import { DarkModeDocsContainer } from './DarkModeDocsContainer'
+import theme, { darkTheme } from './theme'
 
 const preview: Preview = {
   parameters: {
@@ -22,6 +22,6 @@ const preview: Preview = {
       }
     }
   }
-};
+}
 
-export default preview;
+export default preview
