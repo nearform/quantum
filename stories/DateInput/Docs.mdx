@@ -1,0 +1,210 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as DateInputStories from './DateInput.stories'
+
+<Meta of={DateInputStories} />
+
+# DateInput
+
+DateInput is a field for a single date. The date can be typed, or picked from a
+[Calendar](?path=/docs/components-calendar--docs) that opens from the button at
+the end of the field. It is [Input](?path=/docs/form-input--docs)'s field, so
+the two share their appearance, their sizes and their label and help text
+wiring.
+
+<Canvas of={DateInputStories.Default} />
+
+## With a value
+
+The value is a `Date`, or `null` when the field is empty. Pass `value` and
+`onValueChange` to control it, or `defaultValue` to leave it to the field.
+
+<Canvas of={DateInputStories.WithValue} />
+
+## Help text
+
+<Canvas of={DateInputStories.WithHelpText} />
+
+## Typing a date
+
+The typed text is read with `format`, a
+[date-fns format string](https://date-fns.org/docs/format) that defaults to
+`dd/MM/yyyy`. Single digits are accepted, so `1/6/2024` is 1 June 2024, and
+the text is rewritten in full when the field loses focus.
+
+`onValueChange` is called with the date as soon as the text is a complete,
+valid date, and with `null` as soon as it stops being one. Anything else --
+half a date, 31 February, a date outside `min` and `max` -- leaves the text as
+it was typed and the value `null`, so the form can say what is wrong with it.
+Read the text itself from the input's `onChange` or `onBlur` if the message
+needs it.
+
+<Canvas of={DateInputStories.CustomFormat} />
+
+## Minimum and maximum
+
+`min` and `max` are `Date`s. Days outside them are disabled in the calendar,
+the calendar cannot be paged past them, and a typed date outside them is not a
+value.
+
+<Canvas of={DateInputStories.MinAndMax} />
+
+## Variants
+
+`error` also sets `aria-invalid` on the input, unless you pass one yourself.
+
+<Canvas of={DateInputStories.Error} />
+
+<Canvas of={DateInputStories.Success} />
+
+## Disabled
+
+Both the text and the calendar button are disabled.
+
+<Canvas of={DateInputStories.Disabled} />
+
+## Sizes
+
+The same three heights as `Input`, from the same variants: `sm` is 37px,
+`default` is 42px and `lg` is 48px. See
+[the table in Input's docs](?path=/docs/form-input--docs#matching-the-other-form-controls)
+for every control's height.
+
+<Canvas of={DateInputStories.Small} />
+
+<Canvas of={DateInputStories.Large} />
+
+## In a form
+
+With a `name`, the field adds a hidden input carrying the date as
+`yyyy-MM-dd`, whatever `format` shows. A form posts the same value whichever
+way the date is displayed, and it is the value a server expects from
+`<input type="date">`. The text input itself has no name.
+
+## Attributes
+
+Everything an `<input>` takes, plus the props below. `type`, `size`, `min`,
+`max`, `value` and `defaultValue` are replaced by the props of those names.
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute</td>
+      <td>Type</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td>`Date | null`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>defaultValue</td>
+      <td>`Date | null`</td>
+      <td>`null`</td>
+    </tr>
+    <tr>
+      <td>onValueChange</td>
+      <td>`(date: Date | null) => void`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>format</td>
+      <td>`string`</td>
+      <td>`'dd/MM/yyyy'`</td>
+    </tr>
+    <tr>
+      <td>formatHint</td>
+      <td>`string`</td>
+      <td>`format`, upper-cased</td>
+    </tr>
+    <tr>
+      <td>min</td>
+      <td>`Date`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>`Date`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`'primary' | 'error' | 'success'`</td>
+      <td>`'primary'`</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`'sm' | 'default' | 'lg'`</td>
+      <td>`'default'`</td>
+    </tr>
+    <tr>
+      <td>calendarLabel</td>
+      <td>`string`</td>
+      <td>`'Choose date'`</td>
+    </tr>
+    <tr>
+      <td>labelText</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>helpText</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>formClassName</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+## Dark mode
+
+Toggle the theme in the toolbar to see it.
+
+Neither half needs anything of its own. The field is `Input`'s container and
+the popup is `Calendar`, so both follow whatever those components do in the
+dark theme, including the `error` variant's switch to `feedback-error`'s dark
+half.
+
+## Accessibility
+
+- The calendar button has no text, so it carries an accessible name,
+  `calendarLabel`, which defaults to English. It sits in a 24×24 target, the
+  smallest [WCAG 2.5.8](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)
+  accepts.
+- The format is part of the input's description as well as its placeholder,
+  because a placeholder is gone as soon as anything is typed and not every
+  screen reader reads one. `formatHint` sets the words, for a language other
+  than English or a clearer phrasing such as "For example, 15/06/2024".
+- The calendar is optional. Everything it does can be done by typing, which
+  is the quicker route for a date of birth and the only one for some readers.
+- Opening the calendar moves focus to the selected day, or to today, and the
+  arrow keys move between days. Choosing one, or pressing Escape, closes it
+  and returns focus to the button.
+- `labelText` is associated with the field and `helpText` describes it. An
+  `aria-describedby` you pass in is kept alongside both.
+
+## Usage
+
+```tsx
+import { useState } from 'react'
+import { DateInput } from '@nearform/quantum'
+
+const DateOfBirth = () => {
+  const [date, setDate] = useState<Date | null>(null)
+
+  return (
+    <DateInput
+      labelText="Date of birth"
+      name="dateOfBirth"
+      max={new Date()}
+      value={date}
+      onValueChange={setDate}
+    />
+  )
+}
+```

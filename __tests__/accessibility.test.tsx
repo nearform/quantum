@@ -29,6 +29,7 @@ import {
   FieldError,
   FormGroup
 } from '../src/components/FormGroup'
+import { DateInput } from '../src/components/DateInput'
 import { IconButton, iconButtonVariants } from '../src/components/IconButton'
 import { Input } from '../src/components/Input'
 import { Label } from '../src/components/Label'
@@ -163,6 +164,74 @@ describe('Password accessibility', () => {
     const labelFor = attribute(openingTag(html, 'label'), 'for')
     expect(labelFor).toBeTruthy()
     expect(attribute(openingTag(html, 'input'), 'id')).toBe(labelFor)
+  })
+})
+
+describe('DateInput accessibility', () => {
+  it('names the icon-only calendar button', () => {
+    const html = renderToStaticMarkup(<DateInput />)
+
+    expect(attribute(openingTag(html, 'button'), 'aria-label')).toBe(
+      'Choose date'
+    )
+  })
+
+  it('lets the calendar button be renamed for its context', () => {
+    const html = renderToStaticMarkup(
+      <DateInput calendarLabel="Choisir une date" />
+    )
+
+    expect(attribute(openingTag(html, 'button'), 'aria-label')).toBe(
+      'Choisir une date'
+    )
+  })
+
+  it('associates its label with the field when no id is supplied', () => {
+    const html = renderToStaticMarkup(<DateInput labelText="Start date" />)
+
+    const labelFor = attribute(openingTag(html, 'label'), 'for')
+    expect(labelFor).toBeTruthy()
+    expect(attribute(openingTag(html, 'input'), 'id')).toBe(labelFor)
+  })
+
+  it('describes the field with its format, then its help text', () => {
+    const html = renderToStaticMarkup(
+      <DateInput
+        id="start"
+        helpText="Your first day"
+        aria-describedby="policy"
+      />
+    )
+
+    expect(attribute(openingTag(html, 'input'), 'aria-describedby')).toBe(
+      'policy start-format start-helptext'
+    )
+    expect(openingTag(html, 'span', 'id="start-format"')).toContain('sr-only')
+    expect(html).toContain('>DD/MM/YYYY</span>')
+  })
+
+  it('lets the format hint be reworded', () => {
+    const html = renderToStaticMarkup(
+      <DateInput id="start" formatHint="For example, 15/06/2024" />
+    )
+
+    expect(html).toContain('>For example, 15/06/2024</span>')
+  })
+
+  it('marks the error variant invalid unless told otherwise', () => {
+    const invalid = renderToStaticMarkup(<DateInput variant="error" />)
+    const overridden = renderToStaticMarkup(
+      <DateInput variant="error" aria-invalid="spelling" />
+    )
+    const valid = renderToStaticMarkup(<DateInput />)
+
+    expect(attribute(openingTag(invalid, 'input'), 'aria-invalid')).toBe('true')
+    expect(attribute(openingTag(overridden, 'input'), 'aria-invalid')).toBe(
+      'spelling'
+    )
+    expect(
+      attribute(openingTag(valid, 'input'), 'aria-invalid')
+    ).toBeUndefined()
   })
 })
 

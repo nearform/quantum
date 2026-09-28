@@ -198,13 +198,14 @@ parameters: { a11y: { config: { rules: [...] } } }  // tune individual rules
 Some things depend on the surrounding page, so the components take them as
 props rather than guessing:
 
-- **Form controls need a label.** `Input`, `Password` and `Textarea` take
-  `labelText` (rendered and wired up with `htmlFor`) and `helpText` (exposed
-  through `aria-describedby`). `Checkbox`, `Radio`, `Switch` and
-  `SelectTrigger` have no text of their own -- pair them with `ControlLabel`,
-  an external `<label htmlFor>`, or give them an `aria-label`. A placeholder is
-  not a label. Inside a `CheckboxGroup` or a `RadioGroup`, the option's `label`
-  prop does this, and its `description` is wired up with it.
+- **Form controls need a label.** `Input`, `Password`, `DateInput` and
+  `Textarea` take `labelText` (rendered and wired up with `htmlFor`) and
+  `helpText` (exposed through `aria-describedby`). `Checkbox`, `Radio`,
+  `Switch` and `SelectTrigger` have no text of their own -- pair them with
+  `ControlLabel`, an external `<label htmlFor>`, or give them an `aria-label`.
+  A placeholder is not a label. Inside a `CheckboxGroup` or a `RadioGroup`,
+  the option's `label` prop does this, and its `description` is wired up with
+  it.
 - **A control inside a `FormGroup` has to pass its props on.** The group
   derives the label's `htmlFor`, the message ids behind `aria-describedby` and
   the `aria-invalid` flag from one id and hands them to whichever direct child
@@ -233,11 +234,12 @@ props rather than guessing:
   appearance for a badge beside a disabled control, not a state of its own.
 - **Icon-only controls need names in your language.** `Pagination`
   (`previousLabel`, `nextLabel`, `pageLabel`), `StepsIndicator` (`label`,
-  `stepLabel`), `Input` (`clearLabel`) and `Password` (`showLabel`,
-  `hideLabel`) all default to English and accept overrides. `IconButton` has
-  no default to override: its `label` is required, because there is no name
-  that could be guessed from an icon, and it should say what the button does
-  rather than what the icon is a picture of -- "Delete article", not "bin".
+  `stepLabel`), `Input` (`clearLabel`), `Password` (`showLabel`,
+  `hideLabel`) and `DateInput` (`calendarLabel`, `formatHint`) all default to
+  English and accept overrides. `IconButton` has no default to override: its
+  `label` is required, because there is no name that could be guessed from an
+  icon, and it should say what the button does rather than what the icon is a
+  picture of -- "Delete article", not "bin".
   Where the name is also made visible, by a `Tooltip` or otherwise, the two
   have to agree: WCAG 2.5.3 asks that the accessible name contain the visible
   text, so that someone speaking what they can see reaches the control they
