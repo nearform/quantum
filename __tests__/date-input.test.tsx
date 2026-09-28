@@ -509,6 +509,32 @@ describe('DateInput', () => {
     expect(hiddenInput()!.disabled).toBe(true)
   })
 
+  it('offers no way to change a read-only value, but still posts it', () => {
+    const onValueChange = jest.fn()
+    mount(
+      <DateInput
+        name="start"
+        value={new Date(2024, 5, 15)}
+        readOnly
+        onValueChange={onValueChange}
+      />
+    )
+
+    const trigger = document.querySelector<HTMLButtonElement>(
+      'button[aria-label="Choose date"]'
+    )!
+    expect(textInput().readOnly).toBe(true)
+    expect(trigger.disabled).toBe(true)
+
+    act(() => {
+      trigger.click()
+    })
+    expect(document.querySelector('[role="dialog"]')).toBeNull()
+    expect(onValueChange).not.toHaveBeenCalled()
+    expect(hiddenInput()!.disabled).toBe(false)
+    expect(hiddenInput()!.value).toBe('2024-06-15')
+  })
+
   it('posts to the form it is pointed at', () => {
     mount(<DateInput name="start" form="signup" />)
 

@@ -133,6 +133,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
       calendarLabel = 'Choose date',
       invalidMessage = 'Enter a valid date',
       disabled,
+      readOnly,
       form,
       placeholder,
       onChange,
@@ -280,6 +281,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={disabled}
+              readOnly={readOnly}
               placeholder={placeholder ?? hint}
               aria-describedby={describedBy}
               aria-invalid={
@@ -292,7 +294,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
             </span>
             <PopoverPrimitive.Trigger
               type="button"
-              disabled={disabled}
+              disabled={disabled || readOnly}
               aria-label={calendarLabel}
               className={calendarTriggerVariants()}
             >

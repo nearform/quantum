@@ -92,7 +92,11 @@ not a date.
 
 ## Disabled
 
-Both the text and the calendar button are disabled.
+Both the text and the calendar button are disabled. A disabled field posts nothing.
+
+`readOnly` also disables the calendar button, so neither route can change the
+date, but unlike `disabled` the field still posts its value, as a read-only
+`<input>` does.
 
 <Canvas of={DateInputStories.Disabled} />
 
