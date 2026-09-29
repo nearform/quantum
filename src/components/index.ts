@@ -1,6 +1,7 @@
 export * from './Accordion'
 export * from './Avatar'
 export * from './BackLink'
+export * from './Breadcrumb'
 export * from './Badge'
 export * from './Button'
 export * from './ButtonGroup'
