@@ -1,0 +1,182 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as StepperStories from './Stepper.stories'
+
+<Meta of={StepperStories} />
+
+# Stepper
+
+Steps are a series of sequential actions or stages that users follow to
+complete a task or process. They give structure and guidance in complex
+workflows, and make them easier to manage.
+
+`Stepper` shows every step with its number, a title and an optional short
+description. `StepperNav` moves between steps with Back and Next buttons.
+
+<Canvas of={StepperStories.Default} />
+
+## Progress
+
+Set `currentStep` to the index of the step the user is on. Steps are counted
+from 0. Steps before it are complete, and steps after it are upcoming.
+
+<Canvas of={StepperStories.Completed} />
+
+## Navigation
+
+`StepperNav` shows Back and Next buttons around an indicator. Back is disabled
+on the first step and Next is disabled on the last. Pass `onStepChange` to
+update `currentStep`.
+
+The default indicator is a row of dots. Each dot is a button that jumps to its
+step.
+
+<Canvas of={StepperStories.NavWithDots} />
+
+Set `indicator="counter"` to show the step number instead.
+
+<Canvas of={StepperStories.NavWithCounter} />
+
+## With navigation
+
+Use `Stepper` and `StepperNav` together, sharing the same `currentStep`.
+
+<Canvas of={StepperStories.WithNav} />
+
+## Dark mode
+
+The stepper has dark mode styles. Switch the Storybook theme to see them.
+
+## Accessibility
+
+`Stepper` renders an ordered list, so screen readers announce the number of
+steps and the position of each one. The current step has
+`aria-current="step"`. The number boxes and the lines between steps are hidden
+from assistive technology, because the list already gives the position.
+
+`StepperNav` is a group labelled by `label`. The counter is a live region, so
+screen readers announce the new step, read out as `stepLabel` rather than
+"1/2". The dots use `stepLabel` to name each button.
+
+## Attributes
+
+`Stepper` passes any other attribute and the `ref` to the `ol`. `StepperItem`
+passes them to its `li`. `StepperNav` passes them to its `div`.
+
+### Stepper
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>currentStep</td>
+      <td>`number`</td>
+      <td>`0`</td>
+    </tr>
+  </tbody>
+</table>
+
+### StepperItem
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>title</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+### StepperNav
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>currentStep</td>
+      <td>`number`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>totalSteps</td>
+      <td>`number`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onStepChange</td>
+      <td>`(step: number) => void`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>indicator</td>
+      <td>`'dots' | 'counter'`</td>
+      <td>`'dots'`</td>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>`string`</td>
+      <td>`'Steps'`</td>
+    </tr>
+    <tr>
+      <td>backLabel</td>
+      <td>`ReactNode`</td>
+      <td>`'Back'`</td>
+    </tr>
+    <tr>
+      <td>nextLabel</td>
+      <td>`ReactNode`</td>
+      <td>`'Next'`</td>
+    </tr>
+    <tr>
+      <td>stepLabel</td>
+      <td>`(step: number, total: number) => string`</td>
+      <td>`Step ${step} of ${total}`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+import { Stepper, StepperItem, StepperNav } from '@nearform/quantum'
+
+const [currentStep, setCurrentStep] = React.useState(0)
+
+;<>
+  <Stepper currentStep={currentStep}>
+    <StepperItem title="Details" description="Tell us about you" />
+    <StepperItem title="Address" description="Where you live" />
+    <StepperItem title="Review" description="Check and submit" />
+  </Stepper>
+  <StepperNav
+    currentStep={currentStep}
+    totalSteps={3}
+    onStepChange={setCurrentStep}
+  />
+</>
+```
