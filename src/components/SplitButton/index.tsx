@@ -162,7 +162,7 @@ interface SplitButtonProps
   extends
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>,
     VariantProps<typeof splitButtonVariants>,
-    VariantProps<typeof splitButtonSegmentVariants> {
+    Pick<VariantProps<typeof splitButtonSegmentVariants>, 'size'> {
   label: React.ReactNode
   children: React.ReactNode
   menuLabel?: string
