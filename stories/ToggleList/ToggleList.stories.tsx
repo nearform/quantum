@@ -63,7 +63,6 @@ const ToggleListDemo = () => {
           onRemove={() =>
             setItems(current => current.filter(other => other.id !== item.id))
           }
-          removeLabel={`Remove ${item.label}`}
         />
       ))}
     </ToggleList>

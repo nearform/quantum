@@ -118,8 +118,23 @@ import { ToggleList, ToggleListItem } from '@nearform/quantum'
       checked={item.checked}
       onCheckedChange={checked => toggle(item.id, checked)}
       onRemove={() => remove(item.id)}
-      removeLabel={`Remove ${item.label}`}
     />
   ))}
 </ToggleList>
+```
+
+When `item.label` is a string, the remove button is named "Remove" followed
+by the label. For a label that is not a string, pass `removeLabel` as plain
+text:
+
+```tsx
+<ToggleListItem
+  label={
+    <>
+      Email <Badge>New</Badge>
+    </>
+  }
+  onRemove={() => remove('email')}
+  removeLabel="Remove Email"
+/>
 ```
