@@ -38,8 +38,10 @@ Toggle list has dark mode styles. Switch the Storybook theme to see them.
 
 `ToggleList` is a list, so screen readers announce how many items it has.
 Each switch is named by its `label`, and clicking the label toggles it. The
-remove button shows an icon only, so give it a `removeLabel` that names the
-item, for example "Remove Email". It defaults to "Remove".
+remove button shows an icon only, so its name must say which item it removes.
+When `label` is a string it defaults to "Remove" followed by the label, for
+example "Remove Email". When `label` is any other node, `removeLabel` is
+required alongside `onRemove`.
 
 ## Attributes
 
@@ -72,7 +74,7 @@ switch.
     <tr>
       <td>removeLabel</td>
       <td>`string`</td>
-      <td>`'Remove'`</td>
+      <td>`` `Remove ${label}` `` when `label` is a string, otherwise required with `onRemove`</td>
     </tr>
     <tr>
       <td>checked</td>

@@ -134,6 +134,28 @@ describe('ToggleListItem', () => {
     expect(onRemove).toHaveBeenCalledTimes(1)
   })
 
+  it('names the remove button after a text label by default', () => {
+    mount(
+      <ToggleList>
+        <ToggleListItem label="Email" onRemove={() => {}} />
+        <ToggleListItem label="SMS" onRemove={() => {}} />
+      </ToggleList>
+    )
+
+    expect(
+      Array.from(
+        container!.querySelectorAll('button:not([role="switch"])')
+      ).map(button => button.getAttribute('aria-label'))
+    ).toEqual(['Remove Email', 'Remove SMS'])
+  })
+
+  it('requires removeLabel for a removable item with a non-text label', () => {
+    // @ts-expect-error removeLabel is required when label is not a string
+    const element = <ToggleListItem label={<b>Email</b>} onRemove={() => {}} />
+
+    expect(element).toBeTruthy()
+  })
+
   it('disables the switch and the remove button together', () => {
     const onRemove = jest.fn()
     mount(

@@ -20,29 +20,21 @@ ToggleList.displayName = 'ToggleList'
 
 type SwitchRootProps = React.ComponentPropsWithoutRef<typeof Switch>
 
-interface ToggleListItemProps extends Omit<
-  SwitchRootProps,
-  'children' | 'asChild'
-> {
+type ToggleListItemRemoveProps =
+  | { onRemove?: undefined; removeLabel?: string }
+  | { onRemove: () => void; label: string; removeLabel?: string }
+  | { onRemove: () => void; removeLabel: string }
+
+type ToggleListItemProps = Omit<SwitchRootProps, 'children' | 'asChild'> & {
   label: React.ReactNode
-  onRemove?: () => void
-  removeLabel?: string
-}
+} & ToggleListItemRemoveProps
 
 const ToggleListItem = React.forwardRef<
   React.ElementRef<typeof Switch>,
   ToggleListItemProps
 >(
   (
-    {
-      className,
-      label,
-      onRemove,
-      removeLabel = 'Remove',
-      id,
-      disabled,
-      ...props
-    },
+    { className, label, onRemove, removeLabel, id, disabled, ...props },
     ref
   ) => {
     const generatedId = React.useId()
@@ -72,7 +64,10 @@ const ToggleListItem = React.forwardRef<
           <IconButton
             variant="tertiary"
             size="xs"
-            label={removeLabel}
+            label={
+              removeLabel ??
+              (typeof label === 'string' ? `Remove ${label}` : 'Remove')
+            }
             icon={<BsTrash />}
             disabled={disabled}
             onClick={onRemove}
