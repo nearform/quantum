@@ -236,8 +236,8 @@ props rather than guessing:
   (`previousLabel`, `nextLabel`, `pageLabel`), `StepsIndicator` (`label`,
   `stepLabel`), `Input` (`clearLabel`), `Password` (`showLabel`,
   `hideLabel`), `DateInput` (`calendarLabel`, `formatHint`,
-  `invalidMessage`, `rangeMessage`), `SplitButton` (`menuLabel`) and
-  `SwitchCard` (`removeLabel`) all default to English and accept overrides. `IconButton` has no default to override: its `label` is required,
+  `invalidMessage`, `rangeMessage`), `SplitButton` (`menuLabel`),
+  `SwitchCard` (`removeLabel`) and `ToastClose` (`label`) all default to English and accept overrides. `IconButton` has no default to override: its `label` is required,
   because there is no name that could be guessed from an icon, and it should
   say what the button does rather than what the icon is a picture of --
   "Delete article", not "bin". Where the name is also made visible, by a
