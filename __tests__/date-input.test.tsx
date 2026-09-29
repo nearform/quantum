@@ -337,6 +337,88 @@ describe('DateInput', () => {
     })
   })
 
+  describe('with a parent that declines a change', () => {
+    const declining = (value: Date | null, onValueChange = jest.fn()) => {
+      mount(
+        <DateInput name="start" value={value} onValueChange={onValueChange} />
+      )
+      return onValueChange
+    }
+
+    it('reports a revert to the date the parent holds', () => {
+      const onValueChange = declining(new Date(2024, 5, 15))
+
+      type('20/06/2024')
+      type('15/06/2024')
+
+      expect(onValueChange).toHaveBeenCalledTimes(2)
+      expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 15), {
+        text: '15/06/2024',
+        invalid: false,
+        reason: null
+      })
+    })
+
+    it('reports the declined date again after a revert', () => {
+      const onValueChange = declining(new Date(2024, 5, 15))
+
+      type('20/06/2024')
+      type('15/06/2024')
+      type('20/06/2024')
+
+      expect(onValueChange).toHaveBeenCalledTimes(3)
+      expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 20), {
+        text: '20/06/2024',
+        invalid: false,
+        reason: null
+      })
+    })
+
+    it('stops a form submitting a date other than the one shown', () => {
+      declining(new Date(2024, 5, 15))
+
+      type('20/06/2024')
+
+      expect(hiddenInput()!.value).toBe('2024-06-15')
+      expect(textInput().validity.customError).toBe(true)
+
+      type('15/06/2024')
+      expect(textInput().validity.valid).toBe(true)
+    })
+
+    it("goes back to the parent's date on blur", () => {
+      declining(new Date(2024, 5, 15))
+
+      type('20/06/2024')
+      blur()
+
+      expect(textInput().value).toBe('15/06/2024')
+      expect(textInput().validity.valid).toBe(true)
+      expect(textInput().getAttribute('aria-invalid')).toBeNull()
+    })
+
+    it('clears on blur when the parent holds no date', () => {
+      const onValueChange = declining(null)
+
+      type('20/06/2024')
+      expect(onValueChange).toHaveBeenCalledTimes(1)
+      expect(textInput().validity.customError).toBe(true)
+      expect(hiddenInput()!.value).toBe('')
+
+      blur()
+      expect(textInput().value).toBe('')
+      expect(textInput().validity.valid).toBe(true)
+    })
+
+    it('leaves text that is still being typed alone', () => {
+      declining(new Date(2024, 5, 15))
+
+      type('15/06/202')
+
+      expect(textInput().value).toBe('15/06/202')
+    })
+  })
+
   it('reports a genuine change after a repeat it held back', () => {
     const onValueChange = jest.fn()
     mount(

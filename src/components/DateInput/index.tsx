@@ -106,6 +106,8 @@ const describeRange = (pattern: string, min?: Date, max?: Date) => {
 const validOrNull = (date: Date | null | undefined) =>
   date && isValid(date) ? date : null
 
+const dayOf = (date: Date | null) => (date ? startOfDay(date).getTime() : null)
+
 const sameDay = (a: Date | null, b: Date | null) =>
   a === b || (!!a && !!b && a.toDateString() === b.toDateString())
 
@@ -172,7 +174,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     const isControlled = value !== undefined
     const [internalValue, setInternalValue] = React.useState(defaultValue)
     const selected = validOrNull(isControlled ? value : internalValue)
-    const selectedDay = selected ? startOfDay(selected).getTime() : null
+    const selectedDay = dayOf(selected)
 
     const [text, setText] = React.useState(() =>
       selected ? formatDate(selected, format) : ''
@@ -185,25 +187,17 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     const lower = minTime === undefined ? undefined : new Date(minTime)
     const upper = maxTime === undefined ? undefined : new Date(maxTime)
 
-    const { reason } = readDate(text, format, lower, upper)
+    const shown = readDate(text, format, lower, upper)
+    const { reason } = shown
     const invalid = reason !== null
+    const shownDay = dayOf(shown.date)
+    const declined = shownDay !== null && shownDay !== selectedDay
 
-    const lastReported = React.useRef({ day: selectedDay, reason })
-
-    const commit = (
+    const report = (
       date: Date | null,
       nextText: string,
       nextReason: DateInputInvalidReason | null
     ) => {
-      const nextDay = date ? startOfDay(date).getTime() : null
-      const last = lastReported.current
-      if (
-        (nextDay === selectedDay && nextReason === reason) ||
-        (nextDay === last.day && nextReason === last.reason)
-      ) {
-        return
-      }
-      lastReported.current = { day: nextDay, reason: nextReason }
       if (!isControlled) {
         setInternalValue(date)
       }
@@ -214,15 +208,18 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
       })
     }
 
-    React.useEffect(() => {
-      lastReported.current = {
-        day: selectedDay,
-        reason: selected
-          ? withinBounds(selected, lower, upper)
-            ? null
-            : 'range'
-          : readDate(text, format, lower, upper).reason
+    const commit = (
+      date: Date | null,
+      nextText: string,
+      nextReason: DateInputInvalidReason | null
+    ) => {
+      if (dayOf(date) === shownDay && nextReason === reason) {
+        return
       }
+      report(date, nextText, nextReason)
+    }
+
+    React.useEffect(() => {
       setText(current => {
         const parsed = readDate(current, format, lower, upper).date
         if (selected) {
@@ -236,7 +233,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
 
     React.useEffect(() => {
       if (selected && !withinBounds(selected, lower, upper)) {
-        commit(null, formatDate(selected, format), 'range')
+        report(null, formatDate(selected, format), 'range')
         setShowInvalid(true)
       }
     }, [selectedDay, format, minTime, maxTime])
@@ -254,7 +251,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     const validityMessage =
       reason === 'range'
         ? (rangeMessage ?? describeRange(format, lower, upper))
-        : reason === 'format'
+        : reason === 'format' || declined
           ? invalidMessage
           : ''
 
@@ -274,11 +271,15 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     }
 
     const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-      const { date } = readDate(text, format, lower, upper)
-      if (date) {
-        setText(formatDate(date, format))
+      if (declined) {
+        setText(selected ? formatDate(selected, format) : '')
+        setShowInvalid(false)
+      } else {
+        if (shown.date) {
+          setText(formatDate(shown.date, format))
+        }
+        setShowInvalid(invalid)
       }
-      setShowInvalid(invalid)
       onBlur?.(event)
     }
 

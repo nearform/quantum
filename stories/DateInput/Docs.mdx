@@ -64,10 +64,22 @@ format on blur. The details are a snapshot of the field at the moment the date
 or its validity changed, not a live copy of the text; read the text from the
 input's `onChange` if you need every edit.
 
-Each change is judged against what the field shows now, so a value the parent
-sets from outside -- a form reset, a linked field -- is the starting point for
-the next edit. Picking the day that is already selected keeps it: the calendar
-does not toggle a date off, and the field is cleared by deleting its text.
+Each change is judged against the text the field shows now, not against
+`value`, so a value the parent sets from outside -- a form reset, a linked
+field -- is the starting point for the next edit, and a change is reported
+once however long the parent takes to apply it. Picking the day that is
+already selected keeps it: the calendar does not toggle a date off, and the
+field is cleared by deleting its text.
+
+A controlled parent can decline a change by not applying it, for a rule of its
+own. The field keeps what was typed while it has focus, so the user can see
+and correct it, and every further change is still reported -- including a
+revert to the date the parent holds. While the text shows a date other than
+`value`, the input carries `invalidMessage` as its custom validity, so a form
+using the browser's own validation will not submit one date while showing
+another. When the field loses focus it goes back to `value`, the way a
+controlled `<input>` does. Show the reason for the rejection beside the field
+yourself; only the parent knows it.
 
 The field also flags that text itself. When it loses focus holding text that
 is not a date, it takes the `error` variant's styling and `aria-invalid`, and
