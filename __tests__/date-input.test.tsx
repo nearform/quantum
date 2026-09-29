@@ -7,6 +7,7 @@ import { createRoot, Root } from 'react-dom/client'
 import { act } from 'react-dom/test-utils'
 
 import { DateInput, DateInputProps } from '../src/components/DateInput'
+import { DateInputDemo } from '../stories/DateInput/DateInput.example'
 
 const actEnvironment = globalThis as typeof globalThis & {
   IS_REACT_ACT_ENVIRONMENT: boolean
@@ -278,6 +279,75 @@ describe('DateInput', () => {
     expect(onValueChange).not.toHaveBeenCalled()
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(textInput().value).toBe('15/06/2024')
+  })
+
+  it('takes a year before 1000 written out in full', () => {
+    const onValueChange = jest.fn()
+    mount(<DateInput onValueChange={onValueChange} />)
+
+    type('01/01/0999')
+
+    const expected = new Date(2024, 0, 1)
+    expected.setFullYear(999)
+    expect(onValueChange).toHaveBeenLastCalledWith(expected, {
+      text: '01/01/0999',
+      invalid: false,
+      reason: null
+    })
+  })
+
+  it('still reads a short year as one being typed', () => {
+    const onValueChange = jest.fn()
+    mount(<DateInput onValueChange={onValueChange} />)
+
+    type('15/06/20')
+    type('15/06/202')
+
+    expect(onValueChange).toHaveBeenCalledTimes(1)
+    expect(onValueChange).toHaveBeenLastCalledWith(null, {
+      text: '15/06/20',
+      invalid: true,
+      reason: 'format'
+    })
+  })
+
+  it('does not report a change again before the parent applies it', () => {
+    const onValueChange = jest.fn()
+    mount(
+      <DateInput value={new Date(2024, 5, 15)} onValueChange={onValueChange} />
+    )
+
+    type('20/06/2024')
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>('button[aria-label="Choose date"]')!
+        .click()
+    })
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>('[data-day="2024-06-20"] button')!
+        .click()
+    })
+
+    expect(onValueChange).toHaveBeenCalledTimes(1)
+    expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 20), {
+      text: '20/06/2024',
+      invalid: false,
+      reason: null
+    })
+  })
+
+  it('reports a genuine change after a repeat it held back', () => {
+    const onValueChange = jest.fn()
+    mount(
+      <DateInput value={new Date(2024, 5, 15)} onValueChange={onValueChange} />
+    )
+
+    type('20/06/2024')
+    type('20/06/202')
+    type('20/06/2024')
+
+    expect(onValueChange).toHaveBeenCalledTimes(3)
   })
 
   it.each(['31/02/2024', '32/01/2024', 'tomorrow'])(
@@ -740,6 +810,20 @@ describe('DateInput', () => {
     })
     expect(textInput().value).toBe('20/06/2024')
     expect(document.querySelector('[role="dialog"]')).toBeNull()
+  })
+
+  it("lets the demo pass a caller's onValueChange through", () => {
+    const onValueChange = jest.fn()
+    mount(<DateInputDemo onValueChange={onValueChange} />)
+
+    type('15/06/2024')
+
+    expect(onValueChange).toHaveBeenLastCalledWith(new Date(2024, 5, 15), {
+      text: '15/06/2024',
+      invalid: false,
+      reason: null
+    })
+    expect(textInput().value).toBe('15/06/2024')
   })
 
   describe('focus', () => {

@@ -36,6 +36,11 @@ The typed text is read with `format`, a
 `dd/MM/yyyy`. Single digits are accepted, so `1/6/2024` is 1 June 2024, and
 the text is rewritten in full when the field loses focus.
 
+A date before the year 1000 has to be typed exactly as `format` writes it,
+`01/01/0999` for the default. Anything shorter -- `15/06/20`, or `1/1/0999` --
+is taken to be a date still being typed, not the year 20, and is reported as
+`'format'` until it is finished.
+
 `onValueChange` is called with the date as soon as the text is a complete,
 valid date, and with `null` as soon as it stops being one. Anything else --
 half a date, 31 February, a date outside `min` and `max` -- leaves the text as
@@ -229,10 +234,17 @@ Everything an `<input>` takes, plus the props below. `type`, `size`, `min`,
 
 Toggle the theme in the toolbar to see it.
 
-Neither half needs anything of its own. The field is `Input`'s container and
-the popup is `Calendar`, so both follow whatever those components do in the
-dark theme, including the `error` variant's switch to `feedback-error`'s dark
-half.
+The field's container is `Input`'s and the popup is `Calendar`, so their
+backgrounds, borders and the calendar's days follow whatever those components
+do in the dark theme, including the `error` variant's switch to
+`feedback-error`'s dark half on the border.
+
+The text is DateInput's own, and each part carries its own dark colour: the
+typed date takes `foreground-dark`, `feedback-error-dark` or
+`feedback-success-dark` by variant, the label `foreground-dark` and the help
+text `foreground-muted-dark`. Moving these into `Input` would need their dark
+halves to move with them -- without them, error and success text would render
+in their light colours on the dark field.
 
 ## Accessibility
 

@@ -79,7 +79,10 @@ const readDate = (
     return { date: null, reason: null }
   }
   const date = parse(trimmed, pattern, new Date())
-  if (!isValid(date) || date.getFullYear() < 1000) {
+  if (!isValid(date)) {
+    return { date: null, reason: 'format' }
+  }
+  if (date.getFullYear() < 1000 && formatDate(date, pattern) !== trimmed) {
     return { date: null, reason: 'format' }
   }
   return withinBounds(date, min, max)
@@ -185,14 +188,22 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     const { reason } = readDate(text, format, lower, upper)
     const invalid = reason !== null
 
+    const lastReported = React.useRef({ day: selectedDay, reason })
+
     const commit = (
       date: Date | null,
       nextText: string,
       nextReason: DateInputInvalidReason | null
     ) => {
-      if (sameDay(date, selected) && nextReason === reason) {
+      const nextDay = date ? startOfDay(date).getTime() : null
+      const last = lastReported.current
+      if (
+        (nextDay === selectedDay && nextReason === reason) ||
+        (nextDay === last.day && nextReason === last.reason)
+      ) {
         return
       }
+      lastReported.current = { day: nextDay, reason: nextReason }
       if (!isControlled) {
         setInternalValue(date)
       }
@@ -204,6 +215,14 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     }
 
     React.useEffect(() => {
+      lastReported.current = {
+        day: selectedDay,
+        reason: selected
+          ? withinBounds(selected, lower, upper)
+            ? null
+            : 'range'
+          : readDate(text, format, lower, upper).reason
+      }
       setText(current => {
         const parsed = readDate(current, format, lower, upper).date
         if (selected) {
