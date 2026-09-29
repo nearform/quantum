@@ -1,0 +1,189 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as CardStories from './Card.stories'
+
+<Meta of={CardStories} />
+
+# Card
+
+A card groups related content in a bordered box. `Card` is the plain
+container. `SelectableCard` and `SwitchCard` are ready-made cards with a
+control inside.
+
+<Canvas of={CardStories.Default} />
+
+## Filled
+
+`variant="filled"` swaps the border for a light blue fill. It is the base
+slot from the design file. Put your own content in it.
+
+<Canvas of={CardStories.Filled} />
+
+## States
+
+`interactive` adds the hover border and a pointer cursor, for a card that
+responds to a click. `selected` draws the green selected border.
+
+<Canvas of={CardStories.States} />
+
+A `Card` is a `div` and is not focusable. If the whole card should be
+clickable, put a `Link` or `Button` inside it for keyboard and screen reader
+users, rather than adding `onClick` to the card.
+
+## Selectable card
+
+A card with a checkbox that you can tick by clicking the checkbox or anywhere
+on the card. When it is ticked, it takes the selected border.
+
+<Canvas of={CardStories.Selectable} />
+
+## Card with a switch
+
+A row with a switch, a label and an optional remove button. When the switch
+is on, it takes the selected border. The remove button appears only when you
+pass `onRemove`.
+
+<Canvas of={CardStories.WithSwitch} />
+
+## Dark mode
+
+Every card has dark mode styles. Switch the Storybook theme to see them.
+
+## Accessibility
+
+`SelectableCard` wraps its content in a `<label>`, so clicking anywhere on
+the card toggles the checkbox. The checkbox is named by `title` and described
+by `description`.
+
+`SwitchCard` names the switch with `label`. The remove button is icon-only,
+so it is named with `removeLabel`, which defaults to "Remove". Name it for
+what it removes, for example "Remove notifications".
+
+`CardTitle` renders an `h3`. If that level does not fit your page's heading
+outline, use your own heading element.
+
+## Attributes
+
+### Card
+
+Any other attribute goes to the `div`, and so does the `ref`.
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variant</td>
+      <td>`"outline" | "filled"`</td>
+      <td>`"outline"`</td>
+    </tr>
+    <tr>
+      <td>interactive</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>selected</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+### SelectableCard
+
+Takes the props of `Checkbox`, including `checked`, `defaultChecked`,
+`onCheckedChange`, `disabled`, `name` and `value`. They go to the checkbox,
+and so does the `ref`.
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>title</td>
+      <td>`ReactNode`</td>
+      <td>required</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>className</td>
+      <td>`string`</td>
+      <td>Applied to the card</td>
+    </tr>
+  </tbody>
+</table>
+
+### SwitchCard
+
+Takes the props of `Switch`, including `checked`, `defaultChecked`,
+`onCheckedChange` and `disabled`. They go to the switch, and so does the
+`ref`.
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>label</td>
+      <td>`ReactNode`</td>
+      <td>required</td>
+    </tr>
+    <tr>
+      <td>onRemove</td>
+      <td>`() => void`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>removeLabel</td>
+      <td>`string`</td>
+      <td>`"Remove"`</td>
+    </tr>
+    <tr>
+      <td>className</td>
+      <td>`string`</td>
+      <td>Applied to the card</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+<Card>
+  <CardTitle>Heading</CardTitle>
+  <CardDescription>Description</CardDescription>
+</Card>
+
+<SelectableCard
+  title="Email updates"
+  description="Get a weekly summary of your account."
+  checked={emailUpdates}
+  onCheckedChange={setEmailUpdates}
+/>
+
+<SwitchCard
+  label="Notifications"
+  onRemove={removeNotifications}
+  removeLabel="Remove notifications"
+/>
+```
