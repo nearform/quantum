@@ -1,0 +1,129 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as PageHeaderStories from './PageHeader.stories'
+
+<Meta of={PageHeaderStories} />
+
+# Page header
+
+The page header sits at the top of a screen. It combines a heading, simple
+navigation and sort and show controls, so users can find their way around and
+choose how the content below is shown.
+
+<Canvas of={PageHeaderStories.Default} />
+
+## With a back link
+
+Use a `BackLink` in place of the title to take users back to the previous
+screen.
+
+<Canvas of={PageHeaderStories.WithBackLink} />
+
+## Mobile
+
+Set `size="sm"` on small screens. It reduces the padding to 12px and the title
+size. There is less room for the sort and show controls, so put them behind a
+small `IconButton` that opens a `Popover`, and use a `BackLink` with
+`size="sm"`, which shows only the arrow.
+
+<Canvas of={PageHeaderStories.Mobile} />
+
+<Canvas of={PageHeaderStories.MobileWithBackLink} />
+
+## Dark mode
+
+Page header has dark mode styles. Switch the Storybook theme to see them.
+
+## Accessibility
+
+`PageHeaderTitle` renders an `h1` by default. If the page already has an `h1`,
+use `asChild` to render a different heading level:
+
+```tsx
+<PageHeaderTitle asChild count="216 Results">
+  <h2>Projects</h2>
+</PageHeaderTitle>
+```
+
+The count sits next to the heading rather than inside it, so it is not read out
+as part of the heading name.
+
+An `IconButton` needs a `label` that says what it opens, for example "Sort and
+show options".
+
+## Attributes
+
+`PageHeader` and `PageHeaderActions` pass any other attribute and the `ref` to
+their `div`. `PageHeaderTitle` passes them to the heading.
+
+### PageHeader
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>size</td>
+      <td>`'md' | 'sm'`</td>
+      <td>`'md'`</td>
+    </tr>
+  </tbody>
+</table>
+
+### PageHeaderTitle
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+import {
+  PageHeader,
+  PageHeaderActions,
+  PageHeaderTitle,
+  SortAndShowControl
+} from '@nearform/quantum'
+
+;<PageHeader>
+  <PageHeaderTitle count="216 Results">Projects</PageHeaderTitle>
+  <PageHeaderActions>
+    <SortAndShowControl
+      label="Sort by"
+      options={sortOptions}
+      value={sort}
+      onValueChange={setSort}
+    />
+    <SortAndShowControl
+      label="Show"
+      options={showOptions}
+      value={pageSize}
+      onValueChange={setPageSize}
+    />
+  </PageHeaderActions>
+</PageHeader>
+```
