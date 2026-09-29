@@ -28,7 +28,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    variant: 'success',
+    variant: 'info',
     withAction: true,
     withClose: false
   }

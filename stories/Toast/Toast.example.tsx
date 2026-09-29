@@ -62,12 +62,12 @@ type ToastDemoProps = Pick<ToastProps, 'variant'> & {
 }
 
 const ToastDemo = ({
-  variant = 'success',
+  variant = 'info',
   withAction = false,
   withClose = false
 }: ToastDemoProps) => {
   const [open, setOpen] = React.useState(true)
-  const { title, action, altText } = messages[variant ?? 'success']
+  const { title, action, altText } = messages[variant ?? 'info']
 
   return (
     <DemoLayout>
