@@ -72,6 +72,15 @@ describe('Toast', () => {
     expect(toast()!.textContent).toBe('Saved')
   })
 
+  it('lets clicks pass through the viewport to the page, but not through a toast', () => {
+    renderToast()
+
+    expect(container!.querySelector('ol')!.className).toContain(
+      'pointer-events-none'
+    )
+    expect(toast()!.className).toContain('pointer-events-auto')
+  })
+
   it('renders a title and description', () => {
     renderToast(
       {},
