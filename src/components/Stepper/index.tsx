@@ -40,6 +40,10 @@ interface StepperProps extends React.OlHTMLAttributes<HTMLOListElement> {
 const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
   ({ className, currentStep = 0, children, ...props }, ref) => {
     const items = flattenSteps(children)
+    const current = Math.min(
+      Number.isFinite(currentStep) ? Math.max(0, Math.floor(currentStep)) : 0,
+      Math.max(0, items.length - 1)
+    )
 
     return (
       <ol
@@ -54,9 +58,9 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
             value={{
               step: index + 1,
               status:
-                index < currentStep
+                index < current
                   ? 'complete'
-                  : index === currentStep
+                  : index === current
                     ? 'current'
                     : 'upcoming',
               last: index === items.length - 1

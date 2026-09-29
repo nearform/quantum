@@ -18,7 +18,8 @@ description. `StepperNav` moves between steps with Back and Next buttons.
 ## Progress
 
 Set `currentStep` to the index of the step the user is on. Steps are counted
-from 0. Steps before it are complete, and steps after it are upcoming.
+from 0. Steps before it are complete, and steps after it are upcoming. A
+value out of range is kept in range, so one step is always current.
 
 <Canvas of={StepperStories.Completed} />
 

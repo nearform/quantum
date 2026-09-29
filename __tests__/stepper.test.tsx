@@ -84,6 +84,21 @@ describe('Stepper', () => {
     )
   })
 
+  it.each([
+    [5, 2],
+    [3, 2],
+    [-1, 0],
+    [Number.NaN, 0],
+    [1.5, 1]
+  ])('keeps a currentStep of %p in range as step %p', (currentStep, index) => {
+    const container = renderSteps(currentStep)
+
+    const current = Array.from(container.querySelectorAll('li')).map(
+      item => item.getAttribute('aria-current') === 'step'
+    )
+    expect(current).toEqual([0, 1, 2].map(i => i === index))
+  })
+
   it('draws a connector after every step but the last', () => {
     const container = renderSteps()
 
