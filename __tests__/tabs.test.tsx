@@ -198,6 +198,26 @@ describe('Tabs', () => {
     ).toBe('vertical')
   })
 
+  it('marks the list with its orientation for the vertical layout styles', () => {
+    mount({ orientation: 'vertical' })
+
+    expect(
+      container!
+        .querySelector('[role="tablist"]')
+        ?.getAttribute('data-orientation')
+    ).toBe('vertical')
+  })
+
+  it('marks each trigger with its orientation for the vertical layout styles', () => {
+    mount({ orientation: 'vertical' })
+
+    expect(tabs().map(t => t.getAttribute('data-orientation'))).toEqual([
+      'vertical',
+      'vertical',
+      'vertical'
+    ])
+  })
+
   it('adds the count to the name of the tab', () => {
     mount({ count: 4 })
 
