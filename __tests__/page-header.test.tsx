@@ -51,22 +51,26 @@ describe('PageHeader', () => {
     expect(heading.nextElementSibling?.textContent).toBe('216 Results')
   })
 
-  it('renders a count of 0 and leaves out a missing one', () => {
-    const withZero = render(
+  it('renders a count of 0', () => {
+    const container = render(
       <PageHeader>
         <PageHeaderTitle count={0}>Projects</PageHeaderTitle>
       </PageHeader>
     )
-    expect(withZero.querySelector('h1')!.nextElementSibling?.textContent).toBe(
+
+    expect(container.querySelector('h1')!.nextElementSibling?.textContent).toBe(
       '0'
     )
+  })
 
-    const withoutCount = render(
+  it('leaves out a missing count', () => {
+    const container = render(
       <PageHeader>
         <PageHeaderTitle>Projects</PageHeaderTitle>
       </PageHeader>
     )
-    expect(withoutCount.querySelector('h1')!.nextElementSibling).toBeNull()
+
+    expect(container.querySelector('h1')!.nextElementSibling).toBeNull()
   })
 
   it('renders another heading level with asChild', () => {
