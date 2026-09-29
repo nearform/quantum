@@ -48,7 +48,7 @@ const cardVariants = cva(
           'dark:hover:border-grey-400',
           'focus-visible:outline-hidden',
           'focus-visible:shadow-brandGreen',
-          'dark:focus-visible:shadow-brandGreen-10'
+          'dark:focus-visible:shadow-brandGreen10'
         ],
         false: ''
       },
@@ -148,8 +148,8 @@ const SelectableCard = React.forwardRef<
         cardVariants({ interactive: !disabled }),
         'flex items-start gap-2 px-4 py-3',
         checkedClasses,
-        'has-focus-visible:shadow-brandGreen',
-        'dark:has-focus-visible:shadow-brandGreen-10',
+        'has-[:focus-visible]:shadow-brandGreen',
+        'dark:has-[:focus-visible]:shadow-brandGreen10',
         disabled && 'cursor-not-allowed opacity-50',
         className
       )}
