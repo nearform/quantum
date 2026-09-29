@@ -204,11 +204,14 @@ describe('Tabs', () => {
     expect(tab('Two').textContent).toBe('Two4')
   })
 
-  it.each([undefined, null])('renders no count badge for %s', count => {
-    mount({ count })
+  it.each([undefined, null, false, true])(
+    'renders no count badge for %s',
+    count => {
+      mount({ count })
 
-    expect(tab('Two').querySelector('span')).toBeNull()
-  })
+      expect(tab('Two').querySelector('span')).toBeNull()
+    }
+  )
 
   it('renders a count of 0', () => {
     mount({ count: 0 })

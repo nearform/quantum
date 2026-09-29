@@ -144,7 +144,7 @@ const TabsTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    {count !== undefined && count !== null && (
+    {count != null && typeof count !== 'boolean' && (
       <span className={tabsCountVariants({ size })}>{count}</span>
     )}
   </TabsPrimitive.Trigger>
