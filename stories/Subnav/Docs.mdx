@@ -1,0 +1,103 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as SubnavStories from './Subnav.stories'
+
+<Meta of={SubnavStories} />
+
+# Subnav
+
+A subnav lists the pages in one section of a site, under a heading for that
+section. Use it at the side of a page, next to the main content.
+
+<Canvas of={SubnavStories.Default} />
+
+## Parts
+
+- `Subnav` renders a `nav`. It is labelled by its heading.
+- `SubnavHeading` renders an `h2` for the section name. Pass `asChild` to
+  render another heading level.
+- `SubnavList` renders the `ul` that holds the links.
+- `SubnavItem` renders an `li` for each link.
+- `SubnavLink` renders an `a`. It is underlined on hover. Pass `asChild` to
+  render your router's link instead.
+
+## Active link
+
+Set `active` on the link for the current page. It is bold and has
+`aria-current="page"`.
+
+<Canvas of={SubnavStories.WithActiveLink} />
+
+## Without a heading
+
+Pass `aria-label` to `Subnav` when it has no heading.
+
+<Canvas of={SubnavStories.WithoutHeading} />
+
+## Dark mode
+
+The subnav has dark mode styles. Switch the Storybook theme to see them.
+
+## Accessibility
+
+The `nav` takes its name from `SubnavHeading`, so screen reader users hear
+the section name. `aria-label` or `aria-labelledby` on `Subnav` replaces it.
+
+## Attributes
+
+Each part passes other attributes and its `ref` to the element it renders.
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Subnav</td>
+      <td>aria-label</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>SubnavHeading</td>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>SubnavLink</td>
+      <td>active</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>SubnavLink</td>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+<Subnav>
+  <SubnavHeading>Guides</SubnavHeading>
+  <SubnavList>
+    <SubnavItem>
+      <SubnavLink href="/guides/start" active>
+        Getting started
+      </SubnavLink>
+    </SubnavItem>
+    <SubnavItem>
+      <SubnavLink href="/guides/theming">Theming</SubnavLink>
+    </SubnavItem>
+  </SubnavList>
+</Subnav>
+```
