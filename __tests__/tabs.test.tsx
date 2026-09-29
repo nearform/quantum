@@ -219,6 +219,47 @@ describe('Tabs', () => {
     expect(tab('Two').querySelector('span')?.textContent).toBe('0')
   })
 
+  it.each([undefined, 4])(
+    'renders the child element as the tab with asChild and count %s',
+    count => {
+      container = document.createElement('div')
+      document.body.appendChild(container)
+      act(() => {
+        root = createRoot(container!)
+        root.render(
+          <Tabs defaultValue="settings">
+            <TabsList>
+              <TabsTrigger value="settings" count={count} asChild>
+                <a href="#settings">Settings</a>
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        )
+      })
+
+      expect(tab('Settings').tagName).toBe('A')
+    }
+  )
+
+  it('puts the count inside the child element with asChild', () => {
+    container = document.createElement('div')
+    document.body.appendChild(container)
+    act(() => {
+      root = createRoot(container!)
+      root.render(
+        <Tabs defaultValue="settings">
+          <TabsList>
+            <TabsTrigger value="settings" count={4} asChild>
+              <a href="#settings">Settings</a>
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      )
+    })
+
+    expect(tab('Settings').textContent).toBe('Settings4')
+  })
+
   it('merges a className onto the trigger', () => {
     container = document.createElement('div')
     document.body.appendChild(container)

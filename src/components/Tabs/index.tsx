@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
+import { Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
@@ -143,7 +144,7 @@ const TabsTrigger = React.forwardRef<
     className={cn(tabsTriggerVariants({ size }), className)}
     {...props}
   >
-    {children}
+    <Slottable>{children}</Slottable>
     {count != null && typeof count !== 'boolean' && (
       <span className={tabsCountVariants({ size })}>{count}</span>
     )}
