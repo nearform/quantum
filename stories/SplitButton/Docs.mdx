@@ -1,0 +1,153 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as SplitButtonStories from './SplitButton.stories'
+
+<Meta of={SplitButtonStories} />
+
+# Split Button
+
+A split button pairs a main action with a menu of related actions. The label
+runs the main action straight away, and the chevron beside it opens a menu of
+alternatives, such as "Save" with "Save as draft" and "Save and close" behind
+it. Use it when one action is by far the most common and the others are
+variations of it. When the actions are equally likely, use a
+[Button Group](?path=/docs/components-buttongroup--docs) instead.
+
+<Canvas of={SplitButtonStories.Primary} />
+
+## Secondary
+
+<Canvas of={SplitButtonStories.Secondary} />
+
+## Small
+
+<Canvas of={SplitButtonStories.Small} />
+
+## Disabled
+
+`disabled` disables both the main action and the menu. To disable a single
+entry in the menu, pass `disabled` to that `SplitButtonItem`.
+
+<Canvas of={SplitButtonStories.Disabled} />
+
+## States
+
+Hover each half to see its hover state, and tab through to see the focus
+ring. The ring is drawn around the whole control, and the focused half takes
+its focus colour. The menu trigger keeps its pressed colour while the menu is
+open.
+
+<Canvas of={SplitButtonStories.PrimaryStates} />
+
+<Canvas of={SplitButtonStories.SecondaryStates} />
+
+## Dark mode
+
+Both variants have dark mode styles. Switch the Storybook theme to see them.
+
+## Accessibility
+
+The main action and the menu trigger are two separate buttons, so each gets
+its own tab stop. The trigger has only an icon, so it is named with
+`menuLabel`, which defaults to "More options". Name it for what the menu
+holds, for example "More save options", so it makes sense out of context.
+
+The menu is a [Radix Dropdown Menu](https://www.radix-ui.com/primitives/docs/components/dropdown-menu).
+It opens with <kbd>Enter</kbd>, <kbd>Space</kbd> or <kbd>ArrowDown</kbd>,
+the arrow keys move between items, and <kbd>Escape</kbd> closes it and
+returns focus to the trigger.
+
+## Attributes
+
+### SplitButton
+
+Any other attribute, including `onClick`, goes to the main action button, and
+so does the `ref`.
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>label</td>
+      <td>`ReactNode`</td>
+      <td>required</td>
+    </tr>
+    <tr>
+      <td>children</td>
+      <td>`SplitButtonItem` and `SplitButtonSeparator` elements</td>
+      <td>required</td>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`"primary" | "secondary"`</td>
+      <td>`"primary"`</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`"md" | "sm"`</td>
+      <td>`"md"`</td>
+    </tr>
+    <tr>
+      <td>menuLabel</td>
+      <td>`string`</td>
+      <td>`"More options"`</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>defaultOpen</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onOpenChange</td>
+      <td>`(open: boolean) => void`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>align</td>
+      <td>`"start" | "center" | "end"`</td>
+      <td>`"end"`</td>
+    </tr>
+    <tr>
+      <td>className</td>
+      <td>`string`</td>
+      <td>Applied to the outer wrapper</td>
+    </tr>
+    <tr>
+      <td>menuClassName</td>
+      <td>`string`</td>
+      <td>Applied to the menu</td>
+    </tr>
+  </tbody>
+</table>
+
+### SplitButtonItem
+
+Takes the props of a Radix `DropdownMenu.Item`. The most useful are
+`onSelect`, which runs when the item is chosen, and `disabled`.
+
+## Example
+
+```tsx
+<SplitButton label="Save" menuLabel="More save options" onClick={save}>
+  <SplitButtonItem onSelect={saveDraft}>Save as draft</SplitButtonItem>
+  <SplitButtonItem onSelect={saveAndClose}>Save and close</SplitButtonItem>
+  <SplitButtonSeparator />
+  <SplitButtonItem disabled>Save as template</SplitButtonItem>
+</SplitButton>
+```

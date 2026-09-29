@@ -235,9 +235,9 @@ props rather than guessing:
 - **Icon-only controls need names in your language.** `Pagination`
   (`previousLabel`, `nextLabel`, `pageLabel`), `StepsIndicator` (`label`,
   `stepLabel`), `Input` (`clearLabel`), `Password` (`showLabel`,
-  `hideLabel`) and `DateInput` (`calendarLabel`, `formatHint`,
-  `invalidMessage`, `rangeMessage`) all default to English and accept
-  overrides. `IconButton` has no default to override: its `label` is required,
+  `hideLabel`), `DateInput` (`calendarLabel`, `formatHint`,
+  `invalidMessage`, `rangeMessage`) and `SplitButton` (`menuLabel`) all
+  default to English and accept overrides. `IconButton` has no default to override: its `label` is required,
   because there is no name that could be guessed from an icon, and it should
   say what the button does rather than what the icon is a picture of --
   "Delete article", not "bin". Where the name is also made visible, by a
