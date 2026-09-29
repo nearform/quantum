@@ -115,7 +115,7 @@ const Toast = React.forwardRef<
     <ToastPrimitive.Root
       ref={ref}
       type={type ?? (resolved === 'error' ? 'foreground' : 'background')}
-      className={cn(toastVariants({ variant }), className)}
+      className={cn(toastVariants({ variant: resolved }), className)}
       {...props}
     >
       {icon !== null && (

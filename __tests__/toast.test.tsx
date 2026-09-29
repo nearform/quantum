@@ -140,6 +140,19 @@ describe('Toast', () => {
     expect(toast()!.className).toContain('bg-blue-50')
   })
 
+  it('treats variant={null} as info for the fill, icon and announcement', () => {
+    renderToast({ variant: null })
+
+    const icon = toast()!.querySelector('[aria-hidden="true"]')!
+
+    expect(toast()!.className).toContain('bg-blue-50')
+    expect(toast()!.className).toContain('border-border')
+    expect(icon.className).toContain('text-blue-600')
+    expect(
+      document.body.querySelector('[aria-live]')!.getAttribute('aria-live')
+    ).toBe('polite')
+  })
+
   it('replaces the icon with a custom one', () => {
     renderToast({ icon: <span data-testid="custom" /> })
 
