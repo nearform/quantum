@@ -1,0 +1,177 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as ToastStories from './Toast.stories'
+
+<Meta of={ToastStories} />
+
+# Toast
+
+A toast is a short message that appears for a few seconds to confirm an
+action or report a problem, without interrupting the user. It is built on
+[Radix Toast](https://www.radix-ui.com/primitives/docs/components/toast).
+
+<Canvas of={ToastStories.Default} />
+
+## Variants
+
+`variant` sets the colours and the icon: `success`, `error`, `warning` or
+`info`. The default is `info`. Pass `icon` to use a different icon, or
+`icon={null}` to show none.
+
+<Canvas of={ToastStories.Variants} />
+
+## With an action
+
+`ToastAction` adds an underlined text button after the message, such as
+"Undo" or "More details". It needs an `altText` that describes the action
+without the toast in front of it, for example "Undo saving your settings".
+Screen readers announce it, and it tells keyboard users how to get to the
+action.
+
+<Canvas of={ToastStories.WithAction} />
+
+## Showing a toast
+
+Wrap your app in one `ToastProvider` and place one `ToastViewport` inside it.
+The viewport is a fixed list in the bottom-right corner, and every open
+`Toast` is rendered into it. Control each toast with `open` and
+`onOpenChange`.
+
+<Canvas of={ToastStories.Triggered} />
+
+A toast closes itself after `duration` milliseconds. The default is 5000,
+set on `ToastProvider`, and you can override it on each `Toast`. The timer
+pauses while the pointer is over the toast, while it has focus, and while
+the window is in the background. Users can also swipe a toast away to the
+right, or press Escape while it has focus.
+
+`ToastClose` adds a close button. Add it when a toast has no action, or has
+a long duration, so users can dismiss it themselves.
+
+## Dark mode
+
+The toasts keep their light fills in dark mode, as in the design file, so
+the colours still read as success, error, warning and info. The `info` toast
+switches to a white fill so it stands out from a dark page.
+
+## Accessibility
+
+- Toasts are announced by screen readers when they open. An `error` toast is
+  announced straight away (`type="foreground"`); the other variants wait for
+  the screen reader to finish what it is saying (`type="background"`). Set
+  `type` to change this.
+- Users can press F8 to move focus to the viewport, then Tab through the
+  open toasts. Change the key with `hotkey` on `ToastViewport`, and its
+  announced name with `label` on `ToastProvider`.
+- The icon is decorative. The message has to say what happened on its own,
+  so do not rely on the colour.
+- Do not put the only way to do something in a toast. It closes by itself,
+  and some users will not reach it in time. Keep the action available
+  somewhere else on the page too.
+- `ToastClose` is icon-only, so it is named with `label`, which defaults to
+  "Close". Pass a label in your own language.
+
+## Attributes
+
+### ToastProvider
+
+Takes the props of Radix `Toast.Provider`, including `duration`, `label`,
+`swipeDirection` and `swipeThreshold`.
+
+### ToastViewport
+
+Takes the props of Radix `Toast.Viewport`, including `hotkey` and `label`.
+Any other attribute goes to the `ol`, and so does the `ref`.
+
+### Toast
+
+Takes the props of Radix `Toast.Root`, including `open`, `defaultOpen`,
+`onOpenChange` and `duration`. Any other attribute goes to the `li`, and so
+does the `ref`.
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variant</td>
+      <td>`"success" | "error" | "warning" | "info"`</td>
+      <td>`"info"`</td>
+    </tr>
+    <tr>
+      <td>icon</td>
+      <td>`ReactNode`</td>
+      <td>The variant's icon</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>`"foreground" | "background"`</td>
+      <td>`"foreground"` for `error`, `"background"` otherwise</td>
+    </tr>
+  </tbody>
+</table>
+
+### ToastTitle and ToastDescription
+
+The message, and an optional line of detail after it. Any attribute goes to
+the `div`.
+
+### ToastAction
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>altText</td>
+      <td>`string`</td>
+      <td>required</td>
+    </tr>
+  </tbody>
+</table>
+
+### ToastClose
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>label</td>
+      <td>`string`</td>
+      <td>`"Close"`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+const [open, setOpen] = React.useState(false)
+
+<ToastProvider>
+  <Button onClick={() => setOpen(true)}>Save settings</Button>
+  <Toast variant="success" open={open} onOpenChange={setOpen}>
+    <ToastTitle>Your settings have been saved</ToastTitle>
+    <ToastAction altText="Undo saving your settings" onClick={undo}>
+      Undo
+    </ToastAction>
+  </Toast>
+  <ToastViewport />
+</ToastProvider>
+```
