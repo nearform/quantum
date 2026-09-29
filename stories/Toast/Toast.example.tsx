@@ -24,11 +24,16 @@ const InlineViewport = () => (
   <ToastViewport className="static max-w-none items-start p-0" />
 )
 
-const StaticToast = (props: ToastProps) => (
+const DemoLayout = ({ children }: { children: React.ReactNode }) => (
   <ToastProvider>
-    <Toast open duration={Infinity} {...props} />
-    <InlineViewport />
+    <div className="flex flex-col items-start gap-6">{children}</div>
   </ToastProvider>
+)
+
+const ShowAgain = ({ onClick }: { onClick: () => void }) => (
+  <Button variant="secondary" onClick={onClick}>
+    Show the toasts again
+  </Button>
 )
 
 type ToastDemoProps = Pick<ToastProps, 'variant'> & {
@@ -41,32 +46,55 @@ const ToastDemo = ({
   withAction = false,
   withClose = false
 }: ToastDemoProps) => {
+  const [open, setOpen] = React.useState(true)
   const { title, action } = messages[variant ?? 'success']
 
   return (
-    <StaticToast variant={variant}>
-      <ToastTitle>{title}</ToastTitle>
-      {withAction && <ToastAction altText={action}>{action}</ToastAction>}
-      {withClose && <ToastClose />}
-    </StaticToast>
+    <DemoLayout>
+      <Toast
+        variant={variant}
+        open={open}
+        onOpenChange={setOpen}
+        duration={Infinity}
+      >
+        <ToastTitle>{title}</ToastTitle>
+        {withAction && <ToastAction altText={action}>{action}</ToastAction>}
+        {withClose && <ToastClose />}
+      </Toast>
+      <InlineViewport />
+      {!open && <ShowAgain onClick={() => setOpen(true)} />}
+    </DemoLayout>
   )
 }
 
-const ToastVariants = ({ withAction = false }: { withAction?: boolean }) => (
-  <ToastProvider>
-    {variants.map(variant => (
-      <Toast key={variant} variant={variant} open duration={Infinity}>
-        <ToastTitle>{messages[variant].title}</ToastTitle>
-        {withAction && (
-          <ToastAction altText={messages[variant].action}>
-            {messages[variant].action}
-          </ToastAction>
-        )}
-      </Toast>
-    ))}
-    <InlineViewport />
-  </ToastProvider>
-)
+const ToastVariants = ({ withAction = false }: { withAction?: boolean }) => {
+  const [closed, setClosed] = React.useState<ToastVariant[]>([])
+
+  return (
+    <DemoLayout>
+      {variants.map(variant => (
+        <Toast
+          key={variant}
+          variant={variant}
+          open={!closed.includes(variant)}
+          onOpenChange={open => {
+            if (!open) setClosed(current => [...current, variant])
+          }}
+          duration={Infinity}
+        >
+          <ToastTitle>{messages[variant].title}</ToastTitle>
+          {withAction && (
+            <ToastAction altText={messages[variant].action}>
+              {messages[variant].action}
+            </ToastAction>
+          )}
+        </Toast>
+      ))}
+      <InlineViewport />
+      {closed.length > 0 && <ShowAgain onClick={() => setClosed([])} />}
+    </DemoLayout>
+  )
+}
 
 const ToastTriggerDemo = () => {
   const [open, setOpen] = React.useState(false)
