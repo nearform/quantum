@@ -17,7 +17,7 @@ const CodeBlock = React.forwardRef<HTMLElement, CodeBlockProps>(
       )}
       {...props}
     >
-      {label && (
+      {label != null && typeof label !== 'boolean' && (
         <figcaption className="text-xs font-medium leading-normal">
           {label}
         </figcaption>

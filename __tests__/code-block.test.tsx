@@ -51,8 +51,19 @@ describe('CodeBlock', () => {
     )
   })
 
-  it('renders no caption without a label', () => {
-    const container = render(<CodeBlock>x</CodeBlock>)
+  it('captions the figure with a numeric label of 0', () => {
+    const container = render(<CodeBlock label={0}>x</CodeBlock>)
+
+    expect(container.querySelector('figcaption')?.textContent).toBe('0')
+  })
+
+  it.each([
+    ['no label', undefined],
+    ['a null label', null],
+    ['a false label', false],
+    ['a true label', true]
+  ])('renders no caption with %s', (_name, label) => {
+    const container = render(<CodeBlock label={label}>x</CodeBlock>)
 
     expect(container.querySelector('figcaption')).toBeNull()
   })
