@@ -1,0 +1,207 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as TabsStories from './Tabs.stories'
+
+<Meta of={TabsStories} />
+
+# Tabs
+
+Tabs split related content into panels and show one panel at a time. Each tab
+is a button that shows its panel, so people can move between sections without
+leaving the page, such as the sections of a profile or the views of a
+dashboard. Tabs can run horizontally or vertically. Use them for content at
+the same level. Don't use them for steps that must be done in order. For
+those, use the [Steps Indicator](?path=/docs/components-stepsindicator--docs).
+
+<Canvas of={TabsStories.Horizontal} />
+
+## Vertical
+
+Set `orientation="vertical"` on `Tabs` to stack the tabs in a column, with the
+panel beside them. Every tab takes the width of the widest one, so the
+selected fill lines up down the column.
+
+<Canvas of={TabsStories.Vertical} />
+
+## Small
+
+`size` is set on each `TabsTrigger`. `"md"` is the default (larger) size;
+`"sm"` is for tighter spaces.
+
+<Canvas of={TabsStories.Small} />
+
+## Count
+
+`count` puts a small badge after the label, for example the number of unread
+items. It is part of the tab's name, so a screen reader reads "Notifications
+4". If the number on its own isn't clear, change the label so that it is.
+
+<Canvas of={TabsStories.WithCount} />
+
+## Icons
+
+Put an icon before the label as a child of `TabsTrigger`. It is sized for you.
+Give it `aria-hidden="true"`, because the label already names the tab.
+
+<Canvas of={TabsStories.WithIcons} />
+
+## Disabled
+
+Pass `disabled` to a `TabsTrigger` to disable it. Keyboard focus skips it.
+
+<Canvas of={TabsStories.Disabled} />
+
+## States
+
+Hover a tab to see its hover fill, and tab into the list to see the focus
+ring. The selected tab takes the accent fill.
+
+<Canvas of={TabsStories.States} />
+
+## Dark mode
+
+Tabs have dark mode styles. The selected tab turns light. Switch the Storybook
+theme to see them.
+
+## Accessibility
+
+Tabs is built on [Radix Tabs](https://www.radix-ui.com/primitives/docs/components/tabs),
+which follows the WAI-ARIA tabs pattern. The list is a `tablist`, each trigger
+is a `tab` with `aria-selected` and `aria-controls`, and each panel is a
+`tabpanel` labelled by its tab.
+
+The whole list is one tab stop. Inside it, the arrow keys move between tabs:
+
+<kbd>ArrowLeft</kbd> and <kbd>ArrowRight</kbd> when horizontal, and
+<kbd>ArrowUp</kbd> and <kbd>ArrowDown</kbd> when vertical. <kbd>Home</kbd> and
+<kbd>End</kbd> go to the first and last tab. By default, moving focus to a tab
+also selects it. Set `activationMode="manual"` so that the arrow keys only move
+focus, and the focused tab is selected with <kbd>Enter</kbd> or
+<kbd>Space</kbd>. Keyboard users can then pass over a panel that is slow to load
+without opening it. Manual mode only changes the keyboard: a click always
+selects the tab, in both modes.
+
+Give `TabsList` an `aria-label` that says what the tabs are for, such as
+"Profile sections".
+
+## Attributes
+
+### Tabs
+
+Takes the props of a Radix `Tabs.Root`.
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>defaultValue</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onValueChange</td>
+      <td>`(value: string) => void`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>orientation</td>
+      <td>`"horizontal" | "vertical"`</td>
+      <td>`"horizontal"`</td>
+    </tr>
+    <tr>
+      <td>activationMode</td>
+      <td>`"automatic" | "manual"`</td>
+      <td>`"automatic"`</td>
+    </tr>
+    <tr>
+      <td>className</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+### TabsList
+
+Takes the props of a Radix `Tabs.List`, including `loop`, which is `true` by
+default.
+
+### TabsTrigger
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td>`string`</td>
+      <td>required</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`"md" | "sm"`</td>
+      <td>`"md"`</td>
+    </tr>
+    <tr>
+      <td>count</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>className</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+Pass `asChild` to render your own element as the tab instead of a
+`<button>`, for example a link. The `count` badge goes inside that element.
+
+### TabsContent
+
+Takes the props of a Radix `Tabs.Content`. Its `value` must match the `value`
+of a `TabsTrigger`.
+
+## Example
+
+```tsx
+<Tabs defaultValue="account" orientation="vertical">
+  <TabsList aria-label="Profile sections">
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="notifications" count={4}>
+      Notifications
+    </TabsTrigger>
+    <TabsTrigger value="settings">Settings</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">…</TabsContent>
+  <TabsContent value="notifications">…</TabsContent>
+  <TabsContent value="settings">…</TabsContent>
+</Tabs>
+```
