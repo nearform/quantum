@@ -156,6 +156,13 @@ describe('ToggleListItem', () => {
     expect(element).toBeTruthy()
   })
 
+  it('rejects removeLabel without onRemove', () => {
+    // @ts-expect-error removeLabel has no effect without onRemove
+    const element = <ToggleListItem label="Email" removeLabel="Remove Email" />
+
+    expect(element).toBeTruthy()
+  })
+
   it('disables the switch and the remove button together', () => {
     const onRemove = jest.fn()
     mount(

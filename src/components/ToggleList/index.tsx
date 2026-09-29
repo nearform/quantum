@@ -21,7 +21,7 @@ ToggleList.displayName = 'ToggleList'
 type SwitchRootProps = React.ComponentPropsWithoutRef<typeof Switch>
 
 type ToggleListItemRemoveProps =
-  | { onRemove?: undefined; removeLabel?: string }
+  | { onRemove?: undefined; removeLabel?: undefined }
   | { onRemove: () => void; label: string; removeLabel?: string }
   | { onRemove: () => void; removeLabel: string }
 

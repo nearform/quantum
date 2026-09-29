@@ -76,7 +76,8 @@ export const List: Story = {
 
 export const WithoutRemove: Story = {
   args: {
-    onRemove: undefined
+    onRemove: undefined,
+    removeLabel: undefined
   }
 }
 
