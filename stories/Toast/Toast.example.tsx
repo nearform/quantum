@@ -12,11 +12,30 @@ import {
 } from '@/index'
 import type { ToastProps, ToastVariant } from '@/index'
 
-const messages: Record<ToastVariant, { title: string; action: string }> = {
-  success: { title: 'Your settings have been saved', action: 'Undo' },
-  error: { title: 'An error has occurred', action: 'More details' },
-  warning: { title: 'Are you sure?', action: 'Cancel' },
-  info: { title: 'You have a reminder', action: 'More details' }
+const messages: Record<
+  ToastVariant,
+  { title: string; action: string; altText: string }
+> = {
+  success: {
+    title: 'Your settings have been saved',
+    action: 'Undo',
+    altText: 'Undo saving your settings'
+  },
+  error: {
+    title: 'An error has occurred',
+    action: 'More details',
+    altText: 'See more details about the error'
+  },
+  warning: {
+    title: 'Are you sure?',
+    action: 'Cancel',
+    altText: 'Cancel this action'
+  },
+  info: {
+    title: 'You have a reminder',
+    action: 'More details',
+    altText: 'See more details about your reminder'
+  }
 }
 
 const variants = Object.keys(messages) as ToastVariant[]
@@ -48,7 +67,7 @@ const ToastDemo = ({
   withClose = false
 }: ToastDemoProps) => {
   const [open, setOpen] = React.useState(true)
-  const { title, action } = messages[variant ?? 'success']
+  const { title, action, altText } = messages[variant ?? 'success']
 
   return (
     <DemoLayout>
@@ -59,7 +78,7 @@ const ToastDemo = ({
         duration={Infinity}
       >
         <ToastTitle>{title}</ToastTitle>
-        {withAction && <ToastAction altText={action}>{action}</ToastAction>}
+        {withAction && <ToastAction altText={altText}>{action}</ToastAction>}
         {withClose && <ToastClose />}
       </Toast>
       <InlineViewport />
@@ -85,7 +104,7 @@ const ToastVariants = ({ withAction = false }: { withAction?: boolean }) => {
         >
           <ToastTitle>{messages[variant].title}</ToastTitle>
           {withAction && (
-            <ToastAction altText={messages[variant].action}>
+            <ToastAction altText={messages[variant].altText}>
               {messages[variant].action}
             </ToastAction>
           )}
