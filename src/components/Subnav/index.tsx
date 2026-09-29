@@ -45,9 +45,13 @@ interface SubnavHeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
 }
 
 const SubnavHeading = React.forwardRef<HTMLHeadingElement, SubnavHeadingProps>(
-  ({ className, asChild = false, id, ...props }, ref) => {
+  ({ className, asChild = false, id, children, ...props }, ref) => {
     const generatedId = React.useId()
-    const headingId = id ?? generatedId
+    const childId =
+      asChild && React.isValidElement<{ id?: string }>(children)
+        ? children.props.id
+        : undefined
+    const headingId = childId ?? id ?? generatedId
     const setHeadingId = React.useContext(SubnavContext)
 
     React.useEffect(() => {
@@ -62,7 +66,9 @@ const SubnavHeading = React.forwardRef<HTMLHeadingElement, SubnavHeadingProps>(
         id={headingId}
         className={cn('text-sm font-semibold leading-normal', className)}
         {...props}
-      />
+      >
+        {children}
+      </Comp>
     )
   }
 )

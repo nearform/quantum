@@ -155,6 +155,20 @@ describe('Subnav', () => {
     expect(button.classList).toContain('custom')
   })
 
+  it('labels the nav with the id of a heading passed through asChild', () => {
+    const container = renderSubnav(
+      {},
+      <SubnavHeading asChild id="ignored">
+        <h3 id="guides">Guides</h3>
+      </SubnavHeading>
+    )
+
+    expect(container.querySelector('h3')?.id).toBe('guides')
+    expect(
+      container.querySelector('nav')?.getAttribute('aria-labelledby')
+    ).toBe('guides')
+  })
+
   it('forwards refs to the rendered elements', () => {
     const navRef = React.createRef<HTMLElement>()
     const headingRef = React.createRef<HTMLHeadingElement>()
