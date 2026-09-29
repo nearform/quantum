@@ -178,6 +178,20 @@ describe('Tabs', () => {
     expect(document.activeElement).toBe(tab('Two'))
   })
 
+  it.each([
+    ['Enter', 'Enter'],
+    ['Space', ' ']
+  ])('selects the focused tab with %s in manual mode', (_name, key) => {
+    jest.useFakeTimers()
+    mount({ activationMode: 'manual' })
+    act(() => tab('One').focus())
+    press(tab('One'), 'ArrowRight')
+
+    press(tab('Two'), key)
+
+    expect(tab('Two').getAttribute('aria-selected')).toBe('true')
+  })
+
   it('skips a disabled tab with the arrow keys', () => {
     jest.useFakeTimers()
     mount({ disableSecond: true })
