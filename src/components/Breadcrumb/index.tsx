@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Slot } from '@radix-ui/react-slot'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 
 import { BsChevronRight, type IconType } from '@/assets'
 import { cn } from '@/lib/utils'
@@ -50,29 +50,28 @@ const BreadcrumbLink = React.forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>(
   ({ className, asChild = false, icon: Icon, children, ...props }, ref) => {
     const Comp = asChild ? Slot : 'a'
     return (
-      <>
+      <Comp
+        ref={ref}
+        className={cn(
+          'inline-flex items-center gap-2',
+          'rounded-sm',
+          'underline underline-offset-2',
+          'cursor-pointer',
+          'hover:text-foreground dark:hover:text-foreground-dark',
+          'focus-visible:outline-hidden',
+          'focus-visible:shadow-brandGreen dark:focus-visible:shadow-brandGreen10',
+          className
+        )}
+        {...props}
+      >
         {Icon ? (
           <Icon
             className="h-3.5 w-3.5 shrink-0 text-foreground dark:text-foreground-dark"
             aria-hidden="true"
           />
         ) : null}
-        <Comp
-          ref={ref}
-          className={cn(
-            'rounded-sm',
-            'underline underline-offset-2',
-            'cursor-pointer',
-            'hover:text-foreground dark:hover:text-foreground-dark',
-            'focus-visible:outline-hidden',
-            'focus-visible:shadow-brandGreen dark:focus-visible:shadow-brandGreen10',
-            className
-          )}
-          {...props}
-        >
-          {children}
-        </Comp>
-      </>
+        <Slottable>{children}</Slottable>
+      </Comp>
     )
   }
 )

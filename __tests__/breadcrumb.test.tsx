@@ -104,7 +104,7 @@ describe('Breadcrumb', () => {
     const separator = container.querySelector('li[role="presentation"]')!
     expect(separator.getAttribute('aria-hidden')).toBe('true')
     expect(separator.querySelector('svg')).not.toBeNull()
-    const icon = container.querySelector('li > svg')!
+    const icon = container.querySelector('a > svg')!
     expect(icon.getAttribute('aria-hidden')).toBe('true')
   })
 
@@ -131,6 +131,28 @@ describe('Breadcrumb', () => {
     expect(container.querySelector('a')).toBeNull()
     expect(button.classList).toContain('custom')
     expect(button.classList).toContain('underline')
+  })
+
+  it('renders the icon inside the link', () => {
+    const container = renderTrail()
+
+    const link = container.querySelector('a')!
+    expect(link.querySelector('svg')).not.toBeNull()
+    expect(link.textContent).toBe('Home')
+  })
+
+  it('renders the icon inside the child element when asChild is set', () => {
+    const container = render(
+      <BreadcrumbLink asChild icon={BsHouse}>
+        <a href="/home">Home</a>
+      </BreadcrumbLink>
+    )
+
+    const links = container.querySelectorAll('a')
+    expect(links).toHaveLength(1)
+    expect(links[0].getAttribute('href')).toBe('/home')
+    expect(links[0].querySelector('svg')).not.toBeNull()
+    expect(links[0].textContent).toBe('Home')
   })
 
   it('forwards refs to the rendered elements', () => {
