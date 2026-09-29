@@ -48,7 +48,13 @@ required alongside `onRemove`.
 `ToggleList` passes any other attribute and the `ref` to its `ul`.
 `ToggleListItem` takes the `Switch` props (`checked`, `defaultChecked`,
 `onCheckedChange`, `disabled`, `name` and so on) and passes the `ref` to the
-switch.
+switch, with these exceptions:
+
+- `className` styles the row's `li`, not the switch.
+- `id` goes on the switch, and the label points at it. It is generated when
+  left out.
+- `disabled` also disables the remove button.
+- `children` and `asChild` are not accepted.
 
 ### ToggleListItem
 
