@@ -1,0 +1,115 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as SortAndShowStories from './SortAndShow.stories'
+
+<Meta of={SortAndShowStories} />
+
+# Sort and show
+
+Sort and show controls let users organise and display the content of a list
+or results area. Each control shows a label and its current value. Selecting
+the value opens a simple dropdown of options.
+
+<Canvas of={SortAndShowStories.Default} />
+
+## Sort and show results
+
+Put several `SortAndShowControl` items in a `SortAndShow` row. The row wraps
+when there isn't enough space.
+
+<Canvas of={SortAndShowStories.SortAndShowResults} />
+
+## Disabled
+
+<Canvas of={SortAndShowStories.Disabled} />
+
+## Dark mode
+
+Sort and show has dark mode styles. Switch the Storybook theme to see them.
+
+## Accessibility
+
+Each control is built on the Radix Select primitive, so it has full keyboard
+support: `Enter`, `Space` or the arrow keys open the options, the arrow keys
+move between them, and `Escape` closes them. The label names the control, and
+screen readers announce the selected value with it.
+
+Each control is at least 24px tall, to meet the minimum target size.
+
+## Attributes
+
+`SortAndShow` passes any other attribute and the `ref` to its `div`.
+`SortAndShowControl` takes the Radix Select root props (`value`,
+`defaultValue`, `onValueChange`, `disabled`, `name` and so on) and passes the
+`ref` to the trigger button.
+
+### SortAndShowControl
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>label</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>options</td>
+      <td>`{ value: string, label: ReactNode, disabled?: boolean }[]`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>defaultValue</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onValueChange</td>
+      <td>`(value: string) => void`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+import { SortAndShow, SortAndShowControl } from '@nearform/quantum'
+
+;<SortAndShow>
+  <SortAndShowControl
+    label="Sort by"
+    options={[
+      { value: 'alphabetical', label: 'Alphabetical (A-Z)' },
+      { value: 'newest', label: 'Newest first' }
+    ]}
+    value={sort}
+    onValueChange={setSort}
+  />
+  <SortAndShowControl
+    label="Show"
+    options={[
+      { value: '20', label: '20' },
+      { value: '50', label: '50' }
+    ]}
+    value={pageSize}
+    onValueChange={setPageSize}
+  />
+</SortAndShow>
+```
