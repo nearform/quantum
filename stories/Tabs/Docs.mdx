@@ -75,8 +75,11 @@ The whole list is one tab stop. Inside it, the arrow keys move between tabs:
 <kbd>ArrowLeft</kbd> and <kbd>ArrowRight</kbd> when horizontal, and
 <kbd>ArrowUp</kbd> and <kbd>ArrowDown</kbd> when vertical. <kbd>Home</kbd> and
 <kbd>End</kbd> go to the first and last tab. By default, moving focus to a tab
-also selects it. Set `activationMode="manual"` to select only on
-<kbd>Enter</kbd> or <kbd>Space</kbd>, which suits panels that are slow to load.
+also selects it. Set `activationMode="manual"` so that the arrow keys only move
+focus, and the focused tab is selected with <kbd>Enter</kbd> or
+<kbd>Space</kbd>. Keyboard users can then pass over a panel that is slow to load
+without opening it. Manual mode only changes the keyboard: a click always
+selects the tab, in both modes.
 
 Give `TabsList` an `aria-label` that says what the tabs are for, such as
 "Profile sections".

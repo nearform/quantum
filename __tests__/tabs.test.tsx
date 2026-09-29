@@ -192,6 +192,14 @@ describe('Tabs', () => {
     expect(tab('Two').getAttribute('aria-selected')).toBe('true')
   })
 
+  it('selects a clicked tab in manual mode', () => {
+    mount({ activationMode: 'manual' })
+
+    click(tab('Two'))
+
+    expect(tab('Two').getAttribute('aria-selected')).toBe('true')
+  })
+
   it('skips a disabled tab with the arrow keys', () => {
     jest.useFakeTimers()
     mount({ disableSecond: true })
