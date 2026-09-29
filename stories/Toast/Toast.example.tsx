@@ -118,18 +118,19 @@ const ToastVariants = ({ withAction = false }: { withAction?: boolean }) => {
 
 const ToastTriggerDemo = () => {
   const [open, setOpen] = React.useState(false)
+  const [count, setCount] = React.useState(0)
 
   return (
     <ToastProvider>
       <Button
         onClick={() => {
-          setOpen(false)
-          window.setTimeout(() => setOpen(true), 100)
+          setCount(current => current + 1)
+          setOpen(true)
         }}
       >
         Save settings
       </Button>
-      <Toast variant="success" open={open} onOpenChange={setOpen}>
+      <Toast key={count} variant="success" open={open} onOpenChange={setOpen}>
         <ToastTitle>Your settings have been saved</ToastTitle>
         <ToastAction altText="Undo saving your settings">Undo</ToastAction>
         <ToastClose />
