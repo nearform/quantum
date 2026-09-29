@@ -73,6 +73,15 @@ const TabsStates = ({ size }: Pick<TabsTriggerProps, 'size'>) => (
         Tab
       </TabsTrigger>
     </TabsList>
+    {['default', 'selected', 'disabled'].map(value => (
+      <TabsContent
+        key={value}
+        value={value}
+        className="text-sm text-foreground dark:text-foreground-dark"
+      >
+        The {value} tab panel.
+      </TabsContent>
+    ))}
   </Tabs>
 )
 
