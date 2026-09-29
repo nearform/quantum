@@ -93,6 +93,40 @@ describe('Stepper', () => {
     expect(connectors).toEqual([2, 2, 1])
   })
 
+  it('numbers steps grouped in fragments as separate steps', () => {
+    const container = render(
+      <Stepper currentStep={1}>
+        <StepperItem title="One" />
+        <>
+          <StepperItem title="Two" />
+          <StepperItem title="Three" />
+        </>
+      </Stepper>
+    )
+
+    const items = Array.from(container.querySelectorAll('li'))
+    expect(items.map(item => item.textContent)).toEqual([
+      '1One',
+      '2Two',
+      '3Three'
+    ])
+    expect(items.map(item => item.getAttribute('data-status'))).toEqual([
+      'complete',
+      'current',
+      'upcoming'
+    ])
+  })
+
+  it('renders a description of 0', () => {
+    const container = render(
+      <Stepper>
+        <StepperItem title="Errors" description={0} />
+      </Stepper>
+    )
+
+    expect(container.querySelector('li')!.textContent).toBe('1Errors0')
+  })
+
   it('passes other attributes, its className and refs to the list and items', () => {
     const listRef = React.createRef<HTMLOListElement>()
     const itemRef = React.createRef<HTMLLIElement>()
@@ -176,6 +210,30 @@ describe('StepperNav', () => {
     )
     expect(counter.querySelector('.sr-only')!.textContent).toBe('Step 1 of 2')
     expect(container.querySelectorAll('button')).toHaveLength(2)
+  })
+
+  it.each([0, -1, Number.NaN])(
+    'disables both buttons and shows no indicator with %p steps',
+    totalSteps => {
+      const container = render(
+        <StepperNav
+          currentStep={0}
+          totalSteps={totalSteps}
+          indicator="counter"
+        />
+      )
+
+      expect(buttonNamed(container, 'Back').disabled).toBe(true)
+      expect(buttonNamed(container, 'Next').disabled).toBe(true)
+      expect(container.querySelector('[aria-live]')).toBeNull()
+    }
+  )
+
+  it('rounds a fractional step count down', () => {
+    const container = render(<StepperNav currentStep={0} totalSteps={2.5} />)
+
+    expect(buttonNamed(container, 'Step 2 of 2')).toBeDefined()
+    expect(container.querySelectorAll('button')).toHaveLength(4)
   })
 
   it('uses the given labels', () => {

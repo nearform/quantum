@@ -17,24 +17,40 @@ const StepperItemContext = React.createContext<StepperItemContextValue | null>(
   null
 )
 
+const flattenSteps = (
+  children: React.ReactNode,
+  keyPrefix = ''
+): Array<{ key: string; element: React.ReactElement }> =>
+  React.Children.toArray(children).flatMap(child => {
+    if (!React.isValidElement(child)) return []
+    const key = `${keyPrefix}${child.key}`
+    if (child.type === React.Fragment) {
+      return flattenSteps(
+        (child.props as { children?: React.ReactNode }).children,
+        key
+      )
+    }
+    return [{ key, element: child }]
+  })
+
 interface StepperProps extends React.OlHTMLAttributes<HTMLOListElement> {
   currentStep?: number
 }
 
 const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
   ({ className, currentStep = 0, children, ...props }, ref) => {
-    const items = React.Children.toArray(children).filter(React.isValidElement)
+    const items = flattenSteps(children)
 
     return (
       <ol
         ref={ref}
         role="list"
-        className={cn('flex items-center gap-2', className)}
+        className={cn('flex min-w-0 items-center gap-2', className)}
         {...props}
       >
-        {items.map((child, index) => (
+        {items.map(({ key, element }, index) => (
           <StepperItemContext.Provider
-            key={child.key ?? index}
+            key={key}
             value={{
               step: index + 1,
               status:
@@ -46,7 +62,7 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
               last: index === items.length - 1
             }}
           >
-            {child}
+            {element}
           </StepperItemContext.Provider>
         ))}
       </ol>
@@ -72,8 +88,8 @@ const stepperNumberVariants = cva(
           'dark:bg-background-dark dark:text-foreground-dark'
         ],
         upcoming: [
-          'bg-background-subtle text-foreground-subtle',
-          'dark:bg-background-subtle-dark dark:text-foreground-subtle-dark'
+          'bg-background-subtle text-foreground-muted',
+          'dark:bg-background-subtle-dark dark:text-foreground-muted-dark'
         ]
       }
     }
@@ -113,7 +129,7 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
         data-status={status}
         className={cn(
           'flex min-w-0 items-center gap-2',
-          last ? 'flex-none' : 'flex-1',
+          last ? 'flex-initial' : 'flex-auto',
           className
         )}
         {...props}
@@ -121,10 +137,10 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
         <span aria-hidden="true" className={stepperNumberVariants({ status })}>
           {step}
         </span>
-        <span className="flex shrink-0 flex-col whitespace-nowrap">
+        <span className="flex min-w-0 flex-col break-words">
           <span className={stepperTitleVariants({ status })}>{title}</span>
-          {description ? (
-            <span className="text-[10px] leading-normal text-foreground-subtle dark:text-foreground-subtle-dark">
+          {description != null && description !== false ? (
+            <span className="text-[10px] leading-normal text-foreground-muted dark:text-foreground-muted-dark">
               {description}
             </span>
           ) : null}
@@ -182,54 +198,59 @@ const StepperNav = React.forwardRef<HTMLDivElement, StepperNavProps>(
       ...props
     },
     ref
-  ) => (
-    <div
-      ref={ref}
-      role="group"
-      aria-label={label}
-      className={cn('flex items-center gap-6', className)}
-      {...props}
-    >
-      <button
-        type="button"
-        className={stepperNavButtonVariants()}
-        disabled={currentStep <= 0}
-        onClick={() => onStepChange?.(currentStep - 1)}
+  ) => {
+    const total = Number.isFinite(totalSteps)
+      ? Math.max(0, Math.floor(totalSteps))
+      : 0
+    const step = Math.min(Math.max(0, currentStep), Math.max(0, total - 1))
+
+    return (
+      <div
+        ref={ref}
+        role="group"
+        aria-label={label}
+        className={cn('flex items-center gap-6', className)}
+        {...props}
       >
-        <BsChevronLeft className="h-3 w-3 shrink-0" aria-hidden="true" />
-        {backLabel}
-      </button>
-      {indicator === 'dots' ? (
-        <StepsIndicator
-          length={totalSteps}
-          selectedIndex={currentStep}
-          onClick={onStepChange}
-          stepLabel={stepLabel}
-        />
-      ) : (
-        <span
-          aria-live="polite"
-          className="text-xs leading-normal text-foreground dark:text-foreground-dark"
+        <button
+          type="button"
+          className={stepperNavButtonVariants()}
+          disabled={total === 0 || step <= 0}
+          onClick={() => onStepChange?.(step - 1)}
         >
-          <span aria-hidden="true">
-            {currentStep + 1}/{totalSteps}
+          <BsChevronLeft className="h-3 w-3 shrink-0" aria-hidden="true" />
+          {backLabel}
+        </button>
+        {total === 0 ? null : indicator === 'dots' ? (
+          <StepsIndicator
+            length={total}
+            selectedIndex={step}
+            onClick={onStepChange}
+            stepLabel={stepLabel}
+          />
+        ) : (
+          <span
+            aria-live="polite"
+            className="text-xs leading-normal text-foreground dark:text-foreground-dark"
+          >
+            <span aria-hidden="true">
+              {step + 1}/{total}
+            </span>
+            <span className="sr-only">{stepLabel(step + 1, total)}</span>
           </span>
-          <span className="sr-only">
-            {stepLabel(currentStep + 1, totalSteps)}
-          </span>
-        </span>
-      )}
-      <button
-        type="button"
-        className={stepperNavButtonVariants()}
-        disabled={currentStep >= totalSteps - 1}
-        onClick={() => onStepChange?.(currentStep + 1)}
-      >
-        {nextLabel}
-        <BsChevronRight className="h-3 w-3 shrink-0" aria-hidden="true" />
-      </button>
-    </div>
-  )
+        )}
+        <button
+          type="button"
+          className={stepperNavButtonVariants()}
+          disabled={total === 0 || step >= total - 1}
+          onClick={() => onStepChange?.(step + 1)}
+        >
+          {nextLabel}
+          <BsChevronRight className="h-3 w-3 shrink-0" aria-hidden="true" />
+        </button>
+      </div>
+    )
+  }
 )
 StepperNav.displayName = 'StepperNav'
 

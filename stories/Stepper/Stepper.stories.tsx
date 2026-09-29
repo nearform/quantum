@@ -26,7 +26,7 @@ const meta = {
     }
   },
   render: args => (
-    <Stepper {...args} className="w-[720px]">
+    <Stepper {...args} className="w-[880px]">
       {steps.map(step => (
         <StepperItem
           key={step.id}
@@ -74,7 +74,7 @@ const WizardDemo = () => {
   const [currentStep, setCurrentStep] = React.useState(0)
 
   return (
-    <div className="flex w-[720px] flex-col gap-6">
+    <div className="flex w-[880px] flex-col gap-6">
       <Stepper currentStep={currentStep}>
         {steps.map(step => (
           <StepperItem
