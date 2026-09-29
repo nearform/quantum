@@ -5,6 +5,7 @@ import {
   Toast,
   ToastAction,
   ToastClose,
+  ToastDescription,
   ToastProvider,
   ToastTitle,
   ToastViewport
@@ -119,4 +120,28 @@ const ToastTriggerDemo = () => {
   )
 }
 
-export { ToastDemo, ToastTriggerDemo, ToastVariants }
+const ToastDescriptionDemo = () => {
+  const [open, setOpen] = React.useState(true)
+
+  return (
+    <DemoLayout>
+      <Toast
+        variant="error"
+        open={open}
+        onOpenChange={setOpen}
+        duration={Infinity}
+      >
+        <ToastTitle>An error has occurred</ToastTitle>
+        <ToastDescription>Your changes could not be saved.</ToastDescription>
+        <ToastAction altText="Try saving your changes again">
+          Try again
+        </ToastAction>
+        <ToastClose />
+      </Toast>
+      <InlineViewport />
+      {!open && <ShowAgain onClick={() => setOpen(true)} />}
+    </DemoLayout>
+  )
+}
+
+export { ToastDemo, ToastDescriptionDemo, ToastTriggerDemo, ToastVariants }

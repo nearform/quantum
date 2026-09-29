@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { ToastDemo, ToastTriggerDemo, ToastVariants } from './Toast.example'
+import {
+  ToastDemo,
+  ToastDescriptionDemo,
+  ToastTriggerDemo,
+  ToastVariants
+} from './Toast.example'
 
 const meta = {
   title: 'Components/Toast',
@@ -35,6 +40,10 @@ export const Variants: Story = {
 
 export const WithAction: Story = {
   render: () => <ToastVariants withAction />
+}
+
+export const WithDescription: Story = {
+  render: () => <ToastDescriptionDemo />
 }
 
 export const Triggered: Story = {

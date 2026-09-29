@@ -53,11 +53,11 @@ ToastViewport.displayName = ToastPrimitive.Viewport.displayName
 const toastVariants = cva(
   [
     'pointer-events-auto',
-    'flex',
+    'grid',
+    'grid-cols-[auto_minmax(0,1fr)_auto_auto]',
     'w-fit',
     'max-w-full',
     'items-center',
-    'gap-2',
     'rounded-sm',
     'border',
     'px-2',
@@ -122,6 +122,9 @@ const Toast = React.forwardRef<
         <span
           aria-hidden="true"
           className={cn(
+            'col-start-1',
+            'row-start-1',
+            'mr-2',
             'flex',
             'shrink-0',
             'items-center',
@@ -145,7 +148,7 @@ const ToastTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ToastPrimitive.Title
     ref={ref}
-    className={cn('font-medium', className)}
+    className={cn('col-start-2', 'row-start-1', 'font-medium', className)}
     {...props}
   />
 ))
@@ -157,7 +160,12 @@ const ToastDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ToastPrimitive.Description
     ref={ref}
-    className={cn('text-foreground-muted', className)}
+    className={cn(
+      'col-start-2',
+      'row-start-2',
+      'text-foreground-muted',
+      className
+    )}
     {...props}
   />
 ))
@@ -170,7 +178,9 @@ const ToastAction = React.forwardRef<
   <ToastPrimitive.Action
     ref={ref}
     className={cn(
-      'ml-2',
+      'col-start-3',
+      'row-start-1',
+      'ml-4',
       'shrink-0',
       'cursor-pointer',
       'rounded-xs',
@@ -201,6 +211,8 @@ const ToastClose = React.forwardRef<
     ref={ref}
     aria-label={label}
     className={cn(
+      'col-start-4',
+      'row-start-1',
       'ml-1',
       'flex',
       'h-5',

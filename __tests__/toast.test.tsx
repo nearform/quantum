@@ -93,6 +93,29 @@ describe('Toast', () => {
     expect(toast()!.textContent).toBe('SavedYour changes are live')
   })
 
+  it('places the description below the title, beside the icon and actions', () => {
+    renderToast(
+      {},
+      <>
+        <ToastTitle>Saved</ToastTitle>
+        <ToastDescription>Your changes are live</ToastDescription>
+        <ToastAction altText="Undo saving">Undo</ToastAction>
+        <ToastClose />
+      </>
+    )
+
+    const [icon, title, description, action, close] = Array.from(
+      toast()!.children
+    )
+
+    expect(toast()!.className).toContain('grid')
+    expect(icon.className).toContain('col-start-1')
+    expect(title.className).toContain('col-start-2 row-start-1')
+    expect(description.className).toContain('col-start-2 row-start-2')
+    expect(action.className).toContain('col-start-3 row-start-1')
+    expect(close.className).toContain('col-start-4 row-start-1')
+  })
+
   it.each([
     ['success', 'bg-green-50', 'text-feedback-success'],
     ['error', 'bg-red-50', 'text-feedback-error'],

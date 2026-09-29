@@ -30,6 +30,13 @@ action.
 
 <Canvas of={ToastStories.WithAction} />
 
+## With a description
+
+`ToastDescription` adds a line of detail below `ToastTitle`. The icon, the
+action and the close button stay level with the title.
+
+<Canvas of={ToastStories.WithDescription} />
+
 ## Showing a toast
 
 Wrap your app in one `ToastProvider` and place one `ToastViewport` inside it.
@@ -118,7 +125,7 @@ does the `ref`.
 
 ### ToastTitle and ToastDescription
 
-The message, and an optional line of detail after it. Any attribute goes to
+The message, and an optional line of detail below it. Any attribute goes to
 the `div`.
 
 ### ToastAction
