@@ -159,14 +159,18 @@ describe('Breadcrumb', () => {
     const navRef = React.createRef<HTMLElement>()
     const linkRef = React.createRef<HTMLAnchorElement>()
     const pageRef = React.createRef<HTMLSpanElement>()
+    const listRef = React.createRef<HTMLOListElement>()
+    const itemRef = React.createRef<HTMLLIElement>()
+    const separatorRef = React.createRef<HTMLLIElement>()
     render(
       <Breadcrumb ref={navRef}>
-        <BreadcrumbList>
-          <BreadcrumbItem>
+        <BreadcrumbList ref={listRef}>
+          <BreadcrumbItem ref={itemRef}>
             <BreadcrumbLink ref={linkRef} href="/">
               Home
             </BreadcrumbLink>
           </BreadcrumbItem>
+          <BreadcrumbSeparator ref={separatorRef} />
           <BreadcrumbItem>
             <BreadcrumbPage ref={pageRef}>Page</BreadcrumbPage>
           </BreadcrumbItem>
@@ -177,5 +181,8 @@ describe('Breadcrumb', () => {
     expect(navRef.current?.tagName).toBe('NAV')
     expect(linkRef.current?.tagName).toBe('A')
     expect(pageRef.current?.tagName).toBe('SPAN')
+    expect(listRef.current?.tagName).toBe('OL')
+    expect(itemRef.current?.tagName).toBe('LI')
+    expect(separatorRef.current?.getAttribute('role')).toBe('presentation')
   })
 })

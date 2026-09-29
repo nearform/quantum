@@ -93,12 +93,12 @@ const BreadcrumbPage = React.forwardRef<
 ))
 BreadcrumbPage.displayName = 'BreadcrumbPage'
 
-const BreadcrumbSeparator = ({
-  className,
-  children,
-  ...props
-}: React.LiHTMLAttributes<HTMLLIElement>) => (
+const BreadcrumbSeparator = React.forwardRef<
+  HTMLLIElement,
+  React.LiHTMLAttributes<HTMLLIElement>
+>(({ className, children, ...props }, ref) => (
   <li
+    ref={ref}
     role="presentation"
     aria-hidden="true"
     className={cn(
@@ -111,7 +111,7 @@ const BreadcrumbSeparator = ({
   >
     {children ?? <BsChevronRight />}
   </li>
-)
+))
 BreadcrumbSeparator.displayName = 'BreadcrumbSeparator'
 
 export {
