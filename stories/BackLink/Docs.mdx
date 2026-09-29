@@ -1,0 +1,79 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as BackLinkStories from './BackLink.stories'
+
+<Meta of={BackLinkStories} />
+
+# BackLink
+
+A back link is a text link with an arrow pointing left. It takes users back to
+the previous screen, page or location in their journey.
+
+<Canvas of={BackLinkStories.Default} />
+
+## Small
+
+`size="sm"` shows the arrow on its own, for mobile layouts. The label stays in
+the link for screen reader users, so the link is still announced as "Back".
+
+<Canvas of={BackLinkStories.Small} />
+
+## Custom label
+
+The label defaults to "Back". Pass children to say where the link goes.
+
+<Canvas of={BackLinkStories.CustomLabel} />
+
+## Dark mode
+
+The back link has dark mode styles. Switch the Storybook theme to see them.
+
+## Accessibility
+
+The back link renders an `a`, so it needs an `href` to be focusable. To go
+back in the browser history, pass an `href` for the previous page and handle
+`onClick`:
+
+```tsx
+<BackLink
+  href="/results"
+  onClick={e => {
+    e.preventDefault()
+    history.back()
+  }}
+/>
+```
+
+The arrow is hidden from assistive technology.
+
+## Attributes
+
+Any other attribute goes to the `a`, and so does the `ref`.
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>children</td>
+      <td>`ReactNode`</td>
+      <td>`'Back'`</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`'md' | 'sm'`</td>
+      <td>`'md'`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+<BackLink href="/results" />
+```
