@@ -1,0 +1,84 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as CodeBlockStories from './CodeBlock.stories'
+
+<Meta of={CodeBlockStories} />
+
+# CodeBlock
+
+A code block shows code or a script in a monospaced box, set apart from the
+text around it. Use it in documentation, tutorials and anywhere users need to
+read or copy code.
+
+<Canvas of={CodeBlockStories.Default} />
+
+## Without a label
+
+`label` is optional. Leave it out when the text around the block already says
+what the code is.
+
+<Canvas of={CodeBlockStories.WithoutLabel} />
+
+## Long lines
+
+Lines do not wrap, so indentation stays intact. When the code is wider than
+the block, the block scrolls sideways.
+
+<Canvas of={CodeBlockStories.Overflow} />
+
+## Dark mode
+
+The code block has dark mode styles. Switch the Storybook theme to see them.
+
+## Accessibility
+
+The code block renders a `figure`. `label` renders its `figcaption`, which
+names the figure for screen reader users.
+
+The code is in a `pre` that you can focus with the keyboard, so keyboard users
+can scroll it when the code is wider than the block.
+
+## Syntax highlighting
+
+`CodeBlock` does not highlight code. `language` adds a `language-*` class and
+a `data-language` attribute to the `code` element, the hooks that highlighters
+such as Prism and highlight.js look for.
+
+## Attributes
+
+Any other attribute goes to the `figure`, and so does the `ref`.
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>children</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>language</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+<CodeBlock label="Install" language="sh">
+  npm install @nearform/quantum
+</CodeBlock>
+```
