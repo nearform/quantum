@@ -119,7 +119,7 @@ describe('Toast', () => {
   it.each([
     ['success', 'bg-green-50', 'text-feedback-success'],
     ['error', 'bg-red-50', 'text-feedback-error'],
-    ['warning', 'bg-yellow-50', 'text-feedback-danger'],
+    ['warning', 'bg-yellow-50', 'text-orange-400'],
     ['info', 'bg-blue-50', 'text-blue-600']
   ] as const)(
     'styles the %s variant and its icon',

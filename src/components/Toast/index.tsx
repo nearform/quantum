@@ -92,7 +92,7 @@ const toastIcons: Record<ToastVariant, { icon: IconType; className: string }> =
   {
     success: { icon: BsCheckCircleFill, className: 'text-feedback-success' },
     error: { icon: BsExclamationCircleFill, className: 'text-feedback-error' },
-    warning: { icon: BsQuestionCircleFill, className: 'text-feedback-danger' },
+    warning: { icon: BsQuestionCircleFill, className: 'text-orange-400' },
     info: { icon: BsInfoCircleFill, className: 'text-blue-600' }
   }
 
