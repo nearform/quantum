@@ -3,6 +3,19 @@ import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
 import * as DataTableStories from './DataTable.stories'
 import exampleSource from './DataTable.example.tsx?raw'
 
+export const importNames = alias =>
+  exampleSource
+    .match(new RegExp(`import \\{([^}]*)\\} from '@/${alias}'`))[1]
+    .split(',')
+    .map(name => name.trim())
+    .filter(Boolean)
+export const publicSource = exampleSource
+  .replace(/import \{[^}]*\} from '@\/assets'\n/, '')
+  .replace(
+    /import \{[^}]*\} from '@\/components'/,
+    `import {\n  ${[...importNames('assets'), ...importNames('components')].join(',\n  ')}\n} from '@nearform/quantum'`
+  )
+
 <Meta of={DataTableStories} />
 
 # Data Table
@@ -76,4 +89,4 @@ When there are no rows, whether because the data is empty or the filter matches 
 
 ## Example code
 
-<Source code={exampleSource} language="tsx" />
+<Source code={publicSource} language="tsx" />
