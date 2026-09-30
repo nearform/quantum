@@ -149,16 +149,11 @@ describe('colour classes in src/ against the generated stylesheet', () => {
    * without a build error, so a token deleted from `src/theme.ts` takes the
    * styling with it while the sync test above stays green.
    *
-   * The three below already resolve to nothing and are recorded rather than
-   * fixed: `foreground-selected` and `primary-foreground` are not tokens, and
-   * `primary` is a ramp with no `DEFAULT`. What this holds is that the set does
-   * not grow.
+   * The one below already resolves to nothing and is recorded rather than
+   * fixed: `foreground-selected` is not a token. What this holds is that the
+   * set does not grow.
    */
-  it('resolves every colour class but the three already dead', () => {
-    expect(unresolved).toEqual([
-      'bg-primary',
-      'selected:text-foreground-selected',
-      'text-primary-foreground'
-    ])
+  it('resolves every colour class but the one already dead', () => {
+    expect(unresolved).toEqual(['selected:text-foreground-selected'])
   })
 })
