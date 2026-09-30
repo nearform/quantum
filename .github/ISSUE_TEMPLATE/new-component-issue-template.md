@@ -13,4 +13,4 @@ assignees: ''
 - [ ] Implement dark mode
 - [ ] Export from `src/components/index.ts`
 - [ ] Write tests
-- [ ] Add to the "Component Affected" list in the bug report template
+- [ ] Add to the "Component Affected" list in the bug report and design update templates

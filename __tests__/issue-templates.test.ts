@@ -3,10 +3,11 @@ import fs from 'fs'
 import path from 'path'
 
 const componentsDir = path.join(__dirname, '../src/components')
-const bugTemplate = path.join(
-  __dirname,
-  '../.github/ISSUE_TEMPLATE/component_bug_report_template.yml'
-)
+const templatesDir = path.join(__dirname, '../.github/ISSUE_TEMPLATE')
+const templates = [
+  ['bug report', 'component_bug_report_template.yml'],
+  ['design update', 'design-update-issue-template.yml']
+]
 
 const optionNames: Record<string, string> = { Radio: 'RadioGroup' }
 
@@ -15,8 +16,10 @@ const componentNames = fs
   .filter(entry => entry.isDirectory())
   .map(entry => optionNames[entry.name] ?? entry.name)
 
-const componentOptions = (() => {
-  const lines = fs.readFileSync(bugTemplate, 'utf8').split('\n')
+const componentOptions = (file: string) => {
+  const lines = fs
+    .readFileSync(path.join(templatesDir, file), 'utf8')
+    .split('\n')
   const start = lines.findIndex(line =>
     line.includes('label: Component Affected')
   )
@@ -28,15 +31,11 @@ const componentOptions = (() => {
     options.push(match[1])
   }
   return options
-})()
+}
 
-describe('bug report template', () => {
-  it('finds the component dropdown options', () => {
-    expect(componentOptions.length).toBeGreaterThan(0)
-  })
-
+describe.each(templates)('%s template', (_, file) => {
   it('lists every component in order, then the generic choices', () => {
-    expect(componentOptions).toEqual([
+    expect(componentOptions(file)).toEqual([
       ...[...componentNames].sort(),
       'Colours',
       'Typography',

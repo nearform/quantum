@@ -1,0 +1,69 @@
+name: Design Update Issue Template
+description: Issue template for documenting design updates to existing components
+title: '[Design Update] - '
+labels: ['design-update']
+body:
+  - type: dropdown
+    attributes:
+      label: Component Affected
+      multiple: true
+      options:
+        - Accordion
+        - Avatar
+        - BackLink
+        - Badge
+        - Breadcrumb
+        - Button
+        - ButtonGroup
+        - Calendar
+        - Card
+        - Checkbox
+        - CheckboxGroup
+        - Chip
+        - CodeBlock
+        - ControlLabel
+        - DateInput
+        - FormGroup
+        - IconButton
+        - Input
+        - Label
+        - Link
+        - Modal
+        - PageHeader
+        - Pagination
+        - Password
+        - Popover
+        - RadioGroup
+        - Select
+        - SortAndShow
+        - SplitButton
+        - Stats
+        - Stepper
+        - StepsIndicator
+        - Subnav
+        - Switch
+        - Table
+        - Tabs
+        - Textarea
+        - Toast
+        - ToggleList
+        - Tooltip
+        - WebsiteFooter
+        - Colours
+        - Typography
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Figma link
+      description: Link to the updated frame in Figma.
+      placeholder: 'https://www.figma.com/design/...'
+
+  - type: textarea
+    attributes:
+      label: What has changed
+      description: Describe the design changes that need to be made to the component.
+    validations:
+      required: true
