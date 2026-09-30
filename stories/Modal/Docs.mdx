@@ -309,13 +309,35 @@ const ModalClose = React.forwardRef<
 ## Modal Description
 
 ```tsx
+const descriptionVariants = cva(
+  [
+    'text-sm',
+    'text-foreground-muted',
+    'dark:text-foreground-muted-dark',
+    'border-border-subtle',
+    'dark:border-border-subtle-dark'
+  ],
+  {
+    variants: {
+      variant: {
+        default: ['border-b'],
+        form: ['border-b-0']
+      }
+    },
+    defaultVariants: {
+      variant: 'default'
+    }
+  }
+)
+
 const ModalDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description> &
+    VariantProps<typeof descriptionVariants>
+>(({ className, variant, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn('text-sm px-6 text-foreground-muted', className)}
+    className={cn(descriptionVariants({ variant, className }))}
     {...props}
   />
 ))
@@ -366,7 +388,7 @@ export const ModalDemo = () => {
               Close
             </Button>
             <div className="flex justify-center gap-4">
-              <div className="dark:text-foreground-muted">
+              <div className="text-foreground-muted dark:text-foreground-muted-dark">
                 Additional text line
               </div>
               <div className="dark:text-primary-30 underline text-primary-100">

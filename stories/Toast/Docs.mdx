@@ -57,9 +57,11 @@ a long duration, so users can dismiss it themselves.
 
 ## Dark mode
 
-The toasts keep their light fills in dark mode, as in the design file, so
-the colours still read as success, error, warning and info. The `info` toast
-switches to a white fill so it stands out from a dark page.
+In dark mode every toast sits on the page background, like `Chip` and
+`Input`. The variant shows in the border and icon, which switch to the
+lighter `-dark` feedback colours so they stay visible on a dark page. The
+text switches to `foreground-dark`, and the description to
+`foreground-muted-dark`.
 
 ## Accessibility
 

@@ -70,7 +70,7 @@ const formVariants = cva(
           'focus-within:shadow-brandGreen',
           'text-foreground-muted',
           'dark:text-foreground-muted-dark',
-          'dark:focus-within:shadow-brandGreen-10'
+          'dark:focus-within:shadow-brandGreen10'
         ],
         error: [
           'border-feedback-error',

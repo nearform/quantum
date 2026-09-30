@@ -21,7 +21,10 @@ const ModalOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
     ref={ref}
-    className={cn('fixed inset-0 z-50 bg-background/80', className)}
+    className={cn(
+      'fixed inset-0 z-50 bg-background/80 dark:bg-background-dark/80',
+      className
+    )}
     {...props}
   />
 ))
@@ -135,6 +138,7 @@ const descriptionVariants = cva(
   [
     'text-sm',
     'text-foreground-muted',
+    'dark:text-foreground-muted-dark',
     'border-border-subtle',
     'dark:border-border-subtle-dark'
   ],

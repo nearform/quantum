@@ -26,7 +26,7 @@ const switchVariants = cva([
     'dark:enabled:data-[state=checked]:bg-accent-dark',
     'dark:enabled:bg-foreground-subtle-dark',
     'dark:disabled:bg-grey-200',
-    'dark:focus-visible:shadow-brandGreen-10'
+    'dark:focus-visible:shadow-brandGreen10'
   ],
   [
     'enabled:data-[state=checked]:bg-accent',

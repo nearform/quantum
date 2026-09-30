@@ -30,7 +30,7 @@ const textareaVariants = cva(
           'focus-within:shadow-brandGreen',
           'text-foreground',
           'dark:text-foreground-dark',
-          'dark:focus-within:shadow-brandGreen-10'
+          'dark:focus-within:shadow-brandGreen10'
         ],
         error: [
           'border-feedback-error',
