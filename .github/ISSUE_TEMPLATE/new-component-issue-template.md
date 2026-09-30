@@ -11,3 +11,6 @@ assignees: ''
 - [ ] Create Storybook demo
 - [ ] Write Storybook docs
 - [ ] Implement dark mode
+- [ ] Export from `src/components/index.ts`
+- [ ] Write tests
+- [ ] Add to the "Component Affected" list in the bug report template

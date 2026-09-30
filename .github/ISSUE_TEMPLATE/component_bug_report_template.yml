@@ -50,28 +50,49 @@ body:
       label: Component Affected
       multiple: true
       options:
-        - Typography
-        - Colours
+        - Accordion
+        - Avatar
+        - BackLink
+        - Badge
+        - Breadcrumb
+        - Button
         - ButtonGroup
         - Calendar
-        - Chip
-        - Link
-        - Modal
-        - Pagination
-        - Popover
-        - StepsIndicator
-        - Table
-        - Tooltip
-        - WebsiteFooter
-        - Accordion
+        - Card
         - Checkbox
+        - CheckboxGroup
+        - Chip
+        - CodeBlock
         - ControlLabel
+        - DateInput
+        - FormGroup
+        - IconButton
         - Input
         - Label
-        - RadioGroups
+        - Link
+        - Modal
+        - PageHeader
+        - Pagination
+        - Password
+        - Popover
+        - RadioGroup
         - Select
+        - SortAndShow
+        - SplitButton
+        - Stats
+        - Stepper
+        - StepsIndicator
+        - Subnav
         - Switch
-        - Button
+        - Table
+        - Tabs
+        - Textarea
+        - Toast
+        - ToggleList
+        - Tooltip
+        - WebsiteFooter
+        - Colours
+        - Typography
         - Other
     validations:
       required: true
