@@ -49,23 +49,66 @@ The example is one file, split into three parts:
     │   ├── TableCaption
     │   ├── TableHeader
     │   │   └── TableRow
-    │   │       └── TableHead (sort button)
+    │   │       └── TableHead (align, sortDirection, onSort)
     │   └── TableBody
-    │       └── TableRow
-    │           └── TableCell (flexRender)
+    │       ├── TableRow (selected)
+    │       │   └── TableCell (align, flexRender)
+    │       └── TableEmpty
     ├── selection count
     └── Pagination
 ```
+
+## How the Table props map to TanStack Table
+
+The Table components have props for the parts every data table needs, so you only have to connect them to TanStack Table:
+
+<table>
+  <thead>
+    <tr>
+      <th scope="col">Table prop</th>
+      <th scope="col">TanStack Table</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`TableHead sortDirection`</td>
+      <td>`header.column.getIsSorted()`</td>
+    </tr>
+    <tr>
+      <td>`TableHead onSort`</td>
+      <td>
+        `header.column.getToggleSortingHandler()`, when
+        `header.column.getCanSort()` is true
+      </td>
+    </tr>
+    <tr>
+      <td>`TableRow selected`</td>
+      <td>`row.getIsSelected()`</td>
+    </tr>
+    <tr>
+      <td>`TableHead align` and `TableCell align`</td>
+      <td>`column.columnDef.meta.align`</td>
+    </tr>
+    <tr>
+      <td>`TableEmpty colSpan`</td>
+      <td>
+        `columns.length`, rendered when `table.getRowModel().rows` is empty
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+See the [Table docs](?path=/docs/components-table--docs) for what each prop does on its own.
 
 ## Features
 
 ### Alignment
 
-Each column can pass classes to its header and cells through `meta.className`. The example uses this to right-align the amount column. `className` is not a TanStack Table option, so the example declares it on `ColumnMeta` with a `declare module '@tanstack/react-table'` block.
+TanStack Table lets each column carry extra data in `meta`. The example adds an `align` field there, set to `'right'` on the amount column, and passes it to both `TableHead` and `TableCell`. `align` is not a TanStack Table option, so the example declares it on `ColumnMeta` with a `declare module '@tanstack/react-table'` block. Without that block TypeScript rejects the field.
 
 ### Sorting
 
-Columns can be sorted unless they set `enableSorting: false`. The header renders a button that calls `header.column.getToggleSortingHandler()`, and the icon shows the current direction. The `TableHead` gets an `aria-sort` attribute so screen readers announce the sort order.
+Columns can be sorted unless they set `enableSorting: false`. `TableHead` renders the sort button, the direction icon and `aria-sort` itself, so the example only passes it `sortDirection` and `onSort`. Clicking a header cycles through ascending, descending and unsorted.
 
 ### Filtering
 
@@ -73,7 +116,7 @@ The `Input` above the table filters by customer name through `table.getColumn('n
 
 ### Row selection
 
-The first column renders a `Checkbox` in the header and in every row. The header box selects all rows on the current page and shows the indeterminate state when only some are selected. Selected rows get `data-state="selected"`, which the example uses for the background. Rows are keyed with `getRowId`, so a selection stays on the right row after sorting or filtering. A live region below the table announces how many rows are selected.
+The first column renders a `Checkbox` in the header and in every row. The header box selects all rows on the current page and shows the indeterminate state when only some are selected. Each row passes `row.getIsSelected()` to `TableRow selected`, which highlights it. Rows are keyed with `getRowId`, so a selection stays on the right row after sorting or filtering. A live region below the table announces how many rows are selected.
 
 ### Row actions
 
@@ -85,7 +128,7 @@ TanStack Table owns the page state. Quantum's `Pagination` is 1-based and TanSta
 
 <Canvas of={DataTableStories.Empty} />
 
-When there are no rows, whether because the data is empty or the filter matches nothing, a single cell spanning every column shows "No results."
+When there are no rows, whether because the data is empty or the filter matches nothing, the example renders `TableEmpty` with `colSpan={columns.length}`. It shows "No results." in a single cell spanning every column.
 
 ## Example code
 

@@ -6,7 +6,21 @@ import * as TableStories from './Table.stories'
 
 # Table
 
-A table column is a vertical division within a table that organises and displays a specific type of data. Each column typically has a header at the top, describing the content it contains.
+A table organises data into rows and columns. Each column has a header at the top that describes what it contains, and users can sort by some columns and select rows.
+
+`Table` provides the markup and styling only. It does not sort, filter or page your data. Keep that state yourself, or use a library such as TanStack Table. See [Data Table](?path=/docs/components-data-table--docs) for a full example.
+
+```tsx
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@nearform/quantum'
+```
 
 ## Default
 
@@ -14,39 +28,176 @@ A table column is a vertical division within a table that organises and displays
 
 ## Zebra
 
+Set `variant="zebra"` on `TableBody` to shade every other row.
+
 <Canvas of={TableStories.Zebra} />
+
+## Alignment
+
+`TableHead` and `TableCell` take `align="left" | "center" | "right"`. Right-align numbers, such as amounts and counts, so their digits line up. Give a column's header and its cells the same `align`.
+
+```tsx
+<TableHead align="right">Amount</TableHead>
+…
+<TableCell align="right">$1,400.00</TableCell>
+```
+
+## Sortable columns
+
+Give a `TableHead` an `onSort` handler to make it sortable. The header text becomes a button, followed by an icon that shows the current `sortDirection`:
+
+- `false` or not set: not sorted, shown with a double arrow
+- `'asc'`: ascending, shown with an up arrow
+- `'desc'`: descending, shown with a down arrow
+
+The header also gets `aria-sort="ascending"` or `aria-sort="descending"`, so screen readers announce the current order. In a right-aligned header the icon goes before the text, so the text stays in line with the numbers below it.
+
+The table does not sort anything itself. `onSort` tells you the header was clicked, and your code reorders the rows and passes back the new `sortDirection`.
+
+<Canvas of={TableStories.Sortable} />
+
+```tsx
+const [direction, setDirection] = useState<TableSortDirection>(false)
+
+<TableHead
+  sortDirection={direction}
+  onSort={() => setDirection(direction === 'asc' ? 'desc' : 'asc')}
+>
+  User
+</TableHead>
+```
+
+TanStack Table's column API matches these props directly:
+
+```tsx
+<TableHead
+  sortDirection={header.column.getIsSorted()}
+  onSort={
+    header.column.getCanSort()
+      ? header.column.getToggleSortingHandler()
+      : undefined
+  }
+>
+```
+
+## Selected rows
+
+Set `selected` on a `TableRow` to highlight it. The row gets `data-state="selected"` and a `background-alt` fill, which stands out from the header and from zebra rows. Pair it with a `Checkbox` in the first column, and give each checkbox an `aria-label` that names its row, because the checkbox has no visible label of its own.
+
+The header checkbox selects every row. Set it to `'indeterminate'` when only some rows are selected.
+
+<Canvas of={TableStories.SelectedRows} />
+
+## Empty state
+
+`TableEmpty` renders a single row whose cell spans the whole table. Pass the number of columns in `colSpan`. It shows "No results." by default, and you can pass your own message as children.
+
+<Canvas of={TableStories.Empty} />
+
+```tsx
+<TableBody>
+  {rows.length ? (
+    rows.map(row => <TableRow>…</TableRow>)
+  ) : (
+    <TableEmpty colSpan={3} />
+  )}
+</TableBody>
+```
+
+## Accessibility
+
+- Give every table a `TableCaption` that says what it holds. If the caption shouldn't be visible, hide it with `className="sr-only"` rather than leaving it out.
+- The container scrolls sideways on narrow screens and can take keyboard focus, so keyboard users can scroll it too.
+- Sortable headers are buttons with `aria-sort` on the header cell. The sort icon is hidden from screen readers, so the header text is the button's name.
+- Row checkboxes need an `aria-label`, such as "Select Vance".
+- If the number of selected rows is shown outside the table, put it in an `aria-live="polite"` region so screen readers announce changes.
 
 ## Attributes
 
-The attributes associated with the table below are only specific to this package, however, you may pass through props accepted by e.g. `<HTMLTableElement>`, and its React counterpart. See the source code for the desired components prop types.
+The attributes below are specific to this package. Each component also accepts the props of the HTML element it renders, such as `<table>`, `<th>` or `<td>`.
 
 <table>
+  <thead>
+    <tr>
+      <th scope="col">Component</th>
+      <th scope="col">Attribute</th>
+      <th scope="col">Type</th>
+      <th scope="col">Default</th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
-      <td>Attribute</td>
-      <td>Type</td>
-      <td>Default</td>
+      <td>`Table`</td>
+      <td>containerClassName</td>
+      <td>`string`</td>
+      <td>-</td>
     </tr>
     <tr>
+      <td>`TableBody`</td>
       <td>variant</td>
       <td>`zebra`</td>
       <td>-</td>
     </tr>
+    <tr>
+      <td>`TableHead`</td>
+      <td>align</td>
+      <td>`left` | `center` | `right`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>`TableHead`</td>
+      <td>sortDirection</td>
+      <td>`asc` | `desc` | `false`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>`TableHead`</td>
+      <td>onSort</td>
+      <td>`(event) => void`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>`TableRow`</td>
+      <td>selected</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`TableCell`</td>
+      <td>align</td>
+      <td>`left` | `center` | `right`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>`TableEmpty`</td>
+      <td>colSpan</td>
+      <td>`number` (required)</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>`TableEmpty`</td>
+      <td>children</td>
+      <td>`ReactNode`</td>
+      <td>`No results.`</td>
+    </tr>
   </tbody>
 </table>
 
-The Table component is built up of several components, the general structure of which is shown below.
+`align` replaces the HTML `align` attribute, which is obsolete. It sets a text alignment class instead.
+
+## Structure
 
 ```bash
 └── Table
     ├── 1.TableHeader
-    │   └── TableRow
-    │       └── TableHead
+    │   └── TableRow
+    │       └── TableHead
     ├── 2.TableBody
-    │   └── TableRow
-    │       └── TableCell
+    │   ├── TableRow
+    │   │   └── TableCell
+    │   └── TableEmpty
     ├── 3.TableFooter
-    │   └── TableRow
-    │       └── TableCell
+    │   └── TableRow
+    │       └── TableCell
     └── 4.TableCaption
 ```
