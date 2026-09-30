@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 
-const tableBodyVariants = cva('bg-background dark:bg-grey-900', {
+const tableBodyVariants = cva('bg-background dark:bg-background-dark', {
   variants: {
     variant: {
       zebra: [
@@ -58,7 +58,10 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
     >
       <table
         ref={ref}
-        className={cn('caption-bottom text-sm dark:text-white', className)}
+        className={cn(
+          'caption-bottom text-sm text-foreground dark:text-foreground-dark',
+          className
+        )}
         {...props}
       />
     </div>
@@ -73,7 +76,7 @@ const TableHeader = React.forwardRef<
   <thead
     ref={ref}
     className={cn(
-      'bg-background-subtle dark:bg-background-subtle-dark  text-left',
+      'bg-background-subtle dark:bg-background-subtle-dark text-left',
       className
     )}
     {...props}
@@ -215,7 +218,10 @@ const TableFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
-    className={cn('bg-primary text-primary-foreground', className)}
+    className={cn(
+      'bg-background-subtle dark:bg-background-subtle-dark font-bold',
+      className
+    )}
     {...props}
   />
 ))
