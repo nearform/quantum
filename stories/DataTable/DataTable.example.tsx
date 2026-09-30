@@ -204,6 +204,10 @@ export const DataTableDemo = ({
     pageSize
   })
 
+  React.useEffect(() => {
+    setPagination({ pageIndex: 0, pageSize })
+  }, [pageSize])
+
   const table = useReactTable({
     data,
     columns,
