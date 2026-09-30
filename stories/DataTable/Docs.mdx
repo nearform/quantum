@@ -1,0 +1,79 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
+
+import * as DataTableStories from './DataTable.stories'
+import exampleSource from './DataTable.example.tsx?raw'
+
+<Meta of={DataTableStories} />
+
+# Data Table
+
+Quantum does not ship a Data Table component. A data table is a Quantum [Table](?path=/docs/components-table--docs) whose rows, sorting, filtering, selection and paging are handled by [TanStack Table](https://tanstack.com/table/v8). TanStack Table is headless: it holds the table state and gives you the rows to render, and the markup is built from Quantum components. This page shows how to put the two together, following the approach of the [shadcn/ui data table](https://ui.shadcn.com/docs/components/data-table).
+
+<Canvas of={DataTableStories.Default} />
+
+## Installation
+
+TanStack Table is not a dependency of `@nearform/quantum`. Add it to your own project:
+
+```bash
+npm install @tanstack/react-table
+```
+
+The example uses version 8.
+
+## Structure
+
+The example is one file, split into three parts:
+
+- **Data**: a `Payment` type and an array of rows. In a real app the rows usually come from an API.
+- **Columns**: a `ColumnDef<Payment>[]` array. Each column sets how its header and cells render. This is where Quantum components such as `Checkbox`, `Avatar`, `Badge` and `IconButton` are used.
+- **`DataTableDemo`**: calls `useReactTable` with the data, the columns and the row models it needs, then renders the result into `Table`, `TableHeader`, `TableBody`, `TableRow`, `TableHead` and `TableCell`.
+
+```bash
+└── DataTableDemo
+    ├── Input (filter)
+    ├── Table
+    │   ├── TableCaption
+    │   ├── TableHeader
+    │   │   └── TableRow
+    │   │       └── TableHead (sort button)
+    │   └── TableBody
+    │       └── TableRow
+    │           └── TableCell (flexRender)
+    ├── selection count
+    └── Pagination
+```
+
+## Features
+
+### Alignment
+
+Each column can pass classes to its header and cells through `meta.className`. The example uses this to right-align the amount column. `className` is not a TanStack Table option, so the example declares it on `ColumnMeta` with a `declare module '@tanstack/react-table'` block.
+
+### Sorting
+
+Columns can be sorted unless they set `enableSorting: false`. The header renders a button that calls `header.column.getToggleSortingHandler()`, and the icon shows the current direction. The `TableHead` gets an `aria-sort` attribute so screen readers announce the sort order.
+
+### Filtering
+
+The `Input` above the table filters by customer name through `table.getColumn('name').setFilterValue()`. Typing in it returns to the first page. To search every column instead, use `globalFilter` in place of a column filter.
+
+### Row selection
+
+The first column renders a `Checkbox` in the header and in every row. The header box selects all rows on the current page and shows the indeterminate state when only some are selected. Selected rows get `data-state="selected"`, which the example uses for the background. Rows are keyed with `getRowId`, so a selection stays on the right row after sorting or filtering. A live region below the table announces how many rows are selected.
+
+### Row actions
+
+The last column opens a `Popover` from an `IconButton`. Put row-level actions such as edit, copy and delete there.
+
+### Pagination
+
+TanStack Table owns the page state. Quantum's `Pagination` is 1-based and TanStack Table is 0-based, so the example converts between them in `setCurrentPage`. The pagination is hidden when everything fits on one page.
+
+<Canvas of={DataTableStories.Empty} />
+
+When there are no rows, whether because the data is empty or the filter matches nothing, a single cell spanning every column shows "No results."
+
+## Example code
+
+<Source code={exampleSource} language="tsx" />
