@@ -35,11 +35,12 @@ describe('bug report template', () => {
     expect(componentOptions.length).toBeGreaterThan(0)
   })
 
-  it.each(componentNames)('lists %s as an affected component', name => {
-    expect(componentOptions).toContain(name)
-  })
-
-  it('has no duplicate options', () => {
-    expect(new Set(componentOptions).size).toBe(componentOptions.length)
+  it('lists every component in order, then the generic choices', () => {
+    expect(componentOptions).toEqual([
+      ...[...componentNames].sort(),
+      'Colours',
+      'Typography',
+      'Other'
+    ])
   })
 })
