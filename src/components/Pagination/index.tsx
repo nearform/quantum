@@ -30,9 +30,10 @@ const PageNumberStyles = cva([
   'rounded-xs',
   'text-foreground-muted',
   'dark:text-foreground-muted-dark',
+  'hover:bg-button-tertiary-hover',
+  'dark:hover:bg-button-tertiary-hover-dark',
   'active:bg-accent',
   'active:text-primary-10',
-  'dark:hover:bg-background-dark',
   'dark:active:bg-primary-30',
   'dark:active:text-grey-900'
 ])
@@ -46,6 +47,17 @@ const PageNumberActiveStyles = cva([
   'dark:text-grey-900',
   'dark:hover:bg-primary-30',
   'dark:hover:text-grey-900'
+])
+
+const StepButtonStyles = cva([
+  'px-4',
+  'rounded-xs',
+  'text-foreground',
+  'dark:text-foreground-dark',
+  'enabled:hover:bg-button-tertiary-hover',
+  'dark:enabled:hover:bg-button-tertiary-hover-dark',
+  'disabled:text-foreground-subtle',
+  'dark:disabled:text-foreground-subtle-dark'
 ])
 
 interface PaginationProps
@@ -133,18 +145,17 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         {...props}
       >
         <ul>
-          <li className="hover:bg-background px-4 dark:hover:bg-background-dark rounded-xs">
+          <li>
             <button
               type="button"
               aria-label={previousLabel}
+              className={StepButtonStyles()}
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
             >
               <BsChevronLeft
                 aria-hidden="true"
-                className={
-                  'w-3 h-9 pt-3 pb-3 -mb-1 text-foreground dark:text-foreground-dark'
-                }
+                className={'w-3 h-9 pt-3 pb-3 -mb-1'}
               />
             </button>
           </li>
@@ -186,18 +197,17 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             </React.Fragment>
           ))}
 
-          <li className="hover:bg-background px-4  dark:hover:bg-background-dark rounded-xs">
+          <li>
             <button
               type="button"
               aria-label={nextLabel}
+              className={StepButtonStyles()}
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
             >
               <BsChevronRight
                 aria-hidden="true"
-                className={
-                  'w-3 h-9 py-3 -mb-1 text-foreground dark:text-foreground-dark'
-                }
+                className={'w-3 h-9 py-3 -mb-1'}
               />
             </button>
           </li>
