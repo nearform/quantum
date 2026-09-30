@@ -63,11 +63,13 @@ The example is one file, split into three parts:
 The Table components have props for the parts every data table needs, so you only have to connect them to TanStack Table:
 
 <table>
-  <tbody>
+  <thead>
     <tr>
-      <td>Table prop</td>
-      <td>TanStack Table</td>
+      <th scope="col">Table prop</th>
+      <th scope="col">TanStack Table</th>
     </tr>
+  </thead>
+  <tbody>
     <tr>
       <td>`TableHead sortDirection`</td>
       <td>`header.column.getIsSorted()`</td>

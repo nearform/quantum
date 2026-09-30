@@ -159,6 +159,29 @@ describe('TableCell', () => {
   })
 })
 
+describe('TableBody', () => {
+  it('keeps the zebra selector at zero specificity so row classes win', () => {
+    const container = render(
+      <Table>
+        <TableBody variant="zebra">
+          <TableRow>
+            <TableCell>1</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    )
+    const zebra = container
+      .querySelector('tbody')!
+      .className.split(' ')
+      .filter(name => name.includes('nth-child(even)'))
+
+    expect(zebra).toHaveLength(2)
+    zebra.forEach(name =>
+      expect(name).toMatch(/^(dark:)?\[:where\(&>\*:nth-child\(even\)\)\]:/)
+    )
+  })
+})
+
 describe('TableRow', () => {
   it('marks a selected row with data-state', () => {
     const container = renderBody(

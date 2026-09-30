@@ -9,8 +9,8 @@ const tableBodyVariants = cva('bg-background dark:bg-grey-900', {
   variants: {
     variant: {
       zebra: [
-        '[&>*:where(:nth-child(even))]:bg-background-subtle',
-        'dark:[&>*:where(:nth-child(even))]:bg-background-subtle-dark'
+        '[:where(&>*:nth-child(even))]:bg-background-subtle',
+        'dark:[:where(&>*:nth-child(even))]:bg-background-subtle-dark'
       ]
     }
   }
