@@ -226,6 +226,11 @@ export const DataTableDemo = ({
   const nameColumn = table.getColumn('name')
   const filterValue = (nameColumn?.getFilterValue() as string) ?? ''
 
+  const filterCustomers = (value: string) => {
+    nameColumn?.setFilterValue(value)
+    table.setPageIndex(0)
+  }
+
   const setCurrentPage: React.Dispatch<React.SetStateAction<number>> = page =>
     table.setPageIndex(index =>
       typeof page === 'function' ? page(index + 1) - 1 : page - 1
@@ -240,11 +245,8 @@ export const DataTableDemo = ({
         aria-label="Filter customers"
         placeholder="Filter customers..."
         value={filterValue}
-        onChange={event => {
-          nameColumn?.setFilterValue(event.currentTarget.value)
-          table.setPageIndex(0)
-        }}
-        onClear={() => nameColumn?.setFilterValue('')}
+        onChange={event => filterCustomers(event.currentTarget.value)}
+        onClear={() => filterCustomers('')}
       />
       <Table className="w-full">
         <TableCaption className="sr-only">Recent payments</TableCaption>
