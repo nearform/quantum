@@ -31,7 +31,7 @@ const radioVariant = cva(
       'text-foreground-inverse',
       'focus-visible:outline-hidden',
       'focus-visible:shadow-brandGreen',
-      'dark:focus-visible:shadow-brandGreen-10'
+      'dark:focus-visible:shadow-brandGreen10'
     ],
     ['data-[state=checked]:bg-border'],
     ['dark:bg-background-alt-dark', 'dark:data-[state=checked]:bg-border-dark']

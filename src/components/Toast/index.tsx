@@ -64,6 +64,7 @@ const toastVariants = cva(
     'py-1.5',
     'text-xs',
     'text-foreground',
+    'dark:text-foreground-dark',
     'shadow-sm',
     'data-[swipe=move]:translate-x-(--radix-toast-swipe-move-x)',
     'data-[swipe=cancel]:translate-x-0',
@@ -74,10 +75,30 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        success: ['bg-green-50', 'border-feedback-success'],
-        error: ['bg-red-50', 'border-feedback-error'],
-        warning: ['bg-yellow-50', 'border-feedback-warning'],
-        info: ['bg-blue-50', 'border-border', 'dark:bg-background']
+        success: [
+          'bg-green-50',
+          'border-feedback-success',
+          'dark:bg-background-dark',
+          'dark:border-feedback-success-dark'
+        ],
+        error: [
+          'bg-red-50',
+          'border-feedback-error',
+          'dark:bg-background-dark',
+          'dark:border-feedback-error-dark'
+        ],
+        warning: [
+          'bg-yellow-50',
+          'border-feedback-warning',
+          'dark:bg-background-dark',
+          'dark:border-feedback-warning-dark'
+        ],
+        info: [
+          'bg-blue-50',
+          'border-border',
+          'dark:bg-background-dark',
+          'dark:border-border-dark'
+        ]
       }
     },
     defaultVariants: {
@@ -90,10 +111,22 @@ type ToastVariant = NonNullable<VariantProps<typeof toastVariants>['variant']>
 
 const toastIcons: Record<ToastVariant, { icon: IconType; className: string }> =
   {
-    success: { icon: BsCheckCircleFill, className: 'text-feedback-success' },
-    error: { icon: BsExclamationCircleFill, className: 'text-feedback-error' },
-    warning: { icon: BsQuestionCircleFill, className: 'text-orange-400' },
-    info: { icon: BsInfoCircleFill, className: 'text-blue-600' }
+    success: {
+      icon: BsCheckCircleFill,
+      className: 'text-feedback-success dark:text-feedback-success-dark'
+    },
+    error: {
+      icon: BsExclamationCircleFill,
+      className: 'text-feedback-error dark:text-feedback-error-dark'
+    },
+    warning: {
+      icon: BsQuestionCircleFill,
+      className: 'text-orange-400 dark:text-orange-300'
+    },
+    info: {
+      icon: BsInfoCircleFill,
+      className: 'text-blue-600 dark:text-blue-400'
+    }
   }
 
 interface ToastProps
@@ -164,6 +197,7 @@ const ToastDescription = React.forwardRef<
       'col-start-2',
       'row-start-2',
       'text-foreground-muted',
+      'dark:text-foreground-muted-dark',
       className
     )}
     {...props}
@@ -223,6 +257,7 @@ const ToastClose = React.forwardRef<
       'justify-center',
       'rounded-xs',
       'hover:bg-foreground/10',
+      'dark:hover:bg-foreground-dark/10',
       '[&>svg]:h-3',
       '[&>svg]:w-3',
       ...focusClasses,

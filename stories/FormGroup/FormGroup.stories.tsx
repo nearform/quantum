@@ -221,7 +221,7 @@ export const AnyControl: Story = {
         <Label>Date</Label>
         <input
           type="date"
-          className="w-full rounded-lg border-2 border-feedback-error bg-red-50 p-3 text-feedback-error outline-hidden"
+          className="w-full rounded-lg border-2 border-feedback-error bg-red-50 p-3 text-feedback-error outline-hidden dark:border-feedback-error-dark dark:bg-background-alt-dark dark:text-feedback-error-dark dark:[color-scheme:dark]"
         />
         <FieldError />
       </FormGroup>

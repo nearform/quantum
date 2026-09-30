@@ -35,7 +35,9 @@ export const ModalFormDemo = () => (
           </ModalCloseFooter>
         </Button>
         <div className="flex justify-center gap-4">
-          <div className="text-foreground-muted">Additional text line</div>
+          <div className="text-foreground-muted dark:text-foreground-muted-dark">
+            Additional text line
+          </div>
           <div className="dark:text-primary-30 underline text-primary-100">
             Additional text line
           </div>

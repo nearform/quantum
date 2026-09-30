@@ -50,7 +50,7 @@ const triggerVariants = cva(
           'dark:border-border-subtle-dark',
           'dark:text-foreground-muted-dark',
           'data-[placeholder]:text-foreground-muted',
-          'dark:focus-visible:shadow-brandGreen-10'
+          'dark:focus-visible:shadow-brandGreen10'
         ],
         error: [
           'bg-red-50',
@@ -200,7 +200,7 @@ const itemVariants = cva([
     'focus-visible:shadow-brandGreen'
   ],
   [
-    'dark:focus-visible:shadow-brandGreen-10',
+    'dark:focus-visible:shadow-brandGreen10',
     'dark:hover:bg-background-alt-dark',
     'dark:data-[highlighted]:bg-background-alt-dark'
   ]

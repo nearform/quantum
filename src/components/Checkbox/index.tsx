@@ -32,7 +32,7 @@ const checkboxVariants = cva(
       'disabled:cursor-not-allowed',
       'focus-visible:outline-hidden',
       'focus-visible:shadow-brandGreen',
-      'dark:focus-visible:shadow-brandGreen-10'
+      'dark:focus-visible:shadow-brandGreen10'
     ],
     [
       'data-[state=checked]:bg-border',

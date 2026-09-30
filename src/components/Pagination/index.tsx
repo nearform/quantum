@@ -29,6 +29,7 @@ const PageNumberStyles = cva([
   'py-2',
   'rounded-xs',
   'text-foreground-muted',
+  'dark:text-foreground-muted-dark',
   'active:bg-accent',
   'active:text-primary-10',
   'dark:hover:bg-background-dark',
@@ -153,7 +154,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
               {pgNumber === totalPages && showRightDots ? (
                 <li
                   aria-hidden="true"
-                  className="flex items-center px-4 min-w-40 max-w-40 text-foreground-muted"
+                  className="flex items-center px-4 min-w-40 max-w-40 text-foreground-muted dark:text-foreground-muted-dark"
                 >
                   ...
                 </li>
@@ -177,7 +178,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
               {pgNumber === 1 && showLeftDots ? (
                 <li
                   aria-hidden="true"
-                  className="flex items-center px-4 max-w-40 min-w-40 text-foreground-muted"
+                  className="flex items-center px-4 max-w-40 min-w-40 text-foreground-muted dark:text-foreground-muted-dark"
                 >
                   ...
                 </li>
