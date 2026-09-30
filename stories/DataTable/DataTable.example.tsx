@@ -14,7 +14,7 @@ import {
   useReactTable
 } from '@tanstack/react-table'
 
-import { BsArrowDown, BsArrowDownUp, BsArrowUp, BsThreeDots } from '@/assets'
+import { BsThreeDots } from '@/assets'
 import {
   Avatar,
   Badge,
@@ -30,15 +30,17 @@ import {
   TableBody,
   TableCaption,
   TableCell,
+  TableEmpty,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
+  type TableAlign
 } from '@/components'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
-    className?: string
+    align?: TableAlign
   }
 }
 
@@ -142,8 +144,12 @@ export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: 'amount',
     header: 'Amount',
-    cell: ({ row }) => currency.format(row.original.amount),
-    meta: { className: 'text-right tabular-nums' }
+    cell: ({ row }) => (
+      <span className="tabular-nums">
+        {currency.format(row.original.amount)}
+      </span>
+    ),
+    meta: { align: 'right' }
   },
   {
     id: 'actions',
@@ -174,18 +180,6 @@ export const columns: ColumnDef<Payment>[] = [
     enableSorting: false
   }
 ]
-
-const SortIcon = ({ direction }: { direction: false | 'asc' | 'desc' }) => {
-  if (direction === 'asc') return <BsArrowUp aria-hidden="true" />
-  if (direction === 'desc') return <BsArrowDown aria-hidden="true" />
-  return <BsArrowDownUp aria-hidden="true" />
-}
-
-const ariaSort = (direction: false | 'asc' | 'desc') => {
-  if (direction === 'asc') return 'ascending'
-  if (direction === 'desc') return 'descending'
-  return undefined
-}
 
 export const DataTableDemo = ({
   data = payments,
@@ -253,50 +247,36 @@ export const DataTableDemo = ({
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map(header => {
-                const sorted = header.column.getIsSorted()
-                return (
-                  <TableHead
-                    key={header.id}
-                    aria-sort={ariaSort(sorted)}
-                    className={header.column.columnDef.meta?.className}
-                  >
-                    {header.isPlaceholder ? null : header.column.getCanSort() ? (
-                      <button
-                        type="button"
-                        className="inline-flex items-center gap-2 rounded-xs font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current [&>svg]:h-3.5 [&>svg]:w-3.5"
-                        onClick={header.column.getToggleSortingHandler()}
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                        <SortIcon direction={sorted} />
-                      </button>
-                    ) : (
-                      flexRender(
+              {headerGroup.headers.map(header => (
+                <TableHead
+                  key={header.id}
+                  align={header.column.columnDef.meta?.align}
+                  sortDirection={header.column.getIsSorted()}
+                  onSort={
+                    header.column.getCanSort()
+                      ? header.column.getToggleSortingHandler()
+                      : undefined
+                  }
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
                         header.column.columnDef.header,
                         header.getContext()
-                      )
-                    )}
-                  </TableHead>
-                )
-              })}
+                      )}
+                </TableHead>
+              ))}
             </TableRow>
           ))}
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows.length ? (
             table.getRowModel().rows.map(row => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() ? 'selected' : undefined}
-                className="data-[state=selected]:bg-background-subtle dark:data-[state=selected]:bg-background-subtle-dark"
-              >
+              <TableRow key={row.id} selected={row.getIsSelected()}>
                 {row.getVisibleCells().map(cell => (
                   <TableCell
                     key={cell.id}
-                    className={cell.column.columnDef.meta?.className}
+                    align={cell.column.columnDef.meta?.align}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
@@ -304,11 +284,7 @@ export const DataTableDemo = ({
               </TableRow>
             ))
           ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="text-center">
-                No results.
-              </TableCell>
-            </TableRow>
+            <TableEmpty colSpan={columns.length} />
           )}
         </TableBody>
       </Table>
