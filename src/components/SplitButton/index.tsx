@@ -131,13 +131,13 @@ const splitButtonMenuVariants = cva([
   'rounded-lg',
   'border-2',
   'border-border-subtle',
-  'bg-background',
+  'bg-background-surface',
   'text-sm',
   'text-foreground',
   'shadow',
   'outline-hidden',
   'dark:border-border-dark',
-  'dark:bg-background-dark',
+  'dark:bg-background-surface-dark',
   'dark:text-foreground-dark'
 ])
 

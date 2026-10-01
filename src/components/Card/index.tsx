@@ -29,9 +29,9 @@ const cardVariants = cva(
     variants: {
       variant: {
         outline: [
-          'bg-background',
+          'bg-background-surface',
           'border-border',
-          'dark:bg-grey-900',
+          'dark:bg-background-surface-dark',
           'dark:border-grey-700'
         ],
         filled: [

@@ -5,16 +5,19 @@ import { cn } from '@/lib/utils'
 import { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 
-const tableBodyVariants = cva('bg-background dark:bg-background-dark', {
-  variants: {
-    variant: {
-      zebra: [
-        '[:where(&>*:nth-child(even))]:bg-background-subtle',
-        'dark:[:where(&>*:nth-child(even))]:bg-background-subtle-dark'
-      ]
+const tableBodyVariants = cva(
+  'bg-background-surface dark:bg-background-surface-dark',
+  {
+    variants: {
+      variant: {
+        zebra: [
+          '[:where(&>*:nth-child(even))]:bg-background-subtle',
+          'dark:[:where(&>*:nth-child(even))]:bg-background-subtle-dark'
+        ]
+      }
     }
   }
-})
+)
 
 const alignVariants = cva('', {
   variants: {

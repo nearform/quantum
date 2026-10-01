@@ -16,7 +16,7 @@ const SortAndShow = React.forwardRef<
     ref={ref}
     className={cn(
       'flex flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3',
-      'rounded-lg bg-background dark:bg-background-dark',
+      'rounded-lg bg-background-surface dark:bg-background-surface-dark',
       className
     )}
     {...props}

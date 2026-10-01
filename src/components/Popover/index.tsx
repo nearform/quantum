@@ -12,7 +12,7 @@ const popoverVariants = cva([
   'z-50',
   'border border-2 border-border-subtle dark:border-border-dark',
   'rounded-lg',
-  'bg-background dark:bg-background-dark',
+  'bg-background-surface dark:bg-background-surface-dark',
   'text-foreground text-sm font-normal dark:text-white',
   'shadow',
   'outline-hidden',

@@ -111,7 +111,7 @@ const contentVariants = cva([
   'relative',
   'z-50',
   'min-w-[8rem]',
-  'bg-background',
+  'bg-background-surface',
   'rounded-lg',
   'border border-[2px]',
   'border-border-subtle',
@@ -121,7 +121,7 @@ const contentVariants = cva([
   'data-[side=left]:slide-in-from-right-2',
   'data-[side=right]:slide-in-from-left-2',
   'data-[side=top]:slide-in-from-bottom-2',
-  'dark:bg-background-dark',
+  'dark:bg-background-surface-dark',
   'dark:border-border-subtle-dark',
   'dark:text-foreground-dark'
 ])

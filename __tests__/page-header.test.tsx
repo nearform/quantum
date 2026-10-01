@@ -103,12 +103,12 @@ describe('PageHeader', () => {
     }
   )
 
-  it('uses the background tokens for both modes', () => {
+  it('uses the surface tokens for both modes', () => {
     const container = render(<PageHeader />)
 
     const classes = container.firstElementChild!.classList
-    expect(classes).toContain('bg-background')
-    expect(classes).toContain('dark:bg-background-dark')
+    expect(classes).toContain('bg-background-surface')
+    expect(classes).toContain('dark:bg-background-surface-dark')
   })
 
   it('renders a back link and actions, passing refs and attributes', () => {
