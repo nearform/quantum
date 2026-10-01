@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { BsChevronLeft, BsChevronRight } from '@/assets'
@@ -60,6 +60,48 @@ const StepButtonStyles = cva([
   'dark:disabled:text-foreground-subtle-dark'
 ])
 
+const noOfSiblings = 1
+const noOfPagesShown = noOfSiblings * 2 + 5
+
+const range = (from: number, to: number) =>
+  Array.from({ length: Math.max(0, to - from + 1) }, (_, i) => from + i)
+
+const pageWindow = (currentPage: number, totalPages: number) => {
+  if (totalPages <= noOfPagesShown) {
+    return {
+      pageNumbers: range(1, totalPages),
+      showLeftDots: false,
+      showRightDots: false
+    }
+  }
+  if (currentPage <= noOfPagesShown - 3) {
+    return {
+      pageNumbers: [...range(1, noOfPagesShown - 2), totalPages],
+      showLeftDots: false,
+      showRightDots: true
+    }
+  }
+  if (currentPage < totalPages - 3) {
+    return {
+      pageNumbers: [
+        1,
+        ...range(
+          Math.max(2, currentPage - noOfSiblings),
+          Math.min(totalPages - 1, currentPage + noOfSiblings)
+        ),
+        totalPages
+      ],
+      showLeftDots: true,
+      showRightDots: true
+    }
+  }
+  return {
+    pageNumbers: [1, ...range(totalPages - noOfPagesShown + 3, totalPages)],
+    showLeftDots: true,
+    showRightDots: false
+  }
+}
+
 interface PaginationProps
   extends
     React.ComponentPropsWithoutRef<'div'>,
@@ -89,46 +131,10 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
       )
     }, [currentRowsLength, numberOfItemsPerPage])
 
-    const allPages = [...Array(totalPages + 1).keys()].slice(1)
-    const [pageNumbers, setPageNumbers] = useState(allPages)
-    const [showLeftDots, setShowLeftDots] = useState(false)
-    const [showRightDots, setShowRightDots] = useState(false)
-    const noOfSiblings = 1
-    const noOfPagesShown = noOfSiblings * 2 + 5
-
-    useEffect(() => {
-      if (totalPages <= noOfPagesShown) {
-        setPageNumbers(allPages)
-        setShowRightDots(false)
-        setShowLeftDots(false)
-      } else if (currentPage <= noOfPagesShown - 3) {
-        const pages = allPages.slice(0, noOfPagesShown - 2)
-        pages.push(totalPages)
-        setPageNumbers(pages)
-        setShowRightDots(true)
-        setShowLeftDots(false)
-      } else if (
-        noOfPagesShown - 3 < currentPage &&
-        currentPage < totalPages - 3
-      ) {
-        const pages = [1]
-        const start = Math.max(2, currentPage - noOfSiblings)
-        const end = Math.min(totalPages - 1, currentPage + noOfSiblings)
-        for (let i = start; i <= end; i++) {
-          pages.push(i)
-        }
-        pages.push(totalPages)
-        setPageNumbers(pages)
-        setShowRightDots(true)
-        setShowLeftDots(true)
-      } else if (currentPage >= totalPages - 3) {
-        const pages = allPages.slice(-noOfPagesShown + 2)
-        pages.unshift(1)
-        setPageNumbers(pages)
-        setShowRightDots(false)
-        setShowLeftDots(true)
-      }
-    }, [currentPage, totalPages])
+    const { pageNumbers, showLeftDots, showRightDots } = React.useMemo(
+      () => pageWindow(currentPage, totalPages),
+      [currentPage, totalPages]
+    )
 
     const goToNextPage = () => {
       if (currentPage !== totalPages) setCurrentPage(currentPage + 1)
