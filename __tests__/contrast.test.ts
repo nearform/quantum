@@ -48,12 +48,14 @@ const SURFACES = {
   light: {
     background: background.DEFAULT,
     'background-alt': background.alt.DEFAULT,
-    'background-subtle': background.subtle.DEFAULT
+    'background-subtle': background.subtle.DEFAULT,
+    'background-surface': background.surface.DEFAULT
   },
   dark: {
     background: background.dark,
     'background-alt': background.alt.dark,
-    'background-subtle': background.subtle.dark
+    'background-subtle': background.subtle.dark,
+    'background-surface': background.surface.dark
   }
 } as const
 
@@ -195,5 +197,59 @@ describe('disabled success and danger Buttons in dark mode', () => {
     expect(
       ratioOf(foreground.subtle.dark, disabled.dark)
     ).toBeGreaterThanOrEqual(AA_NON_TEXT)
+  })
+})
+
+/**
+ * Elevation, which is a relationship between two tokens rather than a property
+ * of either.
+ *
+ * The page is `background-alt` in light and `background` in dark, so a
+ * container painted `background` is a step off the page in one mode and the
+ * page itself in the other. That is not a contrast failure - nothing here
+ * carries text - so none of the sweeps above can see it, and it is why
+ * `background-surface` exists.
+ */
+describe('a surface is distinguishable from the page it sits on', () => {
+  const PAGE = {
+    light: background.alt.DEFAULT,
+    dark: background.dark
+  } as const
+
+  const SURFACE = {
+    light: background.surface.DEFAULT,
+    dark: background.surface.dark
+  } as const
+
+  // Deliberately low: these are adjacent greys, and the point is that the step
+  // exists at all. `background` in dark mode scores exactly 1.00 here.
+  const MIN_STEP = 1.05
+
+  it.each(['light', 'dark'] as const)(
+    'raises a surface off the page in %s mode',
+    mode => {
+      expect(ratioOf(SURFACE[mode], PAGE[mode])).toBeGreaterThanOrEqual(
+        MIN_STEP
+      )
+    }
+  )
+
+  it.each(['light', 'dark'] as const)(
+    'keeps the subtle step above the surface in %s mode',
+    mode => {
+      const subtle =
+        mode === 'light' ? background.subtle.DEFAULT : background.subtle.dark
+
+      expect(ratioOf(subtle, SURFACE[mode])).toBeGreaterThanOrEqual(MIN_STEP)
+    }
+  )
+
+  it('leaves the selected row clear of the subtle step in dark mode', () => {
+    // `alt` is the selected row; `subtle` is the header and the zebra stripe.
+    // Widening the header step to `alt` instead of raising the surface would
+    // have collapsed those two.
+    expect(
+      ratioOf(background.alt.dark, background.subtle.dark)
+    ).toBeGreaterThanOrEqual(MIN_STEP)
   })
 })

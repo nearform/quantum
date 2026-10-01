@@ -11,7 +11,7 @@ const PageHeaderContext = React.createContext<PageHeaderSize>('md')
 const pageHeaderVariants = cva(
   [
     'flex flex-wrap items-center justify-between gap-x-6 gap-y-2',
-    'rounded-lg bg-background dark:bg-background-dark',
+    'rounded-lg bg-background-surface dark:bg-background-surface-dark',
     'text-foreground dark:text-foreground-dark'
   ],
   {

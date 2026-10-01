@@ -28,7 +28,7 @@ const Subnav = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
           }
           className={cn(
             'flex flex-col gap-4',
-            'bg-background dark:bg-background-dark',
+            'bg-background-surface dark:bg-background-surface-dark',
             'text-foreground dark:text-foreground-dark',
             className
           )}
