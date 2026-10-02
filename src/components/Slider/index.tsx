@@ -46,42 +46,75 @@ const thumbVariants = cva([
   ]
 ])
 
+const endLabelVariants = cva([
+  ['text-sm', 'text-foreground-muted', 'tabular-nums'],
+  ['dark:text-foreground-muted-dark']
+])
+
+type SliderProps = React.ComponentPropsWithoutRef<
+  typeof SliderPrimitive.Root
+> & {
+  minLabel?: React.ReactNode
+  maxLabel?: React.ReactNode
+}
+
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+  SliderProps
 >(
   (
     {
       className,
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledBy,
+      minLabel,
+      maxLabel,
       ...props
     },
     ref
-  ) => (
-    <SliderPrimitive.Root
-      ref={ref}
-      className={cn(
-        'relative flex w-full touch-none select-none items-center',
-        'data-[disabled]:opacity-50',
-        className
-      )}
-      {...props}
-    >
-      <SliderPrimitive.Track className={cn(trackVariants())}>
-        <SliderPrimitive.Range className={cn(rangeVariants())} />
-      </SliderPrimitive.Track>
-      {(props.value ?? props.defaultValue ?? [0]).map((_, i) => (
-        <SliderPrimitive.Thumb
-          key={i}
-          className={cn(thumbVariants())}
-          aria-label={ariaLabel}
-          aria-labelledby={ariaLabelledBy}
-        />
-      ))}
-    </SliderPrimitive.Root>
-  )
+  ) => {
+    const hasEndLabels = minLabel != null || maxLabel != null
+
+    const slider = (
+      <SliderPrimitive.Root
+        ref={ref}
+        className={cn(
+          'relative flex w-full touch-none select-none items-center',
+          'data-[disabled]:opacity-50',
+          !hasEndLabels && className
+        )}
+        {...props}
+      >
+        <SliderPrimitive.Track className={cn(trackVariants())}>
+          <SliderPrimitive.Range className={cn(rangeVariants())} />
+        </SliderPrimitive.Track>
+        {(props.value ?? props.defaultValue ?? [0]).map((_, i) => (
+          <SliderPrimitive.Thumb
+            key={i}
+            className={cn(thumbVariants())}
+            aria-label={ariaLabel}
+            aria-labelledby={ariaLabelledBy}
+          />
+        ))}
+      </SliderPrimitive.Root>
+    )
+
+    if (!hasEndLabels) return slider
+
+    return (
+      <div className={cn('flex items-center gap-3', className)}>
+        {minLabel != null && (
+          <span className={cn(endLabelVariants())}>{minLabel}</span>
+        )}
+        {slider}
+        {maxLabel != null && (
+          <span className={cn(endLabelVariants())}>{maxLabel}</span>
+        )}
+      </div>
+    )
+  }
 )
 Slider.displayName = SliderPrimitive.Root.displayName
 
 export { Slider }
+export type { SliderProps }

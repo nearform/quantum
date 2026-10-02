@@ -27,9 +27,20 @@ export const Default: Story = {
   }
 }
 
+export const WithEndLabels: Story = {
+  args: {
+    defaultValue: [50],
+    minLabel: '0',
+    maxLabel: '100',
+    'aria-label': 'Slider with end labels'
+  }
+}
+
 export const WithRange: Story = {
   args: {
     defaultValue: [25, 75],
+    minLabel: '0',
+    maxLabel: '100',
     'aria-label': 'Range slider'
   }
 }
@@ -38,6 +49,8 @@ export const WithSteps: Story = {
   args: {
     defaultValue: [50],
     step: 10,
+    minLabel: '0',
+    maxLabel: '100',
     'aria-label': 'Stepped slider'
   }
 }
@@ -46,6 +59,8 @@ export const Disabled: Story = {
   args: {
     defaultValue: [50],
     disabled: true,
+    minLabel: '0',
+    maxLabel: '100',
     'aria-label': 'Disabled slider'
   }
 }
@@ -53,7 +68,13 @@ export const Disabled: Story = {
 export const WithLabel: Story = {
   render: props => (
     <ControlLabel label="Volume">
-      <Slider aria-label="Volume" defaultValue={[50]} {...props} />
+      <Slider
+        aria-label="Volume"
+        defaultValue={[50]}
+        minLabel="0"
+        maxLabel="100"
+        {...props}
+      />
     </ControlLabel>
   )
 }
@@ -61,25 +82,24 @@ export const WithLabel: Story = {
 export const WithLabelAndHint: Story = {
   render: props => (
     <ControlLabel label="Brightness" hintText="Adjust screen brightness">
-      <Slider aria-label="Brightness" defaultValue={[70]} {...props} />
+      <Slider
+        aria-label="Brightness"
+        defaultValue={[70]}
+        minLabel="0%"
+        maxLabel="100%"
+        {...props}
+      />
     </ControlLabel>
   )
 }
 
-export const MinMax: Story = {
+export const CustomEndLabels: Story = {
   args: {
-    defaultValue: [20],
-    min: 0,
-    max: 100,
-    'aria-label': 'Min max slider'
-  },
-  render: props => (
-    <div className="flex flex-col gap-2">
-      <Slider {...props} />
-      <div className="flex justify-between text-sm text-foreground-subtle dark:text-foreground-subtle-dark">
-        <span>{props.min ?? 0}</span>
-        <span>{props.max ?? 100}</span>
-      </div>
-    </div>
-  )
+    defaultValue: [3],
+    min: 1,
+    max: 10,
+    minLabel: 'Low',
+    maxLabel: 'High',
+    'aria-label': 'Priority'
+  }
 }

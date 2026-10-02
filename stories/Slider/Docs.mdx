@@ -12,6 +12,12 @@ A slider allows users to select a value or range from a continuous or stepped in
 
 <Canvas of={SliderStories.Default} />
 
+## With end labels
+
+Use `minLabel` and `maxLabel` to display labels at each end of the slider track.
+
+<Canvas of={SliderStories.WithEndLabels} />
+
 ## Range
 
 Use two thumbs to select a range of values.
@@ -36,9 +42,11 @@ Restrict the slider to discrete step increments.
 
 <Canvas of={SliderStories.WithLabelAndHint} />
 
-## Min / Max labels
+## Custom end labels
 
-<Canvas of={SliderStories.MinMax} />
+End labels accept any React node, so you can use text like "Low" and "High" instead of numbers.
+
+<Canvas of={SliderStories.CustomEndLabels} />
 
 ## Attributes
 
@@ -83,6 +91,16 @@ Restrict the slider to discrete step increments.
       <td>step</td>
       <td>`number`</td>
       <td>1</td>
+    </tr>
+    <tr>
+      <td>minLabel</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>maxLabel</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
     </tr>
     <tr>
       <td>disabled</td>

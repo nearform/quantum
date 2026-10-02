@@ -97,4 +97,46 @@ describe('Slider', () => {
     const root = container!.firstElementChild!
     expect(root.classList.contains('custom-class')).toBe(true)
   })
+
+  it('renders end labels when minLabel and maxLabel are provided', () => {
+    mount(
+      <Slider
+        defaultValue={[50]}
+        minLabel="0"
+        maxLabel="100"
+        aria-label="Volume"
+      />
+    )
+
+    const spans = container!.querySelectorAll('span')
+    const texts = Array.from(spans).map(s => s.textContent)
+    expect(texts).toContain('0')
+    expect(texts).toContain('100')
+  })
+
+  it('renders only minLabel when maxLabel is omitted', () => {
+    mount(<Slider defaultValue={[50]} minLabel="Low" aria-label="Volume" />)
+
+    const texts = Array.from(container!.querySelectorAll('span')).map(
+      s => s.textContent
+    )
+    expect(texts).toContain('Low')
+    expect(texts).not.toContain('High')
+  })
+
+  it('applies className to the wrapper when end labels are present', () => {
+    mount(
+      <Slider
+        defaultValue={[50]}
+        minLabel="0"
+        maxLabel="100"
+        className="custom-class"
+        aria-label="Volume"
+      />
+    )
+
+    const wrapper = container!.firstElementChild!
+    expect(wrapper.classList.contains('custom-class')).toBe(true)
+    expect(wrapper.classList.contains('flex')).toBe(true)
+  })
 })
