@@ -107,14 +107,25 @@ const Slider = React.forwardRef<
         <SliderPrimitive.Track className={cn(trackVariants())}>
           <SliderPrimitive.Range className={cn(rangeVariants())} />
         </SliderPrimitive.Track>
-        {(props.value ?? props.defaultValue ?? [0]).map((_, i) => (
-          <SliderPrimitive.Thumb
-            key={i}
-            className={cn(thumbVariants())}
-            aria-label={!thumbLabelledBy ? ariaLabel : undefined}
-            aria-labelledby={thumbLabelledBy}
-          />
-        ))}
+        {(props.value ?? props.defaultValue ?? [0]).map((_, i, arr) => {
+          const suffix =
+            arr.length > 1 ? (i === 0 ? ' (minimum)' : ' (maximum)') : ''
+          return (
+            <SliderPrimitive.Thumb
+              key={i}
+              className={cn(thumbVariants())}
+              aria-label={
+                !thumbLabelledBy ? `${ariaLabel ?? ''}${suffix}` : undefined
+              }
+              aria-labelledby={thumbLabelledBy}
+              aria-valuetext={
+                arr.length > 1
+                  ? `${i === 0 ? 'Minimum' : 'Maximum'}: ${(props.value ?? props.defaultValue)?.[i]}`
+                  : undefined
+              }
+            />
+          )
+        })}
       </SliderPrimitive.Root>
     )
 

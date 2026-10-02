@@ -54,13 +54,15 @@ describe('Slider', () => {
     expect(slider.getAttribute('aria-valuenow')).toBe('30')
   })
 
-  it('renders two thumbs for a range slider', () => {
+  it('renders two thumbs for a range slider with distinct names', () => {
     mount(<Slider defaultValue={[20, 80]} aria-label="Price range" />)
 
     const sliders = container!.querySelectorAll('[role="slider"]')
     expect(sliders.length).toBe(2)
     expect(sliders[0].getAttribute('aria-valuenow')).toBe('20')
     expect(sliders[1].getAttribute('aria-valuenow')).toBe('80')
+    expect(sliders[0].getAttribute('aria-label')).toBe('Price range (minimum)')
+    expect(sliders[1].getAttribute('aria-label')).toBe('Price range (maximum)')
   })
 
   it('respects min and max', () => {
