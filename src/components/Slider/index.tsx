@@ -61,8 +61,9 @@ const hintVariants = cva([
   ['dark:text-foreground-muted-dark']
 ])
 
-type SliderProps = React.ComponentPropsWithoutRef<
-  typeof SliderPrimitive.Root
+type SliderProps = Omit<
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>,
+  'orientation'
 > & {
   label?: string
   hintText?: string
