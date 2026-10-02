@@ -137,6 +137,22 @@ describe('Slider', () => {
 
     const wrapper = container!.firstElementChild!
     expect(wrapper.classList.contains('custom-class')).toBe(true)
-    expect(wrapper.classList.contains('flex')).toBe(true)
+  })
+
+  it('connects the label to the thumbs via aria-labelledby', () => {
+    mount(<Slider defaultValue={[50]} label="Volume" />)
+
+    const label = container!.querySelector('span[id]')!
+    const thumb = container!.querySelector('[role="slider"]')!
+    expect(label.textContent).toBe('Volume')
+    expect(thumb.getAttribute('aria-labelledby')).toBe(label.id)
+  })
+
+  it('renders label above and hint text beside it', () => {
+    mount(<Slider defaultValue={[50]} label="Brightness" hintText="Screen" />)
+
+    const texts = container!.textContent
+    expect(texts).toContain('Brightness')
+    expect(texts).toContain('Screen')
   })
 })

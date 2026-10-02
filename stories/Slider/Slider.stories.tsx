@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { Slider, ControlLabel } from '@/index'
+import { Slider } from '@/index'
 
 const meta = {
   title: 'Form/Slider',
@@ -66,31 +66,22 @@ export const Disabled: Story = {
 }
 
 export const WithLabel: Story = {
-  render: props => (
-    <ControlLabel label="Volume">
-      <Slider
-        aria-label="Volume"
-        defaultValue={[50]}
-        minLabel="0"
-        maxLabel="100"
-        {...props}
-      />
-    </ControlLabel>
-  )
+  args: {
+    defaultValue: [50],
+    label: 'Volume',
+    minLabel: '0',
+    maxLabel: '100'
+  }
 }
 
 export const WithLabelAndHint: Story = {
-  render: props => (
-    <ControlLabel label="Brightness" hintText="Adjust screen brightness">
-      <Slider
-        aria-label="Brightness"
-        defaultValue={[70]}
-        minLabel="0%"
-        maxLabel="100%"
-        {...props}
-      />
-    </ControlLabel>
-  )
+  args: {
+    defaultValue: [70],
+    label: 'Brightness',
+    hintText: 'Adjust screen brightness',
+    minLabel: '0%',
+    maxLabel: '100%'
+  }
 }
 
 export const CustomEndLabels: Story = {

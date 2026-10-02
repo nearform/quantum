@@ -51,9 +51,21 @@ const endLabelVariants = cva([
   ['dark:text-foreground-muted-dark']
 ])
 
+const labelVariants = cva([
+  ['text-sm', 'font-medium', 'leading-normal', 'text-foreground'],
+  ['dark:text-foreground-inverse']
+])
+
+const hintVariants = cva([
+  ['text-xs', 'font-semibold', 'text-foreground-muted'],
+  ['dark:text-foreground-muted-dark']
+])
+
 type SliderProps = React.ComponentPropsWithoutRef<
   typeof SliderPrimitive.Root
 > & {
+  label?: string
+  hintText?: string
   minLabel?: React.ReactNode
   maxLabel?: React.ReactNode
 }
@@ -67,12 +79,18 @@ const Slider = React.forwardRef<
       className,
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledBy,
+      label,
+      hintText,
       minLabel,
       maxLabel,
       ...props
     },
     ref
   ) => {
+    const generatedId = React.useId()
+    const labelId = label ? `${generatedId}-label` : undefined
+    const thumbLabelledBy = ariaLabelledBy ?? labelId
+
     const hasEndLabels = minLabel != null || maxLabel != null
 
     const slider = (
@@ -80,8 +98,7 @@ const Slider = React.forwardRef<
         ref={ref}
         className={cn(
           'relative flex w-full touch-none select-none items-center',
-          'data-[disabled]:opacity-50',
-          !hasEndLabels && className
+          'data-[disabled]:opacity-50'
         )}
         {...props}
       >
@@ -92,17 +109,15 @@ const Slider = React.forwardRef<
           <SliderPrimitive.Thumb
             key={i}
             className={cn(thumbVariants())}
-            aria-label={ariaLabel}
-            aria-labelledby={ariaLabelledBy}
+            aria-label={!thumbLabelledBy ? ariaLabel : undefined}
+            aria-labelledby={thumbLabelledBy}
           />
         ))}
       </SliderPrimitive.Root>
     )
 
-    if (!hasEndLabels) return slider
-
-    return (
-      <div className={cn('flex items-center gap-3', className)}>
+    const track = hasEndLabels ? (
+      <div className="flex items-center gap-3">
         {minLabel != null && (
           <span className={cn(endLabelVariants())}>{minLabel}</span>
         )}
@@ -110,6 +125,24 @@ const Slider = React.forwardRef<
         {maxLabel != null && (
           <span className={cn(endLabelVariants())}>{maxLabel}</span>
         )}
+      </div>
+    ) : (
+      slider
+    )
+
+    if (!label) return <div className={className}>{track}</div>
+
+    return (
+      <div className={cn('flex flex-col gap-2', className)}>
+        <div>
+          <span id={labelId} className={cn(labelVariants())}>
+            {label}
+          </span>
+          {hintText && (
+            <span className={cn(hintVariants(), 'ml-1')}>{hintText}</span>
+          )}
+        </div>
+        {track}
       </div>
     )
   }
