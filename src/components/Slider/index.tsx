@@ -120,7 +120,7 @@ const Slider = React.forwardRef<
 
     const track = hasEndLabels ? (
       endLabelPosition === 'below' ? (
-        <div className="flex flex-col gap-1">
+        <div className="flex w-full flex-col gap-1">
           {slider}
           <div className="flex justify-between">
             <span className={cn(endLabelVariants())}>{minLabel ?? ''}</span>
@@ -128,7 +128,7 @@ const Slider = React.forwardRef<
           </div>
         </div>
       ) : (
-        <div className="flex items-center gap-3">
+        <div className="flex w-full items-center gap-3">
           {minLabel != null && (
             <span className={cn(endLabelVariants())}>{minLabel}</span>
           )}
@@ -142,17 +142,15 @@ const Slider = React.forwardRef<
       slider
     )
 
-    if (!label) return <div className={className}>{track}</div>
+    if (!label) return <div className={cn('w-full', className)}>{track}</div>
 
     return (
-      <div className={cn('flex flex-col gap-2', className)}>
-        <div>
+      <div className={cn('flex w-full flex-col gap-2', className)}>
+        <div className="flex flex-col">
           <span id={labelId} className={cn(labelVariants())}>
             {label}
           </span>
-          {hintText && (
-            <span className={cn(hintVariants(), 'ml-1')}>{hintText}</span>
-          )}
+          {hintText && <span className={cn(hintVariants())}>{hintText}</span>}
         </div>
         {track}
       </div>
