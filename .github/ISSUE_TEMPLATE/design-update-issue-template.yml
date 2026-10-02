@@ -35,6 +35,7 @@ body:
         - Popover
         - RadioGroup
         - Select
+        - Slider
         - SortAndShow
         - SplitButton
         - Stats
