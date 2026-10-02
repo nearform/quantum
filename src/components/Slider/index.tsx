@@ -64,14 +64,13 @@ const hintVariants = cva([
 type SliderProps = Omit<
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>,
   'orientation'
-> &
-  (
-    { label: string; hintText?: string } | { label?: never; hintText?: never }
-  ) & {
-    minLabel?: React.ReactNode
-    maxLabel?: React.ReactNode
-    endLabelPosition?: 'inline' | 'below'
-  }
+> & {
+  label?: string
+  hintText?: string
+  minLabel?: React.ReactNode
+  maxLabel?: React.ReactNode
+  endLabelPosition?: 'inline' | 'below'
+}
 
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
