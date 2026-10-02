@@ -52,20 +52,16 @@ export const Disabled: Story = {
 
 export const WithLabel: Story = {
   render: props => (
-    <ControlLabel htmlFor="withLabelId" label="Volume">
-      <Slider id="withLabelId" defaultValue={[50]} {...props} />
+    <ControlLabel label="Volume">
+      <Slider aria-label="Volume" defaultValue={[50]} {...props} />
     </ControlLabel>
   )
 }
 
 export const WithLabelAndHint: Story = {
   render: props => (
-    <ControlLabel
-      htmlFor="withHintId"
-      label="Brightness"
-      hintText="Adjust screen brightness"
-    >
-      <Slider id="withHintId" defaultValue={[70]} {...props} />
+    <ControlLabel label="Brightness" hintText="Adjust screen brightness">
+      <Slider aria-label="Brightness" defaultValue={[70]} {...props} />
     </ControlLabel>
   )
 }
