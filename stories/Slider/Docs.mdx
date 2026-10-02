@@ -44,6 +44,16 @@ Use the `label` prop to render a label above the slider. The label is automatica
 
 <Canvas of={SliderStories.WithLabelAndHint} />
 
+## End labels below
+
+Set `endLabelPosition="below"` to place labels underneath the track, aligned to each end.
+
+<Canvas of={SliderStories.EndLabelsBelow} />
+
+## End labels below with label
+
+<Canvas of={SliderStories.EndLabelsBelowWithLabel} />
+
 ## Custom end labels
 
 End labels accept any React node, so you can use text like "Low" and "High" instead of numbers.
@@ -113,6 +123,11 @@ End labels accept any React node, so you can use text like "Low" and "High" inst
       <td>maxLabel</td>
       <td>`ReactNode`</td>
       <td>-</td>
+    </tr>
+    <tr>
+      <td>endLabelPosition</td>
+      <td>`"inline" | "below"`</td>
+      <td>"inline"</td>
     </tr>
     <tr>
       <td>disabled</td>

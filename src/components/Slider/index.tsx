@@ -68,6 +68,7 @@ type SliderProps = React.ComponentPropsWithoutRef<
   hintText?: string
   minLabel?: React.ReactNode
   maxLabel?: React.ReactNode
+  endLabelPosition?: 'inline' | 'below'
 }
 
 const Slider = React.forwardRef<
@@ -83,6 +84,7 @@ const Slider = React.forwardRef<
       hintText,
       minLabel,
       maxLabel,
+      endLabelPosition = 'inline',
       ...props
     },
     ref
@@ -117,15 +119,25 @@ const Slider = React.forwardRef<
     )
 
     const track = hasEndLabels ? (
-      <div className="flex items-center gap-3">
-        {minLabel != null && (
-          <span className={cn(endLabelVariants())}>{minLabel}</span>
-        )}
-        {slider}
-        {maxLabel != null && (
-          <span className={cn(endLabelVariants())}>{maxLabel}</span>
-        )}
-      </div>
+      endLabelPosition === 'below' ? (
+        <div className="flex flex-col gap-1">
+          {slider}
+          <div className="flex justify-between">
+            <span className={cn(endLabelVariants())}>{minLabel ?? ''}</span>
+            <span className={cn(endLabelVariants())}>{maxLabel ?? ''}</span>
+          </div>
+        </div>
+      ) : (
+        <div className="flex items-center gap-3">
+          {minLabel != null && (
+            <span className={cn(endLabelVariants())}>{minLabel}</span>
+          )}
+          {slider}
+          {maxLabel != null && (
+            <span className={cn(endLabelVariants())}>{maxLabel}</span>
+          )}
+        </div>
+      )
     ) : (
       slider
     )

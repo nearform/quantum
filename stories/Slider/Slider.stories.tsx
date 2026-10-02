@@ -84,6 +84,28 @@ export const WithLabelAndHint: Story = {
   }
 }
 
+export const EndLabelsBelow: Story = {
+  args: {
+    defaultValue: [50],
+    minLabel: '1',
+    maxLabel: '52',
+    endLabelPosition: 'below',
+    'aria-label': 'Weeks'
+  }
+}
+
+export const EndLabelsBelowWithLabel: Story = {
+  args: {
+    defaultValue: [3],
+    min: 1,
+    max: 10,
+    label: 'Priority',
+    minLabel: 'Low',
+    maxLabel: 'High',
+    endLabelPosition: 'below'
+  }
+}
+
 export const CustomEndLabels: Story = {
   args: {
     defaultValue: [3],
