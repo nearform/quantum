@@ -120,11 +120,6 @@ const Slider = React.forwardRef<
                 !thumbLabelledBy ? `${ariaLabel ?? ''}${suffix}` : undefined
               }
               aria-labelledby={thumbLabelledBy}
-              aria-valuetext={
-                arr.length > 1
-                  ? `${i === 0 ? 'Minimum' : 'Maximum'}: ${(props.value ?? props.defaultValue)?.[i]}`
-                  : undefined
-              }
             />
           )
         })}
