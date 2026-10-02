@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals'
+import { afterEach, describe, expect, it } from '@jest/globals'
 import * as React from 'react'
 import { createRoot, Root } from 'react-dom/client'
 import { act } from 'react-dom/test-utils'
@@ -64,9 +64,7 @@ describe('Slider', () => {
   })
 
   it('respects min and max', () => {
-    mount(
-      <Slider defaultValue={[5]} min={0} max={10} aria-label="Rating" />
-    )
+    mount(<Slider defaultValue={[5]} min={0} max={10} aria-label="Rating" />)
 
     const slider = container!.querySelector('[role="slider"]')!
     expect(slider.getAttribute('aria-valuemin')).toBe('0')
@@ -89,7 +87,11 @@ describe('Slider', () => {
 
   it('applies custom className', () => {
     mount(
-      <Slider defaultValue={[50]} className="custom-class" aria-label="Volume" />
+      <Slider
+        defaultValue={[50]}
+        className="custom-class"
+        aria-label="Volume"
+      />
     )
 
     const root = container!.firstElementChild!
