@@ -1,0 +1,169 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as AppHeaderStories from './AppHeader.stories'
+
+<Meta of={AppHeaderStories} />
+
+# App Header
+
+An App Header sits at the top of an application and provides branding, primary navigation links, and user actions such as notifications and a user avatar. On smaller screens it collapses into a mobile menu toggled by a hamburger button.
+
+## Default
+
+<Canvas of={AppHeaderStories.Default} />
+
+## Attributes
+
+### AppHeader
+
+The root `<header>` element. Renders a horizontal bar with logo, nav, and actions.
+
+### AppHeaderLogo
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+### AppHeaderLink
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>active</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+### AppHeaderMenuButton
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>open</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+### AppHeaderMobileMenu
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>open</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Structure
+
+```bash
+└── AppHeader
+    ├── AppHeaderLogo
+    ├── AppHeaderNav
+    │   └── AppHeaderLink
+    ├── AppHeaderActions
+    └── AppHeaderMenuButton
+AppHeaderMobileMenu (sibling, below header)
+    └── AppHeaderLink
+```
+
+## Example
+
+```tsx
+import { useState } from 'react'
+import {
+  AppHeader,
+  AppHeaderLogo,
+  AppHeaderNav,
+  AppHeaderLink,
+  AppHeaderActions,
+  AppHeaderMenuButton,
+  AppHeaderMobileMenu,
+  Avatar,
+  IconButton
+} from '@nearform/quantum'
+import { BsBell, BsSearch } from 'react-icons/bs'
+
+export const MyAppHeader = () => {
+  const [menuOpen, setMenuOpen] = useState(false)
+  return (
+    <>
+      <AppHeader>
+        <AppHeaderLogo href="/">
+          <img src="/logo.svg" alt="My App" />
+        </AppHeaderLogo>
+
+        <AppHeaderNav aria-label="Main">
+          <AppHeaderLink href="/dashboard" active>Dashboard</AppHeaderLink>
+          <AppHeaderLink href="/projects">Projects</AppHeaderLink>
+        </AppHeaderNav>
+
+        <AppHeaderActions>
+          <IconButton variant="ghost" size="sm" aria-label="Search">
+            <BsSearch />
+          </IconButton>
+          <IconButton variant="ghost" size="sm" aria-label="Notifications">
+            <BsBell />
+          </IconButton>
+          <Avatar size="sm">JD</Avatar>
+        </AppHeaderActions>
+
+        <AppHeaderMenuButton
+          open={menuOpen}
+          onClick={() => setMenuOpen(v => !v)}
+        />
+      </AppHeader>
+
+      <AppHeaderMobileMenu open={menuOpen}>
+        <AppHeaderLink href="/dashboard" active>Dashboard</AppHeaderLink>
+        <AppHeaderLink href="/projects">Projects</AppHeaderLink>
+      </AppHeaderMobileMenu>
+    </>
+  )
+}
+```
