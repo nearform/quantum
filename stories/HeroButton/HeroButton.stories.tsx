@@ -32,8 +32,7 @@ const meta = {
         disable: true
       }
     }
-  },
-  tags: ['autodocs']
+  }
 } satisfies Meta<typeof HeroButton>
 
 export default meta
