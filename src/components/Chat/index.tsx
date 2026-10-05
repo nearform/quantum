@@ -176,7 +176,11 @@ const ChatInput = React.forwardRef<HTMLFormElement, ChatInputProps>(
             else setInternal(v)
           }}
           onKeyDown={e => {
-            if (e.key === 'Enter' && !e.shiftKey) {
+            if (
+              e.key === 'Enter' &&
+              !e.shiftKey &&
+              !e.nativeEvent.isComposing
+            ) {
               e.preventDefault()
               handleSubmit(e)
             }
