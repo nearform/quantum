@@ -35,3 +35,9 @@ export const WithoutLabel: Story = {
 export const Overflow: Story = {
   render: () => <CodeBlockOverflow />
 }
+
+export const DarkMode: Story = {
+  ...Default,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

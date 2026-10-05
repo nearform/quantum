@@ -48,3 +48,9 @@ export const Selectable: Story = {
 export const WithSwitch: Story = {
   render: () => <SwitchCardDemo />
 }
+
+export const DarkMode: Story = {
+  ...States,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

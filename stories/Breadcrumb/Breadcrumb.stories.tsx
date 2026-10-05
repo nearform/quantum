@@ -90,3 +90,9 @@ export const CustomSeparator: Story = {
     </Breadcrumb>
   )
 }
+
+export const DarkMode: Story = {
+  ...Default,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

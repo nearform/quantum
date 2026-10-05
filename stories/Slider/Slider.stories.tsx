@@ -116,3 +116,9 @@ export const CustomEndLabels: Story = {
     'aria-label': 'Priority'
   }
 }
+
+export const DarkMode: Story = {
+  ...WithLabelAndHint,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

@@ -211,3 +211,9 @@ export const Controlled: Story = {
     await expect(selection).toHaveTextContent('none')
   }
 }
+
+export const DarkMode: Story = {
+  ...WithAnError,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

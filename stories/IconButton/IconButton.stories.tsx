@@ -293,3 +293,9 @@ export const Close: Story = {
     </div>
   )
 }
+
+export const DarkMode: Story = {
+  ...Variants,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

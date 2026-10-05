@@ -157,3 +157,9 @@ export const WithControlLabel: Story = {
     </RadioGroup>
   )
 }
+
+export const DarkMode: Story = {
+  ...WithAnError,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

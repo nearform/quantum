@@ -134,3 +134,9 @@ export const Count: Story = {
     </span>
   )
 }
+
+export const DarkMode: Story = {
+  ...Variants,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

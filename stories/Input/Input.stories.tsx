@@ -93,3 +93,9 @@ export const Sizes: Story = {
     </div>
   )
 }
+
+export const DarkMode: Story = {
+  ...ErrorInput,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

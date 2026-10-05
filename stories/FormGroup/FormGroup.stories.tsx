@@ -243,3 +243,9 @@ export const WithCheckbox: Story = {
     </FormGroup>
   )
 }
+
+export const DarkMode: Story = {
+  ...WithError,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

@@ -108,3 +108,9 @@ export const Stacked: Story = {
     )
   }
 }
+
+export const DarkMode: Story = {
+  ...Sizes,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

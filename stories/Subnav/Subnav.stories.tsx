@@ -77,3 +77,9 @@ export const WithoutHeading: Story = {
     </Subnav>
   )
 }
+
+export const DarkMode: Story = {
+  ...Default,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

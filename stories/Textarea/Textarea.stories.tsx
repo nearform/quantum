@@ -65,3 +65,8 @@ Disabled.args = {
   labelText: 'Your message',
   helpText: 'Please enter your message here.'
 }
+
+export const DarkMode = Template.bind({})
+DarkMode.args = Error.args
+DarkMode.storyName = 'Dark mode'
+DarkMode.globals = { theme: 'dark' }

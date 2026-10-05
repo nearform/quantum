@@ -75,3 +75,9 @@ export const Large: Story = {
     labelText: 'Password'
   }
 }
+
+export const DarkMode: Story = {
+  ...Error,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

@@ -10,3 +10,12 @@
 @import '../src/quantum.css';
 @source '../src';
 @source '../stories';
+@source './colorScheme.tsx';
+
+body {
+  @apply bg-background text-foreground;
+}
+
+body.dark {
+  @apply bg-background-dark text-foreground-dark;
+}
