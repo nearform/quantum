@@ -49,9 +49,3 @@ export const WithDescription: Story = {
 export const Triggered: Story = {
   render: () => <ToastTriggerDemo />
 }
-
-export const DarkMode: Story = {
-  ...Variants,
-  name: 'Dark mode',
-  globals: { theme: 'dark' }
-}

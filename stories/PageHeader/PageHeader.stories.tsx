@@ -118,9 +118,3 @@ export const MobileWithBackLink: Story = {
   },
   decorators: Mobile.decorators
 }
-
-export const DarkMode: Story = {
-  ...Default,
-  name: 'Dark mode',
-  globals: { theme: 'dark' }
-}

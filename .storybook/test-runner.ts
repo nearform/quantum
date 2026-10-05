@@ -24,11 +24,7 @@ const config: TestRunnerConfig = {
       content: '*, *::before, *::after { transition: none !important; }'
     })
 
-    const modes: Mode[] =
-      (storyContext as { globals?: { theme?: string } }).globals?.theme ===
-      'dark'
-        ? ['dark']
-        : ['light', 'dark']
+    const modes: Mode[] = ['light', 'dark']
 
     for (const mode of modes) {
       await page.evaluate(

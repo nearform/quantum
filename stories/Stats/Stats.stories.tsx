@@ -49,9 +49,3 @@ export const WithoutIcon: Story = {
     value: '1.2k'
   }
 }
-
-export const DarkMode: Story = {
-  ...Group,
-  name: 'Dark mode',
-  globals: { theme: 'dark' }
-}

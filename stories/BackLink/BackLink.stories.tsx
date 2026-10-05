@@ -40,9 +40,3 @@ export const CustomLabel: Story = {
     children: 'Back to results'
   }
 }
-
-export const DarkMode: Story = {
-  ...Default,
-  name: 'Dark mode',
-  globals: { theme: 'dark' }
-}

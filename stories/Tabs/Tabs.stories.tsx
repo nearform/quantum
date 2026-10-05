@@ -74,9 +74,3 @@ export const States: Story = {
     </div>
   )
 }
-
-export const DarkMode: Story = {
-  ...States,
-  name: 'Dark mode',
-  globals: { theme: 'dark' }
-}

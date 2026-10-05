@@ -186,8 +186,7 @@ story is scanned with [axe](https://github.com/dequelabs/axe-core) as part of
 `wcag21aa` and `wcag22aa` rule sets, so a component that loses its accessible
 name, its focus indicator or its contrast fails CI.
 
-Each story is scanned twice, once in light mode and once in dark. A story
-pinned to dark with `globals: { theme: 'dark' }` is scanned in dark only.
+Each story is scanned twice, once in light mode and once in dark.
 
 A story that is a deliberate exception opts out through its own parameters:
 
@@ -292,20 +291,18 @@ npm run test-storybook
 
 ### Dark mode in Storybook
 
-The moon icon in the toolbar switches the whole of Storybook between light and
-dark. The **Preview** menu next to it changes only the story:
+Stories render twice by default, light and dark side by side. The **Preview**
+menu in the toolbar switches to a single copy, which you'll want for
+interacting with a story: both copies share element `id`s, so a `<label>` in
+the dark pane focuses the field in the light one. A single copy is also better
+for wide components whose layout depends on the window width.
 
-- **Light and dark side by side**: the story renders twice, light and dark (the
-  default).
-- **Follow toolbar theme**: one copy, matching the moon toggle.
-- **Always dark**: one copy, dark whatever the toggle says.
-
-A story can be pinned to dark with `globals: { theme: 'dark' }`, which is
-how each component's **Dark mode** story and its docs canvas work.
+The moon icon switches Storybook itself between light and dark. In single view
+it sets the story's mode too.
 
 Popups that portal to `document.body` (Modal, Popover, Select, DateInput,
 SortAndShow, SplitButton) take the theme of the pane they were opened from.
-The test runner ignores side-by-side and scans a single copy of each story.
+The test runner ignores side by side and scans a single copy of each story.
 
 ## Usage
 

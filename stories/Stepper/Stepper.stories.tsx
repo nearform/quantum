@@ -96,9 +96,3 @@ const WizardDemo = () => {
 export const WithNav: Story = {
   render: () => <WizardDemo />
 }
-
-export const DarkMode: Story = {
-  ...Default,
-  name: 'Dark mode',
-  globals: { theme: 'dark' }
-}

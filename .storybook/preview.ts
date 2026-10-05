@@ -13,12 +13,15 @@ const preview: Preview = {
         title: 'Preview',
         icon: 'contrast',
         items: [
-          { value: 'auto', title: 'Follow toolbar theme', icon: 'mirror' },
-          { value: 'dark', title: 'Always dark', icon: 'moon' },
           {
             value: 'side-by-side',
             title: 'Light and dark side by side',
             icon: 'sidebyside'
+          },
+          {
+            value: 'single',
+            title: 'Single, following the toolbar theme',
+            icon: 'mirror'
           }
         ],
         dynamicTitle: true

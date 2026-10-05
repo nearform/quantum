@@ -79,9 +79,3 @@ export const LargeActive: Story = {
     children: 'Hello, this is a chip'
   }
 }
-
-export const DarkMode: Story = {
-  ...Error,
-  name: 'Dark mode',
-  globals: { theme: 'dark' }
-}

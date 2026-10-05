@@ -3,8 +3,6 @@ import type { Decorator } from '@storybook/react-vite'
 import { addons } from 'storybook/preview-api'
 import { DARK_MODE_EVENT_NAME, useDarkMode } from 'storybook-dark-mode'
 
-export type ThemeGlobal = 'auto' | 'dark' | 'side-by-side'
-
 type Mode = 'light' | 'dark'
 
 let toggleMode: Mode = 'light'
@@ -93,43 +91,23 @@ export const withColorScheme: Decorator = (Story, context) => {
   const isDark = useDarkMode()
   toggleMode = isDark ? 'dark' : 'light'
 
-  const requested = (context.globals.theme ?? 'auto') as ThemeGlobal
-  const theme =
-    isTestRunner() && requested === 'side-by-side' ? 'auto' : requested
-  const inDocs = context.viewMode === 'docs'
-
-  let bodyMode: Mode | null = null
-  if (theme === 'side-by-side') bodyMode = 'light'
-  else if (theme === 'dark' && !inDocs) bodyMode = 'dark'
+  const sideBySide = context.globals.theme !== 'single' && !isTestRunner()
 
   React.useLayoutEffect(() => {
-    setBodyOverride(bodyMode)
+    setBodyOverride(sideBySide ? 'light' : null)
     return () => setBodyOverride(null)
-  }, [bodyMode, isDark])
+  }, [sideBySide, isDark])
 
-  if (theme === 'side-by-side') {
-    return (
-      <div className="grid w-full min-w-[min(calc(100vw-2rem),64rem)] gap-px grid-cols-[repeat(auto-fit,minmax(min(100%,24rem),1fr))]">
-        <Pane mode="light">
-          <Story />
-        </Pane>
-        <Pane mode="dark">
-          <Story />
-        </Pane>
-      </div>
-    )
-  }
+  if (!sideBySide) return <Story />
 
-  if (theme === 'dark' && inDocs && !isDark) {
-    return (
-      <div
-        data-color-pane="dark"
-        className="dark bg-background-dark text-foreground-dark p-4"
-      >
+  return (
+    <div className="grid w-full min-w-[min(calc(100vw-2rem),64rem)] gap-px grid-cols-[repeat(auto-fit,minmax(min(100%,24rem),1fr))]">
+      <Pane mode="light">
         <Story />
-      </div>
-    )
-  }
-
-  return <Story />
+      </Pane>
+      <Pane mode="dark">
+        <Story />
+      </Pane>
+    </div>
+  )
 }
