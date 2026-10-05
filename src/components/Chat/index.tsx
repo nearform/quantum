@@ -173,7 +173,10 @@ const ChatInput = React.forwardRef<HTMLFormElement, ChatInputProps>(
           onChange={e => {
             const v = e.target.value
             if (controlled) onChange?.(v)
-            else setInternal(v)
+            else {
+              setInternal(v)
+              onChange?.(v)
+            }
           }}
           onKeyDown={e => {
             if (
