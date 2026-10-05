@@ -1,0 +1,144 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as ChatStories from './Chat.stories'
+
+<Meta of={ChatStories} />
+
+# Chat
+
+A set of composable components for building chat interfaces: a message bubble,
+a scrollable message list, a text input with send, and a container that ties
+them together.
+
+### Message bubble
+
+`ChatBubble` renders a single message. The `received` variant aligns left with
+an avatar and sender name; the `sent` variant aligns right.
+
+<Canvas of={ChatStories.Default} />
+
+### Sent message
+
+<Canvas of={ChatStories.Sent} />
+
+### Full conversation
+
+`ChatContainer` wraps `ChatList` and `ChatInput` into a bordered panel.
+`ChatInput` fires `onSend` on Enter (Shift+Enter for a new line).
+
+<Canvas of={ChatStories.Conversation} />
+
+## Dark mode
+
+Every sub-component reads its colours from semantic tokens that carry dark
+counterparts (`background-alt` / `background-alt-dark`, `accent` /
+`accent-dark`, etc.), so the chat switches automatically when the page theme
+changes.
+
+## Accessibility
+
+- `ChatList` uses `role="log"` with `aria-label="Chat messages"`, which tells
+  assistive technology to announce new messages as they appear.
+- `ChatInput`'s send button carries `aria-label="Send message"` and is
+  keyboard-reachable; Enter submits, Shift+Enter inserts a line break.
+- Received bubbles show an `Avatar` with the sender's `name`, providing an
+  accessible label for the image fallback.
+
+## Attributes
+
+### ChatBubble
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`"received" | "sent"`</td>
+      <td>`"received"`</td>
+    </tr>
+    <tr>
+      <td>children</td>
+      <td>`React.ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>avatarSrc</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>timestamp</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+### ChatInput
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>placeholder</td>
+      <td>`string`</td>
+      <td>`"Type a message…"`</td>
+    </tr>
+    <tr>
+      <td>onSend</td>
+      <td>`(message: string) => void`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>onChange</td>
+      <td>`(value: string) => void`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Usage
+
+```tsx
+import {
+  ChatBubble,
+  ChatList,
+  ChatInput,
+  ChatContainer
+} from '@nearform/quantum'
+
+<ChatContainer className="h-[500px]">
+  <ChatList className="flex-1">
+    <ChatBubble variant="received" name="Ada" timestamp="10:30">
+      Hello!
+    </ChatBubble>
+    <ChatBubble variant="sent" timestamp="10:31">
+      Hi there!
+    </ChatBubble>
+  </ChatList>
+  <ChatInput onSend={text => console.log(text)} />
+</ChatContainer>
+```
