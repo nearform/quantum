@@ -64,28 +64,97 @@ new MutationObserver(records => {
   }
 }).observe(document.body, { childList: true })
 
+type Layout = 'centered' | 'padded' | 'fullscreen'
+
+const paneLayout: Record<Layout, string> = {
+  centered: 'flex items-center justify-center-safe px-8 pt-12 pb-10',
+  padded: 'px-8 pt-12 pb-10',
+  fullscreen: 'pt-10'
+}
+
+const labelPosition: Record<Layout, string> = {
+  centered: 'top-4 left-8',
+  padded: 'top-4 left-8',
+  fullscreen: 'top-3 left-4'
+}
+
 const Pane = ({
   mode,
+  layout,
   children
 }: {
   mode: Mode
+  layout: Layout
   children: React.ReactNode
 }) => (
   <section
     data-color-pane={mode}
     aria-label={`${mode === 'dark' ? 'Dark' : 'Light'} mode`}
-    className={
+    className={`relative min-w-0 overflow-x-auto ${paneLayout[layout]} ${
       mode === 'dark'
-        ? 'dark bg-background-dark text-foreground-dark p-4 min-w-0'
-        : 'bg-background text-foreground p-4 min-w-0'
-    }
+        ? 'dark bg-background-dark text-foreground-dark'
+        : 'bg-background text-foreground'
+    }`}
   >
-    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-foreground-muted dark:text-foreground-muted-dark">
+    <p
+      aria-hidden
+      className={`absolute ${labelPosition[layout]} text-xs text-foreground-muted dark:text-foreground-muted-dark`}
+    >
       {mode === 'dark' ? 'Dark' : 'Light'}
     </p>
     {children}
   </section>
 )
+
+const SideBySide = ({
+  layout,
+  children
+}: {
+  layout: Layout
+  children: React.ReactNode
+}) => {
+  const grid = React.useRef<HTMLDivElement>(null)
+  const [width, setWidth] = React.useState(0)
+  const [needed, setNeeded] = React.useState(0)
+
+  React.useLayoutEffect(() => {
+    const el = grid.current
+    if (!el) return
+    const measure = () => {
+      setWidth(el.clientWidth)
+      for (const pane of el.children) {
+        if (pane.scrollWidth > pane.clientWidth + 1) {
+          setNeeded(current => Math.max(current, pane.scrollWidth))
+        }
+      }
+    }
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const stacked = needed > 0 && width < needed * 2
+
+  return (
+    <div
+      ref={grid}
+      data-color-grid
+      className={`grid min-h-full w-full gap-px bg-border ${
+        stacked
+          ? 'grid-cols-1'
+          : 'grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),1fr))]'
+      }`}
+    >
+      <Pane mode="light" layout={layout}>
+        {children}
+      </Pane>
+      <Pane mode="dark" layout={layout}>
+        {children}
+      </Pane>
+    </div>
+  )
+}
 
 export const withColorScheme: Decorator = (Story, context) => {
   const isDark = useDarkMode()
@@ -100,14 +169,11 @@ export const withColorScheme: Decorator = (Story, context) => {
 
   if (!sideBySide) return <Story />
 
+  const layout = (context.parameters.layout ?? 'padded') as Layout
+
   return (
-    <div className="grid w-full min-w-[min(calc(100vw-2rem),64rem)] gap-px grid-cols-[repeat(auto-fit,minmax(min(100%,24rem),1fr))]">
-      <Pane mode="light">
-        <Story />
-      </Pane>
-      <Pane mode="dark">
-        <Story />
-      </Pane>
-    </div>
+    <SideBySide layout={layout}>
+      <Story />
+    </SideBySide>
   )
 }
