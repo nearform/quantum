@@ -10,6 +10,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableCellAvatar,
   TableEmpty,
   TableHead,
   TableHeader,
@@ -198,6 +199,70 @@ describe('TableRow', () => {
 
     expect(selected.getAttribute('data-state')).toBe('selected')
     expect(unselected.hasAttribute('data-state')).toBe(false)
+  })
+})
+
+describe('TableCellAvatar', () => {
+  it('renders a 24×24 avatar with name and subtext', () => {
+    const container = renderBody(
+      <TableRow>
+        <TableCell>
+          <TableCellAvatar name="Ada Lovelace" subtext="ada@example.com" />
+        </TableCell>
+      </TableRow>
+    )
+
+    const avatar =
+      container.querySelector('span span.h-6.w-6') ??
+      container.querySelector('[aria-hidden="true"]')
+    expect(avatar).not.toBeNull()
+
+    const spans = container.querySelectorAll('td span')
+    const nameSpan = Array.from(spans).find(
+      el => el.textContent === 'Ada Lovelace'
+    )
+    const subtextSpan = Array.from(spans).find(
+      el => el.textContent === 'ada@example.com'
+    )
+
+    expect(nameSpan).toBeDefined()
+    expect(subtextSpan).toBeDefined()
+  })
+
+  it('renders without subtext', () => {
+    const container = renderBody(
+      <TableRow>
+        <TableCell>
+          <TableCellAvatar name="Ada Lovelace" />
+        </TableCell>
+      </TableRow>
+    )
+
+    const spans = container.querySelectorAll('td span')
+    const nameSpan = Array.from(spans).find(
+      el => el.textContent === 'Ada Lovelace'
+    )
+    expect(nameSpan).toBeDefined()
+
+    const subtextSpan = Array.from(spans).find(el =>
+      el.className.includes('text-foreground-muted')
+    )
+    expect(subtextSpan).toBeUndefined()
+  })
+
+  it('hides the avatar from assistive technology', () => {
+    const container = renderBody(
+      <TableRow>
+        <TableCell>
+          <TableCellAvatar name="Ada Lovelace" />
+        </TableCell>
+      </TableRow>
+    )
+
+    const avatarRoot = container.querySelector(
+      'td > span > span[aria-hidden="true"]'
+    )
+    expect(avatarRoot).not.toBeNull()
   })
 })
 

@@ -7,6 +7,7 @@ import {
   TableBody,
   TableCaption,
   TableCell,
+  TableCellAvatar,
   TableEmpty,
   TableHead,
   TableHeader,
@@ -195,6 +196,79 @@ export const Empty: Story = {
       </TableHeader>
       <TableBody>
         <TableEmpty colSpan={3}>No invoices yet.</TableEmpty>
+      </TableBody>
+    </Table>
+  )
+}
+
+const avatarData = [
+  {
+    name: 'Gordon Freeman',
+    email: 'gordon@example.com',
+    method: 'Credit Card',
+    amount: '$250.00'
+  },
+  {
+    name: 'Alyx Vance',
+    email: 'alyx@example.com',
+    method: 'Cash',
+    amount: '$50.00'
+  },
+  {
+    name: 'Isaac Kleiner',
+    email: 'kleiner@example.com',
+    method: 'Credit Card',
+    amount: '$1,400.00'
+  }
+]
+
+export const AvatarCells: Story = {
+  render: () => (
+    <Table>
+      <TableCaption>Table with avatar cells and optional subtext.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Customer</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead align="right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {avatarData.map(row => (
+          <TableRow key={row.name}>
+            <TableCell>
+              <TableCellAvatar name={row.name} subtext={row.email} />
+            </TableCell>
+            <TableCell>{row.method}</TableCell>
+            <TableCell align="right">{row.amount}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
+}
+
+export const AvatarCellsWithoutSubtext: Story = {
+  render: () => (
+    <Table>
+      <TableCaption>Table with avatar cells, no subtext.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Customer</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead align="right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {avatarData.map(row => (
+          <TableRow key={row.name}>
+            <TableCell>
+              <TableCellAvatar name={row.name} />
+            </TableCell>
+            <TableCell>{row.method}</TableCell>
+            <TableCell align="right">{row.amount}</TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   )

@@ -16,7 +16,6 @@ import {
 
 import { BsThreeDots } from '@/assets'
 import {
-  Avatar,
   Badge,
   Checkbox,
   IconButton,
@@ -30,6 +29,7 @@ import {
   TableBody,
   TableCaption,
   TableCell,
+  TableCellAvatar,
   TableEmpty,
   TableHead,
   TableHeader,
@@ -118,15 +118,7 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: 'name',
     header: 'Customer',
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <Avatar size="xs" name={row.original.name} aria-hidden="true" />
-        <div className="flex flex-col">
-          <span className="font-semibold">{row.original.name}</span>
-          <span className="text-xs text-foreground-muted dark:text-foreground-muted-dark">
-            {row.original.email}
-          </span>
-        </div>
-      </div>
+      <TableCellAvatar name={row.original.name} subtext={row.original.email} />
     )
   },
   {
