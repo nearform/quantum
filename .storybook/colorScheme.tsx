@@ -39,27 +39,34 @@ for (const type of ['pointerdown', 'focusin', 'keydown']) {
   document.addEventListener(type, trackPane, true)
 }
 
-const keepDark = new MutationObserver(records => {
-  for (const { target } of records) {
-    if (target instanceof Element && !target.classList.contains('dark')) {
-      target.classList.add('dark')
-    }
-  }
-})
-
 const isPortal = (node: Node): node is HTMLElement =>
   node instanceof HTMLElement &&
   !['SCRIPT', 'STYLE', 'LINK'].includes(node.tagName) &&
   !node.id.startsWith('storybook-') &&
   ![...node.classList].some(name => name.startsWith('sb-'))
 
+const darkPortals = new Map<Node, MutationObserver>()
+
+const keepDark = (node: HTMLElement) => {
+  node.classList.add('dark')
+  const observer = new MutationObserver(() => {
+    if (!node.classList.contains('dark')) node.classList.add('dark')
+  })
+  observer.observe(node, { attributes: true, attributeFilter: ['class'] })
+  darkPortals.set(node, observer)
+}
+
+const release = (node: Node) => {
+  darkPortals.get(node)?.disconnect()
+  darkPortals.delete(node)
+}
+
 new MutationObserver(records => {
-  if (lastPane !== 'dark') return
   for (const record of records) {
+    record.removedNodes.forEach(release)
+    if (lastPane !== 'dark') continue
     record.addedNodes.forEach(node => {
-      if (!isPortal(node)) return
-      node.classList.add('dark')
-      keepDark.observe(node, { attributes: true, attributeFilter: ['class'] })
+      if (isPortal(node)) keepDark(node)
     })
   }
 }).observe(document.body, { childList: true })
