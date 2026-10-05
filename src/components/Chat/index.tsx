@@ -105,6 +105,7 @@ const ChatList = React.forwardRef<HTMLDivElement, ChatListProps>(
       ref={ref}
       role="log"
       aria-label="Chat messages"
+      tabIndex={0}
       className={cn('flex flex-col gap-3 overflow-y-auto p-4', className)}
       {...props}
     >
