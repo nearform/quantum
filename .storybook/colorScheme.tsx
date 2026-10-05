@@ -113,6 +113,46 @@ const Pane = ({
   </section>
 )
 
+const ID_SUFFIX = '--dark'
+
+const ID_REFERENCES = [
+  'for',
+  'aria-labelledby',
+  'aria-describedby',
+  'aria-controls',
+  'aria-owns',
+  'aria-activedescendant',
+  'aria-errormessage',
+  'aria-details',
+  'list',
+  'form',
+  'headers'
+]
+
+const dedupeIds = (light: Element, dark: Element) => {
+  const lightIds = new Set(
+    [...light.querySelectorAll('[id]')].map(element => element.id)
+  )
+  for (const element of dark.querySelectorAll('[id]')) {
+    if (lightIds.has(element.id)) element.id += ID_SUFFIX
+  }
+  const darkIds = new Set(
+    [...dark.querySelectorAll('[id]')].map(element => element.id)
+  )
+  for (const name of ID_REFERENCES) {
+    for (const element of dark.querySelectorAll(`[${name}]`)) {
+      const value = element.getAttribute(name) ?? ''
+      const next = value
+        .split(/\s+/)
+        .map(id =>
+          lightIds.has(id) && darkIds.has(id + ID_SUFFIX) ? id + ID_SUFFIX : id
+        )
+        .join(' ')
+      if (next !== value) element.setAttribute(name, next)
+    }
+  }
+}
+
 const overflowWidth = (grid: HTMLElement) => {
   let widest = 0
   for (const pane of grid.children) {
@@ -150,6 +190,21 @@ const SideBySide = ({
     const observer = new ResizeObserver(() => setWidth(el.clientWidth))
     observer.observe(el)
     setWidth(el.clientWidth)
+    return () => observer.disconnect()
+  }, [])
+
+  React.useLayoutEffect(() => {
+    const [light, dark] = grid.current?.children ?? []
+    if (!light || !dark) return
+    const dedupe = () => dedupeIds(light, dark)
+    dedupe()
+    const observer = new MutationObserver(dedupe)
+    observer.observe(dark, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['id', ...ID_REFERENCES]
+    })
     return () => observer.disconnect()
   }, [])
 

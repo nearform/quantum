@@ -291,11 +291,12 @@ npm run test-storybook
 
 ### Dark mode in Storybook
 
-Stories render twice by default, light and dark side by side. The **Preview**
-menu in the toolbar switches to a single copy, which you'll want for
-interacting with a story: both copies share element `id`s, so a `<label>` in
-the dark pane focuses the field in the light one. A single copy is also better
-for wide components whose layout depends on the window width.
+Stories render twice by default, light and dark side by side. A fixed `id`
+in a story is suffixed with `--dark` in the dark copy, along with the `for`
+and `aria-*` references that point at it, so each copy's labels and
+descriptions stay wired to their own controls. The **Preview** menu in the
+toolbar switches to a single copy, which is better for wide components whose
+layout depends on the window width.
 
 The moon icon switches Storybook itself between light and dark. In single view
 it sets the story's mode too.
