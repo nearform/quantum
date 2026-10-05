@@ -126,7 +126,6 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps>(
         {...props}
       >
         <span className="flex items-center justify-center gap-2">
-          {children}
           {icon !== null && (
             <span
               aria-hidden="true"
@@ -142,6 +141,7 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps>(
               {icon ?? <Icon />}
             </span>
           )}
+          {children}
         </span>
         {onDismiss && (
           <button
