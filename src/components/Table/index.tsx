@@ -185,14 +185,36 @@ const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
 )
 TableCell.displayName = 'TableCell'
 
-interface TableCellAvatarProps extends Omit<AvatarProps, 'size' | 'children'> {
+interface TableCellAvatarProps extends React.ComponentPropsWithoutRef<'span'> {
+  name?: string
+  src?: string
+  initials?: string
+  alt?: string
+  icon?: React.ReactNode
+  shape?: AvatarProps['shape']
   subtext?: React.ReactNode
 }
 
 const TableCellAvatar = React.forwardRef<HTMLSpanElement, TableCellAvatarProps>(
-  ({ className, subtext, name, ...props }, ref) => (
-    <span className={cn('flex items-center gap-2', className)}>
-      <Avatar ref={ref} size="xs" name={name} aria-hidden="true" {...props} />
+  (
+    { className, subtext, name, src, initials, alt, icon, shape, ...props },
+    ref
+  ) => (
+    <span
+      ref={ref}
+      className={cn('flex items-center gap-2', className)}
+      {...props}
+    >
+      <Avatar
+        size="xs"
+        name={name}
+        src={src}
+        initials={initials}
+        alt={alt}
+        icon={icon}
+        shape={shape}
+        aria-hidden="true"
+      />
       {name && (
         <span className="flex flex-col">
           <span className="font-semibold">{name}</span>
