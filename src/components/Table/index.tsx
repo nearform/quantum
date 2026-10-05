@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { BsArrowDown, BsArrowDownUp, BsArrowUp } from '@/assets'
+import { Avatar, type AvatarProps } from '@/components/Avatar'
 import { cn } from '@/lib/utils'
 import { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
@@ -184,6 +185,51 @@ const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
 )
 TableCell.displayName = 'TableCell'
 
+interface TableCellAvatarProps extends React.ComponentPropsWithoutRef<'span'> {
+  name?: string
+  src?: string
+  initials?: string
+  alt?: string
+  icon?: React.ReactNode
+  shape?: AvatarProps['shape']
+  subtext?: React.ReactNode
+}
+
+const TableCellAvatar = React.forwardRef<HTMLSpanElement, TableCellAvatarProps>(
+  (
+    { className, subtext, name, src, initials, alt, icon, shape, ...props },
+    ref
+  ) => (
+    <span
+      ref={ref}
+      className={cn('flex items-center gap-2', className)}
+      {...props}
+    >
+      <Avatar
+        size="xs"
+        name={name}
+        src={src}
+        initials={initials}
+        alt={alt}
+        icon={icon}
+        shape={shape}
+        aria-hidden="true"
+      />
+      {name && (
+        <span className="flex flex-col">
+          <span className="font-semibold">{name}</span>
+          {subtext && (
+            <span className="text-xs text-foreground-muted dark:text-foreground-muted-dark">
+              {subtext}
+            </span>
+          )}
+        </span>
+      )}
+    </span>
+  )
+)
+TableCellAvatar.displayName = 'TableCellAvatar'
+
 interface TableEmptyProps extends TableCellProps {
   colSpan: number
 }
@@ -237,12 +283,14 @@ export {
   TableHead,
   TableRow,
   TableCell,
+  TableCellAvatar,
   TableCaption,
   TableEmpty
 }
 export type {
   TableAlign,
   TableBodyProps,
+  TableCellAvatarProps,
   TableCellProps,
   TableEmptyProps,
   TableHeadProps,
