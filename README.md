@@ -73,7 +73,7 @@ Tailwind v4 (CSS-first):
 @import 'tailwindcss';
 @plugin '@nearform/quantum/tailwind-plugin';
 @source '../node_modules/@nearform/quantum';
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark, .dark *));
 ```
 
 Tailwind v4 with a JS config. **The config file is inert on its own.** Unlike
@@ -295,16 +295,17 @@ npm run test-storybook
 The moon icon in the toolbar switches the whole of Storybook between light and
 dark. The **Preview** menu next to it changes only the story:
 
-- **Follow toolbar theme**: the story matches the moon toggle (the default).
-- **Always dark**: the story renders dark whatever the toggle says.
-- **Light and dark side by side**: the story renders twice, light and dark.
+- **Light and dark side by side**: the story renders twice, light and dark (the
+  default).
+- **Follow toolbar theme**: one copy, matching the moon toggle.
+- **Always dark**: one copy, dark whatever the toggle says.
 
 A story can be pinned to dark with `globals: { theme: 'dark' }`, which is
 how each component's **Dark mode** story and its docs canvas work.
 
-Components that open a popup in a portal (Modal, Popover, Select, DateInput,
-SortAndShow, SplitButton) render that popup on `document.body`, so it follows
-the moon toggle rather than the dark pane in side-by-side view.
+Popups that portal to `document.body` (Modal, Popover, Select, DateInput,
+SortAndShow, SplitButton) take the theme of the pane they were opened from.
+The test runner ignores side-by-side and scans a single copy of each story.
 
 ## Usage
 

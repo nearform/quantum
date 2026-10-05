@@ -106,3 +106,9 @@ export const Large: Story = {
     size: 'lg'
   }
 }
+
+export const DarkMode: Story = {
+  ...Error,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

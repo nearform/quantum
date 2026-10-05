@@ -26,7 +26,7 @@ const preview: Preview = {
     }
   },
   initialGlobals: {
-    theme: 'auto'
+    theme: 'side-by-side'
   },
   parameters: {
     backgrounds: { disable: true },

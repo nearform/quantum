@@ -100,7 +100,7 @@ export const themeCss = () =>
    v4's \`dark:\` variant defaults to a \`prefers-color-scheme\` media query, so it
    has to be pinned back — this is the CSS-first spelling of v3's
    \`darkMode: 'class'\`. */`,
-    '@custom-variant dark (&:is(.dark *));',
+    '@custom-variant dark (&:is(.dark, .dark *));',
     '',
     '@theme {',
     ...NAMESPACES.flatMap(([namespace, key]) => [

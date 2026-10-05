@@ -55,3 +55,9 @@ export const ItemAligned: Story = {
     example: 'item-aligned'
   }
 }
+
+export const DarkMode: Story = {
+  ...Error,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}

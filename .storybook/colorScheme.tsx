@@ -25,6 +25,47 @@ const setBodyOverride = (mode: Mode | null) => {
   applyBodyClass()
 }
 
+const isTestRunner = () => navigator.userAgent.includes('StorybookTestRunner')
+
+let lastPane: Mode | null = null
+
+const trackPane = (event: Event) => {
+  const target = event.target
+  if (!(target instanceof Element)) return
+  const pane = target.closest<HTMLElement>('[data-color-pane]')
+  if (pane) lastPane = pane.dataset.colorPane as Mode
+  else if (target.closest('#storybook-root, #storybook-docs')) lastPane = null
+}
+
+for (const type of ['pointerdown', 'focusin', 'keydown']) {
+  document.addEventListener(type, trackPane, true)
+}
+
+const keepDark = new MutationObserver(records => {
+  for (const { target } of records) {
+    if (target instanceof Element && !target.classList.contains('dark')) {
+      target.classList.add('dark')
+    }
+  }
+})
+
+const isPortal = (node: Node): node is HTMLElement =>
+  node instanceof HTMLElement &&
+  !['SCRIPT', 'STYLE', 'LINK'].includes(node.tagName) &&
+  !node.id.startsWith('storybook-') &&
+  ![...node.classList].some(name => name.startsWith('sb-'))
+
+new MutationObserver(records => {
+  if (lastPane !== 'dark') return
+  for (const record of records) {
+    record.addedNodes.forEach(node => {
+      if (!isPortal(node)) return
+      node.classList.add('dark')
+      keepDark.observe(node, { attributes: true, attributeFilter: ['class'] })
+    })
+  }
+}).observe(document.body, { childList: true })
+
 const Pane = ({
   mode,
   children
@@ -33,6 +74,7 @@ const Pane = ({
   children: React.ReactNode
 }) => (
   <section
+    data-color-pane={mode}
     aria-label={`${mode === 'dark' ? 'Dark' : 'Light'} mode`}
     className={
       mode === 'dark'
@@ -51,7 +93,9 @@ export const withColorScheme: Decorator = (Story, context) => {
   const isDark = useDarkMode()
   toggleMode = isDark ? 'dark' : 'light'
 
-  const theme = (context.globals.theme ?? 'auto') as ThemeGlobal
+  const requested = (context.globals.theme ?? 'auto') as ThemeGlobal
+  const theme =
+    isTestRunner() && requested === 'side-by-side' ? 'auto' : requested
   const inDocs = context.viewMode === 'docs'
 
   let bodyMode: Mode | null = null
@@ -78,7 +122,10 @@ export const withColorScheme: Decorator = (Story, context) => {
 
   if (theme === 'dark' && inDocs && !isDark) {
     return (
-      <div className="dark bg-background-dark text-foreground-dark p-4">
+      <div
+        data-color-pane="dark"
+        className="dark bg-background-dark text-foreground-dark p-4"
+      >
         <Story />
       </div>
     )

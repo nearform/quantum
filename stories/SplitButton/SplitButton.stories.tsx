@@ -61,3 +61,9 @@ export const PrimaryStates: Story = {
 export const SecondaryStates: Story = {
   render: () => <SplitButtonStates variant="secondary" />
 }
+
+export const DarkMode: Story = {
+  ...Primary,
+  name: 'Dark mode',
+  globals: { theme: 'dark' }
+}
