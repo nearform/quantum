@@ -113,35 +113,63 @@ const Pane = ({
   </section>
 )
 
+const overflowWidth = (grid: HTMLElement) => {
+  let widest = 0
+  for (const pane of grid.children) {
+    if (pane.scrollWidth > pane.clientWidth + 1) {
+      widest = Math.max(widest, pane.scrollWidth)
+    }
+  }
+  return widest
+}
+
 const SideBySide = ({
   layout,
+  storyId,
+  args,
   children
 }: {
   layout: Layout
+  storyId: string
+  args: unknown
   children: React.ReactNode
 }) => {
   const grid = React.useRef<HTMLDivElement>(null)
   const [width, setWidth] = React.useState(0)
   const [needed, setNeeded] = React.useState(0)
 
+  const stacked = needed > 0 && width < needed * 2
+
+  React.useLayoutEffect(() => {
+    setNeeded(0)
+  }, [storyId, args])
+
   React.useLayoutEffect(() => {
     const el = grid.current
     if (!el) return
-    const measure = () => {
-      setWidth(el.clientWidth)
-      for (const pane of el.children) {
-        if (pane.scrollWidth > pane.clientWidth + 1) {
-          setNeeded(current => Math.max(current, pane.scrollWidth))
-        }
-      }
-    }
-    measure()
-    const observer = new ResizeObserver(measure)
+    const observer = new ResizeObserver(() => setWidth(el.clientWidth))
     observer.observe(el)
+    setWidth(el.clientWidth)
     return () => observer.disconnect()
   }, [])
 
-  const stacked = needed > 0 && width < needed * 2
+  React.useLayoutEffect(() => {
+    const el = grid.current
+    if (!el || stacked) return
+    const measure = () => {
+      const widest = overflowWidth(el)
+      if (widest > 0) setNeeded(widest)
+    }
+    measure()
+    const observer = new MutationObserver(measure)
+    observer.observe(el, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      characterData: true
+    })
+    return () => observer.disconnect()
+  })
 
   return (
     <div
@@ -179,7 +207,7 @@ export const withColorScheme: Decorator = (Story, context) => {
   const layout = (context.parameters.layout ?? 'padded') as Layout
 
   return (
-    <SideBySide layout={layout}>
+    <SideBySide layout={layout} storyId={context.id} args={context.args}>
       <Story />
     </SideBySide>
   )
