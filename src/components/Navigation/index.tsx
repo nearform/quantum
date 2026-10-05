@@ -52,7 +52,7 @@ const NavigationLink = React.forwardRef<HTMLAnchorElement, NavigationLinkProps>(
           'aria-[current=page]:border-accent',
           'focus-visible:outline-hidden',
           'focus-visible:shadow-brandGreen',
-          'dark:text-foreground-subtle-dark',
+          'dark:text-foreground-muted-dark',
           'dark:hover:text-foreground-dark dark:hover:border-border-dark',
           'dark:aria-[current=page]:text-foreground-dark',
           'dark:aria-[current=page]:border-accent-dark',
