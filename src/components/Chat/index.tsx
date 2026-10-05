@@ -82,7 +82,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, ChatBubbleProps>(
           )}
           <div className={cn(bubbleVariants({ variant }))}>{children}</div>
           {timestamp && (
-            <span className="mt-1 text-[11px] text-foreground-subtle dark:text-foreground-subtle-dark">
+            <span className="mt-1 text-[11px] text-foreground-muted dark:text-foreground-muted-dark">
               {timestamp}
             </span>
           )}
