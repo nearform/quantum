@@ -3,7 +3,12 @@
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { BsInfoCircleFill, BsXLg, type IconType } from '@/assets'
+import {
+  BsExclamationTriangleFill,
+  BsInfoCircleFill,
+  BsXLg,
+  type IconType
+} from '@/assets'
 import { cn } from '@/lib/utils'
 
 const focusClasses = [
@@ -72,11 +77,11 @@ const noticeIcons: Record<
   { icon: IconType; className: string }
 > = {
   'warning-filled': {
-    icon: BsInfoCircleFill,
+    icon: BsExclamationTriangleFill,
     className: 'text-foreground-inverse dark:text-foreground-inverse-dark'
   },
   warning: {
-    icon: BsInfoCircleFill,
+    icon: BsExclamationTriangleFill,
     className: 'text-feedback-warning dark:text-feedback-warning-dark'
   },
   'info-filled': {
