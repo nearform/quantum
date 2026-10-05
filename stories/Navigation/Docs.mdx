@@ -1,0 +1,81 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as NavigationStories from './Navigation.stories'
+
+<Meta of={NavigationStories} />
+
+# Navigation
+
+A horizontal navigation bar with links separated by a bottom border. Use it
+for top-level page navigation such as settings sections.
+
+<Canvas of={NavigationStories.Default} />
+
+## Parts
+
+- `Navigation` renders a `nav` with a bottom border.
+- `NavigationLink` renders an `a`. The active link has a coloured bottom
+  border. Pass `asChild` to render your router's link instead.
+
+## Active link
+
+Set `active` on the link for the current page. It gets `aria-current="page"`
+and a coloured underline.
+
+<Canvas of={NavigationStories.WithActiveLink} />
+
+## Dark mode
+
+The navigation has dark mode styles. Switch the Storybook theme to see them.
+
+## Accessibility
+
+Pass `aria-label` to `Navigation` so screen reader users hear the purpose.
+
+## Attributes
+
+Each part passes other attributes and its `ref` to the element it renders.
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Navigation</td>
+      <td>aria-label</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>NavigationLink</td>
+      <td>active</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>NavigationLink</td>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+<Navigation aria-label="Settings">
+  <NavigationLink href="/settings/general" active>
+    General
+  </NavigationLink>
+  <NavigationLink href="/settings/members">Members</NavigationLink>
+  <NavigationLink href="/settings/plans">Plans</NavigationLink>
+  <NavigationLink href="/settings/billing">Billing</NavigationLink>
+</Navigation>
+```
