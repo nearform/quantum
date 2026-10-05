@@ -60,6 +60,7 @@ body:
         - ButtonGroup
         - Calendar
         - Card
+        - Chat
         - Checkbox
         - CheckboxGroup
         - Chip
