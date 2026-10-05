@@ -53,6 +53,7 @@ body:
         - ToggleList
         - Tooltip
         - WebsiteFooter
+        - WebsiteHeader
         - Colours
         - Typography
         - Other

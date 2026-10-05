@@ -1,0 +1,162 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as WebsiteHeaderStories from './WebsiteHeader.stories'
+
+<Meta of={WebsiteHeaderStories} />
+
+# Website Header
+
+A Website Header sits at the top of a web page and provides branding, primary navigation links, and action items such as external links or call-to-action buttons. On smaller screens it collapses into a mobile menu toggled by a menu button.
+
+## Default
+
+<Canvas of={WebsiteHeaderStories.Default} />
+
+## Attributes
+
+### WebsiteHeader
+
+The root `<header>` element. Renders a horizontal bar with logo, nav, and actions.
+
+### WebsiteHeaderLogo
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+### WebsiteHeaderLink
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>active</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+### WebsiteHeaderMenuButton
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>open</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+### WebsiteHeaderMobileMenu
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>open</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Structure
+
+```bash
+└── WebsiteHeader
+    ├── WebsiteHeaderLogo
+    ├── WebsiteHeaderNav
+    │   └── WebsiteHeaderLink
+    ├── WebsiteHeaderActions
+    └── WebsiteHeaderMenuButton
+WebsiteHeaderMobileMenu (sibling, below header)
+    └── WebsiteHeaderLink
+```
+
+## Example
+
+```tsx
+import { useState } from 'react'
+import {
+  WebsiteHeader,
+  WebsiteHeaderLogo,
+  WebsiteHeaderNav,
+  WebsiteHeaderLink,
+  WebsiteHeaderActions,
+  WebsiteHeaderMenuButton,
+  WebsiteHeaderMobileMenu,
+  Button
+} from '@nearform/quantum'
+
+export const MyHeader = () => {
+  const [menuOpen, setMenuOpen] = useState(false)
+  return (
+    <>
+      <WebsiteHeader>
+        <WebsiteHeaderLogo href="/">
+          <img src="/logo.svg" alt="My App" />
+        </WebsiteHeaderLogo>
+
+        <WebsiteHeaderNav aria-label="Main">
+          <WebsiteHeaderLink href="/docs" active>Docs</WebsiteHeaderLink>
+          <WebsiteHeaderLink href="/blog">Blog</WebsiteHeaderLink>
+        </WebsiteHeaderNav>
+
+        <WebsiteHeaderActions>
+          <Button size="sm">Get started</Button>
+        </WebsiteHeaderActions>
+
+        <WebsiteHeaderMenuButton
+          open={menuOpen}
+          onClick={() => setMenuOpen(v => !v)}
+        />
+      </WebsiteHeader>
+
+      <WebsiteHeaderMobileMenu open={menuOpen}>
+        <WebsiteHeaderLink href="/docs" active>Docs</WebsiteHeaderLink>
+        <WebsiteHeaderLink href="/blog">Blog</WebsiteHeaderLink>
+        <Button size="sm">Get started</Button>
+      </WebsiteHeaderMobileMenu>
+    </>
+  )
+}
+```
