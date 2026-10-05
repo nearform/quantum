@@ -9,6 +9,7 @@ body:
       multiple: true
       options:
         - Accordion
+        - AppHeader
         - Avatar
         - BackLink
         - Badge
