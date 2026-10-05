@@ -11,26 +11,18 @@ import {
 } from '@/index'
 import { Button } from '@/index'
 
-const Logo = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    width="120"
-    height="28"
-    viewBox="0 0 120 28"
-    fill="none"
-    aria-label="Initium"
-  >
-    <text
-      x="0"
-      y="22"
-      fill="currentColor"
-      fontFamily="system-ui, sans-serif"
-      fontWeight="700"
-      fontSize="22"
-    >
-      ≡Initium
-    </text>
-  </svg>
+const Logo = () => (
+  <span className="inline-flex items-center gap-0.5">
+    <svg width="18" height="16" viewBox="0 0 18 16" aria-hidden="true">
+      <path
+        d="M5 0h13l-1 3H4z M3 6.5h13l-1 3H2z M1 13h13l-1 3H0z"
+        fill="#5850EC"
+      />
+    </svg>
+    <span className="text-2xl font-bold italic leading-none tracking-tight">
+      Initium
+    </span>
+  </span>
 )
 
 export const WebsiteHeaderDemo = () => {
