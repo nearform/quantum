@@ -144,13 +144,9 @@ export const MyAppHeader = () => {
         </AppHeaderNav>
 
         <AppHeaderActions>
-          <IconButton variant="ghost" size="sm" aria-label="Search">
-            <BsSearch />
-          </IconButton>
-          <IconButton variant="ghost" size="sm" aria-label="Notifications">
-            <BsBell />
-          </IconButton>
-          <Avatar size="sm">JD</Avatar>
+          <IconButton variant="tertiary" size="sm" icon={<BsSearch />} label="Search" />
+          <IconButton variant="tertiary" size="sm" icon={<BsBell />} label="Notifications" />
+          <Avatar size="sm" name="Jane Doe" />
         </AppHeaderActions>
 
         <AppHeaderMenuButton

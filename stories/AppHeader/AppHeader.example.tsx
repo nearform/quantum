@@ -40,15 +40,19 @@ export const AppHeaderDemo = () => {
         </AppHeaderNav>
 
         <AppHeaderActions>
-          <IconButton variant="ghost" size="sm" aria-label="Search">
-            <BsSearch />
-          </IconButton>
-          <IconButton variant="ghost" size="sm" aria-label="Notifications">
-            <BsBell />
-          </IconButton>
-          <Avatar size="sm" aria-label="User avatar">
-            JD
-          </Avatar>
+          <IconButton
+            variant="tertiary"
+            size="sm"
+            icon={<BsSearch />}
+            label="Search"
+          />
+          <IconButton
+            variant="tertiary"
+            size="sm"
+            icon={<BsBell />}
+            label="Notifications"
+          />
+          <Avatar size="sm" name="Jane Doe" aria-label="User avatar" />
         </AppHeaderActions>
 
         <AppHeaderMenuButton
@@ -64,15 +68,19 @@ export const AppHeaderDemo = () => {
         <AppHeaderLink href="#">Projects</AppHeaderLink>
         <AppHeaderLink href="#">Settings</AppHeaderLink>
         <div className="flex items-center gap-2 pt-2">
-          <IconButton variant="ghost" size="sm" aria-label="Search">
-            <BsSearch />
-          </IconButton>
-          <IconButton variant="ghost" size="sm" aria-label="Notifications">
-            <BsBell />
-          </IconButton>
-          <Avatar size="sm" aria-label="User avatar">
-            JD
-          </Avatar>
+          <IconButton
+            variant="tertiary"
+            size="sm"
+            icon={<BsSearch />}
+            label="Search"
+          />
+          <IconButton
+            variant="tertiary"
+            size="sm"
+            icon={<BsBell />}
+            label="Notifications"
+          />
+          <Avatar size="sm" name="Jane Doe" aria-label="User avatar" />
         </div>
       </AppHeaderMobileMenu>
     </div>
