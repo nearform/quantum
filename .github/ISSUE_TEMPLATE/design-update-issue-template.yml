@@ -29,6 +29,7 @@ body:
         - Label
         - Link
         - Modal
+        - Navigation
         - PageHeader
         - Pagination
         - Password
