@@ -1,0 +1,131 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as DocsListStories from './DocsList.stories'
+
+<Meta of={DocsListStories} />
+
+# DocsList
+
+A docs list is a side panel of links to the pages in a set of docs. Related
+pages sit in groups that users can expand and collapse.
+
+<Canvas of={DocsListStories.Default} />
+
+## Parts
+
+- `DocsList` renders a `nav`. Give it an `aria-label`.
+- `DocsListItems` renders the top-level `ul`.
+- `DocsListItem` renders an `li` for each link.
+- `DocsListLink` renders an `a`. Pass `asChild` to render your router's link
+  instead.
+- `DocsListGroup` renders an `li` that holds a group of links. It is open by
+  default.
+- `DocsListGroupTrigger` renders the `button` that opens and closes the group.
+- `DocsListGroupContent` renders the `ul` of links in the group. It is hidden
+  while the group is closed.
+
+## Active link
+
+Set `active` on the link for the current page. It has a grey fill and
+`aria-current="page"`.
+
+<Canvas of={DocsListStories.WithActiveLink} />
+
+## Collapsed
+
+Set `defaultOpen={false}` on a group to start it closed.
+
+<Canvas of={DocsListStories.Collapsed} />
+
+## Controlled
+
+Pass `open` and `onOpenChange` to a group to control it yourself, for
+example to open the group that holds the current page.
+
+<Canvas of={DocsListStories.Controlled} />
+
+## Dark mode
+
+The docs list has dark mode styles.
+
+## Accessibility
+
+The trigger is a `button` with `aria-expanded` and `aria-controls`, so
+screen reader users hear whether the group is open. A closed group's links
+are `hidden`, so they are out of the tab order. The chevron is hidden from
+assistive technology.
+
+## Attributes
+
+Each part passes other attributes and its `ref` to the element it renders.
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>DocsList</td>
+      <td>aria-label</td>
+      <td>`string`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>DocsListLink</td>
+      <td>active</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>DocsListLink</td>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>DocsListGroup</td>
+      <td>defaultOpen</td>
+      <td>`boolean`</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>DocsListGroup</td>
+      <td>open</td>
+      <td>`boolean`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>DocsListGroup</td>
+      <td>onOpenChange</td>
+      <td>`(open: boolean) => void`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+<DocsList aria-label="Documentation">
+  <DocsListItems>
+    <DocsListItem>
+      <DocsListLink href="/welcome">Welcome</DocsListLink>
+    </DocsListItem>
+    <DocsListGroup>
+      <DocsListGroupTrigger>Checks</DocsListGroupTrigger>
+      <DocsListGroupContent>
+        <DocsListItem>
+          <DocsListLink href="/checks/overview" active>
+            Overview
+          </DocsListLink>
+        </DocsListItem>
+      </DocsListGroupContent>
+    </DocsListGroup>
+  </DocsListItems>
+</DocsList>
+```

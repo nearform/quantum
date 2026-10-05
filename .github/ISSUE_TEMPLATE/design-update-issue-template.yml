@@ -23,6 +23,7 @@ body:
         - CodeBlock
         - ControlLabel
         - DateInput
+        - DocsList
         - FormGroup
         - HeroButton
         - IconButton
