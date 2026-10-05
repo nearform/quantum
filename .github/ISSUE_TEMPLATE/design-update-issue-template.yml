@@ -24,6 +24,7 @@ body:
         - ControlLabel
         - DateInput
         - FormGroup
+        - HeroButton
         - IconButton
         - Input
         - Label
