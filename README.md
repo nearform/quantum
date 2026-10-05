@@ -73,7 +73,7 @@ Tailwind v4 (CSS-first):
 @import 'tailwindcss';
 @plugin '@nearform/quantum/tailwind-plugin';
 @source '../node_modules/@nearform/quantum';
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark, .dark *));
 ```
 
 Tailwind v4 with a JS config. **The config file is inert on its own.** Unlike
@@ -186,6 +186,8 @@ story is scanned with [axe](https://github.com/dequelabs/axe-core) as part of
 `wcag21aa` and `wcag22aa` rule sets, so a component that loses its accessible
 name, its focus indicator or its contrast fails CI.
 
+Each story is scanned twice, once in light mode and once in dark.
+
 A story that is a deliberate exception opts out through its own parameters:
 
 ```js
@@ -286,6 +288,22 @@ To run Storybook tests for the project, run:
 ```js
 npm run test-storybook
 ```
+
+### Dark mode in Storybook
+
+Stories render twice by default, light and dark side by side. A fixed `id`
+in a story is suffixed with `--dark` in the dark copy, along with the `for`
+and `aria-*` references that point at it, so each copy's labels and
+descriptions stay wired to their own controls. The **Preview** menu in the
+toolbar switches to a single copy, which is better for wide components whose
+layout depends on the window width.
+
+The moon icon switches Storybook itself between light and dark. In single view
+it sets the story's mode too.
+
+Popups that portal to `document.body` (Modal, Popover, Select, DateInput,
+SortAndShow, SplitButton) take the theme of the pane they were opened from.
+The test runner ignores side by side and scans a single copy of each story.
 
 ## Usage
 

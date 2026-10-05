@@ -38,17 +38,3 @@ export const WithActiveLink: Story = {
     </Navigation>
   )
 }
-
-export const DarkMode: Story = {
-  render: args => (
-    <div className="dark rounded-lg bg-background-dark p-4">
-      <Navigation aria-label="Settings" {...args}>
-        {links.map((link, index) => (
-          <NavigationLink key={link} href="#" active={index === 0}>
-            {link}
-          </NavigationLink>
-        ))}
-      </Navigation>
-    </div>
-  )
-}

@@ -10,3 +10,37 @@
 @import '../src/quantum.css';
 @source '../src';
 @source '../stories';
+@source './colorScheme.tsx';
+
+body {
+  @apply bg-background text-foreground;
+}
+
+body.dark {
+  @apply bg-background-dark text-foreground-dark;
+}
+
+.docs-story:has([data-color-grid]) {
+  padding: 0;
+  display: block;
+}
+
+.docs-story div:has([data-color-grid]) {
+  width: 100%;
+}
+
+.docs-story .innerZoomElementWrapper > div:has([data-color-grid]) {
+  border: 0 !important;
+}
+
+body:has([data-color-grid]) {
+  padding: 0 !important;
+}
+
+body:has([data-color-grid]) #storybook-root {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 !important;
+  padding: 0 !important;
+}
