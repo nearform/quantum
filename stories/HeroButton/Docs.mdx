@@ -1,0 +1,106 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as HeroButtonStories from './HeroButton.stories'
+
+<Meta of={HeroButtonStories} />
+
+# Hero Button
+
+A pill-shaped call-to-action button for hero sections and landing pages.
+It shares the same colour tokens as `Button` but uses a fully rounded
+shape and larger sizes to stand out at the top of a page.
+
+<Canvas of={HeroButtonStories.Primary} />
+
+## Variants
+
+### Primary
+
+A solid dark background with white text.
+
+<Canvas of={HeroButtonStories.Primary} />
+
+### Secondary
+
+An outlined button with a border and dark text.
+
+<Canvas of={HeroButtonStories.Secondary} />
+
+## Sizes
+
+Three sizes are available: `xl`, `lg` (default), and `md`.
+
+<Canvas of={HeroButtonStories.Sizes} />
+
+## With icons
+
+Pass `leftSideChild` or `rightSideChild` to add an icon beside the label.
+
+<Canvas of={HeroButtonStories.LeftIcon} />
+
+<Canvas of={HeroButtonStories.RightIcon} />
+
+## Disabled
+
+<Canvas of={HeroButtonStories.Disabled} />
+
+## Dark mode
+
+The hero button switches to dark tokens when inside a `.dark` ancestor.
+
+## Accessibility
+
+Renders a native `<button>` element. Use `asChild` to render your
+router's link component instead.
+
+## Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variant</td>
+      <td>`'primary' | 'secondary'`</td>
+      <td>`'primary'`</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`'xl' | 'lg' | 'md'`</td>
+      <td>`'lg'`</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>leftSideChild</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>rightSideChild</td>
+      <td>`ReactNode`</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+<HeroButton variant="primary" size="xl">
+  Get Started
+</HeroButton>
+```
