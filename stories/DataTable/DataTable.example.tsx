@@ -1,20 +1,22 @@
 import * as React from 'react'
 import {
+  type ColumnDef,
   type ColumnFiltersState,
   type PaginationState,
-  type RowData,
   type RowSelectionState,
   type SortingState,
-  flexRender
+  columnFilteringFeature,
+  columnVisibilityFeature,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  flexRender,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+  tableFeatures,
+  useTable
 } from '@tanstack/react-table'
-import {
-  type LegacyColumnDef,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useLegacyTable
-} from '@tanstack/react-table/legacy'
 
 import { BsThreeDots } from '@/assets'
 import {
@@ -39,12 +41,17 @@ import {
   type TableAlign
 } from '@/components'
 
-declare module '@tanstack/table-core' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface ColumnMeta<TFeatures, TData extends RowData, TValue> {
-    align?: TableAlign
-  }
-}
+const features = tableFeatures({
+  rowSortingFeature,
+  columnFilteringFeature,
+  columnVisibilityFeature,
+  rowSelectionFeature,
+  rowPaginationFeature,
+  sortedRowModel: createSortedRowModel(),
+  filteredRowModel: createFilteredRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+  columnMeta: {} as { align?: TableAlign }
+})
 
 type PaymentStatus = 'pending' | 'processing' | 'success' | 'failed'
 
@@ -94,7 +101,7 @@ const currency = new Intl.NumberFormat('en-US', {
   currency: 'USD'
 })
 
-export const columns: LegacyColumnDef<Payment>[] = [
+export const columns: ColumnDef<typeof features, Payment>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -196,14 +203,11 @@ export const DataTableDemo = ({
     setPagination({ pageIndex: 0, pageSize })
   }, [pageSize])
 
-  const table = useLegacyTable({
+  const table = useTable({
+    features,
     data,
     columns,
     getRowId: row => row.id,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onRowSelectionChange: setRowSelection,
