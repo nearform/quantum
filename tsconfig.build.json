@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "src",
+    "outDir": "dist",
+    "module": "commonjs",
+    "moduleResolution": "node10",
+    "ignoreDeprecations": "6.0",
+    "declaration": true,
+    "sourceMap": true,
+    "paths": {}
+  },
+  "include": [],
+  "files": ["src/index.ts", "src/colors/index.ts", "src/animations/index.ts"]
+}

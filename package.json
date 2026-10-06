@@ -6,14 +6,14 @@
   "exports": {
     ".": "./dist/index.js",
     "./tailwind-plugin": {
-      "import": "./dist/tailwind-plugin.mjs",
+      "import": "./dist/esm/tailwind-plugin.js",
       "require": "./dist/tailwind-plugin.js"
     },
     "./global.css": "./dist/global.css"
   },
   "scripts": {
     "prebuild": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
-    "build": "tsup",
+    "build": "node scripts/build.mjs",
     "build:theme": "node scripts/build-theme-css.mjs",
     "prepack": "npm run build",
     "lint": "eslint .",
@@ -45,10 +45,7 @@
   },
   "overrides": {
     "@swc/core": "^1.13.20",
-    "uuid": "^11.1.1",
-    "tsup": {
-      "esbuild": "^0.28.2"
-    }
+    "uuid": "^11.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.3",
@@ -80,13 +77,13 @@
     "lint-staged": "^17.5.1",
     "node-html-parser": "^9.0.4",
     "playwright": "^1.63.0",
+    "postcss-cli": "^12.0.0",
     "prettier": "^3.9.9",
     "react-markdown": "^10.1.0",
     "storybook": "^10.6.0",
     "storybook-dark-mode": "^5.0.0",
     "tailwindcss": "^4.3.3",
     "ts-jest": "^29.4.13",
-    "tsup": "^8.5.1",
     "typescript": "~6.0.3",
     "vite": "^8.3.0"
   },
