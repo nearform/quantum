@@ -4,11 +4,16 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, labeled]
 
+concurrency:
+  group: visual-regression-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   visual-test:
     name: Visual regression tests
-    if: github.event.action != 'labeled' || github.event.label.name == 'visual-full-run'
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.compare.outputs.changed }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -17,11 +22,35 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - name: Compare stories with the base branch in the Playwright Docker image
-        run: npm run test-storybook:visual -- --base ${{ github.event.pull_request.base.sha }} ${{ contains(github.event.pull_request.labels.*.name, 'visual-full-run') && '--all' || '' }}
+        id: compare
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          FULL_RUN: ${{ contains(github.event.pull_request.labels.*.name, 'visual-full-run') && '--all' || '' }}
+        run: |
+          npm run test-storybook:visual -- --report-only --base "$BASE_SHA" $FULL_RUN
+          if [ -s visual-regression/changed-stories.txt ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Visual changes waiting for approval"
+              echo
+              echo "Download the \`visual-regression-diffs\` artifact to review them, then approve the **Visual changes approved** job."
+              echo
+              sed 's/^/- /' visual-regression/changed-stories.txt
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Upload diff artifacts
-        if: failure()
+        if: steps.compare.outputs.changed == 'true' || failure()
         uses: actions/upload-artifact@v4
         with:
           name: visual-regression-diffs
           path: visual-regression/diff/
           retention-days: 30
+
+  visual-approval:
+    name: Visual changes approved
+    needs: visual-test
+    if: needs.visual-test.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    environment: visual-review
+    steps:
+      - run: echo "Visual changes approved by a visual-review reviewer."
