@@ -31,12 +31,14 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
+  parameters: { visual: { open: 'click' } },
   args: {
     variant: 'primary'
   }
 }
 
 export const Secondary: Story = {
+  parameters: { visual: { open: 'click' } },
   args: {
     variant: 'secondary'
   }

@@ -19,6 +19,7 @@ const baseConfig = getJestConfig()
  */
 export default {
   ...baseConfig,
+  workerIdleMemoryLimit: '512MB',
   setupFiles: [
     ...(baseConfig.setupFiles ?? []),
     '<rootDir>/jest.module-hooks.setup.js'
