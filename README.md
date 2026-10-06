@@ -289,6 +289,62 @@ To run Storybook tests for the project, run:
 npm run test-storybook
 ```
 
+### Visual regression tests
+
+Every story is screenshotted in light and dark mode and compared against the
+baseline images in `__snapshots__/visual/`, named
+`<story-id>-<light|dark>.png`. A story fails when more than 1% of its pixels
+differ from the baseline. These checks run in the **Visual Regression** CI
+workflow on every pull request.
+
+To run them locally, build and serve Storybook, then run the visual tests
+against it:
+
+```sh
+npm run build-storybook
+npx http-server storybook-static --port 6006
+npm run test-storybook:visual
+```
+
+When a check fails, the before/after/diff image for each failing story is
+written to `__snapshots__/visual/__diff__/` (git-ignored). In CI, the same
+images are uploaded as the `visual-regression-diffs` artifact on the workflow
+run.
+
+#### Updating the baseline images
+
+If the change is intentional (a new story, a restyle, a token change), update
+the baselines and commit them with your change:
+
+```sh
+npm run test-storybook:visual:update
+```
+
+This rewrites the image for every story that changed and adds images for new
+stories. Delete the images for any story you removed or renamed yourself,
+because the update leaves old files in place. Check the changed PNGs in the
+pull request diff before you merge.
+
+Fonts and anti-aliasing render differently on macOS, Windows and Linux, so
+generate the baselines on Linux to match CI. Doing this on another OS makes
+every story fail in CI. With Docker, run the update inside the Playwright image
+that matches the installed `playwright` version:
+
+```sh
+docker run --rm --ipc=host -v "$PWD":/work -w /work \
+  mcr.microsoft.com/playwright:v1.63.0-noble \
+  sh -c 'npm ci && npm run build-storybook && \
+    (npx http-server storybook-static --port 6006 --silent &) && \
+    npx wait-on tcp:6006 && npm run test-storybook:visual:update'
+```
+
+`npm ci` inside the container replaces `node_modules` with Linux binaries, so
+run `npm ci` again on your machine afterwards.
+
+To leave a story out of the visual checks (for example, one that renders
+something that changes on every run), set
+`parameters: { visual: { disable: true } }` on the story.
+
 ### Dark mode in Storybook
 
 Stories render twice by default, light and dark side by side. A fixed `id`
