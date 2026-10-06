@@ -10,10 +10,12 @@ import {
   createFilteredRowModel,
   createPaginatedRowModel,
   createSortedRowModel,
+  filterFns,
   flexRender,
   rowPaginationFeature,
   rowSelectionFeature,
   rowSortingFeature,
+  sortFns,
   tableFeatures,
   useTable
 } from '@tanstack/react-table'
@@ -50,6 +52,8 @@ const features = tableFeatures({
   sortedRowModel: createSortedRowModel(),
   filteredRowModel: createFilteredRowModel(),
   paginatedRowModel: createPaginatedRowModel(),
+  filterFns,
+  sortFns,
   columnMeta: {} as { align?: TableAlign }
 })
 
