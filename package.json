@@ -24,8 +24,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
-    "test-storybook:visual": "VISUAL_TEST=true test-storybook",
-    "test-storybook:visual:update": "VISUAL_TEST=true test-storybook -u"
+    "test-storybook:visual": "node scripts/visual-test.mjs",
+    "test-storybook:visual:update": "node scripts/visual-test.mjs -u"
   },
   "files": [
     "dist/",

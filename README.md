@@ -297,13 +297,26 @@ baseline images in `__snapshots__/visual/`, named
 differ from the baseline. These checks run in the **Visual Regression** CI
 workflow on every pull request.
 
-To run them locally, build and serve Storybook, then run the visual tests
-against it:
+Fonts and anti-aliasing render differently on macOS, Windows and Linux, so the
+tests always run inside the Ubuntu-based Playwright Docker image, both locally
+and in CI. You need Docker running; nothing else needs to be installed or
+served. To run them:
 
 ```sh
-npm run build-storybook
-npx http-server storybook-static --port 6006
 npm run test-storybook:visual
+```
+
+The script picks the image tag from the `playwright` version in
+`package-lock.json` and runs it on your machine's own architecture (Chromium
+crashes under x64 emulation on Apple Silicon). Inside the container it installs
+dependencies, builds Storybook, serves it and runs the test runner. Its
+`node_modules` and Storybook build stay inside the container, so your own
+`node_modules` is left alone. The first run downloads the image and is slow.
+
+Extra arguments are passed to `test-storybook`, so you can check one component:
+
+```sh
+npm run test-storybook:visual -- stories/Button
 ```
 
 When a check fails, the before/after/diff image for each failing story is
@@ -325,25 +338,24 @@ stories. Delete the images for any story you removed or renamed yourself,
 because the update leaves old files in place. Check the changed PNGs in the
 pull request diff before you merge.
 
-Fonts and anti-aliasing render differently on macOS, Windows and Linux, so
-generate the baselines on Linux to match CI. Doing this on another OS makes
-every story fail in CI. With Docker, run the update inside the Playwright image
-that matches the installed `playwright` version:
+This uses the same Docker image as the tests, so the images match CI. Running
+the test runner with `VISUAL_TEST=true` outside that image stops with an error
+rather than writing images that would fail in CI. A plain
+`npm run test-storybook` never takes screenshots.
 
-```sh
-docker run --rm --ipc=host -v "$PWD":/work -w /work \
-  mcr.microsoft.com/playwright:v1.63.0-noble \
-  sh -c 'npm ci && npm run build-storybook && \
-    (npx http-server storybook-static --port 6006 --silent &) && \
-    npx wait-on tcp:6006 && npm run test-storybook:visual:update'
-```
-
-`npm ci` inside the container replaces `node_modules` with Linux binaries, so
-run `npm ci` again on your machine afterwards.
+A Playwright upgrade changes the Docker image, and with it the browser, so run
+the update in the same pull request as the version bump.
 
 To leave a story out of the visual checks (for example, one that renders
 something that changes on every run), set
 `parameters: { visual: { disable: true } }` on the story.
+
+Popovers, menus, selects, modals and tooltips render outside the story root
+and only once opened. To snapshot one open, set
+`parameters: { visual: { open: 'click' } }` (or `'hover'` for tooltips). The
+test runner clicks the first trigger with `aria-expanded="false"` (or hovers
+the first `data-state="closed"` element), waits for the overlay, and widens the
+screenshot to include it. Accessibility scans run before the overlay is opened.
 
 ### Dark mode in Storybook
 
