@@ -25,7 +25,11 @@ export default defineConfig([
       // src/ ever imports an exports-only package, `tsc --noEmit` stays green
       // while `npm run build` stops with `TS2307` in the dts build, so the
       // published types cannot change silently.
-      compilerOptions: { module: 'commonjs', moduleResolution: 'node10' }
+      compilerOptions: {
+        module: 'commonjs',
+        moduleResolution: 'node10',
+        ignoreDeprecations: '6.0'
+      }
     },
     // `clean` is off in both configs and dist/ is wiped by the `prebuild`
     // script instead. tsup runs the two configs concurrently, so a `clean: true`
