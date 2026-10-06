@@ -4,8 +4,8 @@ import * as React from 'react'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { cn } from '@/lib/utils'
-import { BsChevronDown } from '@/assets'
+import { cn } from '../../lib/utils'
+import { BsChevronDown } from '../../assets'
 
 const splitButtonVariants = cva(
   [

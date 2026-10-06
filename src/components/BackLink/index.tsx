@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { BsArrowLeft } from '@/assets'
-import { cn } from '@/lib/utils'
+import { BsArrowLeft } from '../../assets'
+import { cn } from '../../lib/utils'
 
 const backLinkVariants = cva(
   [

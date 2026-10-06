@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
-import { Avatar } from '@/components/Avatar'
-import { BsSendFill } from '@/assets'
+import { cn } from '../../lib/utils'
+import { Avatar } from '../Avatar'
+import { BsSendFill } from '../../assets'
 
 const bubbleVariants = cva(
   ['rounded-2xl', 'px-4', 'py-2.5', 'text-sm', 'max-w-[80%]', 'break-words'],

@@ -1,7 +1,7 @@
 import React from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
-import { BsPlus } from '@/assets'
+import { cn } from '../../lib/utils'
+import { BsPlus } from '../../assets'
 
 const chipVariants = cva(
   [

@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { type IconType } from '@/assets'
-import { cn } from '@/lib/utils'
+import { type IconType } from '../../assets'
+import { cn } from '../../lib/utils'
 
 const Stats = React.forwardRef<
   HTMLDListElement,

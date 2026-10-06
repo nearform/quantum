@@ -1,6 +1,6 @@
 import React from 'react'
-import { cn } from '@/lib/utils'
-import { IconType } from '@/assets'
+import { cn } from '../../lib/utils'
+import { IconType } from '../../assets'
 
 interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   selected?: boolean

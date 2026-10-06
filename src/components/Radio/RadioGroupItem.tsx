@@ -1,8 +1,8 @@
 import * as React from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
-import { assertsInvalid, cn } from '@/lib/utils'
+import { assertsInvalid, cn } from '../../lib/utils'
 import { cva } from 'class-variance-authority'
-import { BsCircleFill } from '@/assets'
+import { BsCircleFill } from '../../assets'
 import { ChoiceItem, resolveAriaInvalid, useChoiceGroup } from '../choice-group'
 
 interface RadioGroupItemProps extends React.ComponentPropsWithoutRef<

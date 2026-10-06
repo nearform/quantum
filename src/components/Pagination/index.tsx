@@ -1,7 +1,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
-import { BsChevronLeft, BsChevronRight } from '@/assets'
+import { cn } from '../../lib/utils'
+import { BsChevronLeft, BsChevronRight } from '../../assets'
 
 interface PaginationProps {
   currentPage: number

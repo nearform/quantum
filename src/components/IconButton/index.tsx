@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { buttonVariants } from '@/components/Button'
-import { cn } from '@/lib/utils'
+import { buttonVariants } from '../Button'
+import { cn } from '../../lib/utils'
 
 /**
  * An icon button is a `Button` with the label taken out, so it takes its

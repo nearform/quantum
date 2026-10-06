@@ -2,8 +2,8 @@
 
 import * as React from 'react'
 import { Chevron, DayPicker } from 'react-day-picker'
-import { cn } from '@/lib/utils'
-import { BsArrowLeft, BsArrowRight } from '@/assets'
+import { cn } from '../../lib/utils'
+import { BsArrowLeft, BsArrowRight } from '../../assets'
 import { cva } from 'class-variance-authority'
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 

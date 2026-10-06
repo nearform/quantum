@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { cva } from 'class-variance-authority'
 
-import { BsChevronLeft, BsChevronRight } from '@/assets'
-import { StepsIndicator } from '@/components/StepsIndicator'
-import { cn } from '@/lib/utils'
+import { BsChevronLeft, BsChevronRight } from '../../assets'
+import { StepsIndicator } from '../StepsIndicator'
+import { cn } from '../../lib/utils'
 
 type StepStatus = 'complete' | 'current' | 'upcoming'
 

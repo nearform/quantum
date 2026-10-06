@@ -4,8 +4,8 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 
-import { BsChevronDown } from '@/assets'
-import { cn } from '@/lib/utils'
+import { BsChevronDown } from '../../assets'
+import { cn } from '../../lib/utils'
 
 const sizeVariants = cva('', {
   variants: {
