@@ -1,8 +1,8 @@
-import { colors } from './base'
-import { accent } from './accent'
-import { background } from './background'
-import { border } from './border'
-import { feedback } from './feedback'
+import { colors } from './base.js'
+import { accent } from './accent.js'
+import { background } from './background.js'
+import { border } from './border.js'
+import { feedback } from './feedback.js'
 
 export const button = {
   primary: {

@@ -1,10 +1,10 @@
-import { colors } from './base'
-import { foreground } from './foreground'
-import { background } from './background'
-import { button } from './button'
-import { accent } from './accent'
-import { border } from './border'
-import { feedback } from './feedback'
+import { colors } from './base.js'
+import { foreground } from './foreground.js'
+import { background } from './background.js'
+import { button } from './button.js'
+import { accent } from './accent.js'
+import { border } from './border.js'
+import { feedback } from './feedback.js'
 
 export default {
   transparent: 'transparent',

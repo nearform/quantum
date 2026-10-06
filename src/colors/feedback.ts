@@ -1,4 +1,4 @@
-import { colors } from './base'
+import { colors } from './base.js'
 
 /**
  * Feedback colours named for the role they play rather than the hue they wear,

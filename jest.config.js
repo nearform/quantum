@@ -9,7 +9,8 @@ module.exports = {
   // that alias but does not resolve it at runtime, so `src/` imports of
   // `@/assets` or `@/lib/utils` would otherwise fail to load.
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^(\\.{1,2}/.*)\\.js$': '$1'
   },
   transform: {
     // tsconfig.json resolves with `bundler` (module: esnext) so Storybook 10's

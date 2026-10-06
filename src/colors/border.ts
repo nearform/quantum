@@ -1,4 +1,4 @@
-import { colors } from './base'
+import { colors } from './base.js'
 
 export const border = {
   DEFAULT: colors.brandMidnight['30'],
