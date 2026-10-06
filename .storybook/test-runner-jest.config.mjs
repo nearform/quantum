@@ -22,5 +22,9 @@ export default {
   setupFiles: [
     ...(baseConfig.setupFiles ?? []),
     '<rootDir>/jest.module-hooks.setup.js'
+  ],
+  setupFilesAfterEnv: [
+    ...(baseConfig.setupFilesAfterEnv ?? []),
+    '<rootDir>/.storybook/visual-snapshot.setup.js'
   ]
 }

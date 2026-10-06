@@ -1,0 +1,34 @@
+name: Visual Regression
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  visual-test:
+    name: Visual regression tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+      - run: npm ci
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+      - name: Build Storybook
+        run: npm run build-storybook --quiet
+      - name: Serve Storybook and run visual tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 6006 --silent" \
+            "npx wait-on tcp:6006 && npm run test-storybook:visual"
+      - name: Upload diff artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-regression-diffs
+          path: __snapshots__/visual/__diff__/
+          retention-days: 30
