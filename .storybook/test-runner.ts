@@ -48,6 +48,11 @@ const captureArea = (page: Page) =>
       .filter(visible)
       .map(r => new DOMRect(r.x - 8, r.y - 8, r.width + 16, r.height + 16))
     const rects = [root?.getBoundingClientRect(), ...overlays].filter(visible)
+    if (rects.length === 0) {
+      throw new Error(
+        'Story rendered nothing visible to screenshot; set parameters.visual.disable if that is expected.'
+      )
+    }
     const doc = document.documentElement
     const x = Math.floor(
       Math.max(0, Math.min(...rects.map(r => r.left + scrollX)))
