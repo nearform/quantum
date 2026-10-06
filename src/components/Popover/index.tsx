@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import * as SeparatorPrimitive from '@radix-ui/react-separator'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 
 const popoverVariants = cva([
   'z-50',

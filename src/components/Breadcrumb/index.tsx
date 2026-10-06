@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Slot, Slottable } from '@radix-ui/react-slot'
 
-import { BsChevronRight, type IconType } from '@/assets'
-import { cn } from '@/lib/utils'
+import { BsChevronRight, type IconType } from '../../assets'
+import { cn } from '../../lib/utils'
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,

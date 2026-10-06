@@ -3,9 +3,9 @@
 import * as React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 import { VariantProps, cva } from 'class-variance-authority'
-import { BsChevronDown } from '@/assets'
+import { BsChevronDown } from '../../assets'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 
 const Select = SelectPrimitive.Root

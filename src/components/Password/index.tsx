@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { cva } from 'class-variance-authority'
 
-import { cn } from '@/lib/utils'
-import { BsEye, BsEyeSlash } from '@/assets'
+import { cn } from '../../lib/utils'
+import { BsEye, BsEyeSlash } from '../../assets'
 
 import { formVariants } from '../Input'
 

@@ -3,8 +3,8 @@
 import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 
-import { BsChevronUp } from '@/assets'
-import { cn } from '@/lib/utils'
+import { BsChevronUp } from '../../assets'
+import { cn } from '../../lib/utils'
 
 const linkClasses = [
   'flex w-full items-center rounded-sm px-3 py-1.5',

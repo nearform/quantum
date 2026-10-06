@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import { BsArrowDown, BsArrowDownUp, BsArrowUp } from '@/assets'
-import { Avatar, type AvatarProps } from '@/components/Avatar'
-import { cn } from '@/lib/utils'
+import { BsArrowDown, BsArrowDownUp, BsArrowUp } from '../../assets'
+import { Avatar, type AvatarProps } from '../Avatar'
+import { cn } from '../../lib/utils'
 import { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 

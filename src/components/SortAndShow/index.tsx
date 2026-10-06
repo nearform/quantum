@@ -3,8 +3,8 @@
 import * as React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 
-import { BsChevronDown } from '@/assets'
-import { cn } from '@/lib/utils'
+import { BsChevronDown } from '../../assets'
+import { cn } from '../../lib/utils'
 
 import { SelectContent, SelectItem } from '../Select'
 

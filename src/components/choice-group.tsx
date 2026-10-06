@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { cva } from 'class-variance-authority'
 
-import { assertsInvalid, cn, type AriaInvalid } from '@/lib/utils'
+import { assertsInvalid, cn, type AriaInvalid } from '../lib/utils'
 import { FieldError } from './FormGroup'
 import { Label } from './Label'
 

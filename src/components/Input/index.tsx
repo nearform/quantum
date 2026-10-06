@@ -1,7 +1,7 @@
 import React from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 import { cva } from 'class-variance-authority'
-import { BsX, BsSearch } from '@/assets'
+import { BsX, BsSearch } from '../../assets'
 
 /**
  * The design draws the leading icon at 16x16, so the size is set here rather

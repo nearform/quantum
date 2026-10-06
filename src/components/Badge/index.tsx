@@ -1,6 +1,6 @@
 import React from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 
 /**
  * Badge wears the same clothes as `Chip`: a 2px coloured border around a `-50`
