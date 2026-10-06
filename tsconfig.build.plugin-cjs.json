@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "src",
+    "outDir": "dist",
+    "module": "node16",
+    "moduleResolution": "node16",
+    "sourceMap": true,
+    "paths": {}
+  },
+  "include": [],
+  "files": ["src/tailwind-plugin.ts"]
+}

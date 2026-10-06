@@ -6,8 +6,9 @@ import theme from '../src/theme'
  * stylesheet committed at `src/quantum.css`.
  *
  * The generated file is committed rather than produced during the build because
- * two separate pipelines consume it — tsup (`dist/global.css`) and Storybook's
- * Vite/PostCSS dev server — and neither has a hook to run a codegen step first.
+ * two separate pipelines consume it — `npm run build` (`dist/global.css`) and
+ * Storybook's Vite/PostCSS dev server — and neither has a hook to run a codegen
+ * step first.
  * `__tests__/theme-css.test.ts` compares the committed file against this
  * renderer, so drift fails CI rather than shipping.
  *

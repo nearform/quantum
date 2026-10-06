@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "src",
+    "outDir": "dist/esm",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "sourceMap": true,
+    "paths": {}
+  },
+  "include": [],
+  "files": ["src/tailwind-plugin.ts"]
+}

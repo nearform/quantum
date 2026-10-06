@@ -1,7 +1,9 @@
 import { describe, expect, it } from '@jest/globals'
+import { execFileSync } from 'child_process'
 import fs from 'fs'
 import { createRequire } from 'module'
 import path from 'path'
+import { pathToFileURL } from 'url'
 import postcss from 'postcss'
 import { compile } from 'tailwindcss'
 import tailwindcssPostcss from '@tailwindcss/postcss'
@@ -21,9 +23,8 @@ const loadQuantumPlugin = async () => ({
  * The base rule from `src/tailwind-base.ts`, as it survives a compile.
  *
  * A pattern rather than a literal because the two callers below see it
- * differently: the built stylesheet has been through Lightning CSS, which drops
- * the quotes in the attribute selector, and neither output's whitespace is a
- * contract worth asserting on.
+ * differently: their attribute-selector quoting can differ, and neither
+ * output's whitespace is a contract worth asserting on.
  */
 const BASE_CURSOR_RULE =
   /button:not\(:disabled\),\s*\[role="?button"?\]:not\(:disabled\)\s*\{\s*cursor:\s*pointer;?\s*\}/
@@ -192,7 +193,7 @@ describeBuilt('published artifact loads in a real Tailwind build', () => {
 
   it('exposes both an ESM and a CJS entry point', () => {
     expect(exported).toEqual({
-      import: './dist/tailwind-plugin.mjs',
+      import: './dist/esm/tailwind-plugin.js',
       require: './dist/tailwind-plugin.js'
     })
     expect(fs.existsSync(path.join(repoRoot, exported.import))).toBe(true)
@@ -220,6 +221,21 @@ describeBuilt('published artifact loads in a real Tailwind build', () => {
     ).toBe('published base cursor rule: true')
   })
 
+  it('is importable by the native Node ESM loader', () => {
+    const url = pathToFileURL(path.join(repoRoot, exported.import)).href
+    const loaded = execFileSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '-e',
+        `const { default: p } = await import(${JSON.stringify(url)}); process.stdout.write(typeof p.handler)`
+      ],
+      { encoding: 'utf8' }
+    )
+
+    expect(loaded).toBe('function')
+  })
+
   // The README's JS-config routes load the CJS build through `require`.
   it('is requireable from CJS and carries the full theme', () => {
     const required = requireCjs(path.join(repoRoot, exported.require))
@@ -240,7 +256,7 @@ describeBuilt('published artifact loads in a real Tailwind build', () => {
     expect(source).not.toContain('node_modules/tailwindcss/dist')
   })
 
-  // `tailwindcss` is marked external in tsup.config.ts, so the published plugin
+  // tsc never bundles dependencies, so the published plugin
   // resolves `tailwindcss/plugin` from the *consumer's* tree. npm hoists, which
   // is why a tarball smoke test passes either way; pnpm and Yarn PnP do not, and
   // the plugin dies there with "Cannot find module 'tailwindcss/defaultTheme'"
@@ -253,7 +269,7 @@ describeBuilt('published artifact loads in a real Tailwind build', () => {
 })
 
 /**
- * `src/global.css` is a tsup entry, so it ships as `dist/global.css` — the
+ * `src/global.css` is compiled by `npm run build` to `dist/global.css` — the
  * stylesheet the README's Tailwind-free route imports.
  *
  * It gets its theme from the native `@theme` block in `src/quantum.css`, which
@@ -273,8 +289,7 @@ describeBuilt('published global.css carries the Quantum theme', () => {
    * it: the plugin hands consumers a JS theme and Tailwind inlines those values
    * into the utilities, while `@theme` emits them as custom properties the
    * utilities then reference. So the same token is `color: #f4f8fa` on the
-   * plugin route and `--color-primary-10: #f4f8fa` here. The built file also
-   * goes through Lightning CSS, which normalises `'Inter'` to `"Inter"`.
+   * plugin route and `--color-primary-10: #f4f8fa` here.
    *
    * `boxShadow` is the exception that stays a literal: Tailwind has to rewrite
    * the colour slot to pick up `--tw-shadow-color`, so it cannot hand the whole
@@ -286,7 +301,7 @@ describeBuilt('published global.css carries the Quantum theme', () => {
   const THEME_DECLARATIONS = {
     colors: '--color-primary-10: #f4f8fa',
     boxShadow: '--tw-shadow: 0px 0px 0px 4px var(--tw-shadow-color, #03e5a4)',
-    fontFamily: '"Inter",',
+    fontFamily: "--font-sans: 'Inter',",
     strokeWidth: '--stroke-width-1: 1px',
     animation:
       '--animate-slideDown: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)'
