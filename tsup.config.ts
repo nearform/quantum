@@ -28,8 +28,7 @@ export default defineConfig([
       compilerOptions: {
         module: 'commonjs',
         moduleResolution: 'node10',
-        ignoreDeprecations: '6.0',
-        types: ['node']
+        ignoreDeprecations: '6.0'
       }
     },
     // `clean` is off in both configs and dist/ is wiped by the `prebuild`
