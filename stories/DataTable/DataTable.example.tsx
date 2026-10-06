@@ -3,15 +3,21 @@ import {
   type ColumnDef,
   type ColumnFiltersState,
   type PaginationState,
-  type RowData,
   type RowSelectionState,
   type SortingState,
+  columnFilteringFeature,
+  columnVisibilityFeature,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  filterFns,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+  sortFns,
+  tableFeatures,
+  useTable
 } from '@tanstack/react-table'
 
 import { BsThreeDots } from '@/assets'
@@ -37,12 +43,19 @@ import {
   type TableAlign
 } from '@/components'
 
-declare module '@tanstack/react-table' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface ColumnMeta<TData extends RowData, TValue> {
-    align?: TableAlign
-  }
-}
+const features = tableFeatures({
+  rowSortingFeature,
+  columnFilteringFeature,
+  columnVisibilityFeature,
+  rowSelectionFeature,
+  rowPaginationFeature,
+  sortedRowModel: createSortedRowModel(),
+  filteredRowModel: createFilteredRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+  filterFns,
+  sortFns,
+  columnMeta: {} as { align?: TableAlign }
+})
 
 type PaymentStatus = 'pending' | 'processing' | 'success' | 'failed'
 
@@ -92,7 +105,7 @@ const currency = new Intl.NumberFormat('en-US', {
   currency: 'USD'
 })
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<typeof features, Payment>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -194,14 +207,11 @@ export const DataTableDemo = ({
     setPagination({ pageIndex: 0, pageSize })
   }, [pageSize])
 
-  const table = useReactTable({
+  const table = useTable({
+    features,
     data,
     columns,
     getRowId: row => row.id,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onRowSelectionChange: setRowSelection,

@@ -20,7 +20,7 @@ export const publicSource = exampleSource
 
 # Data Table
 
-Quantum does not ship a Data Table component. A data table is a Quantum [Table](?path=/docs/components-table--docs) whose rows, sorting, filtering, selection and paging are handled by [TanStack Table](https://tanstack.com/table/v8). TanStack Table is headless: it holds the table state and gives you the rows to render, and the markup is built from Quantum components. This page shows how to put the two together, following the approach of the [shadcn/ui data table](https://ui.shadcn.com/docs/components/data-table).
+Quantum does not ship a Data Table component. A data table is a Quantum [Table](?path=/docs/components-table--docs) whose rows, sorting, filtering, selection and paging are handled by [TanStack Table](https://tanstack.com/table/latest) v9. TanStack Table is headless: it holds the table state and gives you the rows to render, and the markup is built from Quantum components. This page shows how to put the two together, following the approach of the [shadcn/ui data table](https://ui.shadcn.com/docs/components/data-table).
 
 <Canvas of={DataTableStories.Default} />
 
@@ -36,11 +36,12 @@ The example uses version 8.
 
 ## Structure
 
-The example is one file, split into three parts:
+The example is one file, split into four parts:
 
+- **Features**: a `tableFeatures()` call that registers the table features the example uses (sorting, filtering, column visibility, selection and pagination), their row models, the built-in `filterFns` and `sortFns`, and the type of each column's `meta`. TanStack Table v9 only includes what is registered here. Without `filterFns`, for example, the filter input updates its value but no rows are filtered out.
 - **Data**: a `Payment` type and an array of rows. In a real app the rows usually come from an API.
-- **Columns**: a `ColumnDef<Payment>[]` array. Each column sets how its header and cells render. This is where Quantum components such as `Checkbox`, `Avatar`, `Badge` and `IconButton` are used.
-- **`DataTableDemo`**: calls `useReactTable` with the data, the columns and the row models it needs, then renders the result into `Table`, `TableHeader`, `TableBody`, `TableRow`, `TableHead` and `TableCell`.
+- **Columns**: a `ColumnDef<typeof features, Payment>[]` array. Each column sets how its header and cells render. This is where Quantum components such as `Checkbox`, `Avatar`, `Badge` and `IconButton` are used.
+- **`DataTableDemo`**: calls `useTable` with the features, the data and the columns, then renders the result into `Table`, `TableHeader`, `TableBody`, `TableRow`, `TableHead` and `TableCell`.
 
 ```bash
 └── DataTableDemo
@@ -104,7 +105,7 @@ See the [Table docs](?path=/docs/components-table--docs) for what each prop does
 
 ### Alignment
 
-TanStack Table lets each column carry extra data in `meta`. The example adds an `align` field there, set to `'right'` on the amount column, and passes it to both `TableHead` and `TableCell`. `align` is not a TanStack Table option, so the example declares it on `ColumnMeta` with a `declare module '@tanstack/react-table'` block. Without that block TypeScript rejects the field.
+TanStack Table lets each column carry extra data in `meta`. The example adds an `align` field there, set to `'right'` on the amount column, and passes it to both `TableHead` and `TableCell`. `align` is not a TanStack Table option, so the example declares its type in the `columnMeta` slot of `tableFeatures()`. Without that declaration TypeScript rejects the field.
 
 ### Sorting
 
