@@ -1,5 +1,7 @@
 import { getStoryContext, type TestRunnerConfig } from '@storybook/test-runner'
 import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 import type { Page } from 'playwright'
 declare const expect: (actual: Buffer) => {
   toMatchImageSnapshot(options: Record<string, unknown>): void
@@ -97,6 +99,8 @@ const recordingBaseline = process.env.VISUAL_BASELINE === 'true'
 
 const MAX_DIFF_PIXELS = 4
 
+const BASELINE_DIR = 'visual-regression/baseline'
+
 const FIXED_DATE = new Date('2024-06-12T12:00:00Z')
 
 if (runVisualTests && process.env.QUANTUM_VISUAL_CONTAINER !== '1') {
@@ -149,12 +153,21 @@ const config: TestRunnerConfig = {
     if (visual.open) await openOverlay(page, visual.open)
 
     for (const mode of modes) {
+      const identifier = `${context.id}-${mode}`
+      if (
+        !recordingBaseline &&
+        !existsSync(join(BASELINE_DIR, `${identifier}.png`))
+      ) {
+        console.log(`${identifier}: not in the base branch, nothing to compare`)
+        continue
+      }
+
       await setMode(page, mode)
       const screenshot = await stableScreenshot(page)
 
       expect(screenshot).toMatchImageSnapshot({
-        customSnapshotIdentifier: `${context.id}-${mode}`,
-        customSnapshotsDir: 'visual-regression/baseline',
+        customSnapshotIdentifier: identifier,
+        customSnapshotsDir: BASELINE_DIR,
         customDiffDir: 'visual-regression/diff',
         failureThreshold: MAX_DIFF_PIXELS,
         failureThresholdType: 'pixel'
