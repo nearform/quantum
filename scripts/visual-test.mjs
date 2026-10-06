@@ -7,7 +7,10 @@ const baseFlag = args.indexOf('--base')
 const baseRef = baseFlag === -1 ? 'origin/main' : args.splice(baseFlag, 2).at(1)
 
 const git = (...gitArgs) =>
-  execFileSync('git', gitArgs, { encoding: 'utf8' }).trim()
+  execFileSync('git', gitArgs, {
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'ignore']
+  }).trim()
 
 const base = git('merge-base', 'HEAD', baseRef)
 
