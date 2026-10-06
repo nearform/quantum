@@ -34,7 +34,8 @@ module.exports = {
           // compilable in isolation, and silently falls back to `commonjs` +
           // `node10` when it is not -- which reinstates the TS2307 failures
           // that `node16` is here to avoid.
-          isolatedModules: true
+          isolatedModules: true,
+          rewriteRelativeImportExtensions: false
         }
       }
     ]

@@ -1,4 +1,4 @@
-import { colors } from './base'
+import { colors } from './base.ts'
 
 /**
  * Text colours.
