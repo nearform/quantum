@@ -46,13 +46,21 @@ const captureArea = (page: Page) =>
       .filter(visible)
       .map(r => new DOMRect(r.x - 8, r.y - 8, r.width + 16, r.height + 16))
     const rects = [root?.getBoundingClientRect(), ...overlays].filter(visible)
-    const x = Math.floor(Math.max(0, Math.min(...rects.map(r => r.left))))
-    const y = Math.floor(Math.max(0, Math.min(...rects.map(r => r.top))))
+    const doc = document.documentElement
+    const x = Math.floor(
+      Math.max(0, Math.min(...rects.map(r => r.left + scrollX)))
+    )
+    const y = Math.floor(
+      Math.max(0, Math.min(...rects.map(r => r.top + scrollY)))
+    )
     const right = Math.ceil(
-      Math.min(innerWidth, Math.max(...rects.map(r => r.right)))
+      Math.min(doc.scrollWidth, Math.max(...rects.map(r => r.right + scrollX)))
     )
     const bottom = Math.ceil(
-      Math.min(innerHeight, Math.max(...rects.map(r => r.bottom)))
+      Math.min(
+        doc.scrollHeight,
+        Math.max(...rects.map(r => r.bottom + scrollY))
+      )
     )
     return { x, y, width: right - x, height: bottom - y }
   }, OVERLAYS)
@@ -65,7 +73,29 @@ const settle = (page: Page) =>
     }
   })
 
+const capture = async (page: Page) => {
+  await settle(page)
+  return page.screenshot({ clip: await captureArea(page), fullPage: true })
+}
+
+const stableScreenshot = async (page: Page, attempts = 10) => {
+  let previous = await capture(page)
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    await page.waitForTimeout(100)
+    const next = await capture(page)
+    if (next.equals(previous)) return next
+    previous = next
+  }
+  throw new Error(
+    `Story kept changing across ${attempts} screenshots; set parameters.visual.disable if it animates.`
+  )
+}
+
 const runVisualTests = process.env.VISUAL_TEST === 'true'
+
+const MAX_DIFF_FRACTION = 1 / 100
+
+const FIXED_DATE = new Date('2024-06-12T12:00:00Z')
 
 if (runVisualTests && process.env.QUANTUM_VISUAL_CONTAINER !== '1') {
   throw new Error(
@@ -76,6 +106,7 @@ if (runVisualTests && process.env.QUANTUM_VISUAL_CONTAINER !== '1') {
 
 const config: TestRunnerConfig = {
   async preVisit(page) {
+    if (runVisualTests) await page.clock.setFixedTime(FIXED_DATE)
     await injectAxe(page)
   },
   async postVisit(page, context) {
@@ -117,16 +148,13 @@ const config: TestRunnerConfig = {
 
     for (const mode of modes) {
       await setMode(page, mode)
-      await settle(page)
-      const screenshot = await page.screenshot({
-        clip: await captureArea(page)
-      })
+      const screenshot = await stableScreenshot(page)
 
       expect(screenshot).toMatchImageSnapshot({
         customSnapshotIdentifier: `${context.id}-${mode}`,
         customSnapshotsDir: '__snapshots__/visual',
         customDiffDir: '__snapshots__/visual/__diff__',
-        failureThreshold: 0.01,
+        failureThreshold: MAX_DIFF_FRACTION,
         failureThresholdType: 'percent'
       })
     }

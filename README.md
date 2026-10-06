@@ -297,6 +297,10 @@ baseline images in `__snapshots__/visual/`, named
 differ from the baseline. These checks run in the **Visual Regression** CI
 workflow on every pull request.
 
+The screenshot covers the whole story, including anything below the fold. The
+browser clock is frozen at 12 June 2024 during visual runs, so stories that
+use `new Date()` (such as Calendar) render the same every day.
+
 Fonts and anti-aliasing render differently on macOS, Windows and Linux, so the
 tests always run inside the Ubuntu-based Playwright Docker image, both locally
 and in CI. You need Docker running; nothing else needs to be installed or
