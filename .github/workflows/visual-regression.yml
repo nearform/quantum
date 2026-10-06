@@ -2,10 +2,12 @@ name: Visual Regression
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, labeled]
 
 jobs:
   visual-test:
     name: Visual regression tests
+    if: github.event.action != 'labeled' || github.event.label.name == 'visual-full-run'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -15,7 +17,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - name: Compare stories with the base branch in the Playwright Docker image
-        run: npm run test-storybook:visual -- --base ${{ github.event.pull_request.base.sha }}
+        run: npm run test-storybook:visual -- --base ${{ github.event.pull_request.base.sha }} ${{ contains(github.event.pull_request.labels.*.name, 'visual-full-run') && '--all' || '' }}
       - name: Upload diff artifacts
         if: failure()
         uses: actions/upload-artifact@v4

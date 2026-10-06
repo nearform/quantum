@@ -293,10 +293,11 @@ npm run test-storybook
 
 Every story is screenshotted in light and dark mode on your branch and on the
 branch you are merging into, and the two are compared. No images are committed:
-the baseline is rebuilt from the base branch on every run. A story fails when
-more than 1% of its pixels differ. These checks run in the **Visual
-Regression** CI workflow on every pull request, comparing against the pull
-request's base commit.
+the baseline is rebuilt from the base branch on every run. Both sides render in
+the same container, so unchanged stories are pixel-identical, and a story fails
+when more than 4 pixels differ. These checks run in the **Visual Regression**
+CI workflow on every pull request, comparing against the pull request's base
+commit.
 
 The screenshot covers the whole story, including anything below the fold. The
 browser clock is frozen at 12 June 2024 during visual runs, so stories that
@@ -326,8 +327,34 @@ screenshots. The image tag comes from the `playwright` version in
 `package-lock.json`, and the image runs on your machine's own architecture
 (Chromium crashes under x64 emulation on Apple Silicon). Dependencies and
 builds stay inside the container, so your own `node_modules` is left alone.
-Two installs and two builds make a run slower than a single build; the first
-run also downloads the image.
+The first run also downloads the image.
+
+#### Which stories are checked
+
+Only stories your changes can affect are screenshotted. The changed files
+(committed, uncommitted and untracked, compared with the base) are traced to
+story files with the TypeScript checker. Names imported from the `@/index`
+barrel are resolved to the files that declare them, so changing Badge checks
+the Badge stories and the stories that use Badge (such as DataTable), not
+every story.
+
+Every story is checked when a change touches something with global reach: the
+theme, colours or animations, any `.css` file, `.storybook/`, `package.json` or
+`package-lock.json`, `postcss.config.js`, `tsconfig.json`, `public/` or
+`scripts/`, or any file that can't be traced to specific stories (such as the
+barrels or a deleted file). Changes that can't affect rendering (`.github/`,
+tests, Markdown and MDX, lint and Jest config) are ignored, and when nothing
+else changed the run stops before building Storybook. The selection and its
+reason are printed at the start of the run.
+
+To check every story regardless, pass `--all`:
+
+```sh
+npm run test-storybook:visual -- --all
+```
+
+In CI, add the `visual-full-run` label to the pull request; the check reruns
+against every story.
 
 The base screenshots and, when a check fails, the before/after/diff image for
 each failing story are written to `visual-regression/baseline/` and
