@@ -95,7 +95,7 @@ const runVisualTests = process.env.VISUAL_TEST === 'true'
 
 const recordingBaseline = process.env.VISUAL_BASELINE === 'true'
 
-const MAX_DIFF_FRACTION = 1 / 100
+const MAX_DIFF_PIXELS = 4
 
 const FIXED_DATE = new Date('2024-06-12T12:00:00Z')
 
@@ -156,8 +156,8 @@ const config: TestRunnerConfig = {
         customSnapshotIdentifier: `${context.id}-${mode}`,
         customSnapshotsDir: 'visual-regression/baseline',
         customDiffDir: 'visual-regression/diff',
-        failureThreshold: MAX_DIFF_FRACTION,
-        failureThresholdType: 'percent'
+        failureThreshold: MAX_DIFF_PIXELS,
+        failureThresholdType: 'pixel'
       })
     }
   }
