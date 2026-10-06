@@ -9,6 +9,8 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "jsx": "react-jsx",
     "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
     "paths": {
       "@/*": ["./src/*"]
     }

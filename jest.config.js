@@ -9,8 +9,7 @@ module.exports = {
   // that alias but does not resolve it at runtime, so `src/` imports of
   // `@/assets` or `@/lib/utils` would otherwise fail to load.
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-    '^(\\.{1,2}/.*)\\.js$': '$1'
+    '^@/(.*)$': '<rootDir>/src/$1'
   },
   transform: {
     // tsconfig.json resolves with `bundler` (module: esnext) so Storybook 10's
@@ -35,7 +34,8 @@ module.exports = {
           // compilable in isolation, and silently falls back to `commonjs` +
           // `node10` when it is not -- which reinstates the TS2307 failures
           // that `node16` is here to avoid.
-          isolatedModules: true
+          isolatedModules: true,
+          rewriteRelativeImportExtensions: false
         }
       }
     ]

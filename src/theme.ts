@@ -1,6 +1,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme'
-import animations from './animations/index.js'
-import colors from './colors/index.js'
+import animations from './animations/index.ts'
+import colors from './colors/index.ts'
 
 /**
  * The Quantum design tokens, in Tailwind's JS theme shape.
