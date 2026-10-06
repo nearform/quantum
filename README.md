@@ -361,14 +361,41 @@ each failing story are written to `visual-regression/baseline/` and
 `visual-regression/diff/` (both git-ignored). In CI, the diffs are uploaded as
 the `visual-regression-diffs` artifact on the workflow run.
 
-#### Intentional changes
+#### Approving visual changes
 
-There is nothing to update. If a pull request changes a component's look on
-purpose, the Visual Regression check fails and shows the difference. Check the
-diff artifact, and once the change is approved and merged it becomes the
-baseline for the next pull request. Stories that are new on your branch have
-nothing to compare against, so they pass; stories removed on your branch are
-skipped.
+The Visual Regression workflow has two jobs:
+
+- **Visual regression tests** compares the affected stories. Visual
+  differences don't fail it: the changed stories are listed in the job summary
+  and their diff images (light and dark) are uploaded as the
+  `visual-regression-diffs` artifact. It still fails on real errors, such as a
+  story that throws, an overlay that never opens, or a story that never stops
+  changing.
+- **Visual changes approved** runs only when there are differences. It uses
+  the `visual-review` environment, so it waits until one of that environment's
+  reviewers opens the workflow run, checks the diffs and clicks **Approve and
+  deploy**. That approval is how a pull request says its visual changes are
+  intended. With no differences the job is skipped, which counts as passing.
+
+Each new push reruns the comparison, so changes have to be approved again for
+the latest commit. Once a pull request is merged, its look becomes the baseline
+for the next one; there are no images to update. Stories that are new on your
+branch have nothing to compare against and pass; stories removed on your
+branch are skipped.
+
+Locally, `npm run test-storybook:visual` fails when stories differ, with the
+diffs in `visual-regression/diff/`.
+
+One-time repository setup (admin):
+
+1. **Settings → Environments → New environment** named `visual-review`. Under
+   **Deployment protection rules**, tick **Required reviewers**, add the people
+   or teams who sign off visual changes, and tick **Prevent self-review** so
+   authors can't approve their own changes.
+2. **Settings → Branches** (or the ruleset for `main`): require the status
+   checks **Visual regression tests** and **Visual changes approved**. Both are
+   needed: the first catches errors, the second blocks until differences are
+   approved.
 
 Running the test runner with `VISUAL_TEST=true` outside the Docker image stops
 with an error, and a plain `npm run test-storybook` never takes screenshots.
