@@ -69,7 +69,7 @@ const inContainer = [
   '(npx --yes http-server /tmp/storybook-head --port 6007 --silent &)',
   'npx --yes wait-on tcp:6006 tcp:6007',
   'if [ "$BASE_STORIES" -gt 0 ]; then VISUAL_TEST=true VISUAL_BASELINE=true npx test-storybook --index-json --url http://127.0.0.1:6006 -u; fi',
-  'if [ "$HEAD_STORIES" -gt 0 ]; then VISUAL_TEST=true npx test-storybook --index-json --url http://127.0.0.1:6007 --json --outputFile=visual-regression/results.json "$@"; fi'
+  'if [ "$HEAD_STORIES" -gt 0 ]; then VISUAL_TEST=true npx test-storybook --index-json --url http://127.0.0.1:6007 "$@" -- --json --outputFile=visual-regression/results.json; fi'
 ].join('\n')
 
 console.log(`Comparing against ${base.slice(0, 7)} (${baseRef})`)
