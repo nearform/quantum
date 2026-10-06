@@ -1,6 +1,6 @@
 import plugin from 'tailwindcss/plugin'
-import baseStyles from './tailwind-base.js'
-import quantumTheme from './theme.js'
+import baseStyles from './tailwind-base.ts'
+import quantumTheme from './theme.ts'
 
 /**
  * Supplies the Quantum design tokens (colors, shadows, fonts, stroke widths and

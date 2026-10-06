@@ -1,4 +1,4 @@
-import { colors } from './base.js'
+import { colors } from './base.ts'
 
 export const background = {
   DEFAULT: '#FFF',
