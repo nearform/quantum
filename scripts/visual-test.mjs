@@ -1,5 +1,11 @@
 import { execFileSync, spawnSync } from 'node:child_process'
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync
+} from 'node:fs'
 import { resolve } from 'node:path'
 
 const args = process.argv.slice(2)
@@ -8,6 +14,9 @@ const baseRef = baseFlag === -1 ? 'origin/main' : args.splice(baseFlag, 2).at(1)
 const allFlag = args.indexOf('--all')
 const runAll = allFlag !== -1
 if (runAll) args.splice(allFlag, 1)
+const reportFlag = args.indexOf('--report-only')
+const reportOnly = reportFlag !== -1
+if (reportOnly) args.splice(reportFlag, 1)
 
 const git = (...gitArgs) =>
   execFileSync('git', gitArgs, {
@@ -60,7 +69,7 @@ const inContainer = [
   '(npx --yes http-server /tmp/storybook-head --port 6007 --silent &)',
   'npx --yes wait-on tcp:6006 tcp:6007',
   'if [ "$BASE_STORIES" -gt 0 ]; then VISUAL_TEST=true VISUAL_BASELINE=true npx test-storybook --index-json --url http://127.0.0.1:6006 -u; fi',
-  'if [ "$HEAD_STORIES" -gt 0 ]; then VISUAL_TEST=true npx test-storybook --index-json --url http://127.0.0.1:6007 "$@"; fi'
+  'if [ "$HEAD_STORIES" -gt 0 ]; then VISUAL_TEST=true npx test-storybook --index-json --url http://127.0.0.1:6007 --json --outputFile=visual-regression/results.json "$@"; fi'
 ].join('\n')
 
 console.log(`Comparing against ${base.slice(0, 7)} (${baseRef})`)
@@ -99,4 +108,31 @@ const { status, error } = spawnSync(
 )
 
 if (error) throw error
-process.exit(status ?? 1)
+
+const RESULTS = 'visual-regression/results.json'
+
+if (!reportOnly || status === 0 || !existsSync(RESULTS)) {
+  process.exit(status ?? 1)
+}
+
+const failed = JSON.parse(readFileSync(RESULTS, 'utf8')).testResults.flatMap(
+  file => file.assertionResults.filter(test => test.status === 'failed')
+)
+const otherFailures = failed.filter(
+  test =>
+    !test.failureMessages.every(message => message.includes('Visual mismatch'))
+)
+
+if (failed.length === 0 || otherFailures.length > 0) {
+  for (const test of otherFailures) console.error(`Failed: ${test.fullName}`)
+  process.exit(status ?? 1)
+}
+
+const changed = failed.map(test => test.ancestorTitles.join(' › '))
+writeFileSync(
+  'visual-regression/changed-stories.txt',
+  `${changed.join('\n')}\n`
+)
+console.log(
+  `${changed.length} stor${changed.length === 1 ? 'y has' : 'ies have'} visual changes to review:\n${changed.map(name => `  ${name}`).join('\n')}`
+)

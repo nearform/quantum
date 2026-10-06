@@ -101,6 +101,8 @@ const MAX_DIFF_PIXELS = 4
 
 const BASELINE_DIR = 'visual-regression/baseline'
 
+const VISUAL_MISMATCH = 'Visual mismatch'
+
 const FIXED_DATE = new Date('2024-06-12T12:00:00Z')
 
 if (runVisualTests && process.env.QUANTUM_VISUAL_CONTAINER !== '1') {
@@ -152,6 +154,8 @@ const config: TestRunnerConfig = {
 
     if (visual.open) await openOverlay(page, visual.open)
 
+    const mismatches: string[] = []
+
     for (const mode of modes) {
       const identifier = `${context.id}-${mode}`
       if (
@@ -165,14 +169,22 @@ const config: TestRunnerConfig = {
       await setMode(page, mode)
       const screenshot = await stableScreenshot(page)
 
-      expect(screenshot).toMatchImageSnapshot({
-        customSnapshotIdentifier: identifier,
-        customSnapshotsDir: BASELINE_DIR,
-        customDiffDir: 'visual-regression/diff',
-        failureThreshold: MAX_DIFF_PIXELS,
-        failureThresholdType: 'pixel'
-      })
+      try {
+        expect(screenshot).toMatchImageSnapshot({
+          customSnapshotIdentifier: identifier,
+          customSnapshotsDir: BASELINE_DIR,
+          customDiffDir: 'visual-regression/diff',
+          failureThreshold: MAX_DIFF_PIXELS,
+          failureThresholdType: 'pixel'
+        })
+      } catch (error) {
+        mismatches.push(
+          `${VISUAL_MISMATCH} in ${mode} mode: ${error instanceof Error ? error.message : error}`
+        )
+      }
     }
+
+    if (mismatches.length > 0) throw new Error(mismatches.join('\n'))
   }
 }
 
