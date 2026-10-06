@@ -13,3 +13,6 @@ storybook-static/
 
 # Transient probe files watchman drops in the root while jest watches
 .watchman-cookie-*
+
+# Visual regression baseline and diff output
+visual-regression/

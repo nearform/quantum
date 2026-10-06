@@ -289,6 +289,78 @@ To run Storybook tests for the project, run:
 npm run test-storybook
 ```
 
+### Visual regression tests
+
+Every story is screenshotted in light and dark mode on your branch and on the
+branch you are merging into, and the two are compared. No images are committed:
+the baseline is rebuilt from the base branch on every run. A story fails when
+more than 1% of its pixels differ. These checks run in the **Visual
+Regression** CI workflow on every pull request, comparing against the pull
+request's base commit.
+
+The screenshot covers the whole story, including anything below the fold. The
+browser clock is frozen at 12 June 2024 during visual runs, so stories that
+use `new Date()` (such as Calendar) render the same every day.
+
+Fonts and anti-aliasing render differently on macOS, Windows and Linux, so the
+tests always run inside the Ubuntu-based Playwright Docker image, both locally
+and in CI. You need Docker running; nothing else needs to be installed or
+served. To compare your working tree with `origin/main`:
+
+```sh
+npm run test-storybook:visual
+```
+
+To compare against another branch, pass `--base`. The comparison uses the
+merge-base with that branch, so changes that landed there after you branched
+don't show up as differences:
+
+```sh
+npm run test-storybook:visual -- --base origin/some-branch
+```
+
+The script exports the base commit with `git archive`, then in the container
+builds Storybook for the base and for your working tree (including uncommitted
+changes), screenshots the base, and compares your stories against those
+screenshots. The image tag comes from the `playwright` version in
+`package-lock.json`, and the image runs on your machine's own architecture
+(Chromium crashes under x64 emulation on Apple Silicon). Dependencies and
+builds stay inside the container, so your own `node_modules` is left alone.
+Two installs and two builds make a run slower than a single build; the first
+run also downloads the image.
+
+The base screenshots and, when a check fails, the before/after/diff image for
+each failing story are written to `visual-regression/baseline/` and
+`visual-regression/diff/` (both git-ignored). In CI, the diffs are uploaded as
+the `visual-regression-diffs` artifact on the workflow run.
+
+#### Intentional changes
+
+There is nothing to update. If a pull request changes a component's look on
+purpose, the Visual Regression check fails and shows the difference. Check the
+diff artifact, and once the change is approved and merged it becomes the
+baseline for the next pull request. Stories that are new on your branch have
+nothing to compare against, so they pass; stories removed on your branch are
+skipped.
+
+Running the test runner with `VISUAL_TEST=true` outside the Docker image stops
+with an error, and a plain `npm run test-storybook` never takes screenshots.
+
+If the base commit has no visual tests yet, the run is skipped with a notice.
+
+#### Story options
+
+To leave a story out of the visual checks (for example, one that renders
+something that changes on every run), set
+`parameters: { visual: { disable: true } }` on the story.
+
+Popovers, menus, selects, modals and tooltips render outside the story root
+and only once opened. To snapshot one open, set
+`parameters: { visual: { open: 'click' } }` (or `'hover'` for tooltips). The
+test runner clicks the first trigger with `aria-expanded="false"` (or hovers
+the first `data-state="closed"` element), waits for the overlay, and widens the
+screenshot to include it. Accessibility scans run before the overlay is opened.
+
 ### Dark mode in Storybook
 
 Stories render twice by default, light and dark side by side. A fixed `id`
