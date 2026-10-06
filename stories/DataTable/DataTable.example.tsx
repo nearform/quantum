@@ -1,18 +1,20 @@
 import * as React from 'react'
 import {
-  type ColumnDef,
   type ColumnFiltersState,
   type PaginationState,
   type RowData,
   type RowSelectionState,
   type SortingState,
-  flexRender,
+  flexRender
+} from '@tanstack/react-table'
+import {
+  type LegacyColumnDef,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable
-} from '@tanstack/react-table'
+  useLegacyTable
+} from '@tanstack/react-table/legacy'
 
 import { BsThreeDots } from '@/assets'
 import {
@@ -37,9 +39,9 @@ import {
   type TableAlign
 } from '@/components'
 
-declare module '@tanstack/react-table' {
+declare module '@tanstack/table-core' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface ColumnMeta<TData extends RowData, TValue> {
+  interface ColumnMeta<TFeatures, TData extends RowData, TValue> {
     align?: TableAlign
   }
 }
@@ -92,7 +94,7 @@ const currency = new Intl.NumberFormat('en-US', {
   currency: 'USD'
 })
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: LegacyColumnDef<Payment>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -194,7 +196,7 @@ export const DataTableDemo = ({
     setPagination({ pageIndex: 0, pageSize })
   }, [pageSize])
 
-  const table = useReactTable({
+  const table = useLegacyTable({
     data,
     columns,
     getRowId: row => row.id,
