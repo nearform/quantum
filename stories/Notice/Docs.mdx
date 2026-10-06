@@ -1,0 +1,103 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as NoticeStories from './Notice.stories'
+
+<Meta of={NoticeStories} />
+
+# Notice
+
+A notice is a brief message or alert that provides important information or
+notifications to users. It is displayed prominently within an interface to
+draw the user's attention to a specific piece of content or action. Notices
+are typically used to convey urgent updates, alerts, or essential messages
+in a clear and noticeable way.
+
+### Default
+
+The default `info` variant is a bordered banner with muted icon styling,
+suited for informational messages that do not require immediate action.
+
+<Canvas of={NoticeStories.Default} />
+
+### Variants
+
+Four variants across two axes: `info` and `warning` set the intent, and the
+`-filled` suffix swaps the light background for a dark one. The filled
+variants use the foreground colour as their background, making them suitable
+for messages that need to stand out more.
+
+<Canvas of={NoticeStories.Variants} />
+
+### Dismissible
+
+Pass `onDismiss` to show a close button. Omit it for notices that should
+persist.
+
+<Canvas of={NoticeStories.Dismissible} />
+
+### No icon
+
+Pass `icon={null}` to remove the icon entirely.
+
+<Canvas of={NoticeStories.NoIcon} />
+
+## Dark mode
+
+Dark mode swaps the tokens symmetrically: filled variants use
+`foreground-dark` / `foreground-inverse-dark` and outlined variants use
+`background-dark` with the dark border and text tokens.
+
+## Accessibility
+
+- The notice uses `role="status"` by default so screen readers announce it
+  as a live region. Override with `role="alert"` for urgent messages.
+- The dismiss button has an accessible label (`dismissLabel`, defaulting to
+  "Dismiss").
+- The icon is decorative (`aria-hidden`), so the text must carry the full
+  meaning.
+
+## Attributes
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`"info" | "info-filled" | "warning" | "warning-filled"`</td>
+      <td>`"info"`</td>
+    </tr>
+    <tr>
+      <td>icon</td>
+      <td>`React.ReactNode`</td>
+      <td>Variant icon</td>
+    </tr>
+    <tr>
+      <td>onDismiss</td>
+      <td>`() => void`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>dismissLabel</td>
+      <td>`string`</td>
+      <td>`"Dismiss"`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Usage
+
+```tsx
+import { Notice } from '@nearform/quantum'
+
+<Notice variant="warning-filled" onDismiss={() => setVisible(false)}>
+  This project is in active development.
+</Notice>
+
+<Notice variant="info">
+  Your changes have been saved.
+</Notice>
+```

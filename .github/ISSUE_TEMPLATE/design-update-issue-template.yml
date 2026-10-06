@@ -34,6 +34,7 @@ body:
         - Link
         - Modal
         - Navigation
+        - Notice
         - PageHeader
         - Pagination
         - Password
