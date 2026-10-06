@@ -1,9 +1,10 @@
 import { getStoryContext, type TestRunnerConfig } from '@storybook/test-runner'
 import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
-
 const WCAG_22_AA_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']
 
 type Mode = 'light' | 'dark'
+
+const runVisualTests = process.env.VISUAL_TEST === 'true'
 
 const config: TestRunnerConfig = {
   async preVisit(page) {
@@ -21,7 +22,8 @@ const config: TestRunnerConfig = {
     })
 
     await page.addStyleTag({
-      content: '*, *::before, *::after { transition: none !important; }'
+      content:
+        '*, *::before, *::after { transition: none !important; animation: none !important; }'
     })
 
     const modes: Mode[] = ['light', 'dark']
@@ -45,6 +47,23 @@ const config: TestRunnerConfig = {
           error.message = `Accessibility violations in ${mode} mode:\n${error.message}`
         }
         throw error
+      }
+
+      if (runVisualTests || storyContext.parameters?.visual?.enable) {
+        const skipVisual = storyContext.parameters?.visual?.disable
+        if (skipVisual) continue
+
+        const root = await page.$('#storybook-root')
+        const screenshot = await (root ?? page).screenshot()
+        const customName = `${context.id}-${mode}`
+
+        expect(screenshot).toMatchImageSnapshot({
+          customSnapshotIdentifier: customName,
+          customSnapshotsDir: '__snapshots__/visual',
+          customDiffDir: '__snapshots__/visual/__diff__',
+          failureThreshold: 0.01,
+          failureThresholdType: 'percent'
+        })
       }
     }
   }
