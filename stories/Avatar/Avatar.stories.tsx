@@ -21,6 +21,10 @@ const meta = {
       options: ['circle', 'square'],
       control: 'inline-radio'
     },
+    loading: {
+      options: ['lazy', 'eager'],
+      control: 'inline-radio'
+    },
     icon: {
       control: false
     }

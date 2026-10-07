@@ -155,4 +155,24 @@ describe('Avatar image fallback', () => {
 
     unmount()
   })
+
+  it('lazy-loads the image by default', () => {
+    const { host, render, unmount } = mount()
+
+    render(<Avatar name="Ada Lovelace" src="/ada.jpg" />)
+
+    expect(image(host)?.getAttribute('loading')).toBe('lazy')
+
+    unmount()
+  })
+
+  it('renders the requested loading strategy on the image', () => {
+    const { host, render, unmount } = mount()
+
+    render(<Avatar name="Ada Lovelace" src="/ada.jpg" loading="eager" />)
+
+    expect(image(host)?.getAttribute('loading')).toBe('eager')
+
+    unmount()
+  })
 })

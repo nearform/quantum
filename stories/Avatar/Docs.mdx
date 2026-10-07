@@ -69,6 +69,14 @@ gap. The ring colour matches the surface they sit on.
 
 <Canvas of={AvatarStories.Stacked} />
 
+## Lazy loading
+
+The image is lazy-loaded by default (`loading="lazy"`), so an avatar that is
+off-screen costs no request until it nears the viewport. That suits lists and
+tables with many rows. Pass `loading="eager"` for an avatar that is above the
+fold, such as the signed-in user in a page header, so it is fetched straight
+away.
+
 ## Dark mode
 
 The avatar reads its surface and text colour from the `background-alt` and
@@ -124,6 +132,11 @@ needed. An image is untouched by the theme; only the fallback changes.
       <td>icon</td>
       <td>`React.ReactNode`</td>
       <td>`<BsPersonFill />`</td>
+    </tr>
+    <tr>
+      <td>loading</td>
+      <td>`"lazy" | "eager"`</td>
+      <td>`"lazy"`</td>
     </tr>
     <tr>
       <td>size</td>
