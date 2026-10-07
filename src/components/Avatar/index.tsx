@@ -92,6 +92,8 @@ interface AvatarProps
   alt?: string
   /** Icon to render instead of the default person glyph when there are no initials. */
   icon?: React.ReactNode
+  /** Whether the browser defers fetching the image until it nears the viewport. Defaults to `'lazy'`. */
+  loading?: 'lazy' | 'eager'
 }
 
 /**
@@ -103,7 +105,19 @@ interface AvatarProps
  */
 const Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
   (
-    { className, size, shape, src, name, initials, alt, icon, role, ...props },
+    {
+      className,
+      size,
+      shape,
+      src,
+      name,
+      initials,
+      alt,
+      icon,
+      loading = 'lazy',
+      role,
+      ...props
+    },
     ref
   ) => {
     // Keyed by the URL that failed rather than a boolean, so a new `src` is
@@ -148,6 +162,7 @@ const Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
           <img
             src={src}
             alt={label ?? ''}
+            loading={loading}
             onError={() => setFailedSrc(src)}
             className="absolute inset-0 h-full w-full object-cover"
           />
