@@ -38,6 +38,7 @@ export const Default: Story = {
 }
 
 export const WithValue: Story = {
+  parameters: { visual: { open: 'click' } },
   args: {
     labelText: 'Start date',
     value: new Date(2024, 5, 15)
@@ -52,6 +53,7 @@ export const WithHelpText: Story = {
 }
 
 export const MinAndMax: Story = {
+  parameters: { visual: { open: 'click' } },
   args: {
     labelText: 'Appointment',
     helpText: 'Any day in June 2024',

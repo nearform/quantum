@@ -289,6 +289,132 @@ To run Storybook tests for the project, run:
 npm run test-storybook
 ```
 
+### Visual regression tests
+
+Every story is screenshotted in light and dark mode on your branch and on the
+branch you are merging into, and the two are compared. No images are committed:
+the baseline is rebuilt from the base branch on every run. Both sides render in
+the same container, so unchanged stories are pixel-identical, and a story fails
+when more than 4 pixels differ. These checks run in the **Visual Regression**
+CI workflow on every pull request, comparing against the pull request's base
+commit.
+
+The screenshot covers the whole story, including anything below the fold. The
+browser clock is frozen at 12 June 2024 during visual runs, so stories that
+use `new Date()` (such as Calendar) render the same every day.
+
+Fonts and anti-aliasing render differently on macOS, Windows and Linux, so the
+tests always run inside the Ubuntu-based Playwright Docker image, both locally
+and in CI. You need Docker running; nothing else needs to be installed or
+served. To compare your working tree with `origin/main`:
+
+```sh
+npm run test-storybook:visual
+```
+
+To compare against another branch, pass `--base`. The comparison uses the
+merge-base with that branch, so changes that landed there after you branched
+don't show up as differences:
+
+```sh
+npm run test-storybook:visual -- --base origin/some-branch
+```
+
+The script exports the base commit with `git archive`, then in the container
+builds Storybook for the base and for your working tree (including uncommitted
+changes), screenshots the base, and compares your stories against those
+screenshots. The image tag comes from the `playwright` version in
+`package-lock.json`, and the image runs on your machine's own architecture
+(Chromium crashes under x64 emulation on Apple Silicon). Dependencies and
+builds stay inside the container, so your own `node_modules` is left alone.
+The first run also downloads the image.
+
+#### Which stories are checked
+
+Only stories your changes can affect are screenshotted. The changed files
+(committed, uncommitted and untracked, compared with the base) are traced to
+story files with the TypeScript checker. Names imported from the `@/index`
+barrel are resolved to the files that declare them, so changing Badge checks
+the Badge stories and the stories that use Badge (such as DataTable), not
+every story.
+
+Every story is checked when a change touches something with global reach: the
+theme, colours or animations, any `.css` file, `.storybook/`, `package.json` or
+`package-lock.json`, `postcss.config.js`, `tsconfig.json`, `public/` or
+`scripts/`, or any file that can't be traced to specific stories (such as the
+barrels or a deleted file). Changes that can't affect rendering (`.github/`,
+tests, Markdown and MDX, lint and Jest config) are ignored, and when nothing
+else changed the run stops before building Storybook. The selection and its
+reason are printed at the start of the run.
+
+To check every story regardless, pass `--all`:
+
+```sh
+npm run test-storybook:visual -- --all
+```
+
+In CI, add the `visual-full-run` label to the pull request; the check reruns
+against every story.
+
+The base screenshots and, when a check fails, the before/after/diff image for
+each failing story are written to `visual-regression/baseline/` and
+`visual-regression/diff/` (both git-ignored). In CI, the diffs are uploaded as
+the `visual-regression-diffs` artifact on the workflow run.
+
+#### Approving visual changes
+
+The Visual Regression workflow has two jobs:
+
+- **Visual regression tests** compares the affected stories. Visual
+  differences don't fail it: the changed stories are listed in the job summary
+  and their diff images (light and dark) are uploaded as the
+  `visual-regression-diffs` artifact. It still fails on real errors, such as a
+  story that throws, an overlay that never opens, or a story that never stops
+  changing.
+- **Visual changes approved** runs only when there are differences. It uses
+  the `visual-review` environment, so it waits until one of that environment's
+  reviewers opens the workflow run, checks the diffs and clicks **Approve and
+  deploy**. That approval is how a pull request says its visual changes are
+  intended. With no differences the job is skipped, which counts as passing.
+
+Each new push reruns the comparison, so changes have to be approved again for
+the latest commit. Once a pull request is merged, its look becomes the baseline
+for the next one; there are no images to update. Stories that are new on your
+branch have nothing to compare against and pass; stories removed on your
+branch are skipped.
+
+Locally, `npm run test-storybook:visual` fails when stories differ, with the
+diffs in `visual-regression/diff/`.
+
+One-time repository setup (admin):
+
+1. **Settings → Environments → New environment** named `visual-review`. Under
+   **Deployment protection rules**, tick **Required reviewers**, add the people
+   or teams who sign off visual changes, and tick **Prevent self-review** so
+   authors can't approve their own changes.
+2. **Settings → Branches** (or the ruleset for `main`): require the status
+   checks **Visual regression tests** and **Visual changes approved**. Both are
+   needed: the first catches errors, the second blocks until differences are
+   approved.
+
+Running the test runner with `VISUAL_TEST=true` outside the Docker image stops
+with an error, and a plain `npm run test-storybook` never takes screenshots.
+
+If the base commit has no visual tests yet, the run is skipped with a notice.
+
+#### Story options
+
+To leave a story out of the visual checks (for example, one that renders
+something that changes on every run), set
+`parameters: { visual: { disable: true } }` on the story.
+
+Popovers, menus, selects, modals and tooltips render outside the story root
+and only once opened. To snapshot one open, set
+`parameters: { visual: { open: 'click' } }` (or `'hover'` for tooltips). The
+test runner clicks the first trigger with `aria-expanded="false"` (or hovers
+the first `data-state="closed"` element), waits for the overlay, and widens the
+screenshot to include it. Accessibility scans run before the overlay is opened.
+
 ### Dark mode in Storybook
 
 Stories render twice by default, light and dark side by side. A fixed `id`
