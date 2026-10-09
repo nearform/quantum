@@ -35,7 +35,8 @@ const meta = {
   title: 'Components/Popover',
   component: Popover,
   parameters: {
-    layout: 'centered'
+    layout: 'centered',
+    visual: { open: 'click' }
   }
 } satisfies Meta<typeof Popover>
 
