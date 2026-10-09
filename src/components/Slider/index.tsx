@@ -70,6 +70,7 @@ type SliderProps = Omit<
   minLabel?: React.ReactNode
   maxLabel?: React.ReactNode
   endLabelPosition?: 'inline' | 'below'
+  getAriaValueText?: (value: number, index: number) => string
 }
 
 const Slider = React.forwardRef<
@@ -86,6 +87,7 @@ const Slider = React.forwardRef<
       minLabel,
       maxLabel,
       endLabelPosition = 'inline',
+      getAriaValueText,
       ...props
     },
     ref
@@ -108,7 +110,7 @@ const Slider = React.forwardRef<
         <SliderPrimitive.Track className={cn(trackVariants())}>
           <SliderPrimitive.Range className={cn(rangeVariants())} />
         </SliderPrimitive.Track>
-        {(props.value ?? props.defaultValue ?? [0]).map((_, i, arr) => {
+        {(props.value ?? props.defaultValue ?? [0]).map((v, i, arr) => {
           const suffix =
             arr.length > 1 ? (i === 0 ? ' (minimum)' : ' (maximum)') : ''
           return (
@@ -119,6 +121,7 @@ const Slider = React.forwardRef<
                 !thumbLabelledBy ? `${ariaLabel ?? ''}${suffix}` : undefined
               }
               aria-labelledby={thumbLabelledBy}
+              aria-valuetext={getAriaValueText?.(v, i)}
             />
           )
         })}
