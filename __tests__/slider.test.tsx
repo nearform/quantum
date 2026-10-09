@@ -150,6 +150,83 @@ describe('Slider', () => {
     expect(thumb.getAttribute('aria-labelledby')).toBe(label.id)
   })
 
+  it('omits aria-valuetext when getAriaValueText is not provided', () => {
+    mount(<Slider defaultValue={[2]} aria-label="Level" />)
+
+    const thumb = container!.querySelector('[role="slider"]')!
+    expect(thumb.hasAttribute('aria-valuetext')).toBe(false)
+  })
+
+  it('sets aria-valuetext on a controlled slider', () => {
+    const levels = ['None', 'Beginner', 'Intermediate']
+    mount(
+      <Slider
+        value={[2]}
+        max={2}
+        aria-label="Level"
+        getAriaValueText={v => levels[v]}
+      />
+    )
+
+    const thumb = container!.querySelector('[role="slider"]')!
+    expect(thumb.getAttribute('aria-valuetext')).toBe('Intermediate')
+  })
+
+  it('updates aria-valuetext as an uncontrolled slider moves', () => {
+    const changes: number[][] = []
+    mount(
+      <Slider
+        defaultValue={[1]}
+        max={4}
+        aria-label="Level"
+        getAriaValueText={v => `Level ${v}`}
+        onValueChange={v => changes.push(v)}
+      />
+    )
+
+    const thumb = container!.querySelector<HTMLElement>('[role="slider"]')!
+    expect(thumb.getAttribute('aria-valuetext')).toBe('Level 1')
+
+    act(() => {
+      thumb.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })
+      )
+    })
+
+    expect(thumb.getAttribute('aria-valuenow')).toBe('2')
+    expect(thumb.getAttribute('aria-valuetext')).toBe('Level 2')
+    expect(changes).toEqual([[2]])
+  })
+
+  it('passes each thumb its value and index', () => {
+    mount(
+      <Slider
+        defaultValue={[20, 80]}
+        aria-label="Price range"
+        getAriaValueText={(v, i) => `${i}:${v}`}
+      />
+    )
+
+    const thumbs = container!.querySelectorAll('[role="slider"]')
+    expect(thumbs[0].getAttribute('aria-valuetext')).toBe('0:20')
+    expect(thumbs[1].getAttribute('aria-valuetext')).toBe('1:80')
+  })
+
+  it('falls back to min when no value is given', () => {
+    mount(
+      <Slider
+        min={10}
+        max={100}
+        aria-label="Items"
+        getAriaValueText={v => `${v} items`}
+      />
+    )
+
+    const thumb = container!.querySelector('[role="slider"]')!
+    expect(thumb.getAttribute('aria-valuenow')).toBe('10')
+    expect(thumb.getAttribute('aria-valuetext')).toBe('10 items')
+  })
+
   it('renders label above and hint text beside it', () => {
     mount(<Slider defaultValue={[50]} label="Brightness" hintText="Screen" />)
 
