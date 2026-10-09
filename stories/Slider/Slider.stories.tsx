@@ -116,3 +116,23 @@ export const CustomEndLabels: Story = {
     'aria-label': 'Priority'
   }
 }
+
+const skillLevels = [
+  'Not used',
+  'Beginner',
+  'Intermediate',
+  'Highly Proficient',
+  'Teacher'
+]
+
+export const WithValueText: Story = {
+  args: {
+    defaultValue: [2],
+    min: 0,
+    max: 4,
+    label: 'Skill level',
+    minLabel: skillLevels[0],
+    maxLabel: skillLevels[4],
+    getAriaValueText: (value: number) => skillLevels[value]
+  }
+}

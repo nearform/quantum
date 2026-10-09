@@ -88,10 +88,20 @@ const Slider = React.forwardRef<
       maxLabel,
       endLabelPosition = 'inline',
       getAriaValueText,
+      onValueChange,
       ...props
     },
     ref
   ) => {
+    const [uncontrolledValue, setUncontrolledValue] = React.useState(
+      props.defaultValue ?? [props.min ?? 0]
+    )
+    const values = props.value ?? uncontrolledValue
+    const handleValueChange = (next: number[]) => {
+      setUncontrolledValue(next)
+      onValueChange?.(next)
+    }
+
     const generatedId = React.useId()
     const labelId = label ? `${generatedId}-label` : undefined
     const thumbLabelledBy = ariaLabelledBy ?? labelId
@@ -106,11 +116,12 @@ const Slider = React.forwardRef<
           'data-[disabled]:opacity-50'
         )}
         {...props}
+        onValueChange={handleValueChange}
       >
         <SliderPrimitive.Track className={cn(trackVariants())}>
           <SliderPrimitive.Range className={cn(rangeVariants())} />
         </SliderPrimitive.Track>
-        {(props.value ?? props.defaultValue ?? [0]).map((v, i, arr) => {
+        {values.map((v, i, arr) => {
           const suffix =
             arr.length > 1 ? (i === 0 ? ' (minimum)' : ' (maximum)') : ''
           return (
@@ -121,7 +132,7 @@ const Slider = React.forwardRef<
                 !thumbLabelledBy ? `${ariaLabel ?? ''}${suffix}` : undefined
               }
               aria-labelledby={thumbLabelledBy}
-              aria-valuetext={getAriaValueText?.(v, i)}
+              aria-valuetext={getAriaValueText?.(v, i) || undefined}
             />
           )
         })}
