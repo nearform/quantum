@@ -84,3 +84,62 @@ export const NoIcon: Story = {
     children: 'Note, this project is in active development.'
   }
 }
+
+export const WithLink: Story = {
+  args: {
+    variant: 'warning',
+    children: (
+      <>
+        Runs can&apos;t start until Claude is connected. Add an API key in{' '}
+        <a href="#" className="underline">
+          Settings
+        </a>
+        .
+      </>
+    )
+  }
+}
+
+export const WithTitle: Story = {
+  args: {
+    variant: 'warning',
+    title: 'Runs can’t start until this is set up',
+    description: 'Fix the items below, then try again.',
+    children: (
+      <ul className="list-disc pl-5">
+        <li>
+          No API key. Add one in{' '}
+          <a href="#" className="underline">
+            Settings
+          </a>
+          .
+        </li>
+        <li>
+          No checkout for <code>nearform/quantum</code>.{' '}
+          <a href="#" className="underline">
+            Clone it
+          </a>
+          .
+        </li>
+      </ul>
+    )
+  }
+}
+
+export const TitleVariants: Story = {
+  render: () => (
+    <div className="flex flex-col gap-3">
+      {VARIANTS.map(variant => (
+        <Notice
+          key={variant}
+          variant={variant}
+          title="Scheduled maintenance"
+          onDismiss={() => {}}
+        >
+          <p>The service will be unavailable on Saturday from 02:00 UTC.</p>
+          <p>Save your work before then.</p>
+        </Notice>
+      ))}
+    </div>
+  )
+}

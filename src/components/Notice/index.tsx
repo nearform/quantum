@@ -96,8 +96,12 @@ const noticeIcons: Record<
 
 interface NoticeProps
   extends
-    React.ComponentPropsWithoutRef<'div'>,
+    Omit<React.ComponentPropsWithoutRef<'div'>, 'title'>,
     VariantProps<typeof noticeVariants> {
+  /** Short heading. When set, the notice is left-aligned with the icon level with the title. */
+  title?: React.ReactNode
+  /** Text shown under the title, before any children. */
+  description?: React.ReactNode
   /** Replaces the variant's icon. Pass `null` to show no icon. */
   icon?: React.ReactNode
   /** Called when the close button is clicked. Omit to hide the close button. */
@@ -111,6 +115,8 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps>(
     {
       className,
       variant,
+      title,
+      description,
       icon,
       onDismiss,
       dismissLabel = 'Dismiss',
@@ -123,31 +129,59 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps>(
     const resolved = variant ?? 'info'
     const { icon: Icon, className: iconClassName } = noticeIcons[resolved]
 
+    const titled = title != null && title !== false && title !== ''
+
+    const iconNode = icon !== null && (
+      <span
+        aria-hidden="true"
+        className={cn(
+          'flex',
+          'shrink-0',
+          'items-center',
+          titled && 'h-5',
+          '[&>svg]:h-3.5',
+          '[&>svg]:w-3.5',
+          iconClassName
+        )}
+      >
+        {icon ?? <Icon />}
+      </span>
+    )
+
     return (
       <div
         ref={ref}
         role={role}
-        className={cn(noticeVariants({ variant: resolved }), className)}
+        className={cn(
+          noticeVariants({ variant: resolved }),
+          titled && [
+            'items-start',
+            'justify-start',
+            'px-4',
+            onDismiss && 'pr-10'
+          ],
+          className
+        )}
         {...props}
       >
-        <span className="flex items-center justify-center gap-2">
-          {icon !== null && (
-            <span
-              aria-hidden="true"
-              className={cn(
-                'flex',
-                'shrink-0',
-                'items-center',
-                '[&>svg]:h-3.5',
-                '[&>svg]:w-3.5',
-                iconClassName
-              )}
-            >
-              {icon ?? <Icon />}
-            </span>
-          )}
-          {children}
-        </span>
+        {titled ? (
+          <div className="flex min-w-0 items-start gap-2">
+            {iconNode}
+            <div className="min-w-0 space-y-1">
+              <div className="font-semibold">{title}</div>
+              {description != null && <div>{description}</div>}
+              {children != null && <div>{children}</div>}
+            </div>
+          </div>
+        ) : (
+          <div className="flex min-w-0 items-center justify-center gap-2">
+            {iconNode}
+            <div className="min-w-0">
+              {description != null && <div>{description}</div>}
+              {children}
+            </div>
+          </div>
+        )}
         {onDismiss && (
           <button
             type="button"
@@ -156,8 +190,7 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps>(
             className={cn(
               'absolute',
               'right-3',
-              'top-1/2',
-              '-translate-y-1/2',
+              titled ? 'top-2' : ['top-1/2', '-translate-y-1/2'],
               'flex',
               'h-6',
               'w-6',

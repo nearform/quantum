@@ -35,6 +35,24 @@ persist.
 
 <Canvas of={NoticeStories.Dismissible} />
 
+### Links and inline content
+
+Children render in a single text container, so a sentence with a link in it
+flows as normal text.
+
+<Canvas of={NoticeStories.WithLink} />
+
+### Title and description
+
+Pass `title` for a short heading and, optionally, `description` for a line
+under it. With a title the notice is left-aligned, the icon sits level with
+the title, and children can be block content such as paragraphs and lists.
+Without a title the notice keeps its centred single-line layout.
+
+<Canvas of={NoticeStories.WithTitle} />
+
+<Canvas of={NoticeStories.TitleVariants} />
+
 ### No icon
 
 Pass `icon={null}` to remove the icon entirely.
@@ -71,6 +89,16 @@ Dark mode swaps the tokens symmetrically: filled variants use
       <td>`"info"`</td>
     </tr>
     <tr>
+      <td>title</td>
+      <td>`React.ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>`React.ReactNode`</td>
+      <td>-</td>
+    </tr>
+    <tr>
       <td>icon</td>
       <td>`React.ReactNode`</td>
       <td>Variant icon</td>
@@ -99,5 +127,11 @@ import { Notice } from '@nearform/quantum'
 
 <Notice variant="info">
   Your changes have been saved.
+</Notice>
+
+<Notice variant="warning" title="Runs can't start yet">
+  <ul className="list-disc pl-5">
+    <li>Add an API key in <a href="/settings" className="underline">Settings</a>.</li>
+  </ul>
 </Notice>
 ```
