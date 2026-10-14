@@ -1,16 +1,19 @@
 import * as React from 'react'
 import { cva } from 'class-variance-authority'
 
-import { BsChevronLeft, BsChevronRight } from '../../assets'
+import { BsCheck, BsChevronLeft, BsChevronRight } from '../../assets'
 import { StepsIndicator } from '../StepsIndicator'
 import { cn } from '../../lib/utils'
 
 type StepStatus = 'complete' | 'current' | 'upcoming'
 
+type StepperOrientation = 'horizontal' | 'vertical'
+
 interface StepperItemContextValue {
   step: number
   status: StepStatus
   last: boolean
+  orientation: StepperOrientation
 }
 
 const StepperItemContext = React.createContext<StepperItemContextValue | null>(
@@ -34,22 +37,42 @@ const flattenSteps = (
   })
 
 interface StepperProps extends React.OlHTMLAttributes<HTMLOListElement> {
-  currentStep?: number
+  currentStep?: number | null
+  orientation?: StepperOrientation
 }
 
 const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
-  ({ className, currentStep = 0, children, ...props }, ref) => {
+  (
+    {
+      className,
+      currentStep = 0,
+      orientation = 'horizontal',
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const items = flattenSteps(children)
-    const current = Math.min(
-      Number.isFinite(currentStep) ? Math.max(0, Math.floor(currentStep)) : 0,
-      Math.max(0, items.length - 1)
-    )
+    const current =
+      currentStep === null
+        ? -1
+        : Math.min(
+            Number.isFinite(currentStep)
+              ? Math.max(0, Math.floor(currentStep))
+              : 0,
+            Math.max(0, items.length - 1)
+          )
 
     return (
       <ol
         ref={ref}
         role="list"
-        className={cn('flex min-w-0 items-center gap-2', className)}
+        data-orientation={orientation}
+        className={cn(
+          'flex min-w-0',
+          orientation === 'vertical' ? 'flex-col' : 'items-center gap-2',
+          className
+        )}
         {...props}
       >
         {items.map(({ key, element }, index) => (
@@ -63,7 +86,8 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
                   : index === current
                     ? 'current'
                     : 'upcoming',
-              last: index === items.length - 1
+              last: index === items.length - 1,
+              orientation
             }}
           >
             {element}
@@ -100,8 +124,12 @@ const stepperNumberVariants = cva(
   }
 )
 
-const stepperTitleVariants = cva('text-xs leading-normal', {
+const stepperTitleVariants = cva('', {
   variants: {
+    orientation: {
+      horizontal: 'text-xs leading-normal',
+      vertical: 'text-sm leading-6'
+    },
     status: {
       complete: 'text-foreground dark:text-foreground-dark',
       current: 'font-semibold text-foreground dark:text-foreground-dark',
@@ -116,15 +144,86 @@ interface StepperItemProps extends Omit<
 > {
   title: React.ReactNode
   description?: React.ReactNode
+  status?: StepStatus
+  statusLabel?: React.ReactNode
+}
+
+const defaultStatusLabels: Record<StepStatus, React.ReactNode> = {
+  complete: 'Completed',
+  current: null,
+  upcoming: 'To do'
 }
 
 const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
-  ({ className, title, description, ...props }, ref) => {
+  (
+    {
+      className,
+      title,
+      description,
+      status: statusProp,
+      statusLabel,
+      ...props
+    },
+    ref
+  ) => {
     const context = React.useContext(StepperItemContext)
     if (!context) {
       throw new Error('StepperItem must be rendered inside a Stepper')
     }
-    const { step, status, last } = context
+    const { step, last, orientation } = context
+    const status = statusProp ?? context.status
+    const hasDescription = description != null && description !== false
+
+    if (orientation === 'vertical') {
+      const label = statusLabel ?? defaultStatusLabels[status]
+
+      return (
+        <li
+          ref={ref}
+          aria-current={status === 'current' ? 'step' : undefined}
+          data-status={status}
+          className={cn('flex min-w-0 gap-3', className)}
+          {...props}
+        >
+          <span className="flex flex-col items-center">
+            <span
+              aria-hidden="true"
+              className={stepperNumberVariants({ status })}
+            >
+              {status === 'complete' ? (
+                <BsCheck className="h-4 w-4 fill-current" />
+              ) : (
+                step
+              )}
+            </span>
+            {last ? null : (
+              <span
+                aria-hidden="true"
+                className="my-1 min-h-4 w-px flex-1 bg-border dark:bg-border-dark"
+              />
+            )}
+          </span>
+          <span
+            className={cn(
+              'flex min-w-0 flex-col break-words',
+              last ? null : 'pb-4'
+            )}
+          >
+            <span className={stepperTitleVariants({ orientation, status })}>
+              {title}
+              {label != null && label !== false ? (
+                <span className="sr-only"> {label}</span>
+              ) : null}
+            </span>
+            {hasDescription ? (
+              <span className="text-xs leading-normal text-foreground-muted dark:text-foreground-muted-dark">
+                {description}
+              </span>
+            ) : null}
+          </span>
+        </li>
+      )
+    }
 
     return (
       <li
@@ -142,8 +241,13 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
           {step}
         </span>
         <span className="flex min-w-0 flex-col break-words">
-          <span className={stepperTitleVariants({ status })}>{title}</span>
-          {description != null && description !== false ? (
+          <span className={stepperTitleVariants({ orientation, status })}>
+            {title}
+            {statusLabel != null && statusLabel !== false ? (
+              <span className="sr-only"> {statusLabel}</span>
+            ) : null}
+          </span>
+          {hasDescription ? (
             <span className="text-[10px] leading-normal text-foreground-muted dark:text-foreground-muted-dark">
               {description}
             </span>
@@ -265,5 +369,6 @@ export {
   type StepperProps,
   type StepperItemProps,
   type StepperNavProps,
+  type StepperOrientation,
   type StepStatus
 }

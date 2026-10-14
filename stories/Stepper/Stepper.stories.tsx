@@ -49,6 +49,50 @@ export const Completed: Story = {
   }
 }
 
+export const Vertical: Story = {
+  args: {
+    currentStep: 2,
+    orientation: 'vertical'
+  },
+  render: args => (
+    <Stepper {...args} className="w-[480px]">
+      {steps.map(step => (
+        <StepperItem
+          key={step.id}
+          title={step.title}
+          description="Short description"
+        />
+      ))}
+    </Stepper>
+  )
+}
+
+export const NotStarted: Story = {
+  args: {
+    currentStep: null,
+    orientation: 'vertical'
+  },
+  render: Vertical.render
+}
+
+export const ItemStatus: Story = {
+  args: {
+    currentStep: null,
+    orientation: 'vertical'
+  },
+  render: args => (
+    <Stepper {...args} className="w-[480px]">
+      <StepperItem title="Create the project" status="complete" />
+      <StepperItem title="Invite your team" />
+      <StepperItem title="Connect a repository" status="complete" />
+      <StepperItem
+        title="Set up billing"
+        description="Optional for trial accounts"
+      />
+    </Stepper>
+  )
+}
+
 const NavDemo = ({ indicator }: { indicator: 'dots' | 'counter' }) => {
   const [currentStep, setCurrentStep] = React.useState(0)
 
