@@ -38,7 +38,8 @@ persist.
 ### Links and inline content
 
 Children render in a single text container, so a sentence with a link in it
-flows as normal text.
+flows as normal text. Use `Link` with `variant="inline"` for links in running
+text.
 
 <Canvas of={NoticeStories.WithLink} />
 
@@ -119,7 +120,7 @@ Dark mode swaps the tokens symmetrically: filled variants use
 ## Usage
 
 ```tsx
-import { Notice } from '@nearform/quantum'
+import { Link, Notice } from '@nearform/quantum'
 
 <Notice variant="warning-filled" onDismiss={() => setVisible(false)}>
   This project is in active development.
@@ -131,7 +132,7 @@ import { Notice } from '@nearform/quantum'
 
 <Notice variant="warning" title="Runs can't start yet">
   <ul className="list-disc pl-5">
-    <li>Add an API key in <a href="/settings" className="underline">Settings</a>.</li>
+    <li>Add an API key in <Link href="/settings" variant="inline">Settings</Link>.</li>
   </ul>
 </Notice>
 ```

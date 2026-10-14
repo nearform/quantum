@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { Notice } from '@/index'
+import { Link, Notice } from '@/index'
 import type { NoticeVariant } from '@/index'
 
 const VARIANTS: NoticeVariant[] = [
@@ -91,9 +91,9 @@ export const WithLink: Story = {
     children: (
       <>
         Runs can&apos;t start until Claude is connected. Add an API key in{' '}
-        <a href="#" className="underline">
+        <Link href="#" variant="inline">
           Settings
-        </a>
+        </Link>
         .
       </>
     )
@@ -109,16 +109,16 @@ export const WithTitle: Story = {
       <ul className="list-disc pl-5">
         <li>
           No API key. Add one in{' '}
-          <a href="#" className="underline">
+          <Link href="#" variant="inline">
             Settings
-          </a>
+          </Link>
           .
         </li>
         <li>
           No checkout for <code>nearform/quantum</code>.{' '}
-          <a href="#" className="underline">
+          <Link href="#" variant="inline">
             Clone it
-          </a>
+          </Link>
           .
         </li>
       </ul>

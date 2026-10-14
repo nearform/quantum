@@ -7,7 +7,15 @@ import * as LinkStories from './Link.stories'
 # Link
 
 ## Default
+The default `nav` variant is for menus and navigation lists.
+
 <Canvas of={LinkStories.Default} />
+
+## Inline
+Use `variant="inline"` for a link inside running text. It flows with the
+sentence, takes the surrounding text colour and is underlined.
+
+<Canvas of={LinkStories.Inline} />
 
 ## Selected
 <Canvas of={LinkStories.Selected} />
@@ -24,6 +32,11 @@ The component accepts all the properties defined for an HTML Anchor element (<co
     <td>Attribute</td>
     <td>Type</td>
     <td>Default</td>
+  </tr>
+  <tr>
+    <td>variant</td>
+    <td>`'nav' | 'inline'`</td>
+    <td>`'nav'`</td>
   </tr>
   <tr>
     <td>selected</td>
