@@ -5,6 +5,8 @@ import { background } from '../src/colors/background'
 import { button } from '../src/colors/button'
 import { feedback } from '../src/colors/feedback'
 import { foreground } from '../src/colors/foreground'
+import baseStyles from '../src/tailwind-base'
+import theme from '../src/theme'
 
 /**
  * WCAG 2.x relative luminance and contrast ratio.
@@ -252,4 +254,35 @@ describe('a surface is distinguishable from the page it sits on', () => {
       ratioOf(background.alt.dark, background.subtle.dark)
     ).toBeGreaterThanOrEqual(MIN_STEP)
   })
+})
+
+describe('the focus indicator', () => {
+  const ring = {
+    light: baseStyles[':root']['--quantum-focus-ring'],
+    dark: baseStyles['.dark']['--quantum-focus-ring']
+  } as const
+
+  it('keeps the brand green halo inside the contrast ring', () => {
+    expect(theme.boxShadow.brandGreen).toBe(
+      `0px 0px 0px 4px ${colors.brandGreen[100]}, 0px 0px 0px 6px var(--quantum-focus-ring, ${ring.light})`
+    )
+  })
+
+  it.each(['light', 'dark'] as const)(
+    'clears 3:1 on every surface in %s mode',
+    mode => {
+      for (const [, surface] of surfaceCases(mode)) {
+        expect(ratioOf(ring[mode], surface)).toBeGreaterThanOrEqual(AA_NON_TEXT)
+      }
+    }
+  )
+
+  it.each(surfaceCases('dark'))(
+    'clears 3:1 with the dark mode halo on %s',
+    (_name, surface) => {
+      expect(ratioOf(colors.brandGreen[10], surface)).toBeGreaterThanOrEqual(
+        AA_NON_TEXT
+      )
+    }
+  )
 })

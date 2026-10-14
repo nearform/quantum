@@ -241,7 +241,7 @@
   --shadow-blue: 0px 0px 0px 4px rgb(118,169,250);
   --shadow-red: 0px 0px 0px 4px rgb(249,128,128);
   --shadow-green: 0px 0px 0px 4px rgb(49,196,141,1);
-  --shadow-brandGreen: 0px 0px 0px 4px #03e5a4;
+  --shadow-brandGreen: 0px 0px 0px 4px #03e5a4, 0px 0px 0px 6px var(--quantum-focus-ring, #000e38);
   --shadow-brandGreen10: 0px 0px 0px 4px #e5fcf5;
   --shadow-none: 0px 0px;
 
@@ -289,5 +289,11 @@
 @layer base {
   button:not(:disabled), [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+  :root {
+    --quantum-focus-ring: #000e38;
+  }
+  .dark {
+    --quantum-focus-ring: #fff;
   }
 }
