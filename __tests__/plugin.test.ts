@@ -142,6 +142,36 @@ describe('tailwind plugin supplies the Quantum theme', () => {
     )
   })
 
+  it.each([
+    [
+      'the plugin',
+      () =>
+        compile('@plugin "quantum";\n@tailwind utilities;', {
+          base: repoRoot,
+          loadModule: loadQuantumPlugin
+        })
+    ],
+    [
+      'src/quantum.css',
+      () =>
+        compile(
+          `${fs.readFileSync(path.join(repoRoot, 'src/quantum.css'), 'utf8')}\n@tailwind utilities;`,
+          { base: repoRoot }
+        )
+    ]
+  ])(
+    'resolves the focus ring on the focused element through %s',
+    async (_route, build) => {
+      const css = (await build()).build(['focus-visible:shadow-brandGreen'])
+      const rule = css.slice(css.indexOf('.focus-visible\\:shadow-brandGreen'))
+
+      expect(rule).toMatch(
+        /^[^}]*--tw-shadow:[^;]*var\(--quantum-focus-ring, #000e38\)/
+      )
+      expect(css).not.toContain('var(--shadow-brandGreen)')
+    }
+  )
+
   it('does not mutate the consumer content config', () => {
     // Tailwind v4 replaced `content` with source detection. The plugin used to
     // push Quantum's own path into `content`, which breaks a v4 compile.
