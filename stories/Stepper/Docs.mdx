@@ -19,9 +19,35 @@ description. `StepperNav` moves between steps with Back and Next buttons.
 
 Set `currentStep` to the index of the step the user is on. Steps are counted
 from 0. Steps before it are complete, and steps after it are upcoming. A
-value out of range is kept in range, so one step is always current.
+number out of range is kept in range, so one step is current.
 
 <Canvas of={StepperStories.Completed} />
+
+Set `currentStep` to `null` when no step has started. No step is current, and
+every step is upcoming unless it sets its own status.
+
+<Canvas of={StepperStories.NotStarted} />
+
+## Step status
+
+Set `status` on a `StepperItem` to `'complete'`, `'current'` or `'upcoming'`.
+It overrides the status that comes from `currentStep`, so complete steps do not
+have to be in order. Use this for a checklist that can be done in any order.
+
+<Canvas of={StepperStories.ItemStatus} />
+
+## Vertical
+
+Set `orientation="vertical"` to stack the steps, for a list of steps in a page
+rather than a wizard header. Titles are at body text size, with the
+description below and a line between the number boxes.
+
+A complete step shows a check in place of its number. Each complete and
+upcoming step also has visually hidden text, "Completed" or "To do", so its
+status is not shown by colour alone. Set `statusLabel` to change the text, or
+to `false` to remove it.
+
+<Canvas of={StepperStories.Vertical} />
 
 ## Navigation
 
@@ -52,7 +78,9 @@ The stepper has dark mode styles.
 
 `Stepper` renders an ordered list, so screen readers announce the number of
 steps and the position of each one. The current step has
-`aria-current="step"`. The number boxes and the lines between steps are hidden
+`aria-current="step"`. In a vertical stepper, complete and upcoming steps also
+have hidden text that names their status. In a horizontal stepper, this text
+is only added when you set `statusLabel`. The number boxes and the lines between steps are hidden
 from assistive technology, because the list already gives the position.
 
 `StepperNav` is a group labelled by `label`. The counter is a live region, so
@@ -77,8 +105,13 @@ passes them to its `li`. `StepperNav` passes them to its `div`.
   <tbody>
     <tr>
       <td>currentStep</td>
-      <td>`number`</td>
+      <td>`number | null`</td>
       <td>`0`</td>
+    </tr>
+    <tr>
+      <td>orientation</td>
+      <td>`'horizontal' | 'vertical'`</td>
+      <td>`'horizontal'`</td>
     </tr>
   </tbody>
 </table>
@@ -103,6 +136,16 @@ passes them to its `li`. `StepperNav` passes them to its `div`.
       <td>description</td>
       <td>`ReactNode`</td>
       <td>-</td>
+    </tr>
+    <tr>
+      <td>status</td>
+      <td>`'complete' | 'current' | 'upcoming'`</td>
+      <td>from `currentStep`</td>
+    </tr>
+    <tr>
+      <td>statusLabel</td>
+      <td>`ReactNode`</td>
+      <td>`'Completed'` or `'To do'` when vertical</td>
     </tr>
   </tbody>
 </table>

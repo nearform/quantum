@@ -178,6 +178,151 @@ describe('Stepper', () => {
   })
 })
 
+describe('Stepper status', () => {
+  const statuses = (container: HTMLElement) =>
+    Array.from(container.querySelectorAll('li')).map(item =>
+      item.getAttribute('data-status')
+    )
+
+  it('lets each item set its own status over the one from currentStep', () => {
+    const container = render(
+      <Stepper currentStep={0}>
+        <StepperItem title="One" status="complete" />
+        <StepperItem title="Two" />
+        <StepperItem title="Three" status="current" />
+      </Stepper>
+    )
+
+    expect(statuses(container)).toEqual(['complete', 'upcoming', 'current'])
+    expect(
+      Array.from(container.querySelectorAll('li')).map(item =>
+        item.getAttribute('aria-current')
+      )
+    ).toEqual([null, null, 'step'])
+  })
+
+  it('marks no step current when currentStep is null', () => {
+    const container = render(
+      <Stepper currentStep={null}>
+        <StepperItem title="One" />
+        <StepperItem title="Two" />
+      </Stepper>
+    )
+
+    expect(statuses(container)).toEqual(['upcoming', 'upcoming'])
+    expect(container.querySelector('[aria-current]')).toBeNull()
+  })
+
+  it('keeps complete steps that are not in order', () => {
+    const container = render(
+      <Stepper currentStep={null} orientation="vertical">
+        <StepperItem title="One" />
+        <StepperItem title="Two" status="complete" />
+        <StepperItem title="Three" />
+        <StepperItem title="Four" status="complete" />
+      </Stepper>
+    )
+
+    expect(statuses(container)).toEqual([
+      'upcoming',
+      'complete',
+      'upcoming',
+      'complete'
+    ])
+    expect(container.querySelector('[aria-current]')).toBeNull()
+  })
+
+  it('adds a status label in horizontal steps only when one is given', () => {
+    const container = render(
+      <Stepper currentStep={1}>
+        <StepperItem title="One" statusLabel="Done" />
+        <StepperItem title="Two" />
+      </Stepper>
+    )
+
+    const labels = Array.from(container.querySelectorAll('li')).map(
+      item => item.querySelector('.sr-only')?.textContent ?? null
+    )
+    expect(labels).toEqual([' Done', null])
+  })
+})
+
+describe('Stepper vertical', () => {
+  const renderVertical = (currentStep?: number | null) =>
+    render(
+      <Stepper currentStep={currentStep} orientation="vertical">
+        <StepperItem title="One" description="First" />
+        <StepperItem title="Two" />
+        <StepperItem title="Three" />
+      </Stepper>
+    )
+
+  it('marks the list as vertical', () => {
+    const container = renderVertical()
+
+    expect(
+      container.querySelector('ol')!.getAttribute('data-orientation')
+    ).toBe('vertical')
+  })
+
+  it('shows a check instead of the number for complete steps', () => {
+    const container = renderVertical(1)
+
+    const badges = Array.from(container.querySelectorAll('li')).map(item =>
+      item.querySelector('[aria-hidden="true"]')!
+    )
+    expect(badges.map(badge => badge.querySelector('svg') !== null)).toEqual([
+      true,
+      false,
+      false
+    ])
+    expect(badges.map(badge => badge.textContent)).toEqual(['', '2', '3'])
+  })
+
+  it('states the status of complete and upcoming steps for screen readers', () => {
+    const container = renderVertical(1)
+
+    const labels = Array.from(container.querySelectorAll('li')).map(
+      item => item.querySelector('.sr-only')?.textContent ?? null
+    )
+    expect(labels).toEqual([' Completed', null, ' To do'])
+  })
+
+  it('uses the given status label', () => {
+    const container = render(
+      <Stepper currentStep={null} orientation="vertical">
+        <StepperItem title="One" status="complete" statusLabel="Fait" />
+        <StepperItem title="Two" statusLabel="À faire" />
+        <StepperItem title="Three" statusLabel={false} />
+      </Stepper>
+    )
+
+    const labels = Array.from(container.querySelectorAll('li')).map(
+      item => item.querySelector('.sr-only')?.textContent ?? null
+    )
+    expect(labels).toEqual([' Fait', ' À faire', null])
+  })
+
+  it('draws a connector below every step but the last', () => {
+    const container = renderVertical()
+
+    const connectors = Array.from(container.querySelectorAll('li')).map(
+      item => item.querySelectorAll('[aria-hidden="true"]').length
+    )
+    expect(connectors).toEqual([2, 2, 1])
+  })
+
+  it('puts the description below the title', () => {
+    const container = renderVertical()
+
+    const text = container.querySelector('li')!.lastElementChild!
+    expect(Array.from(text.children).map(child => child.textContent)).toEqual([
+      'One',
+      'First'
+    ])
+  })
+})
+
 describe('StepperNav', () => {
   it('moves back and forward through the steps', () => {
     const onStepChange = jest.fn()
