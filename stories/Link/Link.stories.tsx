@@ -17,6 +17,10 @@ const meta = {
     tabIndex: 0
   },
   argTypes: {
+    variant: {
+      options: ['nav', 'inline'],
+      control: { type: 'inline-radio' }
+    },
     onClick: {
       action: 'clicked'
     },
@@ -61,4 +65,17 @@ export const WithIcon: Story = {
     icon: icons.BsChevronLeft,
     href: 'http://www.example.com/3'
   }
+}
+
+export const Inline: Story = {
+  args: {
+    variant: 'inline',
+    href: 'http://www.example.com/4'
+  },
+  render: args => (
+    <p className="max-w-sm text-sm text-foreground dark:text-foreground-dark">
+      Runs can&apos;t start until Claude is connected. Add an API key in{' '}
+      <Link {...args}>Settings</Link>, then try again.
+    </p>
+  )
 }
