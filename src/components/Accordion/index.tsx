@@ -32,7 +32,7 @@ const Accordion = React.forwardRef<
   <AccordionPrimitive.Root
     className={cn(
       sizeVariants({ size }),
-      'dark:bg-grey-900 bg-white w-[206px] rounded-md shadow-[0_2px_10px] shadow-black/5',
+      'dark:bg-grey-900 bg-white w-full rounded-md shadow-[0_2px_10px] shadow-black/5',
       className
     )}
     {...props}
@@ -49,7 +49,7 @@ const AccordionItem = React.forwardRef<
 >(({ children, className, ...props }, ref) => (
   <AccordionPrimitive.Item
     className={cn(
-      'overflow-hidden first:mt-0 first:rounded-t last:rounded-b border-b border-grey-200 dark:border-grey-700 last:border-0',
+      'first:mt-0 first:rounded-t last:rounded-b border-b border-grey-200 dark:border-grey-700 last:border-0',
       className
     )}
     {...props}
@@ -74,28 +74,41 @@ const AccordionHeader = React.forwardRef<
 ))
 AccordionHeader.displayName = AccordionPrimitive.Header.displayName
 
+type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
+
+type AccordionTriggerProps = React.ComponentPropsWithoutRef<
+  typeof AccordionPrimitive.Trigger
+> & {
+  headingLevel?: HeadingLevel
+}
+
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ children, className, ...props }, ref) => (
-  <AccordionHeader>
-    <AccordionPrimitive.Trigger
-      className={cn(
-        'px-4 py-4 dark:bg-grey-900 dark:text-white group flex flex-1 cursor-pointer items-center justify-between bg-white leading-none',
-        'focus-visible:outline-hidden focus-visible:shadow-brandGreen dark:focus-visible:shadow-brandGreen10',
-        className
-      )}
-      {...props}
-      ref={ref}
-    >
-      {children}
-      <BsChevronDown
-        className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180 w-3 h-3 text-gray-800"
-        aria-hidden
-      />
-    </AccordionPrimitive.Trigger>
-  </AccordionHeader>
-))
+  AccordionTriggerProps
+>(({ children, className, headingLevel = 3, ...props }, ref) => {
+  const Heading = `h${headingLevel}` as const
+  return (
+    <AccordionHeader asChild>
+      <Heading>
+        <AccordionPrimitive.Trigger
+          className={cn(
+            'relative px-4 py-4 dark:text-white group flex flex-1 cursor-pointer items-center justify-between leading-none',
+            'focus-visible:z-10 focus-visible:outline-hidden focus-visible:shadow-brandGreen dark:focus-visible:shadow-brandGreen10',
+            className
+          )}
+          {...props}
+          ref={ref}
+        >
+          {children}
+          <BsChevronDown
+            className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180 w-3 h-3 text-gray-800"
+            aria-hidden
+          />
+        </AccordionPrimitive.Trigger>
+      </Heading>
+    </AccordionHeader>
+  )
+})
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName
 
 const AccordionContent = React.forwardRef<
