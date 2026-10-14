@@ -26,5 +26,11 @@
 export default {
   'button:not(:disabled), [role="button"]:not(:disabled)': {
     cursor: 'pointer'
+  },
+  ':root': {
+    '--quantum-focus-ring': '#000e38'
+  },
+  '.dark': {
+    '--quantum-focus-ring': '#fff'
   }
 }
