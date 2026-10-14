@@ -11,7 +11,7 @@ const meta = {
   title: 'Components/Accordion',
   component: Accordion,
   parameters: {
-    layout: 'centered'
+    layout: 'padded'
   },
   argTypes: {
     type: {
@@ -71,4 +71,36 @@ export const Multiple: Story = {
     type: 'multiple',
     size: 'md'
   }
+}
+
+export const Sidebar: Story = {
+  args: {
+    type: 'single',
+    collapsible: true,
+    size: 'md',
+    className: 'w-[206px]'
+  }
+}
+
+export const HeadingLevel: Story = {
+  args: {
+    type: 'single',
+    collapsible: true,
+    size: 'md'
+  },
+  render: props => (
+    <section>
+      <h1 className="text-xl font-semibold mb-4 dark:text-white">Settings</h1>
+      <Accordion {...props}>
+        <AccordionItem value="notifications">
+          <AccordionTrigger headingLevel={2}>Notifications</AccordionTrigger>
+          <AccordionContent>Choose how you hear from us.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="privacy">
+          <AccordionTrigger headingLevel={2}>Privacy</AccordionTrigger>
+          <AccordionContent>Control who can see your profile.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </section>
+  )
 }
