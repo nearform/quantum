@@ -129,6 +129,23 @@ describe('Meter', () => {
     expect((marker as HTMLElement).style.left).toBe('40%')
   })
 
+  it('rescales marker position when segments overflow', () => {
+    const el = render(
+      <Meter
+        max={1250}
+        segments={[
+          { value: 1100, label: 'a' },
+          { value: 100, label: 'b' },
+          { value: 300, label: 'c' }
+        ]}
+        marker={{ at: 0.4, label: 'Today' }}
+      />
+    )
+    const marker = el.querySelector('button[aria-label="Today"]') as HTMLElement
+    const pct = parseFloat(marker.style.left)
+    expect(pct).toBeCloseTo(((0.4 * 1250) / 1500) * 100, 1)
+  })
+
   it('clamps marker at to 0-1 range', () => {
     const el = render(
       <Meter

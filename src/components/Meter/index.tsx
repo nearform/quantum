@@ -120,7 +120,9 @@ const Meter = React.forwardRef<HTMLDivElement, MeterProps>(
     }
 
     const markerAt = marker
-      ? Math.max(0, Math.min(1, marker.at)) * 100
+      ? Math.max(0, Math.min(1, marker.at)) *
+        (total > safeMax ? safeMax / total : 1) *
+        100
       : undefined
 
     return (
