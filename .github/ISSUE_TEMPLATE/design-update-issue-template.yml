@@ -32,6 +32,7 @@ body:
         - Input
         - Label
         - Link
+        - Meter
         - Modal
         - Navigation
         - Notice
