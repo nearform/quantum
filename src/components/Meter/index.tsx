@@ -124,14 +124,10 @@ const Meter = React.forwardRef<HTMLDivElement, MeterProps>(
       : undefined
 
     return (
-      <div
-        ref={ref}
-        role="img"
-        aria-label={ariaLabel}
-        className={cn('relative', className)}
-        {...props}
-      >
+      <div ref={ref} className={cn('relative', className)} {...props}>
         <div
+          role="img"
+          aria-label={ariaLabel}
           className={cn(
             'flex h-3 w-full overflow-hidden rounded-full',
             'bg-border dark:bg-border-dark',
