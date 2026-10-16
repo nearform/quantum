@@ -13,3 +13,6 @@ storybook-static/
 
 # Transient probe files watchman drops in the root while jest watches
 .watchman-cookie-*
+
+# Visual regression diff output
+__snapshots__/visual/__diff__/

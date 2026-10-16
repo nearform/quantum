@@ -1,0 +1,26 @@
+name: Visual Regression
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  visual-test:
+    name: Visual regression tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+      - name: Run visual tests in the Playwright Docker image
+        run: npm run test-storybook:visual
+      - name: Upload diff artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-regression-diffs
+          path: __snapshots__/visual/__diff__/
+          retention-days: 30

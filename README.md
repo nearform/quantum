@@ -289,6 +289,78 @@ To run Storybook tests for the project, run:
 npm run test-storybook
 ```
 
+### Visual regression tests
+
+Every story is screenshotted in light and dark mode and compared against the
+baseline images in `__snapshots__/visual/`, named
+`<story-id>-<light|dark>.png`. A story fails when more than 1% of its pixels
+differ from the baseline. These checks run in the **Visual Regression** CI
+workflow on every pull request.
+
+The screenshot covers the whole story, including anything below the fold. The
+browser clock is frozen at 12 June 2024 during visual runs, so stories that
+use `new Date()` (such as Calendar) render the same every day.
+
+Fonts and anti-aliasing render differently on macOS, Windows and Linux, so the
+tests always run inside the Ubuntu-based Playwright Docker image, both locally
+and in CI. You need Docker running; nothing else needs to be installed or
+served. To run them:
+
+```sh
+npm run test-storybook:visual
+```
+
+The script picks the image tag from the `playwright` version in
+`package-lock.json` and runs it on your machine's own architecture (Chromium
+crashes under x64 emulation on Apple Silicon). Inside the container it installs
+dependencies, builds Storybook, serves it and runs the test runner. Its
+`node_modules` and Storybook build stay inside the container, so your own
+`node_modules` is left alone. The first run downloads the image and is slow.
+
+Extra arguments are passed to `test-storybook`, so you can check one component:
+
+```sh
+npm run test-storybook:visual -- stories/Button
+```
+
+When a check fails, the before/after/diff image for each failing story is
+written to `__snapshots__/visual/__diff__/` (git-ignored). In CI, the same
+images are uploaded as the `visual-regression-diffs` artifact on the workflow
+run.
+
+#### Updating the baseline images
+
+If the change is intentional (a new story, a restyle, a token change), update
+the baselines and commit them with your change:
+
+```sh
+npm run test-storybook:visual:update
+```
+
+This rewrites the image for every story that changed and adds images for new
+stories. Delete the images for any story you removed or renamed yourself,
+because the update leaves old files in place. Check the changed PNGs in the
+pull request diff before you merge.
+
+This uses the same Docker image as the tests, so the images match CI. Running
+the test runner with `VISUAL_TEST=true` outside that image stops with an error
+rather than writing images that would fail in CI. A plain
+`npm run test-storybook` never takes screenshots.
+
+A Playwright upgrade changes the Docker image, and with it the browser, so run
+the update in the same pull request as the version bump.
+
+To leave a story out of the visual checks (for example, one that renders
+something that changes on every run), set
+`parameters: { visual: { disable: true } }` on the story.
+
+Popovers, menus, selects, modals and tooltips render outside the story root
+and only once opened. To snapshot one open, set
+`parameters: { visual: { open: 'click' } }` (or `'hover'` for tooltips). The
+test runner clicks the first trigger with `aria-expanded="false"` (or hovers
+the first `data-state="closed"` element), waits for the overlay, and widens the
+screenshot to include it. Accessibility scans run before the overlay is opened.
+
 ### Dark mode in Storybook
 
 Stories render twice by default, light and dark side by side. A fixed `id`
