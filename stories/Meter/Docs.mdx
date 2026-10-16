@@ -1,0 +1,47 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as MeterStories from './Meter.stories'
+
+<Meta of={MeterStories} />
+
+# Meter
+
+A segmented progress bar that shows values against a maximum, such as spend
+against a limit, quota usage or capacity. Segments stack left to right; when
+their total exceeds the maximum the overflow renders in the error colour.
+
+<Canvas of={MeterStories.Default} />
+
+## With a marker
+
+A marker sits at a fraction of the bar (0–1) and shows a tooltip on hover
+or focus. Use it to mark a point like "Today" along a time-based bar.
+
+<Canvas of={MeterStories.WithMarker} />
+
+## Over limit
+
+When segments sum past `max`, the portion beyond the limit renders in the
+error colour. The bar never overflows its container.
+
+<Canvas of={MeterStories.OverLimit} />
+
+## Multiple segments
+
+Any number of segments can be stacked. Each needs a `label` for the
+generated accessible name. Add `pattern: 'striped'` to make a segment
+distinguishable without colour.
+
+<Canvas of={MeterStories.MultipleSegments} />
+
+## Accessibility
+
+The component renders with `role="img"`. Without a supplied `aria-label`,
+one is generated from the segments, the maximum and the remaining amount,
+for example: "€1,100 Approved, €100 Pending, of a €1,250 limit. €50 left."
+
+Pass `formatValue` to control how numbers appear in the generated label.
+
+Under `forced-colors: active`, solid segments use `CanvasText`, striped
+segments use a pattern of `CanvasText` and `Canvas`, and the track has a
+visible border.
