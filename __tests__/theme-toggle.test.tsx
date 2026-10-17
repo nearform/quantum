@@ -78,13 +78,14 @@ describe('ThemeToggle', () => {
     expect(changes).toEqual(['dark'])
   })
 
-  it('reads stored theme from localStorage on mount', () => {
+  it('reads stored theme from localStorage on mount and applies it to <html>', () => {
     localStorage.setItem('theme', 'dark')
     const container = mount(<ThemeToggle />)
 
     expect(container.querySelector('button')!.getAttribute('aria-label')).toBe(
       'Use light theme'
     )
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
   })
 })
 

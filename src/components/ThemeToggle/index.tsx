@@ -43,6 +43,10 @@ const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
     )
 
     React.useEffect(() => {
+      applyTheme(theme)
+    }, [theme])
+
+    React.useEffect(() => {
       const mq = window.matchMedia('(prefers-color-scheme: dark)')
       const handle = () => {
         try {
