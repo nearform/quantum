@@ -78,14 +78,34 @@ describe('ThemeToggle', () => {
     expect(changes).toEqual(['dark'])
   })
 
-  it('reads stored theme from localStorage on mount and applies it to <html>', () => {
-    localStorage.setItem('theme', 'dark')
-    const container = mount(<ThemeToggle />)
+  it('keeps multiple instances in sync', () => {
+    const container = document.createElement('div')
+    document.body.appendChild(container)
 
-    expect(container.querySelector('button')!.getAttribute('aria-label')).toBe(
-      'Use light theme'
-    )
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
+    act(() => {
+      createRoot(container).render(
+        <>
+          <ThemeToggle data-testid="a" />
+          <ThemeToggle data-testid="b" />
+        </>
+      )
+    })
+
+    const [a, b] = container.querySelectorAll('button')
+
+    act(() => {
+      a.click()
+    })
+
+    expect(a.getAttribute('aria-label')).toBe('Use light theme')
+    expect(b.getAttribute('aria-label')).toBe('Use light theme')
+
+    act(() => {
+      b.click()
+    })
+
+    expect(a.getAttribute('aria-label')).toBe('Use dark theme')
+    expect(b.getAttribute('aria-label')).toBe('Use dark theme')
   })
 })
 

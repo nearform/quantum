@@ -32,6 +32,54 @@ function persistTheme(theme: Theme) {
   }
 }
 
+const listeners = new Set<() => void>()
+let currentTheme: Theme = 'light'
+let storeInitialised = false
+
+function initStore() {
+  if (storeInitialised) {
+    const resolved = resolveTheme()
+    if (resolved !== currentTheme) setStoreTheme(resolved)
+    return
+  }
+  storeInitialised = true
+  currentTheme = resolveTheme()
+  applyClass(currentTheme)
+  listeners.forEach(fn => fn())
+
+  const mq = window.matchMedia('(prefers-color-scheme: dark)')
+  mq.addEventListener('change', () => {
+    try {
+      if (localStorage.getItem(STORAGE_KEY)) return
+    } catch {
+      /* storage can be blocked */
+    }
+    setStoreTheme(mq.matches ? 'dark' : 'light')
+  })
+}
+
+function setStoreTheme(next: Theme) {
+  if (next === currentTheme) return
+  currentTheme = next
+  applyClass(next)
+  listeners.forEach(fn => fn())
+}
+
+function subscribe(cb: () => void) {
+  listeners.add(cb)
+  return () => {
+    listeners.delete(cb)
+  }
+}
+
+function getSnapshot() {
+  return currentTheme
+}
+
+function getServerSnapshot() {
+  return 'light' as Theme
+}
+
 interface ThemeToggleProps extends Omit<
   IconButtonProps,
   'icon' | 'label' | 'onClick' | 'aria-label' | 'children'
@@ -41,37 +89,20 @@ interface ThemeToggleProps extends Omit<
 
 const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
   ({ onThemeChange, ...props }, ref) => {
-    const [theme, setTheme] = React.useState<Theme>('light')
-    const [mounted, setMounted] = React.useState(false)
-
     React.useEffect(() => {
-      setTheme(resolveTheme())
-      setMounted(true)
+      initStore()
     }, [])
 
-    React.useEffect(() => {
-      if (mounted) applyClass(theme)
-    }, [theme, mounted])
-
-    React.useEffect(() => {
-      const mq = window.matchMedia('(prefers-color-scheme: dark)')
-      const handle = () => {
-        try {
-          if (localStorage.getItem(STORAGE_KEY)) return
-        } catch {
-          /* storage can be blocked */
-        }
-        const next = mq.matches ? 'dark' : 'light'
-        setTheme(next)
-      }
-      mq.addEventListener('change', handle)
-      return () => mq.removeEventListener('change', handle)
-    }, [])
+    const theme = React.useSyncExternalStore(
+      subscribe,
+      getSnapshot,
+      getServerSnapshot
+    )
 
     const toggle = () => {
       const next: Theme = theme === 'dark' ? 'light' : 'dark'
       persistTheme(next)
-      setTheme(next)
+      setStoreTheme(next)
       onThemeChange?.(next)
     }
 
