@@ -45,9 +45,10 @@ function ensureResolved() {
 
 let mqListenerAttached = false
 
-function attachMqListener() {
+function attachListeners() {
   if (mqListenerAttached) return
   mqListenerAttached = true
+
   const mq = window.matchMedia('(prefers-color-scheme: dark)')
   mq.addEventListener('change', () => {
     try {
@@ -56,6 +57,15 @@ function attachMqListener() {
       /* storage can be blocked */
     }
     setStoreTheme(mq.matches ? 'dark' : 'light')
+  })
+
+  window.addEventListener('storage', (e: StorageEvent) => {
+    if (e.key !== STORAGE_KEY) return
+    if (e.newValue === 'dark' || e.newValue === 'light') {
+      setStoreTheme(e.newValue)
+    } else {
+      setStoreTheme(resolveTheme())
+    }
   })
 }
 
@@ -92,7 +102,7 @@ interface ThemeToggleProps extends Omit<
 const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
   ({ onThemeChange, ...props }, ref) => {
     React.useEffect(() => {
-      attachMqListener()
+      attachListeners()
     }, [])
 
     const theme = React.useSyncExternalStore(
