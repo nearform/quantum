@@ -41,13 +41,17 @@ interface ThemeToggleProps extends Omit<
 
 const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
   ({ onThemeChange, ...props }, ref) => {
-    const [theme, setTheme] = React.useState<Theme>(() =>
-      typeof document !== 'undefined' ? resolveTheme() : 'light'
-    )
+    const [theme, setTheme] = React.useState<Theme>('light')
+    const [mounted, setMounted] = React.useState(false)
 
     React.useEffect(() => {
-      applyClass(theme)
-    }, [theme])
+      setTheme(resolveTheme())
+      setMounted(true)
+    }, [])
+
+    React.useEffect(() => {
+      if (mounted) applyClass(theme)
+    }, [theme, mounted])
 
     React.useEffect(() => {
       const mq = window.matchMedia('(prefers-color-scheme: dark)')
