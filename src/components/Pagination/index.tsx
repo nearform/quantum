@@ -16,9 +16,11 @@ interface PaginationProps {
 
 const PaginationVariants = cva([
   '[&>*]:flex',
+  '[&>*]:flex-wrap',
   '[&>*]:items-center',
   '[&>*]:justify-center',
   'mx-auto',
+  'max-w-full',
   'w-fit'
 ])
 
