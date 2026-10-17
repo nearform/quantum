@@ -320,6 +320,64 @@ export const AvatarCells: Story = {
   )
 }
 
+const responsiveData = [
+  {
+    name: 'Gordon Freeman',
+    email: 'gordon@example.com',
+    date: '2024-01-15',
+    category: 'Research',
+    method: 'Credit Card',
+    amount: '$250.00'
+  },
+  {
+    name: 'Alyx Vance',
+    email: 'alyx@example.com',
+    date: '2024-02-20',
+    category: 'Equipment',
+    method: 'Cash',
+    amount: '$50.00'
+  },
+  {
+    name: 'Isaac Kleiner',
+    email: 'kleiner@example.com',
+    date: '2024-03-10',
+    category: 'Lab Supplies',
+    method: 'Credit Card',
+    amount: '$1,400.00'
+  }
+]
+
+export const ResponsiveColumns: Story = {
+  render: () => (
+    <Table>
+      <TableCaption>
+        Resize the viewport to see columns hide. Date hides below sm, Category
+        below md.
+      </TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>User</TableHead>
+          <TableHead hideBelow="sm">Date</TableHead>
+          <TableHead hideBelow="md">Category</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead align="right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {responsiveData.map(row => (
+          <TableRow key={row.name}>
+            <TableCell>{row.name}</TableCell>
+            <TableCell hideBelow="sm">{row.date}</TableCell>
+            <TableCell hideBelow="md">{row.category}</TableCell>
+            <TableCell>{row.method}</TableCell>
+            <TableCell align="right">{row.amount}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
+}
+
 export const AvatarCellsWithoutSubtext: Story = {
   render: () => (
     <Table>

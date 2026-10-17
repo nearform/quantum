@@ -32,6 +32,14 @@ const alignVariants = cva('', {
 
 type TableAlign = 'left' | 'center' | 'right'
 
+type TableBreakpoint = 'sm' | 'md' | 'lg'
+
+const hideBelowClasses: Record<TableBreakpoint, string> = {
+  sm: 'hidden sm:table-cell',
+  md: 'hidden md:table-cell',
+  lg: 'hidden lg:table-cell'
+}
+
 type TableSortDirection = 'asc' | 'desc' | false
 
 const ariaSortFor = (direction: TableSortDirection | undefined) => {
@@ -98,18 +106,23 @@ interface TableHeadProps extends Omit<
   'align'
 > {
   align?: TableAlign
+  hideBelow?: TableBreakpoint
   sortDirection?: TableSortDirection
   onSort?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
-  ({ className, align, sortDirection, onSort, children, ...props }, ref) => (
+  (
+    { className, align, hideBelow, sortDirection, onSort, children, ...props },
+    ref
+  ) => (
     <th
       ref={ref}
       aria-sort={onSort ? ariaSortFor(sortDirection) : undefined}
       className={cn(
         'px-4 py-5 leading-[21px] font-bold',
         alignVariants({ align }),
+        hideBelow && hideBelowClasses[hideBelow],
         className
       )}
       {...props}
@@ -180,13 +193,19 @@ interface TableCellProps extends Omit<
   'align'
 > {
   align?: TableAlign
+  hideBelow?: TableBreakpoint
 }
 
 const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ className, align, ...props }, ref) => (
+  ({ className, align, hideBelow, ...props }, ref) => (
     <td
       ref={ref}
-      className={cn('p-4', alignVariants({ align }), className)}
+      className={cn(
+        'p-4',
+        alignVariants({ align }),
+        hideBelow && hideBelowClasses[hideBelow],
+        className
+      )}
       {...props}
     />
   )
@@ -297,6 +316,7 @@ export {
 }
 export type {
   TableAlign,
+  TableBreakpoint,
   TableBodyProps,
   TableCellAvatarProps,
   TableCellProps,
