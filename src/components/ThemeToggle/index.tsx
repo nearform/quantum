@@ -1,0 +1,99 @@
+import * as React from 'react'
+import { BsMoon, BsSun } from 'react-icons/bs'
+
+import { IconButton, type IconButtonProps } from '../IconButton'
+
+const STORAGE_KEY = 'theme'
+
+type Theme = 'light' | 'dark'
+
+function resolveTheme(): Theme {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored === 'dark' || stored === 'light') return stored
+  } catch {
+    /* storage can be blocked */
+  }
+  return typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light'
+}
+
+function applyTheme(theme: Theme) {
+  document.documentElement.classList.toggle('dark', theme === 'dark')
+  try {
+    localStorage.setItem(STORAGE_KEY, theme)
+  } catch {
+    /* storage can be blocked */
+  }
+}
+
+interface ThemeToggleProps extends Omit<
+  IconButtonProps,
+  'icon' | 'label' | 'onClick' | 'aria-label' | 'children'
+> {
+  onThemeChange?: (theme: Theme) => void
+}
+
+const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
+  ({ onThemeChange, ...props }, ref) => {
+    const [theme, setTheme] = React.useState<Theme>(() =>
+      typeof document !== 'undefined' ? resolveTheme() : 'light'
+    )
+
+    React.useEffect(() => {
+      const mq = window.matchMedia('(prefers-color-scheme: dark)')
+      const handle = () => {
+        try {
+          if (localStorage.getItem(STORAGE_KEY)) return
+        } catch {
+          /* storage can be blocked */
+        }
+        const next = mq.matches ? 'dark' : 'light'
+        applyTheme(next)
+        setTheme(next)
+      }
+      mq.addEventListener('change', handle)
+      return () => mq.removeEventListener('change', handle)
+    }, [])
+
+    const toggle = () => {
+      const next: Theme = theme === 'dark' ? 'light' : 'dark'
+      applyTheme(next)
+      setTheme(next)
+      onThemeChange?.(next)
+    }
+
+    const dark = theme === 'dark'
+
+    return (
+      <IconButton
+        ref={ref}
+        variant="tertiary"
+        size="sm"
+        icon={
+          dark ? <BsSun aria-hidden="true" /> : <BsMoon aria-hidden="true" />
+        }
+        label={dark ? 'Use light theme' : 'Use dark theme'}
+        onClick={toggle}
+        {...props}
+      />
+    )
+  }
+)
+
+ThemeToggle.displayName = 'ThemeToggle'
+
+/**
+ * Drop this script into `<head>` before the body renders to apply the stored
+ * or system theme before paint, avoiding a flash of the wrong theme.
+ *
+ * Usage:
+ * ```html
+ * <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+ * ```
+ */
+const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch(e){}})()`
+
+export { ThemeToggle, themeInitScript, type ThemeToggleProps, type Theme }

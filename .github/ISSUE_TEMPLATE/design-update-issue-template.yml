@@ -53,6 +53,7 @@ body:
         - Table
         - Tabs
         - Textarea
+        - ThemeToggle
         - Toast
         - ToggleList
         - Tooltip

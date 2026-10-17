@@ -1,0 +1,92 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as ThemeToggleStories from './ThemeToggle.stories'
+
+<Meta of={ThemeToggleStories} />
+
+# ThemeToggle
+
+A button that toggles the `dark` class on `<html>` and stores the choice in
+`localStorage`. It falls back to `prefers-color-scheme` when nothing is stored,
+and tolerates blocked storage.
+
+It wraps [IconButton](?path=/docs/form-iconbutton--docs) — a sun in dark mode,
+a moon in light mode — so its variants, sizes and shapes are the same.
+
+### Default
+
+<Canvas of={ThemeToggleStories.Default} />
+
+### Circle
+
+<Canvas of={ThemeToggleStories.Circle} />
+
+### Sizes
+
+<Canvas of={ThemeToggleStories.Sizes} />
+
+## Avoiding the flash
+
+Import `themeInitScript` and drop it into `<head>` before the body paints:
+
+```tsx
+import { themeInitScript } from '@nearform/quantum'
+
+<head>
+  <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+</head>
+```
+
+The snippet reads `localStorage` and `prefers-color-scheme`, then adds the
+`dark` class synchronously — no React, no hydration wait.
+
+## Dark mode
+
+The component itself works in both themes — it is the thing that switches
+between them. Its colours are `IconButton`'s, so both themes are whatever
+that component already does.
+
+## Accessibility
+
+- The label describes the action: "Use dark theme" / "Use light theme".
+- The icon is decorative (`aria-hidden`).
+- Keyboard-accessible through `IconButton`.
+
+## Attributes
+
+Everything `IconButton` takes except `icon`, `label` and `onClick`, plus:
+
+<table>
+  <tbody>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>onThemeChange</td>
+      <td>`(theme: 'light' | 'dark') => void`</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>`"primary" | "secondary" | "tertiary" | "success" | "danger"`</td>
+      <td>`"tertiary"`</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>`"xs" | "sm" | "md" | "lg"`</td>
+      <td>`"sm"`</td>
+    </tr>
+  </tbody>
+</table>
+
+## Usage
+
+```tsx
+import { ThemeToggle } from '@nearform/quantum'
+
+<ThemeToggle />
+
+<ThemeToggle shape="circle" onThemeChange={theme => console.log(theme)} />
+```
