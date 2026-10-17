@@ -222,6 +222,78 @@ const avatarData = [
   }
 ]
 
+export const Divided: Story = {
+  render: () => (
+    <Table divided>
+      <TableCaption>Table with row dividers.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>User</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead align="right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map(row => (
+          <TableRow key={row[0]}>
+            <TableCell>{row[0]}</TableCell>
+            <TableCell>{row[1]}</TableCell>
+            <TableCell align="right">{row[2]}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
+}
+
+export const Bordered: Story = {
+  render: () => (
+    <Table bordered>
+      <TableCaption>Table with a bordered container.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>User</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead align="right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map(row => (
+          <TableRow key={row[0]}>
+            <TableCell>{row[0]}</TableCell>
+            <TableCell>{row[1]}</TableCell>
+            <TableCell align="right">{row[2]}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
+}
+
+export const BorderedAndDivided: Story = {
+  render: () => (
+    <Table bordered divided>
+      <TableCaption>Table with both border and row dividers.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>User</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead align="right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map(row => (
+          <TableRow key={row[0]}>
+            <TableCell>{row[0]}</TableCell>
+            <TableCell>{row[1]}</TableCell>
+            <TableCell align="right">{row[2]}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
+}
+
 export const AvatarCells: Story = {
   render: () => (
     <Table>

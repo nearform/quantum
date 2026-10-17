@@ -48,15 +48,20 @@ const SortIcon = ({ direction }: { direction?: TableSortDirection }) => {
 
 interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
   containerClassName?: string
+  bordered?: boolean
+  divided?: boolean
 }
 
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
-  ({ className, containerClassName, ...props }, ref) => (
+  ({ className, containerClassName, bordered, divided, ...props }, ref) => (
     <div
       tabIndex={0}
+      data-divided={divided ? '' : undefined}
       className={cn(
         'relative w-full overflow-auto rounded-2xl',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current',
+        bordered &&
+          'rounded-sm border border-border-subtle dark:border-border-subtle-dark',
         containerClassName
       )}
     >
@@ -159,6 +164,9 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
         'h-[50px] self-stretch items-center gap-2 font-normal text-left',
         'data-[state=selected]:bg-background-alt',
         'dark:data-[state=selected]:bg-background-alt-dark',
+        '[[data-divided]_tbody>&:not(:first-child)]:border-t',
+        '[[data-divided]_tbody>&:not(:first-child)]:border-border-subtle',
+        'dark:[[data-divided]_tbody>&:not(:first-child)]:border-border-subtle-dark',
         className
       )}
       {...props}
