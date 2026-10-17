@@ -92,20 +92,23 @@ describe('ThemeToggle', () => {
     })
 
     const [a, b] = container.querySelectorAll('button')
+    const initialLabel = a.getAttribute('aria-label')
 
     act(() => {
       a.click()
     })
 
-    expect(a.getAttribute('aria-label')).toBe('Use light theme')
-    expect(b.getAttribute('aria-label')).toBe('Use light theme')
+    const flippedLabel =
+      initialLabel === 'Use dark theme' ? 'Use light theme' : 'Use dark theme'
+    expect(a.getAttribute('aria-label')).toBe(flippedLabel)
+    expect(b.getAttribute('aria-label')).toBe(flippedLabel)
 
     act(() => {
       b.click()
     })
 
-    expect(a.getAttribute('aria-label')).toBe('Use dark theme')
-    expect(b.getAttribute('aria-label')).toBe('Use dark theme')
+    expect(a.getAttribute('aria-label')).toBe(initialLabel)
+    expect(b.getAttribute('aria-label')).toBe(initialLabel)
   })
 })
 

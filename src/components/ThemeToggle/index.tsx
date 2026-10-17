@@ -36,17 +36,18 @@ const listeners = new Set<() => void>()
 let currentTheme: Theme = 'light'
 let storeInitialised = false
 
-function initStore() {
-  if (storeInitialised) {
-    const resolved = resolveTheme()
-    if (resolved !== currentTheme) setStoreTheme(resolved)
-    return
-  }
+function ensureResolved() {
+  if (storeInitialised) return
   storeInitialised = true
   currentTheme = resolveTheme()
   applyClass(currentTheme)
-  listeners.forEach(fn => fn())
+}
 
+let mqListenerAttached = false
+
+function attachMqListener() {
+  if (mqListenerAttached) return
+  mqListenerAttached = true
   const mq = window.matchMedia('(prefers-color-scheme: dark)')
   mq.addEventListener('change', () => {
     try {
@@ -73,6 +74,7 @@ function subscribe(cb: () => void) {
 }
 
 function getSnapshot() {
+  ensureResolved()
   return currentTheme
 }
 
@@ -90,7 +92,7 @@ interface ThemeToggleProps extends Omit<
 const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
   ({ onThemeChange, ...props }, ref) => {
     React.useEffect(() => {
-      initStore()
+      attachMqListener()
     }, [])
 
     const theme = React.useSyncExternalStore(
