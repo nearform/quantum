@@ -20,8 +20,11 @@ function resolveTheme(): Theme {
     : 'light'
 }
 
-function applyTheme(theme: Theme) {
+function applyClass(theme: Theme) {
   document.documentElement.classList.toggle('dark', theme === 'dark')
+}
+
+function persistTheme(theme: Theme) {
   try {
     localStorage.setItem(STORAGE_KEY, theme)
   } catch {
@@ -43,7 +46,7 @@ const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
     )
 
     React.useEffect(() => {
-      applyTheme(theme)
+      applyClass(theme)
     }, [theme])
 
     React.useEffect(() => {
@@ -55,7 +58,6 @@ const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
           /* storage can be blocked */
         }
         const next = mq.matches ? 'dark' : 'light'
-        applyTheme(next)
         setTheme(next)
       }
       mq.addEventListener('change', handle)
@@ -64,7 +66,7 @@ const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
 
     const toggle = () => {
       const next: Theme = theme === 'dark' ? 'light' : 'dark'
-      applyTheme(next)
+      persistTheme(next)
       setTheme(next)
       onThemeChange?.(next)
     }
