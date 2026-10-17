@@ -18,12 +18,13 @@ const PaginationVariants = cva([
   '[&>*]:flex',
   '[&>*]:items-center',
   '[&>*]:justify-center',
+  'mx-auto',
   'w-fit'
 ])
 
 const PageNumberStyles = cva([
-  'min-w-40',
-  'max-w-40',
+  'min-w-10',
+  'max-w-10',
   'h-10',
   'px-4',
   'py-2',
@@ -50,6 +51,7 @@ const PageNumberActiveStyles = cva([
 ])
 
 const StepButtonStyles = cva([
+  'h-10',
   'px-4',
   'rounded-xs',
   'text-foreground',
@@ -159,10 +161,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
               onClick={goToPrevPage}
               disabled={currentPage === 1 || totalPages === 0}
             >
-              <BsChevronLeft
-                aria-hidden="true"
-                className={'w-3 h-9 pt-3 pb-3 -mb-1'}
-              />
+              <BsChevronLeft aria-hidden="true" className={'w-3'} />
             </button>
           </li>
 
@@ -171,7 +170,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
               {pgNumber === totalPages && showRightDots ? (
                 <li
                   aria-hidden="true"
-                  className="flex items-center px-4 min-w-40 max-w-40 text-foreground-muted dark:text-foreground-muted-dark"
+                  className="flex items-center px-4 min-w-10 max-w-10 text-foreground-muted dark:text-foreground-muted-dark"
                 >
                   ...
                 </li>
@@ -195,7 +194,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
               {pgNumber === 1 && showLeftDots ? (
                 <li
                   aria-hidden="true"
-                  className="flex items-center px-4 max-w-40 min-w-40 text-foreground-muted dark:text-foreground-muted-dark"
+                  className="flex items-center px-4 max-w-10 min-w-10 text-foreground-muted dark:text-foreground-muted-dark"
                 >
                   ...
                 </li>
@@ -211,10 +210,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
               onClick={goToNextPage}
               disabled={currentPage === totalPages || totalPages === 0}
             >
-              <BsChevronRight
-                aria-hidden="true"
-                className={'w-3 h-9 py-3 -mb-1'}
-              />
+              <BsChevronRight aria-hidden="true" className={'w-3'} />
             </button>
           </li>
         </ul>
