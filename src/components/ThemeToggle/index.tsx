@@ -118,6 +118,6 @@ const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
 
 ThemeToggle.displayName = 'ThemeToggle'
 
-const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(t==='dark'||(t!=='light'&&matchMedia('${DARK_QUERY}').matches))document.documentElement.classList.add('dark')}catch(e){}})()`
+const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');document.documentElement.classList.toggle('dark',t==='dark'||(t!=='light'&&matchMedia('${DARK_QUERY}').matches))}catch(e){}})()`
 
 export { ThemeToggle, themeInitScript, type ThemeToggleProps, type Theme }

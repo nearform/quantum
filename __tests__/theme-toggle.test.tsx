@@ -122,7 +122,27 @@ describe('ThemeToggle', () => {
 })
 
 describe('themeInitScript', () => {
-  it('reads the same storage key the toggle writes', () => {
-    expect(themeInitScript).toContain("localStorage.getItem('theme')")
+  const run = () => new Function(themeInitScript)()
+
+  it('adds the dark class when dark is stored', () => {
+    localStorage.setItem('theme', 'dark')
+    run()
+
+    expect(html.classList.contains('dark')).toBe(true)
+  })
+
+  it('removes a server-rendered dark class when light is stored', () => {
+    html.classList.add('dark')
+    localStorage.setItem('theme', 'light')
+    run()
+
+    expect(html.classList.contains('dark')).toBe(false)
+  })
+
+  it('follows the system preference when nothing is stored', () => {
+    html.classList.add('dark')
+    run()
+
+    expect(html.classList.contains('dark')).toBe(false)
   })
 })
