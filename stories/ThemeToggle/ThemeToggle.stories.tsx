@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { ThemeToggle } from '@/index'
+import { BsMoon, IconButton, ThemeToggle } from '@/index'
 
 const meta = {
   title: 'Utility/ThemeToggle',
@@ -27,21 +27,51 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const Default: Story = {
+  parameters: { theme: 'single' },
+  render: props => <ThemeToggle {...props} />
+}
+
+export const Appearance: Story = {
+  render: () => (
+    <div className="flex items-center gap-4">
+      <IconButton
+        variant="tertiary"
+        size="sm"
+        icon={<BsMoon aria-hidden="true" />}
+        label="Use dark theme"
+      />
+      <span className="text-sm text-foreground-muted dark:text-foreground-muted-dark">
+        Light mode shows moon
+      </span>
+    </div>
+  )
+}
 
 export const Circle: Story = {
-  args: {
-    shape: 'circle'
-  }
+  render: () => (
+    <IconButton
+      variant="tertiary"
+      size="sm"
+      shape="circle"
+      icon={<BsMoon aria-hidden="true" />}
+      label="Use dark theme"
+    />
+  )
 }
 
 export const Sizes: Story = {
-  render: props => (
+  render: () => (
     <div className="flex items-center gap-2">
-      <ThemeToggle {...props} size="xs" />
-      <ThemeToggle {...props} size="sm" />
-      <ThemeToggle {...props} size="md" />
-      <ThemeToggle {...props} size="lg" />
+      {(['xs', 'sm', 'md', 'lg'] as const).map(size => (
+        <IconButton
+          key={size}
+          variant="tertiary"
+          size={size}
+          icon={<BsMoon aria-hidden="true" />}
+          label="Use dark theme"
+        />
+      ))}
     </div>
   )
 }

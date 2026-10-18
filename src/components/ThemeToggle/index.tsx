@@ -123,7 +123,7 @@ const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
     return (
       <IconButton
         ref={ref}
-        variant="secondary"
+        variant="tertiary"
         size="sm"
         icon={
           dark ? <BsSun aria-hidden="true" /> : <BsMoon aria-hidden="true" />
