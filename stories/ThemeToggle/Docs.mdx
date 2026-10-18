@@ -42,9 +42,15 @@ The snippet reads `localStorage` and `prefers-color-scheme`, then adds the
 
 ## Dark mode
 
-The component itself works in both themes — it is the thing that switches
-between them. Its colours are `IconButton`'s, so both themes are whatever
-that component already does.
+The icon takes the page text colour — `text-foreground` in light, and
+`text-foreground-dark` once `<html>` has the `dark` class — so it reads
+against whatever background your page paints for each theme. That
+background is yours to set; for example `bg-background dark:bg-background-dark`
+on `<body>`.
+
+Because the toggle sets the theme for the whole page, these previews show a
+single pane rather than light and dark side by side. Click the toggle to see
+both.
 
 ## Accessibility
 

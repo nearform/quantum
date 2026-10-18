@@ -4,24 +4,17 @@ import { BsMoon, BsSun } from 'react-icons/bs'
 import { IconButton, type IconButtonProps } from '../IconButton'
 
 const STORAGE_KEY = 'theme'
+const DARK_QUERY = '(prefers-color-scheme: dark)'
 
 type Theme = 'light' | 'dark'
 
-function resolveTheme(): Theme {
+function readStored(): Theme | null {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored === 'dark' || stored === 'light') return stored
+    return stored === 'dark' || stored === 'light' ? stored : null
   } catch {
-    /* storage can be blocked */
+    return null
   }
-  return typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light'
-}
-
-function applyClass(theme: Theme) {
-  document.documentElement.classList.toggle('dark', theme === 'dark')
 }
 
 function persistTheme(theme: Theme) {
@@ -32,65 +25,52 @@ function persistTheme(theme: Theme) {
   }
 }
 
+function resolveTheme(): Theme {
+  return (
+    readStored() ?? (window.matchMedia(DARK_QUERY).matches ? 'dark' : 'light')
+  )
+}
+
 const listeners = new Set<() => void>()
-let currentTheme: Theme = 'light'
-let storeInitialised = false
 
-function ensureResolved() {
-  if (storeInitialised) return
-  storeInitialised = true
-  currentTheme = resolveTheme()
-  applyClass(currentTheme)
+function applyTheme(theme: Theme) {
+  document.documentElement.classList.toggle('dark', theme === 'dark')
+  listeners.forEach(listener => listener())
 }
 
-let mqListenerAttached = false
+function subscribe(onChange: () => void) {
+  listeners.add(onChange)
 
-function attachListeners() {
-  if (mqListenerAttached) return
-  mqListenerAttached = true
-
-  const mq = window.matchMedia('(prefers-color-scheme: dark)')
-  mq.addEventListener('change', () => {
-    try {
-      if (localStorage.getItem(STORAGE_KEY)) return
-    } catch {
-      /* storage can be blocked */
-    }
-    setStoreTheme(mq.matches ? 'dark' : 'light')
+  const observer = new MutationObserver(onChange)
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class']
   })
 
-  window.addEventListener('storage', (e: StorageEvent) => {
-    if (e.key !== STORAGE_KEY) return
-    if (e.newValue === 'dark' || e.newValue === 'light') {
-      setStoreTheme(e.newValue)
-    } else {
-      setStoreTheme(resolveTheme())
+  const media = window.matchMedia(DARK_QUERY)
+  const onSystemChange = () => {
+    if (!readStored()) applyTheme(media.matches ? 'dark' : 'light')
+  }
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === STORAGE_KEY || event.key === null) {
+      applyTheme(resolveTheme())
     }
-  })
-}
+  }
+  media.addEventListener('change', onSystemChange)
+  window.addEventListener('storage', onStorage)
 
-function setStoreTheme(next: Theme) {
-  if (next === currentTheme) return
-  currentTheme = next
-  applyClass(next)
-  listeners.forEach(fn => fn())
-}
-
-function subscribe(cb: () => void) {
-  listeners.add(cb)
   return () => {
-    listeners.delete(cb)
+    listeners.delete(onChange)
+    observer.disconnect()
+    media.removeEventListener('change', onSystemChange)
+    window.removeEventListener('storage', onStorage)
   }
 }
 
-function getSnapshot() {
-  ensureResolved()
-  return currentTheme
-}
+const getSnapshot = (): Theme =>
+  document.documentElement.classList.contains('dark') ? 'dark' : 'light'
 
-function getServerSnapshot() {
-  return 'light' as Theme
-}
+const getServerSnapshot = (): Theme => 'light'
 
 interface ThemeToggleProps extends Omit<
   IconButtonProps,
@@ -101,20 +81,20 @@ interface ThemeToggleProps extends Omit<
 
 const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
   ({ onThemeChange, ...props }, ref) => {
-    React.useEffect(() => {
-      attachListeners()
-    }, [])
-
     const theme = React.useSyncExternalStore(
       subscribe,
       getSnapshot,
       getServerSnapshot
     )
 
+    React.useEffect(() => {
+      applyTheme(resolveTheme())
+    }, [])
+
     const toggle = () => {
       const next: Theme = theme === 'dark' ? 'light' : 'dark'
       persistTheme(next)
-      setStoreTheme(next)
+      applyTheme(next)
       onThemeChange?.(next)
     }
 
@@ -138,15 +118,6 @@ const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
 
 ThemeToggle.displayName = 'ThemeToggle'
 
-/**
- * Drop this script into `<head>` before the body renders to apply the stored
- * or system theme before paint, avoiding a flash of the wrong theme.
- *
- * Usage:
- * ```html
- * <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
- * ```
- */
-const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch(e){}})()`
+const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(t==='dark'||(t!=='light'&&matchMedia('${DARK_QUERY}').matches))document.documentElement.classList.add('dark')}catch(e){}})()`
 
 export { ThemeToggle, themeInitScript, type ThemeToggleProps, type Theme }

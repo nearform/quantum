@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 
-import { describe, expect, it, beforeEach } from '@jest/globals'
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals'
 import * as React from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, type Root } from 'react-dom/client'
 import { act } from 'react-dom/test-utils'
 
 import { ThemeToggle, themeInitScript } from '../src/components/ThemeToggle'
@@ -22,100 +22,107 @@ Object.defineProperty(window, 'matchMedia', {
   })
 })
 
+const html = document.documentElement
+const roots: Root[] = []
+
 beforeEach(() => {
-  document.documentElement.classList.remove('dark')
+  html.classList.remove('dark')
   localStorage.clear()
+})
+
+afterEach(() => {
+  act(() => roots.splice(0).forEach(root => root.unmount()))
+  document.body.innerHTML = ''
 })
 
 const mount = (ui: React.ReactElement) => {
   const container = document.createElement('div')
   document.body.appendChild(container)
+  const root = createRoot(container)
+  roots.push(root)
   act(() => {
-    createRoot(container).render(ui)
+    root.render(ui)
   })
   return container
 }
 
+const labelOf = (button: Element) => button.getAttribute('aria-label')
+
 describe('ThemeToggle', () => {
-  it('renders a button with an aria-label', () => {
-    const container = mount(<ThemeToggle />)
-    const button = container.querySelector('button')!
-    expect(button).toBeTruthy()
-    expect(button.getAttribute('aria-label')).toBe('Use dark theme')
+  it('offers the dark theme when the page is light', () => {
+    const button = mount(<ThemeToggle />).querySelector('button')!
+
+    expect(labelOf(button)).toBe('Use dark theme')
   })
 
-  it('toggles the dark class on <html> and updates the label', () => {
-    const container = mount(<ThemeToggle />)
-    const button = container.querySelector('button')!
+  it('toggles the dark class on <html>, stores the choice and updates the label', () => {
+    const button = mount(<ThemeToggle />).querySelector('button')!
 
-    act(() => {
-      button.click()
-    })
+    act(() => button.click())
 
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
-    expect(button.getAttribute('aria-label')).toBe('Use light theme')
+    expect(html.classList.contains('dark')).toBe(true)
     expect(localStorage.getItem('theme')).toBe('dark')
+    expect(labelOf(button)).toBe('Use light theme')
 
-    act(() => {
-      button.click()
-    })
+    act(() => button.click())
 
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
-    expect(button.getAttribute('aria-label')).toBe('Use dark theme')
+    expect(html.classList.contains('dark')).toBe(false)
     expect(localStorage.getItem('theme')).toBe('light')
+    expect(labelOf(button)).toBe('Use dark theme')
   })
 
   it('calls onThemeChange with the new theme', () => {
     const changes: string[] = []
     const container = mount(
-      <ThemeToggle onThemeChange={t => changes.push(t)} />
+      <ThemeToggle onThemeChange={theme => changes.push(theme)} />
     )
 
-    act(() => {
-      container.querySelector('button')!.click()
-    })
+    act(() => container.querySelector('button')!.click())
 
     expect(changes).toEqual(['dark'])
   })
 
+  it('applies a stored theme to <html> on mount', () => {
+    localStorage.setItem('theme', 'dark')
+    const button = mount(<ThemeToggle />).querySelector('button')!
+
+    expect(html.classList.contains('dark')).toBe(true)
+    expect(labelOf(button)).toBe('Use light theme')
+  })
+
+  it('follows the dark class when something else changes it', async () => {
+    const button = mount(<ThemeToggle />).querySelector('button')!
+
+    await act(async () => {
+      html.classList.add('dark')
+      await Promise.resolve()
+    })
+
+    expect(labelOf(button)).toBe('Use light theme')
+  })
+
   it('keeps multiple instances in sync', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
+    const [a, b] = mount(
+      <>
+        <ThemeToggle />
+        <ThemeToggle />
+      </>
+    ).querySelectorAll('button')
 
-    act(() => {
-      createRoot(container).render(
-        <>
-          <ThemeToggle data-testid="a" />
-          <ThemeToggle data-testid="b" />
-        </>
-      )
-    })
+    act(() => a.click())
 
-    const [a, b] = container.querySelectorAll('button')
-    const initialLabel = a.getAttribute('aria-label')
+    expect(labelOf(a)).toBe('Use light theme')
+    expect(labelOf(b)).toBe('Use light theme')
 
-    act(() => {
-      a.click()
-    })
+    act(() => b.click())
 
-    const flippedLabel =
-      initialLabel === 'Use dark theme' ? 'Use light theme' : 'Use dark theme'
-    expect(a.getAttribute('aria-label')).toBe(flippedLabel)
-    expect(b.getAttribute('aria-label')).toBe(flippedLabel)
-
-    act(() => {
-      b.click()
-    })
-
-    expect(a.getAttribute('aria-label')).toBe(initialLabel)
-    expect(b.getAttribute('aria-label')).toBe(initialLabel)
+    expect(labelOf(a)).toBe('Use dark theme')
+    expect(labelOf(b)).toBe('Use dark theme')
   })
 })
 
 describe('themeInitScript', () => {
-  it('is a non-empty string containing the storage key', () => {
-    expect(typeof themeInitScript).toBe('string')
-    expect(themeInitScript.length).toBeGreaterThan(0)
-    expect(themeInitScript).toContain('theme')
+  it('reads the same storage key the toggle writes', () => {
+    expect(themeInitScript).toContain("localStorage.getItem('theme')")
   })
 })
