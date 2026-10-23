@@ -13,6 +13,6 @@ const run = (bin, args) =>
 
 run(tsc, ['-p', 'tsconfig.build.json'])
 run(tsc, ['-p', 'tsconfig.build.plugin-cjs.json'])
-run(tsc, ['-p', 'tsconfig.build.plugin-esm.json'])
+run(tsc, ['-p', 'tsconfig.build.esm.json'])
 writeFileSync('dist/esm/package.json', '{ "type": "module" }\n')
 run(postcss, ['src/global.css', '-o', 'dist/global.css'])

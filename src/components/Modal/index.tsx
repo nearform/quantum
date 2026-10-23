@@ -4,8 +4,8 @@ import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { BsXLg } from '../../assets'
-import { cn } from '../../lib/utils'
+import { BsXLg } from '../../assets/index.ts'
+import { cn } from '../../lib/utils.ts'
 
 const Modal = DialogPrimitive.Root
 

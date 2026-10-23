@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { BsTrash } from '../../assets'
-import { Checkbox } from '../Checkbox'
-import { IconButton } from '../IconButton'
-import { Switch } from '../Switch'
-import { cn } from '../../lib/utils'
+import { BsTrash } from '../../assets/index.ts'
+import { Checkbox } from '../Checkbox/index.tsx'
+import { IconButton } from '../IconButton/index.tsx'
+import { Switch } from '../Switch/index.tsx'
+import { cn } from '../../lib/utils.ts'
 
 const selectedClasses = [
   'border-brandGreen-100',

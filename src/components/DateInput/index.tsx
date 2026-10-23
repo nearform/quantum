@@ -6,11 +6,11 @@ import { cva } from 'class-variance-authority'
 import { format as formatDate, isValid, parse, startOfDay } from 'date-fns'
 import type { Matcher } from 'react-day-picker'
 
-import { cn } from '../../lib/utils'
-import { BsCalendar3 } from '../../assets'
+import { cn } from '../../lib/utils.ts'
+import { BsCalendar3 } from '../../assets/index.ts'
 
-import { Calendar } from '../Calendar'
-import { formVariants } from '../Input'
+import { Calendar } from '../Calendar/index.tsx'
+import { formVariants } from '../Input/index.tsx'
 
 const calendarTriggerVariants = cva([
   'flex',

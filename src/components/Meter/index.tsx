@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { cn } from '../../lib/utils'
-import { Tooltip } from '../Tooltip'
+import { cn } from '../../lib/utils.ts'
+import { Tooltip } from '../Tooltip/index.tsx'
 
 type MeterSegmentPattern = 'striped'
 

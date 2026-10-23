@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { cva } from 'class-variance-authority'
 
-import { cn } from '../../lib/utils'
-import { BsEye, BsEyeSlash } from '../../assets'
+import { cn } from '../../lib/utils.ts'
+import { BsEye, BsEyeSlash } from '../../assets/index.ts'
 
-import { formVariants } from '../Input'
+import { formVariants } from '../Input/index.tsx'
 
 /**
  * A 24x24 target around the 16x16 eye, for the same reason `Input`'s clear

@@ -1,12 +1,12 @@
 import * as React from 'react'
 
-import { cn } from '../../lib/utils'
+import { cn } from '../../lib/utils.ts'
 import {
   ChoiceGroupContext,
   ChoiceGroupFieldset,
   choiceGroupItemsVariants,
   type ChoiceGroupFieldsetProps
-} from '../choice-group'
+} from '../choice-group.tsx'
 
 interface CheckboxGroupContextValue {
   /** The values of the boxes that are currently ticked. */
