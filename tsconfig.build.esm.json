@@ -6,9 +6,10 @@
     "outDir": "dist/esm",
     "module": "esnext",
     "moduleResolution": "bundler",
+    "declaration": true,
     "sourceMap": true,
     "paths": {}
   },
   "include": [],
-  "files": ["src/tailwind-plugin.ts"]
+  "files": ["src/index.ts", "src/tailwind-plugin.ts"]
 }

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { BsMoon, BsSun } from 'react-icons/bs'
 
-import { IconButton, type IconButtonProps } from '../IconButton'
+import { IconButton, type IconButtonProps } from '../IconButton/index.tsx'
 
 const STORAGE_KEY = 'theme'
 const DARK_QUERY = '(prefers-color-scheme: dark)'

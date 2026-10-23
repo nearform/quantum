@@ -3,8 +3,22 @@
   "version": "1.9.4",
   "description": "Component library based on the Quantum Design System",
   "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": [
+    "*.css"
+  ],
   "exports": {
-    ".": "./dist/index.js",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
     "./tailwind-plugin": {
       "import": "./dist/esm/tailwind-plugin.js",
       "require": "./dist/tailwind-plugin.js"

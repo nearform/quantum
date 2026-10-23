@@ -3,10 +3,10 @@
 import * as React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 
-import { BsChevronDown } from '../../assets'
-import { cn } from '../../lib/utils'
+import { BsChevronDown } from '../../assets/index.ts'
+import { cn } from '../../lib/utils.ts'
 
-import { SelectContent, SelectItem } from '../Select'
+import { SelectContent, SelectItem } from '../Select/index.tsx'
 
 const SortAndShow = React.forwardRef<
   HTMLDivElement,

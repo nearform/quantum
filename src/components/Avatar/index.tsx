@@ -1,7 +1,7 @@
 import React from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
-import { cn } from '../../lib/utils'
-import { BsPersonFill } from '../../assets'
+import { cn } from '../../lib/utils.ts'
+import { BsPersonFill } from '../../assets/index.ts'
 
 const avatarVariants = cva(
   [

@@ -11,8 +11,8 @@ import {
   BsQuestionCircleFill,
   BsXLg,
   type IconType
-} from '../../assets'
-import { cn } from '../../lib/utils'
+} from '../../assets/index.ts'
+import { cn } from '../../lib/utils.ts'
 
 const focusClasses = [
   'outline-hidden',
