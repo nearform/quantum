@@ -47,7 +47,7 @@
     ]
   },
   "overrides": {
-    "@swc/core": "^1.13.20",
+    "@swc/core": "$@swc/core",
     "uuid": "^11.1.1"
   },
   "devDependencies": {
@@ -59,6 +59,8 @@
     "@storybook/addon-links": "^10.6.0",
     "@storybook/react-vite": "^10.6.0",
     "@storybook/test-runner": "^0.26.0",
+    "@swc/core": "^1.16.20",
+    "@swc/jest": "^0.2.39",
     "@tailwindcss/postcss": "^4.3.3",
     "@tanstack/react-table": "^9.2.4",
     "@types/node": "^24",
@@ -79,8 +81,7 @@
     "storybook": "^10.6.0",
     "storybook-dark-mode": "^5.0.0",
     "tailwindcss": "^4.3.3",
-    "ts-jest": "^29.4.13",
-    "typescript": "~6.0.3",
+    "typescript": "^7.0.2",
     "vite": "^8.3.0"
   },
   "peerDependencies": {
