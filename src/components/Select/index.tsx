@@ -47,7 +47,7 @@ const triggerVariants = cva(
           'hover:text-foreground',
           'focus-visible:shadow-brandGreen',
           'dark:bg-background-alt-dark',
-          'dark:border-border-subtle-dark',
+          'dark:border-border-dark',
           'dark:text-foreground-muted-dark',
           'data-[placeholder]:text-foreground-muted',
           'dark:focus-visible:shadow-brandGreen10'

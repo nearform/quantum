@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals'
 
 import { colors } from '../src/colors/base'
 import { background } from '../src/colors/background'
+import { border } from '../src/colors/border'
 import { button } from '../src/colors/button'
 import { feedback } from '../src/colors/feedback'
 import { foreground } from '../src/colors/foreground'
@@ -187,6 +188,49 @@ describe('feedback descriptors in dark mode', () => {
     )
   )('clears AA for %s', (_case, token, surface) => {
     expect(ratioOf(token, surface)).toBeGreaterThanOrEqual(AA_TEXT)
+  })
+})
+
+/**
+ * A control's edge is what WCAG 1.4.11 holds to 3:1. In dark mode Checkbox,
+ * Radio, a secondary Button and the outline of Input, Textarea and Select
+ * all draw `border-dark`, and a hovered secondary Button draws its hover.
+ *
+ * Checked Checkbox and Radio also fill with `border-dark` under a
+ * `foreground-inverse` tick or dot, so the token cannot simply be lightened
+ * until the edge is comfortable: the glyph drawn on it is held here too.
+ *
+ * `background-alt-dark` is left out on purpose. It is the fill of an
+ * unchecked box and of a field, not a surface a control sits on.
+ */
+describe('control edges in dark mode', () => {
+  const surfaces = surfaceCases('dark').filter(
+    ([name]) => !name.startsWith('background-alt')
+  )
+
+  it.each(surfaces)('keeps border-dark at 3:1 on %s', (_name, surface) => {
+    expect(ratioOf(border.dark, surface)).toBeGreaterThanOrEqual(AA_NON_TEXT)
+  })
+
+  it.each(surfaces)(
+    'keeps the hovered border at 3:1 on %s',
+    (_name, surface) => {
+      expect(ratioOf(border.hover.dark, surface)).toBeGreaterThanOrEqual(
+        AA_NON_TEXT
+      )
+    }
+  )
+
+  it('strengthens the edge on hover rather than fading it', () => {
+    expect(ratioOf(border.hover.dark, background.surface.dark)).toBeGreaterThan(
+      ratioOf(border.dark, background.surface.dark)
+    )
+  })
+
+  it('keeps the checked tick and dot clear of the fill they are drawn on', () => {
+    expect(
+      ratioOf(foreground.inverse.DEFAULT, border.dark)
+    ).toBeGreaterThanOrEqual(AA_NON_TEXT)
   })
 })
 

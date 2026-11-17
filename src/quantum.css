@@ -54,9 +54,9 @@
   --color-accent-focus: #000e38;
   --color-accent-focus-dark: #F3F4F6;
   --color-border: #97a1b8;
-  --color-border-dark: #526288;
+  --color-border-dark: #6B7280;
   --color-border-hover: #526288;
-  --color-border-hover-dark: #0c3d60;
+  --color-border-hover-dark: #97a1b8;
   --color-border-focus: #0c3d60;
   --color-border-focus-dark: #9CA3AF;
   --color-border-subtle: #f4f8fa;
@@ -88,9 +88,9 @@
   --color-button-secondary-disabled: #F9FAFB;
   --color-button-secondary-disabled-dark: #1F2A37;
   --color-button-secondary-border: #97a1b8;
-  --color-button-secondary-border-dark: #526288;
+  --color-button-secondary-border-dark: #6B7280;
   --color-button-secondary-border-hover: #526288;
-  --color-button-secondary-border-hover-dark: #0c3d60;
+  --color-button-secondary-border-hover-dark: #97a1b8;
   --color-button-secondary-border-focus: #97a1b8;
   --color-button-secondary-border-focus-dark: #9CA3AF;
   --color-button-secondary-border-disabled: #f4f8fa;
