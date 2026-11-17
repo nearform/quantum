@@ -36,9 +36,13 @@ Pass a `className` to change the width. It is merged into the tooltip content, s
 
 ```tsx
 <Tooltip content={longText} className="max-w-md">
-  <p className="w-40 truncate">{longText}</p>
+  <p tabIndex={0} className="w-40 truncate">
+    {longText}
+  </p>
 </Tooltip>
 ```
+
+The child becomes the trigger, and the tooltip opens on hover or focus. Give a non-interactive trigger such as a truncated `<p>` a `tabIndex={0}` so keyboard users can open it too.
 
 ## Pass a Component into the Tooltip
 
