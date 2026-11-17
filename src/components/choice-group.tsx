@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { cva } from 'class-variance-authority'
 
-import { assertsInvalid, cn, type AriaInvalid } from '../lib/utils'
-import { FieldError } from './FormGroup'
-import { Label } from './Label'
+import { assertsInvalid, cn, type AriaInvalid } from '../lib/utils.ts'
+import { FieldError } from './FormGroup/index.tsx'
+import { Label } from './Label/index.tsx'
 
 /**
  * The parts a group of checkboxes and a group of radios have in common: the

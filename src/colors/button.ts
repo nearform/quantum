@@ -92,6 +92,23 @@ export const button = {
       dark: background.subtle.dark
     }
   },
+  warning: {
+    DEFAULT: feedback.warning.DEFAULT,
+    hover: {
+      DEFAULT: colors.yellow['400']
+    },
+    focus: {
+      DEFAULT: colors.yellow['400']
+    },
+    disabled: {
+      DEFAULT: colors.grey['50'],
+      dark: background.subtle.dark
+    },
+    selected: {
+      DEFAULT: colors.grey['100'],
+      dark: background.subtle.dark
+    }
+  },
   danger: {
     DEFAULT: feedback.error.DEFAULT,
     hover: {

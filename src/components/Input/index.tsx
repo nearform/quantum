@@ -1,7 +1,7 @@
 import React from 'react'
-import { cn } from '../../lib/utils'
+import { cn } from '../../lib/utils.ts'
 import { cva } from 'class-variance-authority'
-import { BsX, BsSearch } from '../../assets'
+import { BsX, BsSearch } from '../../assets/index.ts'
 
 /**
  * The design draws the leading icon at 16x16, so the size is set here rather
@@ -60,11 +60,12 @@ const formVariants = cva(
     variants: {
       variant: {
         primary: [
-          'border-border-subtle',
-          'dark:border-border-subtle-dark',
+          'border-border',
+          'dark:border-border-dark',
           'bg-background-alt',
           'dark:bg-background-alt-dark',
           'hover:border-border-hover',
+          'dark:hover:border-border-hover-dark',
           'hover:focus-within:border-border-focus',
           'dark:hover:focus-within:border-border-focus-dark',
           'focus-within:shadow-brandGreen',
@@ -176,7 +177,8 @@ interface InputProps extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
   labelText?: string
   helpText?: string
   clearLabel?: string
-  onClear: () => void
+  clearable?: boolean | 'auto'
+  onClear?: () => void
 }
 
 const convertTypeToLeftComponent = (type: InputType) => {
@@ -201,7 +203,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       labelText,
       helpText,
       clearLabel = 'Clear input',
+      clearable = true,
       onClear,
+      onChange,
       'aria-describedby': ariaDescribedby,
       ...props
     },
@@ -214,6 +218,42 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       [ariaDescribedby, helpText ? helpTextId : undefined]
         .filter(Boolean)
         .join(' ') || undefined
+
+    const inputRef = React.useRef<HTMLInputElement | null>(null)
+    const setRefs = React.useCallback(
+      (node: HTMLInputElement | null) => {
+        inputRef.current = node
+        if (typeof ref === 'function') ref(node)
+        else if (ref) ref.current = node
+      },
+      [ref]
+    )
+
+    const isControlled = props.value !== undefined
+    const [uncontrolledHasValue, setUncontrolledHasValue] = React.useState(
+      () => props.defaultValue != null && String(props.defaultValue) !== ''
+    )
+    const hasValue = isControlled
+      ? props.value != null && String(props.value) !== ''
+      : uncontrolledHasValue
+
+    const showClearButton =
+      onClear !== undefined &&
+      clearable !== false &&
+      (clearable !== 'auto' || hasValue)
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setUncontrolledHasValue(event.currentTarget.value !== '')
+      onChange?.(event)
+    }
+
+    const handleClear = () => {
+      onClear?.()
+      if (clearable === 'auto') {
+        setUncontrolledHasValue((inputRef.current?.value ?? '') !== '')
+        inputRef.current?.focus()
+      }
+    }
 
     const leftSideComponent = leftSideChild ?? convertTypeToLeftComponent(type)
     const rightSideComponent = rightSideChild ?? (
@@ -231,18 +271,37 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           type={type}
           className={cn(inputVariants({ variant }), className)}
-          ref={ref}
+          ref={setRefs}
           aria-describedby={describedBy}
+          onChange={handleChange}
           {...props}
         />
-        <button
-          type="button"
-          onClick={onClear}
-          aria-label={clearLabel}
-          className={rightSideVariants()}
-        >
-          {rightSideComponent}
-        </button>
+        {/*
+         * The clear button empties the field, so it follows the field's own
+         * editability rather than offering a way round it.
+         *
+         * A disabled field gets a disabled button: it keeps the field's
+         * drawing, and it leaves the tab order and stops calling `onClear`
+         * along with the input. A read-only field gets no button at all --
+         * disabling it there would also trip `[&:has(:disabled)]:border-none`
+         * on the field and take away the border a read-only field keeps.
+         * A `rightSideChild` is still shown there, just not as a button.
+         */}
+        {props.readOnly || !showClearButton ? (
+          rightSideChild && (
+            <div className={rightSideVariants()}>{rightSideChild}</div>
+          )
+        ) : (
+          <button
+            type="button"
+            onClick={handleClear}
+            aria-label={clearLabel}
+            disabled={props.disabled}
+            className={rightSideVariants()}
+          >
+            {rightSideComponent}
+          </button>
+        )}
       </div>
     )
 

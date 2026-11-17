@@ -1,5 +1,5 @@
-import { BsCircleFill } from '../../assets'
-import { cn } from '../../lib/utils'
+import { BsCircleFill } from '../../assets/index.ts'
+import { cn } from '../../lib/utils.ts'
 import { cva } from 'class-variance-authority'
 
 interface StepProps {

@@ -2,8 +2,8 @@ export {
   CheckboxGroup,
   useCheckboxGroup,
   type CheckboxGroupProps
-} from './CheckboxGroup'
+} from './CheckboxGroup.tsx'
 export {
   CheckboxGroupItem,
   type CheckboxGroupItemProps
-} from './CheckboxGroupItem'
+} from './CheckboxGroupItem.tsx'

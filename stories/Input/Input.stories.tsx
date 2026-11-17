@@ -16,6 +16,12 @@ const meta = {
     leftSideChild: {
       control: false
     },
+    clearable: {
+      options: [true, false, 'auto'],
+      control: 'inline-radio',
+      description:
+        "Whether the field shows its clear button: always, never, or ('auto') only while it has a value"
+    },
     size: {
       options: ['sm', 'default', 'lg'],
       control: 'inline-radio',
@@ -77,6 +83,15 @@ export const LeftIcon: Story = {
     type: 'text',
     labelText: 'Full name',
     leftSideChild: <BsPersonFill aria-hidden="true" />
+  }
+}
+
+export const ClearWhenFilled: Story = {
+  args: {
+    variant: 'primary',
+    type: 'text',
+    labelText: 'Full name',
+    clearable: 'auto'
   }
 }
 

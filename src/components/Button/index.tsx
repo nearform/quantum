@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { cn } from '../../lib/utils'
+import { cn } from '../../lib/utils.ts'
 
 const buttonVariants = cva(
   [
@@ -114,6 +114,17 @@ const buttonVariants = cva(
           'disabled:bg-button-success-disabled',
           'disabled:text-foreground-subtle',
           'dark:disabled:bg-button-success-disabled-dark'
+        ],
+        warning: [
+          'bg-button-warning',
+          'text-grey-900',
+          'hover:bg-button-warning-hover',
+          'focus:bg-button-warning-focus',
+          'focus:shadow-brandGreen',
+          'active:shadow-none',
+          'disabled:bg-button-warning-disabled',
+          'disabled:text-foreground-subtle',
+          'dark:disabled:bg-button-warning-disabled-dark'
         ],
         danger: [
           'bg-button-danger',

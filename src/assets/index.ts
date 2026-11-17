@@ -12,4 +12,4 @@
 export type { IconType } from 'react-icons'
 
 export * from 'react-icons/bs'
-export * from './build/open-source.icon'
+export * from './build/open-source.icon.tsx'

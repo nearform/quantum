@@ -9,6 +9,7 @@ const VARIANTS = [
   'secondary',
   'tertiary',
   'success',
+  'warning',
   'danger'
 ] as const
 
@@ -41,7 +42,14 @@ const meta = {
   argTypes: {
     variant: {
       control: 'radio',
-      options: ['primary', 'secondary', 'tertiary', 'success', 'danger']
+      options: [
+        'primary',
+        'secondary',
+        'tertiary',
+        'success',
+        'warning',
+        'danger'
+      ]
     },
     size: {
       control: 'radio',
@@ -86,6 +94,12 @@ export const Tertiary: Story = {
 export const Success: Story = {
   args: {
     variant: 'success'
+  }
+}
+
+export const Warning: Story = {
+  args: {
+    variant: 'warning'
   }
 }
 

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { cn } from '../../lib/utils'
-import { Label } from '../Label'
+import { cn } from '../../lib/utils.ts'
+import { Label } from '../Label/index.tsx'
 
 /**
  * A field is three things that have to agree with each other: a label, a

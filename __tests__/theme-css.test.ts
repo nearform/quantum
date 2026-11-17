@@ -13,7 +13,7 @@ const SRC = path.join(__dirname, '../src')
  * Regeneration is driven from the test suite rather than a standalone script
  * because the renderer is TypeScript that imports `src/` through extensionless
  * specifiers: Node cannot load that on its own, and every TS runner available
- * here (jiti, esbuild) is a transitive dependency we do not declare. ts-jest is
+ * here (jiti, esbuild) is a transitive dependency we do not declare. @swc/jest is
  * a direct devDependency and already configured, so this is the one loader the
  * repo actually owns. It is the same write-then-assert shape as `jest -u`.
  */

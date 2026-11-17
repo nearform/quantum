@@ -1,12 +1,12 @@
 import * as React from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 
-import { cn } from '../../lib/utils'
+import { cn } from '../../lib/utils.ts'
 import {
   ChoiceGroupContext,
   ChoiceGroupFieldset,
   choiceGroupItemsVariants
-} from '../choice-group'
+} from '../choice-group.tsx'
 
 interface RadioGroupProps extends React.ComponentPropsWithoutRef<
   typeof RadioGroupPrimitive.Root

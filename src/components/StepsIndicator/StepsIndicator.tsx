@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { cva } from 'class-variance-authority'
-import { cn } from '../../lib/utils'
-import { Step } from './Step'
+import { cn } from '../../lib/utils.ts'
+import { Step } from './Step.tsx'
 
 const stepsVariant = cva([
   'flex',

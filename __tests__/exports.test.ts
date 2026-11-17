@@ -6,7 +6,7 @@ import path from 'path'
 import * as entryPoint from '../src/index'
 
 // `require` rather than a dynamic import: the path is computed per component,
-// so it cannot be a static import, and ts-jest emits CommonJS here anyway.
+// so it cannot be a static import, and @swc/jest emits CommonJS here anyway.
 const requireCjs = createRequire(__filename)
 const componentsDir = path.join(__dirname, '../src/components')
 

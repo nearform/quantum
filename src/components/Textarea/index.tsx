@@ -1,5 +1,5 @@
 import React from 'react'
-import { cn } from '../../lib/utils'
+import { cn } from '../../lib/utils.ts'
 import { cva } from 'class-variance-authority'
 
 const textareaVariants = cva(
@@ -20,11 +20,12 @@ const textareaVariants = cva(
     variants: {
       variant: {
         primary: [
-          'border-border-subtle',
-          'dark:border-border-subtle-dark',
+          'border-border',
+          'dark:border-border-dark',
           'bg-background-alt',
           'dark:bg-background-alt-dark',
           'hover:border-border-hover',
+          'dark:hover:border-border-hover-dark',
           'hover:focus-within:shadow-brandGreen',
           'dark:hover:focus-within:border-border-focus-dark',
           'focus-within:shadow-brandGreen',

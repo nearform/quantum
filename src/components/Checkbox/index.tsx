@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
-import { assertsInvalid, cn } from '../../lib/utils'
-import { BsCheck, BsDash } from '../../assets'
+import { assertsInvalid, cn } from '../../lib/utils.ts'
+import { BsCheck, BsDash } from '../../assets/index.ts'
 import { cva } from 'class-variance-authority'
 
 /**
@@ -66,7 +66,8 @@ const checkboxVariants = cva(
           'border-border',
           'data-[state=checked]:border-border',
           'dark:data-[state=unchecked]:border-border-dark',
-          'dark:data-[state=checked]:border-border-dark'
+          'dark:data-[state=checked]:border-border-dark',
+          'dark:[tr[data-state=selected]_&]:border-grey-400'
         ]
       }
     },

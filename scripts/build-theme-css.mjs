@@ -3,7 +3,7 @@
  *
  * The renderer in `scripts/theme-css.ts` is TypeScript that imports `src/`
  * through extensionless specifiers, which Node cannot load on its own, so it
- * needs a TypeScript loader. ts-jest is the only one this repo declares — jiti
+ * needs a TypeScript loader. @swc/jest is the only one this repo declares — jiti
  * and esbuild are here, but as transitive dependencies we do not own. So the
  * write is driven from `__tests__/theme-css.test.ts`, which renders the CSS,
  * writes it when this environment variable is set, and then asserts the file

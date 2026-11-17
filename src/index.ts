@@ -1,3 +1,3 @@
-export { default as colors } from './colors'
-export * from './components'
-export * from './assets'
+export { default as colors } from './colors/index.ts'
+export * from './components/index.ts'
+export * from './assets/index.ts'

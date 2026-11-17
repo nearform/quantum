@@ -3,9 +3,9 @@
 import * as React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 
-import { cn } from '../../lib/utils'
+import { cn } from '../../lib/utils.ts'
 import { VariantProps, cva } from 'class-variance-authority'
-import { BsChevronDown } from '../../assets'
+import { BsChevronDown } from '../../assets/index.ts'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 
 const Select = SelectPrimitive.Root
@@ -41,13 +41,14 @@ const triggerVariants = cva(
       variant: {
         default: [
           'text-foreground',
-          'border-border-subtle',
+          'border-border',
           'bg-grey-100',
           'hover:border-border-hover',
+          'dark:hover:border-border-hover-dark',
           'hover:text-foreground',
           'focus-visible:shadow-brandGreen',
           'dark:bg-background-alt-dark',
-          'dark:border-border-subtle-dark',
+          'dark:border-border-dark',
           'dark:text-foreground-muted-dark',
           'data-[placeholder]:text-foreground-muted',
           'dark:focus-visible:shadow-brandGreen10'

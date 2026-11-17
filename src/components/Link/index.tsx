@@ -1,7 +1,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../../lib/utils'
-import { IconType } from '../../assets'
+import { cn } from '../../lib/utils.ts'
+import { IconType } from '../../assets/index.ts'
 
 const linkVariants = cva('cursor-pointer outline-hidden', {
   variants: {

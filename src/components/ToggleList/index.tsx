@@ -1,9 +1,9 @@
 import * as React from 'react'
 
-import { BsTrash } from '../../assets'
-import { IconButton } from '../IconButton'
-import { Switch } from '../Switch'
-import { cn } from '../../lib/utils'
+import { BsTrash } from '../../assets/index.ts'
+import { IconButton } from '../IconButton/index.tsx'
+import { Switch } from '../Switch/index.tsx'
+import { cn } from '../../lib/utils.ts'
 
 const ToggleList = React.forwardRef<
   HTMLUListElement,

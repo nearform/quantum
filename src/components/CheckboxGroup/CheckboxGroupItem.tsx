@@ -1,8 +1,12 @@
 import * as React from 'react'
 
-import { Checkbox, type CheckboxProps } from '../Checkbox'
-import { ChoiceItem, resolveAriaInvalid, useChoiceGroup } from '../choice-group'
-import { useCheckboxGroup } from './CheckboxGroup'
+import { Checkbox, type CheckboxProps } from '../Checkbox/index.tsx'
+import {
+  ChoiceItem,
+  resolveAriaInvalid,
+  useChoiceGroup
+} from '../choice-group.tsx'
+import { useCheckboxGroup } from './CheckboxGroup.tsx'
 
 interface CheckboxGroupItemProps extends Omit<
   CheckboxProps,

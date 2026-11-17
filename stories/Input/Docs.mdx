@@ -8,7 +8,7 @@ import * as InputStories from './Input.stories'
 
 A single-line text field. It renders the label, the field and its help text as
 one group, wires them to each other, and puts a clear button at the end of the
-field. Giving it `type="search"` also puts a magnifier at the start.
+field when it is given an `onClear`. Giving it `type="search"` also puts a magnifier at the start.
 
 ## Primary Text
 
@@ -33,6 +33,26 @@ field. Giving it `type="search"` also puts a magnifier at the start.
 ## Left Icon
 
 <Canvas of={InputStories.LeftIcon} />
+
+## Clear button
+
+The clear button is rendered when the field is given an `onClear`. Leave
+`onClear` out and there is no button; a `rightSideChild` is still shown, as
+decoration rather than a control.
+
+`clearable` decides when the button is shown:
+
+- `true` (the default) — always, including on an empty field
+- `false` — never
+- `'auto'` — only while the field has a value, as a native `type="search"`
+  field does. It works for controlled and uncontrolled fields alike. Clicking
+  the button moves focus back into the field, so it is not lost along with the
+  button
+
+An empty field's clear button has nothing to clear but still takes a tab stop
+and announces itself, so `'auto'` suits forms with many fields.
+
+<Canvas of={InputStories.ClearWhenFilled} />
 
 ## Sizes
 
@@ -169,6 +189,11 @@ overruling it anyway.
       <td>onClear</td>
       <td>`function`</td>
       <td>-</td>
+    </tr>
+    <tr>
+      <td>clearable</td>
+      <td>`boolean | 'auto'`</td>
+      <td>`true`</td>
     </tr>
     <tr>
       <td>clearLabel</td>

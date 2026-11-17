@@ -136,3 +136,14 @@ export const WithValueText: Story = {
     getAriaValueText: (value: number) => skillLevels[value]
   }
 }
+
+export const WithValue: Story = {
+  args: {
+    defaultValue: [20, 80],
+    label: 'Price',
+    minLabel: '£0',
+    maxLabel: '£100',
+    showValue: true,
+    getAriaValueText: (value: number) => `£${value}`
+  }
+}
