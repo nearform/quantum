@@ -4,6 +4,8 @@ import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import {
+  BsCheckCircleFill,
+  BsExclamationCircleFill,
   BsExclamationTriangleFill,
   BsInfoCircleFill,
   BsXLg,
@@ -61,6 +63,31 @@ const noticeVariants = cva(
           'dark:border-border-dark',
           'dark:bg-background-dark',
           'dark:text-foreground-dark'
+        ],
+        /**
+         * The outcome of something the user just did. Drawn like `warning` --
+         * the intent is carried by the border and the icon, on the page's own
+         * background -- in the feedback colours and icons `Toast` already uses
+         * for the same two outcomes, so a notice and a toast reporting the
+         * same result read as the same thing.
+         */
+        success: [
+          'border',
+          'border-feedback-success',
+          'bg-background',
+          'text-foreground',
+          'dark:border-feedback-success-dark',
+          'dark:bg-background-dark',
+          'dark:text-foreground-dark'
+        ],
+        error: [
+          'border',
+          'border-feedback-error',
+          'bg-background',
+          'text-foreground',
+          'dark:border-feedback-error-dark',
+          'dark:bg-background-dark',
+          'dark:text-foreground-dark'
         ]
       }
     },
@@ -91,6 +118,14 @@ const noticeIcons: Record<
   info: {
     icon: BsInfoCircleFill,
     className: 'text-foreground-muted dark:text-foreground-muted-dark'
+  },
+  success: {
+    icon: BsCheckCircleFill,
+    className: 'text-feedback-success dark:text-feedback-success-dark'
+  },
+  error: {
+    icon: BsExclamationCircleFill,
+    className: 'text-feedback-error dark:text-feedback-error-dark'
   }
 }
 
