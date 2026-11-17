@@ -49,8 +49,11 @@ when `aria-valuetext` already says it.
 - An accessible name is required: the props type will not compile without
   `aria-label` or `aria-labelledby`.
 - The track is `grey-500` and the fill is `accent` / `accent-dark`. The
-  track clears 3:1 against the page and surfaces, and the fill clears 3:1
-  against both the track and the surface, in light and dark mode.
+  fill clears 3:1 against both the track and every surface in light and
+  dark mode. In light mode the track itself clears 3:1 against every
+  surface. In dark mode no grey can clear 3:1 against both the
+  near-white fill and `background-alt`, so the track gets a 1px
+  `grey-400` outline, which clears 3:1 against every dark surface.
 - With `prefers-reduced-motion: reduce`, the indeterminate segment stops
   moving and sits still in the middle of the track, and the determinate
   fill jumps to each new value instead of sliding.

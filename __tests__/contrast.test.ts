@@ -280,22 +280,12 @@ describe('control edges in light mode', () => {
 
 describe('the ProgressBar track and fill', () => {
   const track = colors.grey['500']
-  const modes = [
+  const darkOutline = colors.grey['400']
+
+  describe.each([
     ['light', accent.DEFAULT, surfaceCases('light')],
-    [
-      'dark',
-      accent.dark,
-      surfaceCases('dark').filter(
-        ([name]) => !name.startsWith('background-alt')
-      )
-    ]
-  ] as const
-
-  describe.each(modes)('in %s mode', (_mode, fill, surfaces) => {
-    it.each(surfaces)('keeps the track at 3:1 on %s', (_name, surface) => {
-      expect(ratioOf(track, surface)).toBeGreaterThanOrEqual(AA_NON_TEXT)
-    })
-
+    ['dark', accent.dark, surfaceCases('dark')]
+  ] as const)('in %s mode', (_mode, fill, surfaces) => {
     it.each(surfaces)('keeps the fill at 3:1 on %s', (_name, surface) => {
       expect(ratioOf(fill, surface)).toBeGreaterThanOrEqual(AA_NON_TEXT)
     })
@@ -304,6 +294,20 @@ describe('the ProgressBar track and fill', () => {
       expect(ratioOf(fill, track)).toBeGreaterThanOrEqual(AA_NON_TEXT)
     })
   })
+
+  it.each(surfaceCases('light'))(
+    'keeps the light track at 3:1 on %s',
+    (_name, surface) => {
+      expect(ratioOf(track, surface)).toBeGreaterThanOrEqual(AA_NON_TEXT)
+    }
+  )
+
+  it.each(surfaceCases('dark'))(
+    'keeps the dark track outline at 3:1 on %s',
+    (_name, surface) => {
+      expect(ratioOf(darkOutline, surface)).toBeGreaterThanOrEqual(AA_NON_TEXT)
+    }
+  )
 })
 
 describe('disabled success and danger Buttons in dark mode', () => {

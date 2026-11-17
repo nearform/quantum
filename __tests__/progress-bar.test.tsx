@@ -170,7 +170,11 @@ describe('ProgressBar colours', () => {
     const bar = render(<ProgressBar aria-label="Upload" value={50} />)
 
     expect([classesOf(bar), classesOf(fillOf(bar))]).toEqual([
-      expect.arrayContaining(['bg-grey-500', 'dark:bg-grey-500']),
+      expect.arrayContaining([
+        'bg-grey-500',
+        'dark:bg-grey-500',
+        'dark:ring-grey-400'
+      ]),
       expect.arrayContaining(['bg-accent', 'dark:bg-accent-dark'])
     ])
   })

@@ -43,8 +43,8 @@ const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
         data-state={indeterminate ? 'indeterminate' : 'determinate'}
         className={cn(
           'relative h-1.5 w-full overflow-hidden rounded-full',
-          'bg-grey-500 dark:bg-grey-500',
-          'forced-colors:border forced-colors:border-[CanvasText] forced-colors:bg-transparent',
+          'bg-grey-500 dark:bg-grey-500 dark:ring-1 dark:ring-grey-400',
+          'forced-colors:border forced-colors:border-[CanvasText] forced-colors:bg-transparent forced-colors:ring-0',
           className
         )}
         {...props}
