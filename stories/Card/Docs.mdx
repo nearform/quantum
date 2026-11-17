@@ -83,7 +83,14 @@ so it is named with `removeLabel`, which defaults to "Remove". Name it for
 what it removes, for example "Remove notifications".
 
 `CardTitle` renders an `h3`. If that level does not fit your page's heading
-outline, use your own heading element.
+outline, pass your own heading with `asChild` so the outline doesn't skip a
+level:
+
+```tsx
+<CardTitle asChild>
+  <h2>Description</h2>
+</CardTitle>
+```
 
 ## Attributes
 
@@ -116,6 +123,29 @@ Any other attribute goes to the `div`, and so does the `ref`. With
       <td>`boolean`</td>
       <td>`false`</td>
     </tr>
+    <tr>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
+
+### CardTitle
+
+Any other attribute goes to the `h3`, and so does the `ref`. With `asChild`,
+they go to the child heading instead, and its classes are merged with the
+title's.
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
     <tr>
       <td>asChild</td>
       <td>`boolean`</td>

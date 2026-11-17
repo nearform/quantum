@@ -182,6 +182,47 @@ describe('Card', () => {
   })
 })
 
+describe('CardTitle', () => {
+  it('renders an h3 by default and forwards its ref', () => {
+    const ref = React.createRef<HTMLHeadingElement>()
+    mount(<CardTitle ref={ref}>Heading</CardTitle>)
+
+    const heading = container!.querySelector('h3')!
+    expect(heading.textContent).toBe('Heading')
+    expect(ref.current).toBe(heading)
+  })
+
+  it('renders the child heading instead of an h3 with asChild', () => {
+    const ref = React.createRef<HTMLHeadingElement>()
+    mount(
+      <CardTitle asChild ref={ref} id="title">
+        <h2>Description</h2>
+      </CardTitle>
+    )
+
+    const heading = container!.firstElementChild as HTMLElement
+    expect(heading.tagName).toBe('H2')
+    expect(heading.textContent).toBe('Description')
+    expect(heading.id).toBe('title')
+    expect(ref.current).toBe(heading)
+    expect(container!.querySelector('h3')).toBeNull()
+  })
+
+  it('merges its classes with the child heading, letting the child win', () => {
+    mount(
+      <CardTitle asChild className="mb-2">
+        <h2 className="text-xl">Description</h2>
+      </CardTitle>
+    )
+
+    const heading = container!.querySelector('h2')!
+    expect(heading.classList).toContain('font-medium')
+    expect(heading.classList).toContain('mb-2')
+    expect(heading.classList).toContain('text-xl')
+    expect(heading.classList).not.toContain('text-lg')
+  })
+})
+
 describe('SelectableCard', () => {
   it('names the checkbox with its title and describes it with its description', () => {
     mount(

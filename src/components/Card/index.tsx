@@ -125,16 +125,31 @@ const Card = React.forwardRef<HTMLElement, CardProps>(
 )
 Card.displayName = 'Card'
 
-const CardTitle = React.forwardRef<
-  HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={cn('text-lg font-medium leading-normal', className)}
-    {...props}
-  />
-))
+interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  asChild?: boolean
+}
+
+const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
+  ({ className, asChild = false, children, ...props }, ref) => {
+    const classes = cn('text-lg font-medium leading-normal', className)
+
+    if (asChild && React.isValidElement<{ className?: string }>(children)) {
+      return (
+        <Slot ref={ref} {...props}>
+          {React.cloneElement(children, {
+            className: cn(classes, children.props.className)
+          })}
+        </Slot>
+      )
+    }
+
+    return (
+      <h3 ref={ref} className={classes} {...props}>
+        {children}
+      </h3>
+    )
+  }
+)
 CardTitle.displayName = 'CardTitle'
 
 const CardDescription = React.forwardRef<
@@ -285,6 +300,7 @@ export {
   SwitchCard,
   cardVariants,
   type CardProps,
+  type CardTitleProps,
   type SelectableCardProps,
   type SwitchCardProps
 }
