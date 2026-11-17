@@ -21,10 +21,11 @@ const textareaVariants = cva(
       variant: {
         primary: [
           'border-border-subtle',
-          'dark:border-border-subtle-dark',
+          'dark:border-border-dark',
           'bg-background-alt',
           'dark:bg-background-alt-dark',
           'hover:border-border-hover',
+          'dark:hover:border-border-hover-dark',
           'hover:focus-within:shadow-brandGreen',
           'dark:hover:focus-within:border-border-focus-dark',
           'focus-within:shadow-brandGreen',

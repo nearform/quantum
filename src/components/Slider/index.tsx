@@ -4,6 +4,12 @@ import * as SliderPrimitive from '@radix-ui/react-slider'
 import { cn } from '../../lib/utils.ts'
 import { cva } from 'class-variance-authority'
 
+/**
+ * The track shows how far the slider runs, so WCAG 1.4.11 holds it to 3:1
+ * against the surface. `grey-200` was 1.2:1 on white and `grey-600` 2.3:1 on
+ * `background-surface-dark`. `grey-500` is 4.83:1 and 3.64:1, and the filled
+ * range stays clear of it in both modes (3.88:1 and 4.52:1).
+ */
 const trackVariants = cva([
   [
     'relative',
@@ -12,9 +18,9 @@ const trackVariants = cva([
     'w-full',
     'overflow-hidden',
     'rounded-full',
-    'bg-grey-200'
+    'bg-grey-500'
   ],
-  ['dark:bg-grey-600']
+  ['dark:bg-grey-500']
 ])
 
 const rangeVariants = cva([
