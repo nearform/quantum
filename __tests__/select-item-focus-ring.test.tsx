@@ -91,4 +91,14 @@ describe('SelectItem highlighted indicator', () => {
     expect(classesOf(viewport)).toContain('p-1.5')
     expect(classesOf(items[0])).toContain('scroll-my-1.5')
   })
+
+  it('keeps the ring clear of the overlay scrollbar when the list scrolls', () => {
+    const { items } = mountOpen()
+    const viewport = items[0].closest('[data-radix-select-viewport]')!
+
+    expect(classesOf(viewport.parentElement!)).toContain('group/scroll')
+    expect(classesOf(viewport)).toContain(
+      'group-has-[>[data-orientation=vertical]]/scroll:pr-4.5'
+    )
+  })
 })

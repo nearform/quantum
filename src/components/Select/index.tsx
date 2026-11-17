@@ -142,11 +142,12 @@ const SelectContent = React.forwardRef<
       position={position}
       {...props}
     >
-      <ScrollArea.Root className="w-full h-full" type="auto">
+      <ScrollArea.Root className="group/scroll w-full h-full" type="auto">
         <SelectPrimitive.Viewport
           asChild
           className={cn(
             'p-1.5',
+            'group-has-[>[data-orientation=vertical]]/scroll:pr-4.5',
             position === 'popper' &&
               'max-h-[var(--radix-select-content-available-height)] w-full min-w-[var(--radix-select-trigger-width)]'
           )}
