@@ -26,9 +26,32 @@ responds to a click. `selected` draws the green selected border.
 
 <Canvas of={CardStories.States} />
 
-A `Card` is a `div` and is not focusable. If the whole card should be
-clickable, put a `Link` or `Button` inside it for keyboard and screen reader
-users, rather than adding `onClick` to the card.
+A `Card` is a `div` and is not focusable. Do not add `onClick` to it. If the
+whole card should be clickable, make the card itself the link or button with
+`asChild`.
+
+## As a link or button
+
+With `asChild`, `Card` renders its child instead of a `div`, so the card can
+be an `<a>`, a router `Link` or a `<button>`. The card styles, padding,
+`ref` and any other attributes go to the child, and the focus ring is drawn
+on the element that has focus. Put layout classes such as
+`flex flex-col gap-1` on `Card`. A `<button>` centres its text, so add
+`text-left` if you want it left-aligned.
+
+<Canvas of={CardStories.AsLink} />
+
+```tsx
+<Card interactive asChild className="flex flex-col gap-1">
+  <Link to={`/${slug}`}>
+    <CardTitle>{title}</CardTitle>
+    <CardDescription>{description}</CardDescription>
+  </Link>
+</Card>
+```
+
+Keep the content of a link card short. A screen reader reads all of it as the
+link's name. Do not put other links or buttons inside a link card.
 
 ## Selectable card
 
@@ -66,7 +89,8 @@ outline, use your own heading element.
 
 ### Card
 
-Any other attribute goes to the `div`, and so does the `ref`.
+Any other attribute goes to the `div`, and so does the `ref`. With
+`asChild`, they go to the child instead.
 
 <table>
   <thead>
@@ -89,6 +113,11 @@ Any other attribute goes to the `div`, and so does the `ref`.
     </tr>
     <tr>
       <td>selected</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>asChild</td>
       <td>`boolean`</td>
       <td>`false`</td>
     </tr>

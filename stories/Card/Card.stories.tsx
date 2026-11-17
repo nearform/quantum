@@ -4,6 +4,7 @@ import {
   CardDemo,
   CardStates,
   FilledCardDemo,
+  LinkCardDemo,
   SelectableCardDemo,
   SwitchCardDemo
 } from './Card.example'
@@ -39,6 +40,10 @@ export const Filled: Story = {
 
 export const States: Story = {
   render: () => <CardStates />
+}
+
+export const AsLink: Story = {
+  render: () => <LinkCardDemo />
 }
 
 export const Selectable: Story = {
