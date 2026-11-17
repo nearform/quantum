@@ -147,7 +147,7 @@ const SelectContent = React.forwardRef<
           asChild
           className={cn(
             'p-1.5',
-            'group-has-[>[data-orientation=vertical]]/scroll:pr-4.5',
+            'group-has-[>[data-orientation=vertical][data-state=visible]]/scroll:pr-4.5',
             position === 'popper' &&
               'max-h-[var(--radix-select-content-available-height)] w-full min-w-[var(--radix-select-trigger-width)]'
           )}

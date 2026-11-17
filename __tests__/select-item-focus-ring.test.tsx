@@ -98,7 +98,7 @@ describe('SelectItem highlighted indicator', () => {
 
     expect(classesOf(viewport.parentElement!)).toContain('group/scroll')
     expect(classesOf(viewport)).toContain(
-      'group-has-[>[data-orientation=vertical]]/scroll:pr-4.5'
+      'group-has-[>[data-orientation=vertical][data-state=visible]]/scroll:pr-4.5'
     )
   })
 })
