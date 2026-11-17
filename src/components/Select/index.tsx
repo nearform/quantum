@@ -44,6 +44,7 @@ const triggerVariants = cva(
           'border-border-subtle',
           'bg-grey-100',
           'hover:border-border-hover',
+          'dark:hover:border-border-hover-dark',
           'hover:text-foreground',
           'focus-visible:shadow-brandGreen',
           'dark:bg-background-alt-dark',

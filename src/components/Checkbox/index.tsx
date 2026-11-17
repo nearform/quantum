@@ -66,7 +66,8 @@ const checkboxVariants = cva(
           'border-border',
           'data-[state=checked]:border-border',
           'dark:data-[state=unchecked]:border-border-dark',
-          'dark:data-[state=checked]:border-border-dark'
+          'dark:data-[state=checked]:border-border-dark',
+          'dark:[tr[data-state=selected]_&]:border-grey-400'
         ]
       }
     },

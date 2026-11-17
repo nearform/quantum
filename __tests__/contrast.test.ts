@@ -200,8 +200,9 @@ describe('feedback descriptors in dark mode', () => {
  * `foreground-inverse` tick or dot, so the token cannot simply be lightened
  * until the edge is comfortable: the glyph drawn on it is held here too.
  *
- * `background-alt-dark` is left out on purpose. It is the fill of an
- * unchecked box and of a field, not a surface a control sits on.
+ * `background-alt-dark` is left out of the sweep: it is the fill of an
+ * unchecked box and of a field. It is also a selected table row, where a
+ * Checkbox lifts its edge to `grey-400`, held below.
  */
 describe('control edges in dark mode', () => {
   const surfaces = surfaceCases('dark').filter(
@@ -225,6 +226,12 @@ describe('control edges in dark mode', () => {
     expect(ratioOf(border.hover.dark, background.surface.dark)).toBeGreaterThan(
       ratioOf(border.dark, background.surface.dark)
     )
+  })
+
+  it('keeps a Checkbox edge at 3:1 on a selected table row', () => {
+    expect(
+      ratioOf(colors.grey['400'], background.alt.dark)
+    ).toBeGreaterThanOrEqual(AA_NON_TEXT)
   })
 
   it('keeps the checked tick and dot clear of the fill they are drawn on', () => {
