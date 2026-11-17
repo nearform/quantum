@@ -66,6 +66,12 @@ Use `getAriaValueText` to give each thumb an `aria-valuetext`, so screen readers
 
 <Canvas of={SliderStories.WithValueText} />
 
+## With value
+
+Set `showValue` to show the current value at the end of the label row. A range slider shows both values, such as "£20 – £80". The text comes from `getAriaValueText` when it is set, so what is shown always matches what screen readers announce.
+
+<Canvas of={SliderStories.WithValue} />
+
 ## Dark mode
 
 The slider supports dark mode.
@@ -143,6 +149,11 @@ The slider supports dark mode.
       <td>getAriaValueText</td>
       <td>`(value: number, index: number) => string`</td>
       <td>-</td>
+    </tr>
+    <tr>
+      <td>showValue</td>
+      <td>`boolean`</td>
+      <td>false</td>
     </tr>
     <tr>
       <td>disabled</td>
