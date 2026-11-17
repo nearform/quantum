@@ -50,10 +50,11 @@ A vertical separator stacks the lines above and below the label.
 
 ## Colour and dark mode
 
-The line uses the `border-subtle` token, which the design system reserves for
-dividers and decorative outlines, and switches to `border-subtle-dark` in dark
-mode. The label uses `foreground-muted`. Switch the theme in the toolbar to see
-the dark mode rendering.
+The line is `grey-400` in light mode and `border-subtle-dark` in dark mode.
+The light-mode `border-subtle` token is too faint for a divider (1.07:1 on
+white), so Separator uses `grey-400` (2.54:1), which roughly matches how
+strongly the dark-mode line reads. The label uses `foreground-muted`. Switch
+the theme in the toolbar to see the dark mode rendering.
 
 <Canvas of={SeparatorStories.InACard} />
 

@@ -6,7 +6,7 @@ import { cn } from '../../lib/utils.ts'
 type SeparatorOrientation = 'horizontal' | 'vertical'
 
 const separatorLineVariants = cva(
-  ['shrink-0', 'border-border-subtle', 'dark:border-border-subtle-dark'],
+  ['shrink-0', 'border-grey-400', 'dark:border-border-subtle-dark'],
   {
     variants: {
       orientation: {
