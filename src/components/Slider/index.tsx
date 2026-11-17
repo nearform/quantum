@@ -56,6 +56,17 @@ const labelVariants = cva([
   ['dark:text-foreground-inverse']
 ])
 
+const valueVariants = cva([
+  [
+    'text-sm',
+    'font-medium',
+    'leading-normal',
+    'text-foreground',
+    'tabular-nums'
+  ],
+  ['dark:text-foreground-inverse']
+])
+
 const hintVariants = cva([
   ['text-xs', 'font-semibold', 'text-foreground-muted'],
   ['dark:text-foreground-muted-dark']
@@ -71,6 +82,7 @@ type SliderProps = Omit<
   maxLabel?: React.ReactNode
   endLabelPosition?: 'inline' | 'below'
   getAriaValueText?: (value: number, index: number) => string
+  showValue?: boolean
 }
 
 const Slider = React.forwardRef<
@@ -88,6 +100,7 @@ const Slider = React.forwardRef<
       maxLabel,
       endLabelPosition = 'inline',
       getAriaValueText,
+      showValue = false,
       onValueChange,
       ...props
     },
@@ -105,6 +118,14 @@ const Slider = React.forwardRef<
     const generatedId = React.useId()
     const labelId = label ? `${generatedId}-label` : undefined
     const thumbLabelledBy = ariaLabelledBy ?? labelId
+
+    const formatValue = (v: number, i: number) =>
+      getAriaValueText?.(v, i) || String(v)
+    const valueReadout = showValue ? (
+      <span aria-hidden="true" className={cn(valueVariants())}>
+        {values.map(formatValue).join(' – ')}
+      </span>
+    ) : null
 
     const hasEndLabels = minLabel != null || maxLabel != null
 
@@ -163,15 +184,27 @@ const Slider = React.forwardRef<
       slider
     )
 
-    if (!label) return <div className={cn('w-full', className)}>{track}</div>
+    if (!label) {
+      if (!valueReadout)
+        return <div className={cn('w-full', className)}>{track}</div>
+      return (
+        <div className={cn('flex w-full flex-col gap-2', className)}>
+          <div className="flex justify-end">{valueReadout}</div>
+          {track}
+        </div>
+      )
+    }
 
     return (
       <div className={cn('flex w-full flex-col gap-2', className)}>
-        <div className="flex flex-col">
-          <span id={labelId} className={cn(labelVariants())}>
-            {label}
-          </span>
-          {hintText && <span className={cn(hintVariants())}>{hintText}</span>}
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col">
+            <span id={labelId} className={cn(labelVariants())}>
+              {label}
+            </span>
+            {hintText && <span className={cn(hintVariants())}>{hintText}</span>}
+          </div>
+          {valueReadout}
         </div>
         {track}
       </div>

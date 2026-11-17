@@ -234,4 +234,62 @@ describe('Slider', () => {
     expect(texts).toContain('Brightness')
     expect(texts).toContain('Screen')
   })
+  describe('showValue', () => {
+    const readout = () => container!.querySelector('[aria-hidden="true"]')
+
+    it('renders no value readout by default', () => {
+      mount(<Slider defaultValue={[40]} label="Volume" />)
+
+      expect(readout()).toBeNull()
+    })
+
+    it('shows the current value beside the label', () => {
+      mount(<Slider defaultValue={[40]} label="Volume" showValue />)
+
+      expect(readout()!.textContent).toBe('40')
+      expect(readout()!.previousElementSibling!.textContent).toBe('Volume')
+    })
+
+    it('shows both values of a range slider', () => {
+      mount(<Slider defaultValue={[20, 80]} label="Price" showValue />)
+
+      expect(readout()!.textContent).toBe('20 – 80')
+    })
+
+    it('formats the readout with the same text as aria-valuetext', () => {
+      mount(
+        <Slider
+          defaultValue={[20, 80]}
+          label="Price"
+          showValue
+          getAriaValueText={v => `£${v}`}
+        />
+      )
+
+      const thumbs = container!.querySelectorAll('[role="slider"]')
+      const announced = Array.from(thumbs).map(t =>
+        t.getAttribute('aria-valuetext')
+      )
+      expect(readout()!.textContent).toBe(announced.join(' – '))
+    })
+
+    it('shows the value without a visible label', () => {
+      mount(<Slider defaultValue={[40]} aria-label="Volume" showValue />)
+
+      expect(readout()!.textContent).toBe('40')
+    })
+
+    it('updates the readout as the slider moves', () => {
+      mount(<Slider defaultValue={[40]} label="Volume" showValue />)
+
+      const thumb = container!.querySelector<HTMLElement>('[role="slider"]')!
+      act(() => {
+        thumb.dispatchEvent(
+          new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })
+        )
+      })
+
+      expect(readout()!.textContent).toBe('41')
+    })
+  })
 })
