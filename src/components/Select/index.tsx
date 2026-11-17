@@ -146,7 +146,7 @@ const SelectContent = React.forwardRef<
         <SelectPrimitive.Viewport
           asChild
           className={cn(
-            'p-1',
+            'p-1.5',
             position === 'popper' &&
               'max-h-[var(--radix-select-content-available-height)] w-full min-w-[var(--radix-select-trigger-width)]'
           )}
@@ -194,14 +194,12 @@ const itemVariants = cva([
     'data-[disabled]:pointer-events-none',
     'data-[disabled]:opacity-50',
     'hover:bg-background-alt',
+    'scroll-my-1.5',
     'data-[highlighted]:bg-background-alt',
-    'data-[highlighted]:outline-2',
-    'data-[highlighted]:-outline-offset-2',
-    'data-[highlighted]:outline-current',
-    'focus-visible:shadow-brandGreen'
+    'data-[highlighted]:shadow-brandGreen'
   ],
   [
-    'dark:focus-visible:shadow-brandGreen10',
+    'dark:data-[highlighted]:shadow-brandGreen10',
     'dark:hover:bg-background-alt-dark',
     'dark:data-[highlighted]:bg-background-alt-dark'
   ]
