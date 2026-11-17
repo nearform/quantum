@@ -58,9 +58,9 @@ describe('Separator', () => {
     expect(el.classList).not.toContain('border-t')
   })
 
-  it('uses grey-400 in light mode and the subtle border token in dark mode', () => {
+  it('uses grey-300 in light mode and the subtle border token in dark mode', () => {
     const el = render(<Separator />)
-    expect(el.classList).toContain('border-grey-400')
+    expect(el.classList).toContain('border-grey-300')
     expect(el.classList).toContain('dark:border-border-subtle-dark')
   })
 
