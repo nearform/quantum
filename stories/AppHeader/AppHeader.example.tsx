@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BsBell, BsSearch } from 'react-icons/bs'
+import { BsBell, BsGlobe, BsSearch } from 'react-icons/bs'
 import {
   AppHeader,
   AppHeaderLogo,
@@ -86,3 +86,28 @@ export const AppHeaderDemo = () => {
     </div>
   )
 }
+
+export const AppHeaderWithoutMobileMenuDemo = () => (
+  <div className="w-full">
+    <AppHeader>
+      <AppHeaderLogo href="#">
+        <Logo />
+      </AppHeaderLogo>
+
+      <AppHeaderActions collapse={false}>
+        <IconButton
+          variant="tertiary"
+          size="sm"
+          icon={<BsGlobe />}
+          label="Change language"
+        />
+        <IconButton
+          variant="tertiary"
+          size="sm"
+          icon={<BsBell />}
+          label="Notifications"
+        />
+      </AppHeaderActions>
+    </AppHeader>
+  </div>
+)

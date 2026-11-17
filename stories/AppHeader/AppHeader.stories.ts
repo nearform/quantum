@@ -1,6 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react-vite'
 
-import { AppHeaderDemo } from './AppHeader.example'
+import {
+  AppHeaderDemo,
+  AppHeaderWithoutMobileMenuDemo
+} from './AppHeader.example'
 
 const meta = {
   title: 'Components/App Header',
@@ -14,3 +17,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
+
+export const WithoutMobileMenu: Story = {
+  render: () => AppHeaderWithoutMobileMenuDemo()
+}

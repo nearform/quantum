@@ -12,6 +12,26 @@ A Website Header sits at the top of a web page and provides branding, primary na
 
 <Canvas of={WebsiteHeaderStories.Default} />
 
+## Without a mobile menu
+
+`WebsiteHeaderActions` is hidden below the `sm` breakpoint by default, on the assumption that its contents are repeated in `WebsiteHeaderMobileMenu` and reached through `WebsiteHeaderMenuButton`. Keep that pairing: if a header has a `WebsiteHeaderMenuButton`, put the actions in the mobile menu too.
+
+A header with no nav and only a few compact actions, such as a language select and a GitHub link, usually has no mobile menu. Set `collapse={false}` on `WebsiteHeaderActions` so the actions stay visible at every width. You don't need to override the `hidden` class yourself.
+
+<Canvas of={WebsiteHeaderStories.WithoutMobileMenu} />
+
+```tsx
+<WebsiteHeader>
+  <WebsiteHeaderLogo href="/">
+    <img src="/logo.svg" alt="My App" />
+  </WebsiteHeaderLogo>
+  <WebsiteHeaderActions collapse={false}>
+    <LanguageSelect />
+    <ThemeToggle />
+  </WebsiteHeaderActions>
+</WebsiteHeader>
+```
+
 ## Attributes
 
 ### WebsiteHeader
@@ -60,6 +80,27 @@ The root `<header>` element. Renders a horizontal bar with logo, nav, and action
     </tr>
   </tbody>
 </table>
+
+### WebsiteHeaderActions
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>collapse</td>
+      <td>`boolean`</td>
+      <td>`true`</td>
+    </tr>
+  </tbody>
+</table>
+
+When `true`, the actions are hidden below `sm` and should be repeated in `WebsiteHeaderMobileMenu`. When `false`, they stay visible at every width.
 
 ### WebsiteHeaderMenuButton
 
@@ -137,7 +178,9 @@ export const MyHeader = () => {
         </WebsiteHeaderLogo>
 
         <WebsiteHeaderNav aria-label="Main">
-          <WebsiteHeaderLink href="/docs" active>Docs</WebsiteHeaderLink>
+          <WebsiteHeaderLink href="/docs" active>
+            Docs
+          </WebsiteHeaderLink>
           <WebsiteHeaderLink href="/blog">Blog</WebsiteHeaderLink>
         </WebsiteHeaderNav>
 
@@ -152,7 +195,9 @@ export const MyHeader = () => {
       </WebsiteHeader>
 
       <WebsiteHeaderMobileMenu open={menuOpen}>
-        <WebsiteHeaderLink href="/docs" active>Docs</WebsiteHeaderLink>
+        <WebsiteHeaderLink href="/docs" active>
+          Docs
+        </WebsiteHeaderLink>
         <WebsiteHeaderLink href="/blog">Blog</WebsiteHeaderLink>
         <Button size="sm">Get started</Button>
       </WebsiteHeaderMobileMenu>

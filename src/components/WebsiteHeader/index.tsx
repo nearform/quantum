@@ -101,13 +101,21 @@ const WebsiteHeaderLink = React.forwardRef<
 )
 WebsiteHeaderLink.displayName = 'WebsiteHeaderLink'
 
+interface WebsiteHeaderActionsProps extends React.HTMLAttributes<HTMLDivElement> {
+  collapse?: boolean
+}
+
 const WebsiteHeaderActions = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+  WebsiteHeaderActionsProps
+>(({ className, collapse = true, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('hidden sm:flex items-center gap-2', className)}
+    className={cn(
+      collapse ? 'hidden sm:flex' : 'flex',
+      'items-center gap-2',
+      className
+    )}
     {...props}
   />
 ))
@@ -194,5 +202,6 @@ export {
   WebsiteHeaderMobileMenu,
   type WebsiteHeaderLogoProps,
   type WebsiteHeaderLinkProps,
+  type WebsiteHeaderActionsProps,
   type WebsiteHeaderMenuButtonProps
 }

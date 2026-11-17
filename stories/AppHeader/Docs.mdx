@@ -12,6 +12,26 @@ An App Header sits at the top of an application and provides branding, primary n
 
 <Canvas of={AppHeaderStories.Default} />
 
+## Without a mobile menu
+
+`AppHeaderActions` is hidden below the `sm` breakpoint by default, on the assumption that its contents are repeated in `AppHeaderMobileMenu` and reached through `AppHeaderMenuButton`. Keep that pairing: if a header has a `AppHeaderMenuButton`, put the actions in the mobile menu too.
+
+A header with no nav and only a few compact actions, such as a language select and a theme toggle, usually has no mobile menu. Set `collapse={false}` on `AppHeaderActions` so the actions stay visible at every width. You don't need to override the `hidden` class yourself.
+
+<Canvas of={AppHeaderStories.WithoutMobileMenu} />
+
+```tsx
+<AppHeader>
+  <AppHeaderLogo href="/">
+    <img src="/logo.svg" alt="My App" />
+  </AppHeaderLogo>
+  <AppHeaderActions collapse={false}>
+    <LanguageSelect />
+    <ThemeToggle />
+  </AppHeaderActions>
+</AppHeader>
+```
+
 ## Attributes
 
 ### AppHeader
@@ -60,6 +80,27 @@ The root `<header>` element. Renders a horizontal bar with logo, nav, and action
     </tr>
   </tbody>
 </table>
+
+### AppHeaderActions
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>collapse</td>
+      <td>`boolean`</td>
+      <td>`true`</td>
+    </tr>
+  </tbody>
+</table>
+
+When `true`, the actions are hidden below `sm` and should be repeated in `AppHeaderMobileMenu`. When `false`, they stay visible at every width.
 
 ### AppHeaderMenuButton
 
@@ -139,13 +180,25 @@ export const MyAppHeader = () => {
         </AppHeaderLogo>
 
         <AppHeaderNav aria-label="Main">
-          <AppHeaderLink href="/dashboard" active>Dashboard</AppHeaderLink>
+          <AppHeaderLink href="/dashboard" active>
+            Dashboard
+          </AppHeaderLink>
           <AppHeaderLink href="/projects">Projects</AppHeaderLink>
         </AppHeaderNav>
 
         <AppHeaderActions>
-          <IconButton variant="tertiary" size="sm" icon={<BsSearch />} label="Search" />
-          <IconButton variant="tertiary" size="sm" icon={<BsBell />} label="Notifications" />
+          <IconButton
+            variant="tertiary"
+            size="sm"
+            icon={<BsSearch />}
+            label="Search"
+          />
+          <IconButton
+            variant="tertiary"
+            size="sm"
+            icon={<BsBell />}
+            label="Notifications"
+          />
           <Avatar size="sm" name="Jane Doe" />
         </AppHeaderActions>
 
@@ -156,7 +209,9 @@ export const MyAppHeader = () => {
       </AppHeader>
 
       <AppHeaderMobileMenu open={menuOpen}>
-        <AppHeaderLink href="/dashboard" active>Dashboard</AppHeaderLink>
+        <AppHeaderLink href="/dashboard" active>
+          Dashboard
+        </AppHeaderLink>
         <AppHeaderLink href="/projects">Projects</AppHeaderLink>
       </AppHeaderMobileMenu>
     </>
