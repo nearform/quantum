@@ -1,0 +1,86 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks'
+
+import * as SpinnerStories from './Spinner.stories'
+
+<Meta of={SpinnerStories} />
+
+# Spinner
+
+A loading indicator for work whose duration is unknown: infinite scroll,
+lazily loaded panels, or a submit that waits on the server.
+
+```tsx
+import { Spinner } from '@nearform/quantum'
+
+<Spinner label="Loading results" />
+```
+
+<Canvas of={SpinnerStories.Default} />
+
+<Controls of={SpinnerStories.Default} />
+
+## Sizes
+
+`sm` (16px), `default` (20px) and `lg` (32px). Use `sm` inside buttons and
+compact controls, `default` beside body text, and `lg` for a whole panel or
+page region that is loading.
+
+<Canvas of={SpinnerStories.Sizes} />
+
+## Colour
+
+The ring is drawn in `currentColor`, so it takes the text colour of whatever
+it sits in. It needs no variant for buttons, coloured surfaces or dark mode:
+set the text colour on the parent and the spinner follows. Switch the theme
+in the toolbar to see the dark mode rendering.
+
+<Canvas of={SpinnerStories.ColourContexts} />
+
+## Accessibility
+
+There are two ways to use the spinner, and the choice depends on whether
+anything else on screen already says what is loading.
+
+**Standalone, with a `label`.** When the spinner is the only thing telling
+the user that something is happening, pass a `label`. The spinner renders
+with `role="status"` and the label as visually hidden text, so screen
+readers announce it politely.
+
+```tsx
+<Spinner label="Loading comments" />
+```
+
+**Beside visible text, without a `label`.** When visible text next to the
+spinner already describes the loading state, leave `label` out. The spinner
+is then `aria-hidden` and purely decorative, so the message is not announced
+twice. Put `role="status"` on the container holding the text if the change
+should be announced.
+
+```tsx
+<div role="status" className="flex items-center gap-3">
+  <Spinner />
+  Loading results…
+</div>
+```
+
+<Canvas of={SpinnerStories.WithVisibleText} />
+
+Inside a button, keep the button's own text (for example "Saving…") and
+leave `label` out. Mark the button `aria-busy` and disable it while the
+request is in flight.
+
+### Reduced motion
+
+When the user has asked for reduced motion
+(`prefers-reduced-motion: reduce`), the ring stops rotating and pulses its
+opacity instead. The story below forces the pulse so it can be previewed
+without changing system settings.
+
+<Canvas of={SpinnerStories.ReducedMotion} />
+
+### Forced colours
+
+In Windows High Contrast and other forced-colour modes the ring opts out of
+colour forcing so its transparent quarter stays transparent and the rotation
+remains visible. It still uses `currentColor`, which the browser has already
+mapped to the system text colour.

@@ -86,6 +86,7 @@ body:
         - Select
         - Slider
         - SortAndShow
+        - Spinner
         - SplitButton
         - Stats
         - Stepper
