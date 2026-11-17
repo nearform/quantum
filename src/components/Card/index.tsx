@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { BsTrash } from '../../assets/index.ts'
@@ -78,20 +79,49 @@ const cardVariants = cva(
 interface CardProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof cardVariants> {}
+    VariantProps<typeof cardVariants> {
+  asChild?: boolean
+}
 
-const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant, interactive, selected, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(
-        cardVariants({ variant, interactive, selected }),
-        'p-4',
-        className
-      )}
-      {...props}
-    />
-  )
+const Card = React.forwardRef<HTMLElement, CardProps>(
+  (
+    {
+      className,
+      variant,
+      interactive,
+      selected,
+      asChild = false,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const classes = cn(
+      cardVariants({ variant, interactive, selected }),
+      'block p-4',
+      className
+    )
+
+    if (asChild && React.isValidElement<{ className?: string }>(children)) {
+      return (
+        <Slot ref={ref} {...props}>
+          {React.cloneElement(children, {
+            className: cn(classes, children.props.className)
+          })}
+        </Slot>
+      )
+    }
+
+    return (
+      <div
+        ref={ref as React.Ref<HTMLDivElement>}
+        className={classes}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
 )
 Card.displayName = 'Card'
 

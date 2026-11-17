@@ -12,7 +12,7 @@ export const border = {
    */
   dark: colors.grey['500'],
   hover: {
-    DEFAULT: colors.brandMidnight['50'],
+    DEFAULT: colors.grey['800'],
     /**
      * Hovering strengthens the edge in both modes. `brandMidnight-80` darkened
      * it instead, to 1.6:1 on the dark surface, so a hovered secondary Button

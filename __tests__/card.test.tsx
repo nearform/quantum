@@ -90,6 +90,96 @@ describe('Card', () => {
     expect(plain.className).not.toContain('border-brandGreen-100')
     expect(selected.className).toContain('border-brandGreen-100')
   })
+  describe('asChild', () => {
+    const RouterLink = React.forwardRef<
+      HTMLAnchorElement,
+      React.AnchorHTMLAttributes<HTMLAnchorElement> & { to: string }
+    >(({ to, ...props }, ref) => (
+      <a ref={ref} href={to} data-router-link="" {...props} />
+    ))
+    RouterLink.displayName = 'RouterLink'
+
+    it('renders the child link as the card instead of a div', () => {
+      mount(
+        <Card interactive asChild>
+          <RouterLink to="/guides">
+            <CardTitle>Guides</CardTitle>
+          </RouterLink>
+        </Card>
+      )
+
+      const link = container!.firstElementChild as HTMLElement
+      expect(link.tagName).toBe('A')
+      expect(link.hasAttribute('data-router-link')).toBe(true)
+      expect(link.getAttribute('href')).toBe('/guides')
+      expect(container!.querySelector('div')).toBeNull()
+      expect(link.querySelector('h3')?.textContent).toBe('Guides')
+    })
+
+    it('puts the card styles, padding and focus ring on the child', () => {
+      mount(
+        <Card interactive asChild className="gap-2">
+          <RouterLink to="/" className="flex flex-col">
+            Content
+          </RouterLink>
+        </Card>
+      )
+
+      const link = container!.querySelector('a')!
+      expect(link.classList).toContain('p-4')
+      expect(link.classList).toContain('rounded-lg')
+      expect(link.classList).toContain('focus-visible:shadow-brandGreen')
+      expect(link.classList).toContain('gap-2')
+      expect(link.classList).toContain('flex')
+      expect(link.classList).not.toContain('block')
+    })
+
+    it('forwards its ref, attributes and onClick to the child', () => {
+      const ref = React.createRef<HTMLButtonElement>()
+      const onClick = jest.fn()
+      mount(
+        <Card
+          interactive
+          asChild
+          ref={ref}
+          data-testid="card"
+          onClick={onClick}
+        >
+          <button type="button">Open</button>
+        </Card>
+      )
+
+      const button = container!.querySelector('button')!
+      expect(ref.current).toBe(button)
+      expect(button.getAttribute('data-testid')).toBe('card')
+
+      act(() => button.click())
+
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('accepts a ref typed for the child element', () => {
+      const ref = React.createRef<HTMLAnchorElement>()
+      const nodes: (HTMLAnchorElement | null)[] = []
+      const setRef = (node: HTMLAnchorElement | null) => {
+        nodes.push(node)
+      }
+      mount(
+        <>
+          <Card asChild ref={ref}>
+            <RouterLink to="/a">A</RouterLink>
+          </Card>
+          <Card asChild ref={setRef}>
+            <RouterLink to="/b">B</RouterLink>
+          </Card>
+        </>
+      )
+
+      const [first, second] = container!.querySelectorAll('a')
+      expect(ref.current).toBe(first)
+      expect(nodes).toEqual([second])
+    })
+  })
 })
 
 describe('SelectableCard', () => {

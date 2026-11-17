@@ -55,8 +55,26 @@ const CardStates = () => (
   </div>
 )
 
+const LinkCardDemo = () => (
+  <div className="flex w-72 flex-col gap-3">
+    <Card interactive asChild className="flex flex-col gap-1">
+      <a href="#guides">
+        <CardTitle>Guides</CardTitle>
+        <CardDescription>Step-by-step walkthroughs.</CardDescription>
+      </a>
+    </Card>
+    <Card interactive asChild className="flex flex-col gap-1 text-left">
+      <button type="button">
+        <CardTitle>Start a project</CardTitle>
+        <CardDescription>Opens the new project form.</CardDescription>
+      </button>
+    </Card>
+  </div>
+)
+
 export {
   CardDemo,
+  LinkCardDemo,
   CardStates,
   FilledCardDemo,
   SelectableCardDemo,
