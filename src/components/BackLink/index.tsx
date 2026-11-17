@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { BsArrowLeft } from '../../assets/index.ts'
@@ -31,19 +32,37 @@ const backLinkVariants = cva(
 interface BackLinkProps
   extends
     React.AnchorHTMLAttributes<HTMLAnchorElement>,
-    VariantProps<typeof backLinkVariants> {}
+    VariantProps<typeof backLinkVariants> {
+  asChild?: boolean
+}
 
 const BackLink = React.forwardRef<HTMLAnchorElement, BackLinkProps>(
-  ({ className, size, children = 'Back', ...props }, ref) => (
-    <a
-      ref={ref}
-      className={cn(backLinkVariants({ size }), className)}
-      {...props}
-    >
-      <BsArrowLeft className="h-3 w-3 shrink-0" aria-hidden="true" />
-      <span className={size === 'sm' ? 'sr-only' : undefined}>{children}</span>
-    </a>
-  )
+  ({ className, size, asChild = false, children = 'Back', ...props }, ref) => {
+    const Comp = asChild ? Slot : 'a'
+    const renderLabel = (label: React.ReactNode) => (
+      <span className={size === 'sm' ? 'sr-only' : undefined}>{label}</span>
+    )
+
+    return (
+      <Comp
+        ref={ref}
+        className={cn(backLinkVariants({ size }), className)}
+        {...props}
+      >
+        <BsArrowLeft className="h-3 w-3 shrink-0" aria-hidden="true" />
+        <Slottable>
+          {asChild &&
+          React.isValidElement<{ children?: React.ReactNode }>(children)
+            ? React.cloneElement(
+                children,
+                undefined,
+                renderLabel(children.props.children ?? 'Back')
+              )
+            : renderLabel(children)}
+        </Slottable>
+      </Comp>
+    )
+  }
 )
 BackLink.displayName = 'BackLink'
 

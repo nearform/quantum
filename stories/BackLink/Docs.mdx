@@ -24,6 +24,21 @@ The label defaults to "Back". Pass children to say where the link goes.
 
 <Canvas of={BackLinkStories.CustomLabel} />
 
+## Router links
+
+Pass `asChild` to render your router's link instead of an `a`, such as React
+Router's `Link` or Next.js `Link`. The arrow and the label go inside that link,
+and the styles, `ref` and other attributes are merged into it. The link's
+children are the label, and it defaults to "Back".
+
+```tsx
+<BackLink asChild>
+  <Link to="/">Back to Main Page</Link>
+</BackLink>
+```
+
+<Canvas of={BackLinkStories.AsChild} />
+
 ## Dark mode
 
 The back link has dark mode styles.
@@ -48,7 +63,8 @@ The arrow is hidden from assistive technology.
 
 ## Attributes
 
-Any other attribute goes to the `a`, and so does the `ref`.
+Any other attribute goes to the `a`, or to the child link with `asChild`, and
+so does the `ref`.
 
 <table>
   <thead>
@@ -59,6 +75,11 @@ Any other attribute goes to the `a`, and so does the `ref`.
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td>asChild</td>
+      <td>`boolean`</td>
+      <td>`false`</td>
+    </tr>
     <tr>
       <td>children</td>
       <td>`ReactNode`</td>
