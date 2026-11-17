@@ -229,6 +229,10 @@ describe('control edges in dark mode', () => {
     )
   })
 
+  it('changes the edge on hover enough to see', () => {
+    expect(ratioOf(border.hover.dark, border.dark)).toBeGreaterThanOrEqual(1.5)
+  })
+
   it('keeps a Checkbox edge at 3:1 on a selected table row', () => {
     expect(
       ratioOf(colors.grey['400'], background.alt.dark)
@@ -269,6 +273,12 @@ describe('control edges in light mode', () => {
     expect(ratioOf(border.hover.DEFAULT, background.DEFAULT)).toBeGreaterThan(
       ratioOf(border.DEFAULT, background.DEFAULT)
     )
+  })
+
+  it('changes the edge on hover enough to see', () => {
+    expect(
+      ratioOf(border.hover.DEFAULT, border.DEFAULT)
+    ).toBeGreaterThanOrEqual(1.5)
   })
 
   it('keeps the checked tick and dot clear of the fill they are drawn on', () => {
