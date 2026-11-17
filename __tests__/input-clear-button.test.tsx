@@ -40,6 +40,17 @@ const mount = (ui: React.ReactElement) => {
 const clearButtonOf = (container: HTMLElement) =>
   container.querySelector<HTMLButtonElement>('button[aria-label="Clear input"]')
 
+const typeInto = (input: HTMLInputElement, value: string) => {
+  const setValue = Object.getOwnPropertyDescriptor(
+    HTMLInputElement.prototype,
+    'value'
+  )!.set!
+  act(() => {
+    setValue.call(input, value)
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+  })
+}
+
 describe('Input clear button', () => {
   it('clears an editable field', () => {
     const onClear = jest.fn()
@@ -116,5 +127,142 @@ describe('Input clear button', () => {
     // The field drops its border through `[&:has(:disabled)]`, so nothing
     // inside a read-only field may be disabled.
     expect(container.querySelector(':disabled')).toBeNull()
+  })
+})
+
+describe('Input without onClear', () => {
+  it('renders no clear button', () => {
+    const container = mount(<Input type="text" variant="primary" />)
+
+    expect(container.querySelector('button')).toBeNull()
+  })
+
+  it('shows a rightSideChild outside any button', () => {
+    const container = mount(
+      <Input
+        type="text"
+        variant="primary"
+        rightSideChild={<span data-testid="right-icon" />}
+      />
+    )
+    const icon = container.querySelector('[data-testid="right-icon"]')
+
+    expect(icon!.closest('button')).toBeNull()
+  })
+})
+
+describe('Input clearable', () => {
+  it('shows the clear button on an empty field by default', () => {
+    const container = mount(
+      <Input type="text" variant="primary" onClear={jest.fn()} />
+    )
+
+    expect(clearButtonOf(container)).not.toBeNull()
+  })
+
+  it('never shows the clear button when false', () => {
+    const container = mount(
+      <Input
+        type="text"
+        variant="primary"
+        defaultValue="x"
+        clearable={false}
+        onClear={jest.fn()}
+      />
+    )
+
+    expect(clearButtonOf(container)).toBeNull()
+  })
+
+  it.each([
+    ['an empty uncontrolled field', { defaultValue: '' }, false],
+    ['a filled uncontrolled field', { defaultValue: 'x' }, true],
+    ['an empty controlled field', { value: '', onChange: () => {} }, false],
+    ['a filled controlled field', { value: 'x', onChange: () => {} }, true],
+    ['a controlled field holding 0', { value: 0, onChange: () => {} }, true]
+  ])('when auto, on %s, shows the button: %s', (_, valueProps, shown) => {
+    const container = mount(
+      <Input
+        type="text"
+        variant="primary"
+        clearable="auto"
+        onClear={jest.fn()}
+        {...valueProps}
+      />
+    )
+
+    expect(clearButtonOf(container) !== null).toBe(shown)
+  })
+
+  it('when auto, shows the button once an uncontrolled field is typed into', () => {
+    const container = mount(
+      <Input
+        type="text"
+        variant="primary"
+        clearable="auto"
+        onClear={jest.fn()}
+      />
+    )
+
+    typeInto(container.querySelector('input')!, 'x')
+
+    expect(clearButtonOf(container)).not.toBeNull()
+  })
+
+  it('when auto, still calls the onChange it is given', () => {
+    const onChange = jest.fn()
+    const container = mount(
+      <Input
+        type="text"
+        variant="primary"
+        clearable="auto"
+        onChange={onChange}
+        onClear={jest.fn()}
+      />
+    )
+
+    typeInto(container.querySelector('input')!, 'x')
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+  })
+
+  it('when auto, hides the button once onClear empties an uncontrolled field', () => {
+    const ref = React.createRef<HTMLInputElement>()
+    const container = mount(
+      <Input
+        ref={ref}
+        type="text"
+        variant="primary"
+        clearable="auto"
+        defaultValue="x"
+        onClear={() => {
+          ref.current!.value = ''
+        }}
+      />
+    )
+
+    act(() => clearButtonOf(container)!.click())
+
+    expect(clearButtonOf(container)).toBeNull()
+  })
+
+  it('when auto, moves focus to the field after clearing so it is not lost with the button', () => {
+    const ref = React.createRef<HTMLInputElement>()
+    const container = mount(
+      <Input
+        ref={ref}
+        type="text"
+        variant="primary"
+        clearable="auto"
+        defaultValue="x"
+        onClear={() => {
+          ref.current!.value = ''
+        }}
+      />
+    )
+
+    act(() => clearButtonOf(container)!.click())
+
+    expect(document.activeElement).toBe(container.querySelector('input'))
   })
 })
