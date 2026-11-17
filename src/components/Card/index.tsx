@@ -133,11 +133,15 @@ const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
   ({ className, asChild = false, children, ...props }, ref) => {
     const classes = cn('text-lg font-medium leading-normal', className)
 
-    if (asChild && React.isValidElement<{ className?: string }>(children)) {
+    if (asChild) {
+      const child = React.Children.only(children) as React.ReactElement<{
+        className?: string
+      }>
+
       return (
         <Slot ref={ref} {...props}>
-          {React.cloneElement(children, {
-            className: cn(classes, children.props.className)
+          {React.cloneElement(child, {
+            className: cn(classes, child.props.className)
           })}
         </Slot>
       )

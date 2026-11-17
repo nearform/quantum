@@ -221,6 +221,29 @@ describe('CardTitle', () => {
     expect(heading.classList).toContain('text-xl')
     expect(heading.classList).not.toContain('text-lg')
   })
+
+  it.each([
+    ['text', 'Description'],
+    ['false', false],
+    ['several elements', [<h2 key="a">A</h2>, <h2 key="b">B</h2>]]
+  ])(
+    'throws instead of falling back to an h3 when asChild gets %s',
+    (_, children) => {
+      const consoleError = jest
+        .spyOn(console, 'error')
+        .mockImplementation(() => {})
+      const reportError = (event: ErrorEvent) => event.preventDefault()
+      window.addEventListener('error', reportError)
+
+      try {
+        expect(() => mount(<CardTitle asChild>{children}</CardTitle>)).toThrow()
+        expect(container!.querySelector('h3')).toBeNull()
+      } finally {
+        window.removeEventListener('error', reportError)
+        consoleError.mockRestore()
+      }
+    }
+  )
 })
 
 describe('SelectableCard', () => {

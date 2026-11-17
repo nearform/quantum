@@ -135,7 +135,8 @@ Any other attribute goes to the `div`, and so does the `ref`. With
 
 Any other attribute goes to the `h3`, and so does the `ref`. With `asChild`,
 they go to the child heading instead, and its classes are merged with the
-title's.
+title's. The child must be a single heading element; anything else throws
+rather than falling back to an `h3`.
 
 <table>
   <thead>
