@@ -106,6 +106,8 @@ describe('Separator', () => {
     linesOf(el).forEach(line => {
       expect(line.classList).toContain('border-l')
       expect(line.classList).toContain('flex-1')
+      expect(line.classList).toContain('min-h-4')
+      expect(line.classList).not.toContain('min-h-0')
     })
   })
 
