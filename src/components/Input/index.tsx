@@ -235,14 +235,32 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           aria-describedby={describedBy}
           {...props}
         />
-        <button
-          type="button"
-          onClick={onClear}
-          aria-label={clearLabel}
-          className={rightSideVariants()}
-        >
-          {rightSideComponent}
-        </button>
+        {/*
+         * The clear button empties the field, so it follows the field's own
+         * editability rather than offering a way round it.
+         *
+         * A disabled field gets a disabled button: it keeps the field's
+         * drawing, and it leaves the tab order and stops calling `onClear`
+         * along with the input. A read-only field gets no button at all --
+         * disabling it there would also trip `[&:has(:disabled)]:border-none`
+         * on the field and take away the border a read-only field keeps.
+         * A `rightSideChild` is still shown there, just not as a button.
+         */}
+        {props.readOnly ? (
+          rightSideChild && (
+            <div className={rightSideVariants()}>{rightSideChild}</div>
+          )
+        ) : (
+          <button
+            type="button"
+            onClick={onClear}
+            aria-label={clearLabel}
+            disabled={props.disabled}
+            className={rightSideVariants()}
+          >
+            {rightSideComponent}
+          </button>
+        )}
       </div>
     )
 

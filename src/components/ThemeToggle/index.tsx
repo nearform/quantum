@@ -25,10 +25,21 @@ function persistTheme(theme: Theme) {
   }
 }
 
+/**
+ * The system preference, where there is one to ask. `matchMedia` is missing
+ * wherever no rendering engine sits behind the DOM -- jsdom, which is what
+ * most consumers' test suites run components in -- and the toggle falls back
+ * to the light theme there, as `themeInitScript` does inside its `try`,
+ * rather than throwing on render.
+ */
+function systemQuery(): MediaQueryList | null {
+  return typeof window.matchMedia === 'function'
+    ? window.matchMedia(DARK_QUERY)
+    : null
+}
+
 function resolveTheme(): Theme {
-  return (
-    readStored() ?? (window.matchMedia(DARK_QUERY).matches ? 'dark' : 'light')
-  )
+  return readStored() ?? (systemQuery()?.matches ? 'dark' : 'light')
 }
 
 const listeners = new Set<() => void>()
@@ -47,22 +58,22 @@ function subscribe(onChange: () => void) {
     attributeFilter: ['class']
   })
 
-  const media = window.matchMedia(DARK_QUERY)
+  const media = systemQuery()
   const onSystemChange = () => {
-    if (!readStored()) applyTheme(media.matches ? 'dark' : 'light')
+    if (!readStored()) applyTheme(media?.matches ? 'dark' : 'light')
   }
   const onStorage = (event: StorageEvent) => {
     if (event.key === STORAGE_KEY || event.key === null) {
       applyTheme(resolveTheme())
     }
   }
-  media.addEventListener('change', onSystemChange)
+  media?.addEventListener('change', onSystemChange)
   window.addEventListener('storage', onStorage)
 
   return () => {
     listeners.delete(onChange)
     observer.disconnect()
-    media.removeEventListener('change', onSystemChange)
+    media?.removeEventListener('change', onSystemChange)
     window.removeEventListener('storage', onStorage)
   }
 }
