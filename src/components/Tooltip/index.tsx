@@ -10,9 +10,11 @@ const tooltipVariants = cva([
     'z-50',
     'overflow-hidden',
     'rounded',
+    'max-w-xs',
     'p-2',
     'text-xs',
-    'text-center',
+    'text-left',
+    'break-words',
     'text-foreground-inverse',
     'font-semibold'
   ],
@@ -28,12 +30,13 @@ interface TooltipProps {
   side?: TooltipPrimitive.TooltipContentProps['side']
   content?: React.ReactNode
   sideOffset?: number
+  className?: string
 }
 
 const Tooltip = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   TooltipProps
->(({ children, side, content, sideOffset }, ref) => {
+>(({ children, side, content, sideOffset, className }, ref) => {
   return (
     <TooltipPrimitive.Provider>
       <TooltipPrimitive.Root delayDuration={100}>
@@ -43,7 +46,7 @@ const Tooltip = React.forwardRef<
         <TooltipPrimitive.Content
           side={side ?? 'top'}
           sideOffset={sideOffset ?? 4}
-          className={cn(tooltipVariants())}
+          className={cn(tooltipVariants(), className)}
           ref={ref}
         >
           {content}

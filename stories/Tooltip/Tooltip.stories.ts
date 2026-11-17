@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { ToolTipDemo } from './Tooltip.example'
+import { ToolTipDemo, ToolTipLongContentDemo } from './Tooltip.example'
 
 const meta = {
   title: 'Components/Tooltip',
@@ -32,4 +32,15 @@ export const PassComponentIntoContent: Story = {
   args: {
     componentAsContent: true
   }
+}
+
+export const LongContent: StoryObj<typeof ToolTipLongContentDemo> = {
+  render: args => ToolTipLongContentDemo(args)
+}
+
+export const CustomWidth: StoryObj<typeof ToolTipLongContentDemo> = {
+  args: {
+    className: 'max-w-md'
+  },
+  render: args => ToolTipLongContentDemo(args)
 }
