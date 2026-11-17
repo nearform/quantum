@@ -14,6 +14,7 @@ import {
   ModalPortal,
   ModalTitle
 } from '../src/components/Modal'
+import { Notice, type NoticeVariant } from '../src/components/Notice'
 import { Pagination } from '../src/components/Pagination'
 import {
   Toast,
@@ -126,6 +127,31 @@ describe('Toast in dark mode', () => {
     renderToast('info')
 
     expectEveryColourPaired(classesOf('button[aria-label="Close"]'))
+  })
+})
+
+describe('Notice in dark mode', () => {
+  const variants: NoticeVariant[] = [
+    'info',
+    'info-filled',
+    'warning',
+    'warning-filled',
+    'success',
+    'error'
+  ]
+
+  it.each(variants)('pairs every colour on the %s notice', variant => {
+    mount(<Notice variant={variant}>Saved</Notice>)
+
+    expectEveryColourPaired(classesOf('div[role="status"]'))
+  })
+
+  it.each(variants)('pairs the %s icon colour', variant => {
+    mount(<Notice variant={variant}>Saved</Notice>)
+
+    expectEveryColourPaired(
+      classesOf('div[role="status"] span[aria-hidden="true"]')
+    )
   })
 })
 

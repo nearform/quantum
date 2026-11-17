@@ -8,7 +8,9 @@ const VARIANTS: NoticeVariant[] = [
   'warning-filled',
   'info-filled',
   'warning',
-  'info'
+  'info',
+  'success',
+  'error'
 ]
 
 const meta = {

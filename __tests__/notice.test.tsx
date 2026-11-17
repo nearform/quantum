@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals'
 import * as React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 
+import { BsCheckCircleFill, BsExclamationCircleFill } from '../src/assets'
 import { Notice } from '../src/components/Notice'
 
 const classOf = (html: string, tag: string, index = 0) =>
@@ -10,6 +11,33 @@ const classOf = (html: string, tag: string, index = 0) =>
   ]?.[1] ?? ''
 
 describe('Notice', () => {
+  it.each([
+    ['success', 'border-feedback-success', 'text-feedback-success'],
+    ['error', 'border-feedback-error', 'text-feedback-error']
+  ] as const)(
+    'draws the %s variant in its feedback colour, border and icon alike',
+    (variant, border, icon) => {
+      const html = renderToStaticMarkup(
+        <Notice variant={variant}>Your changes were saved.</Notice>
+      )
+
+      expect(classOf(html, 'div')).toContain(border)
+      expect(classOf(html, 'span')).toContain(icon)
+    }
+  )
+
+  it('gives success and error their own icons, the ones Toast uses', () => {
+    const iconOf = (variant: 'success' | 'error') =>
+      renderToStaticMarkup(<Notice variant={variant}>Done</Notice>).match(
+        /<path d="([^"]+)"/
+      )?.[1]
+    const toastIconOf = (Icon: React.ComponentType) =>
+      renderToStaticMarkup(<Icon />).match(/<path d="([^"]+)"/)?.[1]
+
+    expect(iconOf('success')).toBe(toastIconOf(BsCheckCircleFill))
+    expect(iconOf('error')).toBe(toastIconOf(BsExclamationCircleFill))
+  })
+
   it('keeps inline content with a link in one text container', () => {
     const html = renderToStaticMarkup(
       <Notice variant="warning">
