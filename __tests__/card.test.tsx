@@ -135,7 +135,7 @@ describe('Card', () => {
     })
 
     it('forwards its ref, attributes and onClick to the child', () => {
-      const ref = React.createRef<HTMLDivElement>()
+      const ref = React.createRef<HTMLButtonElement>()
       const onClick = jest.fn()
       mount(
         <Card
@@ -156,6 +156,28 @@ describe('Card', () => {
       act(() => button.click())
 
       expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('accepts a ref typed for the child element', () => {
+      const ref = React.createRef<HTMLAnchorElement>()
+      const nodes: (HTMLAnchorElement | null)[] = []
+      const setRef = (node: HTMLAnchorElement | null) => {
+        nodes.push(node)
+      }
+      mount(
+        <>
+          <Card asChild ref={ref}>
+            <RouterLink to="/a">A</RouterLink>
+          </Card>
+          <Card asChild ref={setRef}>
+            <RouterLink to="/b">B</RouterLink>
+          </Card>
+        </>
+      )
+
+      const [first, second] = container!.querySelectorAll('a')
+      expect(ref.current).toBe(first)
+      expect(nodes).toEqual([second])
     })
   })
 })

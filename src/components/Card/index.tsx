@@ -83,7 +83,7 @@ interface CardProps
   asChild?: boolean
 }
 
-const Card = React.forwardRef<HTMLDivElement, CardProps>(
+const Card = React.forwardRef<HTMLElement, CardProps>(
   (
     {
       className,
@@ -113,7 +113,11 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     }
 
     return (
-      <div ref={ref} className={classes} {...props}>
+      <div
+        ref={ref as React.Ref<HTMLDivElement>}
+        className={classes}
+        {...props}
+      >
         {children}
       </div>
     )
