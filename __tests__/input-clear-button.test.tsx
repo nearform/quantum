@@ -85,6 +85,23 @@ describe('Input clear button', () => {
     expect(clearButtonOf(container)).toBeNull()
   })
 
+  it('still shows a rightSideChild on a read-only field, outside any button', () => {
+    const container = mount(
+      <Input
+        type="text"
+        variant="primary"
+        defaultValue="x"
+        readOnly
+        rightSideChild={<span data-testid="right-icon" />}
+        onClear={jest.fn()}
+      />
+    )
+    const icon = container.querySelector('[data-testid="right-icon"]')
+
+    expect(icon).not.toBeNull()
+    expect(icon!.closest('button')).toBeNull()
+  })
+
   it('leaves a read-only field its border, which is only dropped for a disabled one', () => {
     const container = mount(
       <Input

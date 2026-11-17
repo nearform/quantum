@@ -244,8 +244,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
          * along with the input. A read-only field gets no button at all --
          * disabling it there would also trip `[&:has(:disabled)]:border-none`
          * on the field and take away the border a read-only field keeps.
+         * A `rightSideChild` is still shown there, just not as a button.
          */}
-        {!props.readOnly && (
+        {props.readOnly ? (
+          rightSideChild && (
+            <div className={rightSideVariants()}>{rightSideChild}</div>
+          )
+        ) : (
           <button
             type="button"
             onClick={onClear}
