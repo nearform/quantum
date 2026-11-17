@@ -45,7 +45,7 @@ const borderToBg = (c: string) =>
 type Variant = NonNullable<BadgeProps['variant']>
 
 describe('Badge dot', () => {
-  it.each<Variant>(['default', 'info', 'success', 'warning', 'error'])(
+  it.each<Variant>(['info', 'success', 'warning', 'error'])(
     'paints the %s dot with the same tokens as its border, light and dark',
     variant => {
       const badge = render(
@@ -82,16 +82,20 @@ describe('Badge dot', () => {
     expect(new Set(colours).size).toBe(3)
   })
 
-  it.each<Variant>(['active', 'disabled'])(
-    'keeps the %s dot in the text colour, as its border is transparent',
+  it.each<Variant>(['default', 'active', 'disabled'])(
+    'keeps the %s dot in the text colour, as it has no status colour',
     variant => {
-      const badge = render(
-        <Badge variant={variant} dot>
-          Status
-        </Badge>
-      )
-      expect(badge.classList).toContain('border-transparent')
-      expect(dotOf(badge)!.classList).toContain('bg-current')
+      const dot = dotOf(
+        render(
+          <Badge variant={variant} dot>
+            Status
+          </Badge>
+        )
+      )!
+      expect(dot.classList).toContain('bg-current')
+      expect(classesWithPrefix(dot, ['bg-', 'dark:bg-'])).toEqual([
+        'bg-current'
+      ])
     }
   )
 

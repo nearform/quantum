@@ -99,7 +99,7 @@ const badgeVariants = cva(
 const dotVariants = cva(['shrink-0', 'rounded-full'], {
   variants: {
     variant: {
-      default: ['bg-border-subtle', 'dark:bg-border-subtle-dark'],
+      default: ['bg-current'],
       info: ['bg-blue-500'],
       success: ['bg-feedback-success', 'dark:bg-feedback-success-dark'],
       warning: ['bg-feedback-warning', 'dark:bg-feedback-warning-dark'],
