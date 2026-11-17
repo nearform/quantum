@@ -176,7 +176,8 @@ interface InputProps extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
   labelText?: string
   helpText?: string
   clearLabel?: string
-  onClear: () => void
+  clearable?: boolean | 'auto'
+  onClear?: () => void
 }
 
 const convertTypeToLeftComponent = (type: InputType) => {
@@ -201,7 +202,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       labelText,
       helpText,
       clearLabel = 'Clear input',
+      clearable = true,
       onClear,
+      onChange,
       'aria-describedby': ariaDescribedby,
       ...props
     },
@@ -214,6 +217,42 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       [ariaDescribedby, helpText ? helpTextId : undefined]
         .filter(Boolean)
         .join(' ') || undefined
+
+    const inputRef = React.useRef<HTMLInputElement | null>(null)
+    const setRefs = React.useCallback(
+      (node: HTMLInputElement | null) => {
+        inputRef.current = node
+        if (typeof ref === 'function') ref(node)
+        else if (ref) ref.current = node
+      },
+      [ref]
+    )
+
+    const isControlled = props.value !== undefined
+    const [uncontrolledHasValue, setUncontrolledHasValue] = React.useState(
+      () => props.defaultValue != null && String(props.defaultValue) !== ''
+    )
+    const hasValue = isControlled
+      ? props.value != null && String(props.value) !== ''
+      : uncontrolledHasValue
+
+    const showClearButton =
+      onClear !== undefined &&
+      clearable !== false &&
+      (clearable !== 'auto' || hasValue)
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setUncontrolledHasValue(event.currentTarget.value !== '')
+      onChange?.(event)
+    }
+
+    const handleClear = () => {
+      onClear?.()
+      if (clearable === 'auto') {
+        setUncontrolledHasValue((inputRef.current?.value ?? '') !== '')
+        inputRef.current?.focus()
+      }
+    }
 
     const leftSideComponent = leftSideChild ?? convertTypeToLeftComponent(type)
     const rightSideComponent = rightSideChild ?? (
@@ -231,8 +270,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           type={type}
           className={cn(inputVariants({ variant }), className)}
-          ref={ref}
+          ref={setRefs}
           aria-describedby={describedBy}
+          onChange={handleChange}
           {...props}
         />
         {/*
@@ -246,14 +286,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
          * on the field and take away the border a read-only field keeps.
          * A `rightSideChild` is still shown there, just not as a button.
          */}
-        {props.readOnly ? (
+        {props.readOnly || !showClearButton ? (
           rightSideChild && (
             <div className={rightSideVariants()}>{rightSideChild}</div>
           )
         ) : (
           <button
             type="button"
-            onClick={onClear}
+            onClick={handleClear}
             aria-label={clearLabel}
             disabled={props.disabled}
             className={rightSideVariants()}
