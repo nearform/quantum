@@ -1,0 +1,79 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks'
+
+import * as SeparatorStories from './Separator.stories'
+
+<Meta of={SeparatorStories} />
+
+# Separator
+
+A thin line that divides content: sections inside a card, a group of
+controls, or two alternative actions. Built on
+[Radix Separator](https://www.radix-ui.com/primitives/docs/components/separator).
+
+```tsx
+import { Separator } from '@nearform/quantum'
+
+<Separator className="my-8" />
+```
+
+Use it in place of a hand-styled `<hr>`. Tailwind's preflight draws a bare
+`<hr>` in `currentColor`, which is far too heavy; `Separator` takes its colour
+from the design system so apps do not pick their own. It sets no margin, so
+add spacing with `className`.
+
+<Canvas of={SeparatorStories.Default} />
+
+<Controls of={SeparatorStories.Default} />
+
+## Orientation
+
+`horizontal` (the default) fills the width of its container. `vertical`
+stretches to the height of a flex row, so place it between items in a
+`flex` container that has a height or aligned children.
+
+<Canvas of={SeparatorStories.Vertical} />
+
+## Label
+
+Pass `label` to centre text on the line, with the line continuing on both
+sides. The usual case is the "or" between two sign-in options.
+
+```tsx
+<Separator label="or" />
+```
+
+<Canvas of={SeparatorStories.WithLabel} />
+
+A vertical separator stacks the lines above and below the label.
+
+<Canvas of={SeparatorStories.VerticalWithLabel} />
+
+## Colour and dark mode
+
+The line uses the `border-subtle` token, which the design system reserves for
+dividers and decorative outlines, and switches to `border-subtle-dark` in dark
+mode. The label uses `foreground-muted`. Switch the theme in the toolbar to see
+the dark mode rendering.
+
+<Canvas of={SeparatorStories.InACard} />
+
+## Accessibility
+
+A separator is **decorative by default**: it renders with `role="none"`, so
+screen readers skip it. That suits most dividers, which only repeat a
+boundary the headings or layout already make clear. A label on a decorative
+separator is read as ordinary text, which is what you want for "or".
+
+When the line marks a real boundary that the content does not otherwise
+convey, set `decorative={false}`. It then renders with `role="separator"`
+(and `aria-orientation="vertical"` when vertical). If it has a label, the
+label becomes the separator's accessible name.
+
+```tsx
+<Separator decorative={false} label="Older messages" />
+```
+
+<Canvas of={SeparatorStories.Semantic} />
+
+The line is drawn with a border rather than a background colour, so it stays
+visible in Windows High Contrast and other forced-colour modes.
