@@ -82,6 +82,7 @@ body:
         - Pagination
         - Password
         - Popover
+        - ProgressBar
         - RadioGroup
         - Select
         - Slider

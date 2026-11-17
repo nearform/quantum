@@ -269,6 +269,7 @@
      `animate-*` utility is actually used. */
   --animate-slideDown: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
   --animate-slideUp: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
+  --animate-progressIndeterminate: progressIndeterminate 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 
   @keyframes slideDown {
     from {
@@ -285,6 +286,15 @@
     }
     to {
       height: 0;
+    }
+  }
+
+  @keyframes progressIndeterminate {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(250%);
     }
   }
 }

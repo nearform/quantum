@@ -1,5 +1,6 @@
 import { describe, expect, it } from '@jest/globals'
 
+import { accent } from '../src/colors/accent'
 import { colors } from '../src/colors/base'
 import { background } from '../src/colors/background'
 import { border } from '../src/colors/border'
@@ -275,6 +276,38 @@ describe('control edges in light mode', () => {
       ratioOf(foreground.inverse.DEFAULT, border.DEFAULT)
     ).toBeGreaterThanOrEqual(AA_NON_TEXT)
   })
+})
+
+describe('the ProgressBar track and fill', () => {
+  const track = colors.grey['500']
+  const darkOutline = colors.grey['400']
+
+  describe.each([
+    ['light', accent.DEFAULT, surfaceCases('light')],
+    ['dark', accent.dark, surfaceCases('dark')]
+  ] as const)('in %s mode', (_mode, fill, surfaces) => {
+    it.each(surfaces)('keeps the fill at 3:1 on %s', (_name, surface) => {
+      expect(ratioOf(fill, surface)).toBeGreaterThanOrEqual(AA_NON_TEXT)
+    })
+
+    it('keeps the fill at 3:1 on the track', () => {
+      expect(ratioOf(fill, track)).toBeGreaterThanOrEqual(AA_NON_TEXT)
+    })
+  })
+
+  it.each(surfaceCases('light'))(
+    'keeps the light track at 3:1 on %s',
+    (_name, surface) => {
+      expect(ratioOf(track, surface)).toBeGreaterThanOrEqual(AA_NON_TEXT)
+    }
+  )
+
+  it.each(surfaceCases('dark'))(
+    'keeps the dark track outline at 3:1 on %s',
+    (_name, surface) => {
+      expect(ratioOf(darkOutline, surface)).toBeGreaterThanOrEqual(AA_NON_TEXT)
+    }
+  )
 })
 
 describe('disabled success and danger Buttons in dark mode', () => {

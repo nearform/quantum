@@ -1,0 +1,61 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks'
+
+import * as ProgressBarStories from './ProgressBar.stories'
+
+<Meta of={ProgressBarStories} />
+
+# ProgressBar
+
+Shows how far a running task has got, such as an upload, an import or a
+long save. Use `Meter` instead for a measured value that is not moving
+towards completion, like storage used against a quota.
+
+<Canvas of={ProgressBarStories.Default} />
+
+<Controls of={ProgressBarStories.Default} />
+
+## Indeterminate
+
+Leave out `value` when the amount of work is unknown. An animated segment
+slides along the track and no `aria-valuenow` is set, so assistive
+technology reports the task as busy instead of announcing a number.
+
+<Canvas of={ProgressBarStories.Indeterminate} />
+
+## Custom range
+
+`value` is read against `min` and `max`, which default to `0` and `100`.
+Values outside the range are clamped. Pass `aria-valuetext` when a
+percentage would read badly, for example "3 of 10 files".
+
+<Canvas of={ProgressBarStories.CustomRange} />
+
+## With a visible label
+
+Point `aria-labelledby` at a visible label so sighted and screen reader
+users get the same name. Hide any visible count from assistive technology
+when `aria-valuetext` already says it.
+
+<Canvas of={ProgressBarStories.WithVisibleLabel} />
+
+## Complete
+
+<Canvas of={ProgressBarStories.Complete} />
+
+## Accessibility
+
+- Renders `role="progressbar"` with `aria-valuemin` and `aria-valuemax`,
+  and `aria-valuenow` while the value is known.
+- An accessible name is required: the props type will not compile without
+  `aria-label` or `aria-labelledby`.
+- The track is `grey-500` and the fill is `accent` / `accent-dark`. The
+  fill clears 3:1 against both the track and every surface in light and
+  dark mode. In light mode the track itself clears 3:1 against every
+  surface. In dark mode no grey can clear 3:1 against both the
+  near-white fill and `background-alt`, so the track gets a 1px
+  `grey-400` outline, which clears 3:1 against every dark surface.
+- With `prefers-reduced-motion: reduce`, the indeterminate segment stops
+  moving and sits still in the middle of the track, and the determinate
+  fill jumps to each new value instead of sliding.
+- Under `forced-colors: active`, the track gets a `CanvasText` border and
+  the fill is drawn in `CanvasText`.
