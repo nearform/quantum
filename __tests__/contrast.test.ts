@@ -241,6 +241,42 @@ describe('control edges in dark mode', () => {
   })
 })
 
+/**
+ * In light mode the same controls draw `border`, the page is `background-alt`,
+ * and the checked tick and dot are drawn on `border` too.
+ */
+describe('control edges in light mode', () => {
+  it.each(surfaceCases('light'))(
+    'keeps border at 3:1 on %s',
+    (_name, surface) => {
+      expect(ratioOf(border.DEFAULT, surface)).toBeGreaterThanOrEqual(
+        AA_NON_TEXT
+      )
+    }
+  )
+
+  it.each(surfaceCases('light'))(
+    'keeps the hovered border at 3:1 on %s',
+    (_name, surface) => {
+      expect(ratioOf(border.hover.DEFAULT, surface)).toBeGreaterThanOrEqual(
+        AA_NON_TEXT
+      )
+    }
+  )
+
+  it('strengthens the edge on hover rather than fading it', () => {
+    expect(ratioOf(border.hover.DEFAULT, background.DEFAULT)).toBeGreaterThan(
+      ratioOf(border.DEFAULT, background.DEFAULT)
+    )
+  })
+
+  it('keeps the checked tick and dot clear of the fill they are drawn on', () => {
+    expect(
+      ratioOf(foreground.inverse.DEFAULT, border.DEFAULT)
+    ).toBeGreaterThanOrEqual(AA_NON_TEXT)
+  })
+})
+
 describe('disabled success and danger Buttons in dark mode', () => {
   it.each([
     ['success', button.success.disabled],

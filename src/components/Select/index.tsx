@@ -41,7 +41,7 @@ const triggerVariants = cva(
       variant: {
         default: [
           'text-foreground',
-          'border-border-subtle',
+          'border-border',
           'bg-grey-100',
           'hover:border-border-hover',
           'dark:hover:border-border-hover-dark',

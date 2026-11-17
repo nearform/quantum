@@ -50,12 +50,12 @@ const classesOf = (element: Element | null | undefined) => {
 }
 
 /**
- * `border-subtle-dark` is a divider token at 1.7:1 on the dark surface, so a
- * field outlined with it is hard to find. In dark mode the outline of these
- * fields takes `border-dark`, the token Checkbox and Radio already use for
- * their edge, which `contrast.test.ts` holds to 3:1.
+ * `border-subtle` is a divider token, within 1.1:1 of the light page and 1.7:1
+ * of the dark surface, so a field outlined with it is hard to find. The outline
+ * of these fields takes `border` and `border-dark`, the tokens Checkbox and
+ * Radio already use for their edge, which `contrast.test.ts` holds to 3:1.
  */
-describe('field outlines in dark mode', () => {
+describe('field outlines', () => {
   it.each([
     ['Input', () => <Input type="text" variant="primary" aria-label="Name" />],
     ['Textarea', () => <Textarea variant="primary" aria-label="Message" />],
@@ -69,13 +69,13 @@ describe('field outlines in dark mode', () => {
         </Select>
       )
     ]
-  ])('outlines %s with border-dark', (_name, render) => {
+  ])('outlines %s with border and border-dark', (_name, render) => {
     mount(render())
 
-    // The element that draws the light outline is the one that draws the dark
-    const outlined = container!.querySelector('[class~="border-border-subtle"]')
+    const outlined = container!.querySelector('[class~="border-border"]')
 
     expect(classesOf(outlined)).toContain('dark:border-border-dark')
+    expect(classesOf(outlined)).not.toContain('border-border-subtle')
     expect(classesOf(outlined)).not.toContain('dark:border-border-subtle-dark')
   })
 
