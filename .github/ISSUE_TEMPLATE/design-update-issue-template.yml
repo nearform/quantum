@@ -43,6 +43,7 @@ body:
         - ProgressBar
         - RadioGroup
         - Select
+        - Separator
         - Slider
         - SortAndShow
         - Spinner
