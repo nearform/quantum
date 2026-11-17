@@ -115,6 +115,17 @@ const buttonVariants = cva(
           'disabled:text-foreground-subtle',
           'dark:disabled:bg-button-success-disabled-dark'
         ],
+        warning: [
+          'bg-button-warning',
+          'text-grey-900',
+          'hover:bg-button-warning-hover',
+          'focus:bg-button-warning-focus',
+          'focus:shadow-brandGreen',
+          'active:shadow-none',
+          'disabled:bg-button-warning-disabled',
+          'disabled:text-foreground-subtle',
+          'dark:disabled:bg-button-warning-disabled-dark'
+        ],
         danger: [
           'bg-button-danger',
           'text-white',

@@ -110,6 +110,13 @@
   --color-button-success-disabled-dark: #1F2A37;
   --color-button-success-selected: #F3F4F6;
   --color-button-success-selected-dark: #1F2A37;
+  --color-button-warning: #FACA15;
+  --color-button-warning-hover: #E3A008;
+  --color-button-warning-focus: #E3A008;
+  --color-button-warning-disabled: #F9FAFB;
+  --color-button-warning-disabled-dark: #1F2A37;
+  --color-button-warning-selected: #F3F4F6;
+  --color-button-warning-selected-dark: #1F2A37;
   --color-button-danger: #C81E1E;
   --color-button-danger-hover: #C81E1E;
   --color-button-danger-focus: #9B1C1C;
