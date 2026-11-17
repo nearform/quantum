@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BsGithub } from 'react-icons/bs'
+import { BsGithub, BsGlobe } from 'react-icons/bs'
 import {
   WebsiteHeader,
   WebsiteHeaderLogo,
@@ -9,7 +9,7 @@ import {
   WebsiteHeaderMenuButton,
   WebsiteHeaderMobileMenu
 } from '@/index'
-import { Button } from '@/index'
+import { Button, IconButton } from '@/index'
 
 const Logo = () => (
   <span className="inline-flex items-center gap-0.5">
@@ -83,3 +83,29 @@ export const WebsiteHeaderDemo = () => {
     </div>
   )
 }
+
+export const WebsiteHeaderWithoutMobileMenuDemo = () => (
+  <div className="w-full">
+    <WebsiteHeader>
+      <WebsiteHeaderLogo href="#">
+        <Logo />
+      </WebsiteHeaderLogo>
+
+      <WebsiteHeaderActions collapse={false}>
+        <IconButton
+          variant="tertiary"
+          size="sm"
+          icon={<BsGlobe />}
+          label="Change language"
+        />
+        <a
+          href="#"
+          aria-label="GitHub"
+          className="text-foreground dark:text-foreground-dark"
+        >
+          <BsGithub size={20} />
+        </a>
+      </WebsiteHeaderActions>
+    </WebsiteHeader>
+  </div>
+)

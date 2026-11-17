@@ -99,13 +99,21 @@ const AppHeaderLink = React.forwardRef<HTMLAnchorElement, AppHeaderLinkProps>(
 )
 AppHeaderLink.displayName = 'AppHeaderLink'
 
+interface AppHeaderActionsProps extends React.HTMLAttributes<HTMLDivElement> {
+  collapse?: boolean
+}
+
 const AppHeaderActions = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+  AppHeaderActionsProps
+>(({ className, collapse = true, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('hidden sm:flex items-center gap-2', className)}
+    className={cn(
+      collapse ? 'hidden sm:flex' : 'flex',
+      'items-center gap-2',
+      className
+    )}
     {...props}
   />
 ))
@@ -196,5 +204,6 @@ export {
   AppHeaderMobileMenu,
   type AppHeaderLogoProps,
   type AppHeaderLinkProps,
+  type AppHeaderActionsProps,
   type AppHeaderMenuButtonProps
 }
