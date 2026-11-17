@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Slot, Slottable } from '@radix-ui/react-slot'
+import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { BsArrowLeft } from '../../assets/index.ts'
@@ -36,32 +36,40 @@ interface BackLinkProps
   asChild?: boolean
 }
 
+type LinkChildren = React.ReactNode | ((...args: never[]) => React.ReactNode)
+
 const BackLink = React.forwardRef<HTMLAnchorElement, BackLinkProps>(
   ({ className, size, asChild = false, children = 'Back', ...props }, ref) => {
-    const Comp = asChild ? Slot : 'a'
-    const renderLabel = (label: React.ReactNode) => (
-      <span className={size === 'sm' ? 'sr-only' : undefined}>{label}</span>
-    )
-
-    return (
-      <Comp
-        ref={ref}
-        className={cn(backLinkVariants({ size }), className)}
-        {...props}
-      >
+    const renderContent = (label: React.ReactNode) => (
+      <>
         <BsArrowLeft className="h-3 w-3 shrink-0" aria-hidden="true" />
-        <Slottable>
-          {asChild &&
-          React.isValidElement<{ children?: React.ReactNode }>(children)
-            ? React.cloneElement(
-                children,
-                undefined,
-                renderLabel(children.props.children ?? 'Back')
-              )
-            : renderLabel(children)}
-        </Slottable>
-      </Comp>
+        <span className={size === 'sm' ? 'sr-only' : undefined}>{label}</span>
+      </>
     )
+    const linkProps = {
+      ref,
+      className: cn(backLinkVariants({ size }), className),
+      ...props
+    }
+
+    if (
+      asChild &&
+      React.isValidElement<{ children?: LinkChildren }>(children)
+    ) {
+      const label = children.props.children
+      return (
+        <Slot {...linkProps}>
+          {React.cloneElement(children, {
+            children:
+              typeof label === 'function'
+                ? (...args: never[]) => renderContent(label(...args))
+                : renderContent(label ?? 'Back')
+          })}
+        </Slot>
+      )
+    }
+
+    return <a {...linkProps}>{renderContent(children)}</a>
   }
 )
 BackLink.displayName = 'BackLink'

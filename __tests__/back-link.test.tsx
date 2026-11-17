@@ -164,6 +164,28 @@ describe('BackLink', () => {
       expect(container.querySelector('span')?.classList).toContain('sr-only')
     })
 
+    it('renders the label from a child link whose children is a function', () => {
+      const NavLink = ({
+        to,
+        children
+      }: {
+        to: string
+        children: (state: { isActive: boolean }) => React.ReactNode
+      }) => <a href={to}>{children({ isActive: true })}</a>
+
+      const container = render(
+        <BackLink asChild>
+          <NavLink to="/">
+            {({ isActive }) => (isActive ? 'Back home' : 'Back')}
+          </NavLink>
+        </BackLink>
+      )
+
+      const link = container.querySelector('a')!
+      expect(link.querySelector(':scope > svg')).not.toBeNull()
+      expect(link.querySelector(':scope > span')?.textContent).toBe('Back home')
+    })
+
     it('merges its className, attributes, ref and onClick into the child link', () => {
       const ref = React.createRef<HTMLAnchorElement>()
       const onClick = jest.fn()
