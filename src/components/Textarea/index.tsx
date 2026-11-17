@@ -20,7 +20,7 @@ const textareaVariants = cva(
     variants: {
       variant: {
         primary: [
-          'border-border-subtle',
+          'border-border',
           'dark:border-border-dark',
           'bg-background-alt',
           'dark:bg-background-alt-dark',

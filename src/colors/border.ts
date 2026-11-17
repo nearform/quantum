@@ -1,7 +1,7 @@
 import { colors } from './base.ts'
 
 export const border = {
-  DEFAULT: colors.brandMidnight['30'],
+  DEFAULT: colors.grey['500'],
   /**
    * The dark-mode edge of a control: Checkbox, Radio, and Input, Textarea and
    * Select's outline. WCAG 1.4.11 wants 3:1 for it, and `brandMidnight-50`
@@ -26,7 +26,7 @@ export const border = {
   },
   /**
    * Dividers and decorative outlines, which 1.4.11 does not cover. Controls
-   * take `border` in dark mode rather than this.
+   * take `border` rather than this.
    */
   subtle: {
     DEFAULT: colors.brandMidnight['10'],
