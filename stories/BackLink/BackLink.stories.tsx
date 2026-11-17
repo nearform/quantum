@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import * as React from 'react'
 
 import { BackLink } from '@/index'
 
@@ -38,5 +39,21 @@ export const Small: Story = {
 export const CustomLabel: Story = {
   args: {
     children: 'Back to results'
+  }
+}
+
+const RouterLink = React.forwardRef<
+  HTMLAnchorElement,
+  React.AnchorHTMLAttributes<HTMLAnchorElement> & { to: string }
+>(({ to, ...props }, ref) => <a ref={ref} href={to} {...props} />)
+RouterLink.displayName = 'RouterLink'
+
+export const AsChild: Story = {
+  args: {
+    asChild: true,
+    children: <RouterLink to="#">Back to Main Page</RouterLink>
+  },
+  argTypes: {
+    children: { control: false }
   }
 }

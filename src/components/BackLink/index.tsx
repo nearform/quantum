@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { BsArrowLeft } from '../../assets/index.ts'
@@ -31,19 +32,45 @@ const backLinkVariants = cva(
 interface BackLinkProps
   extends
     React.AnchorHTMLAttributes<HTMLAnchorElement>,
-    VariantProps<typeof backLinkVariants> {}
+    VariantProps<typeof backLinkVariants> {
+  asChild?: boolean
+}
+
+type LinkChildren = React.ReactNode | ((...args: never[]) => React.ReactNode)
 
 const BackLink = React.forwardRef<HTMLAnchorElement, BackLinkProps>(
-  ({ className, size, children = 'Back', ...props }, ref) => (
-    <a
-      ref={ref}
-      className={cn(backLinkVariants({ size }), className)}
-      {...props}
-    >
-      <BsArrowLeft className="h-3 w-3 shrink-0" aria-hidden="true" />
-      <span className={size === 'sm' ? 'sr-only' : undefined}>{children}</span>
-    </a>
-  )
+  ({ className, size, asChild = false, children = 'Back', ...props }, ref) => {
+    const renderContent = (label: React.ReactNode) => (
+      <>
+        <BsArrowLeft className="h-3 w-3 shrink-0" aria-hidden="true" />
+        <span className={size === 'sm' ? 'sr-only' : undefined}>{label}</span>
+      </>
+    )
+    const linkProps = {
+      ref,
+      className: cn(backLinkVariants({ size }), className),
+      ...props
+    }
+
+    if (
+      asChild &&
+      React.isValidElement<{ children?: LinkChildren }>(children)
+    ) {
+      const label = children.props.children
+      return (
+        <Slot {...linkProps}>
+          {React.cloneElement(children, {
+            children:
+              typeof label === 'function'
+                ? (...args: never[]) => renderContent(label(...args))
+                : renderContent(label ?? 'Back')
+          })}
+        </Slot>
+      )
+    }
+
+    return <a {...linkProps}>{renderContent(children)}</a>
+  }
 )
 BackLink.displayName = 'BackLink'
 
