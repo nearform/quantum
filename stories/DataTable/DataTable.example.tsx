@@ -244,7 +244,7 @@ export const DataTableDemo = ({
         onChange={event => filterCustomers(event.currentTarget.value)}
         onClear={() => filterCustomers('')}
       />
-      <Table className="w-full">
+      <Table>
         <TableCaption className="sr-only">Recent payments</TableCaption>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
