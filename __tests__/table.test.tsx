@@ -89,4 +89,32 @@ describe('Table', () => {
     const wrapper = el.querySelector('div')!
     expect(wrapper.dataset.divided).toBe('')
   })
+
+  it('makes the table fill its container so it lines up with the border', () => {
+    const el = mount(
+      <Table bordered>
+        <TableBody>
+          <TableRow>
+            <TableCell>Alice</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    )
+    expect(el.querySelector('table')!.className).toContain('w-full')
+  })
+
+  it('lets className override the table width', () => {
+    const el = mount(
+      <Table className="w-auto">
+        <TableBody>
+          <TableRow>
+            <TableCell>Alice</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    )
+    const table = el.querySelector('table')!
+    expect(table.className).toContain('w-auto')
+    expect(table.className).not.toContain('w-full')
+  })
 })
