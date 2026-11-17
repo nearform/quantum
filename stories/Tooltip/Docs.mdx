@@ -22,6 +22,24 @@ By default, the colour of the tooltip will be `primary-700`, above the child ele
 
 <Canvas of={TooltipStories.RightSideNoOffset} />
 
+## Long content
+
+<Canvas of={TooltipStories.LongContent} />
+
+Tooltip content is capped at `max-w-xs` (20rem) and wraps left-aligned, so the full text of a truncated label reads as a short paragraph rather than one long line. Long unbroken strings, such as URLs, break to stay inside the cap.
+
+## Custom width
+
+<Canvas of={TooltipStories.CustomWidth} />
+
+Pass a `className` to change the width. It is merged into the tooltip content, so a different `max-w-*` replaces the default:
+
+```tsx
+<Tooltip content={longText} className="max-w-md">
+  <p className="w-40 truncate">{longText}</p>
+</Tooltip>
+```
+
 ## Pass a Component into the Tooltip
 
 <Canvas of={TooltipStories.PassComponentIntoContent} />
@@ -82,9 +100,11 @@ const tooltipVariants = cva([
     'z-50',
     'overflow-hidden',
     'rounded',
+    'max-w-xs',
     'p-2',
     'text-xs',
-    'text-center',
+    'text-left',
+    'break-words',
     'text-foreground-inverse',
     'font-semibold'
   ],
@@ -109,8 +129,10 @@ const Tooltip = React.forwardRef<
 >(({ children, side, content, sideOffset, className }, ref) => {
   return (
     <TooltipPrimitive.Provider>
-      <TooltipPrimitive.Root>
-        <TooltipPrimitive.Trigger>{children}</TooltipPrimitive.Trigger>
+      <TooltipPrimitive.Root delayDuration={100}>
+        <TooltipPrimitive.Trigger asChild={React.isValidElement(children)}>
+          {children}
+        </TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
           side={side ?? 'top'}
           sideOffset={sideOffset ?? 4}

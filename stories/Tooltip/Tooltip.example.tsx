@@ -8,6 +8,7 @@ interface TooltipDemoProps extends TooltipProps {
 export const ToolTipDemo = ({
   side,
   sideOffset,
+  className,
   componentAsContent
 }: TooltipDemoProps) => {
   return (
@@ -18,6 +19,7 @@ export const ToolTipDemo = ({
         }
         side={side}
         sideOffset={sideOffset}
+        className={className}
       >
         <Button className="dark:hover:bg-white dark:hover:text-foreground-inverse-dark">
           Hover over me
@@ -37,5 +39,32 @@ export const TooltipContentComponent = () => {
         link
       </a>
     </p>
+  )
+}
+
+const longLabel =
+  'Quarterly revenue report for the North America and Europe regions, including adjustments'
+
+export const ToolTipLongContentDemo = ({
+  side,
+  sideOffset,
+  className
+}: TooltipProps) => {
+  return (
+    <div className="h-56 w-96 bg-transparent flex items-center justify-center">
+      <Tooltip
+        content={longLabel}
+        side={side}
+        sideOffset={sideOffset}
+        className={className}
+      >
+        <p
+          tabIndex={0}
+          className="w-40 truncate text-sm text-foreground dark:text-foreground-dark"
+        >
+          {longLabel}
+        </p>
+      </Tooltip>
+    </div>
   )
 }
