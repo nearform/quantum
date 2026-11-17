@@ -96,8 +96,17 @@ const badgeVariants = cva(
   }
 )
 
-const dotVariants = cva(['shrink-0', 'rounded-full', 'bg-current'], {
+const dotVariants = cva(['shrink-0', 'rounded-full'], {
   variants: {
+    variant: {
+      default: ['bg-current'],
+      info: ['bg-blue-500'],
+      success: ['bg-feedback-success', 'dark:bg-feedback-success-dark'],
+      warning: ['bg-feedback-warning', 'dark:bg-feedback-warning-dark'],
+      error: ['bg-feedback-error', 'dark:bg-feedback-error-dark'],
+      active: ['bg-current'],
+      disabled: ['bg-current']
+    },
     size: {
       sm: ['h-1.5', 'w-1.5'],
       default: ['h-2', 'w-2'],
@@ -105,6 +114,7 @@ const dotVariants = cva(['shrink-0', 'rounded-full', 'bg-current'], {
     }
   },
   defaultVariants: {
+    variant: 'default',
     size: 'default'
   }
 })
@@ -164,7 +174,10 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {...props}
       >
         {dot && (
-          <span aria-hidden="true" className={cn(dotVariants({ size }))} />
+          <span
+            aria-hidden="true"
+            className={cn(dotVariants({ variant, size }))}
+          />
         )}
         {icon && (
           <span aria-hidden="true" className="flex shrink-0 items-center">
