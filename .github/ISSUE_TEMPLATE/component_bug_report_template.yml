@@ -76,6 +76,7 @@ body:
         - Link
         - Meter
         - Modal
+        - NativeSelect
         - Navigation
         - Notice
         - PageHeader
