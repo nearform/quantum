@@ -11,5 +11,5 @@
     "paths": {}
   },
   "include": [],
-  "files": ["src/index.ts", "src/tailwind-plugin.ts"]
+  "files": ["src/index.ts", "src/tailwind-plugin.ts", "src/theme-init.ts"]
 }

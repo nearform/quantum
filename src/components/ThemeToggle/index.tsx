@@ -2,9 +2,11 @@ import * as React from 'react'
 import { BsMoon, BsSun } from 'react-icons/bs'
 
 import { IconButton, type IconButtonProps } from '../IconButton/index.tsx'
-
-const STORAGE_KEY = 'theme'
-const DARK_QUERY = '(prefers-color-scheme: dark)'
+import {
+  DARK_SCHEME_QUERY as DARK_QUERY,
+  THEME_STORAGE_KEY as STORAGE_KEY,
+  themeInitScript
+} from '../../theme-init.ts'
 
 type Theme = 'light' | 'dark'
 
@@ -128,7 +130,5 @@ const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
 )
 
 ThemeToggle.displayName = 'ThemeToggle'
-
-const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');document.documentElement.classList.toggle('dark',t==='dark'||(t!=='light'&&matchMedia('${DARK_QUERY}').matches))}catch(e){}})()`
 
 export { ThemeToggle, themeInitScript, type ThemeToggleProps, type Theme }
