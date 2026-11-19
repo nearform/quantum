@@ -23,6 +23,16 @@
       "import": "./dist/esm/tailwind-plugin.js",
       "require": "./dist/tailwind-plugin.js"
     },
+    "./theme-init": {
+      "import": {
+        "types": "./dist/esm/theme-init.d.ts",
+        "default": "./dist/esm/theme-init.js"
+      },
+      "require": {
+        "types": "./dist/theme-init.d.ts",
+        "default": "./dist/theme-init.js"
+      }
+    },
     "./global.css": "./dist/global.css"
   },
   "scripts": {

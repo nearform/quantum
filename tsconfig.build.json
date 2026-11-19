@@ -11,5 +11,10 @@
     "paths": {}
   },
   "include": [],
-  "files": ["src/index.ts", "src/colors/index.ts", "src/animations/index.ts"]
+  "files": [
+    "src/index.ts",
+    "src/colors/index.ts",
+    "src/animations/index.ts",
+    "src/theme-init.ts"
+  ]
 }

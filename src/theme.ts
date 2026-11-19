@@ -40,7 +40,13 @@ export default {
     none: '0px 0px'
   },
   fontFamily: {
-    sans: ["'Inter'", ...defaultTheme.fontFamily.sans]
+    /**
+     * We name the typeface but do not ship it: see "Loading the typeface" in
+     * the README. `'Inter Variable'` is the family `@fontsource-variable/inter`
+     * registers, the usual way to self-host it, so loading that package is
+     * enough on its own. Google Fonts and a local install register `'Inter'`.
+     */
+    sans: ["'Inter'", "'Inter Variable'", ...defaultTheme.fontFamily.sans]
   },
   strokeWidth: {
     0: '0px',

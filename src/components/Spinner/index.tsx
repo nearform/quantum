@@ -42,6 +42,10 @@ const Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(
       <span
         ref={ref}
         role={hasLabel ? 'status' : undefined}
+        // `status` takes its name from the author, never from its content, so
+        // the hidden text alone leaves it unnamed to getByRole and to the
+        // accessibility tree. The text stays so the region announces it.
+        aria-label={hasLabel ? label : undefined}
         aria-hidden={hasLabel ? undefined : true}
         className={cn('inline-flex items-center justify-center', className)}
         {...props}

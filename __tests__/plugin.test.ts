@@ -385,8 +385,9 @@ describeBuilt('published global.css carries the Quantum theme', () => {
    * Drop one and there is no error — the default palette simply reappears.
    * Measured: without the resets this file grows by 322 bytes, gains
    * `--font-mono` and `--color-gray-800`, and emits a `.text-gray-800` utility
-   * for the misspelt class in Accordion (our palette is `grey`) that today
-   * resolves to nothing. `oklch` is the tell: every Quantum colour is a hex
+   * for a misspelt class Accordion then had (our palette is `grey`), which
+   * resolved to nothing with them; `palette-classes.test.ts` now keeps such
+   * classes out of `src/`. `oklch` is the tell: every Quantum colour is a hex
    * literal and every default v4 colour is `oklch()`, so one cannot be mistaken
    * for the other.
    */
