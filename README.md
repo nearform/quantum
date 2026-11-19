@@ -178,6 +178,94 @@ plugin hands your build a JS theme and your build inlines the values, so there
 is nothing to override at runtime — change them in your own `@theme` block or
 Tailwind config instead.
 
+#### Colour classes that build to nothing
+
+Two kinds of colour class compile without an error and emit no CSS, so the
+element quietly keeps whatever colour it inherits:
+
+- **A Tailwind hue we do not have.** On every route above our palette
+  _replaces_ Tailwind's rather than adding to it. Our neutral ramp is spelt
+  `grey`, so `bg-gray-100` is nothing, and there is no `amber`, `slate`,
+  `zinc`, `emerald`, `cyan`, `sky`, `violet`, `rose` and so on. Use our
+  semantic tokens (`foreground-muted`, `background-subtle`, `border`, ...),
+  which also come with a `-dark` pair, or a hue we do have: `grey`, `blue`,
+  `red`, `orange`, `yellow`, `green`, `teal`, `indigo`, `purple`, `pink`.
+- **One of our ramps without a shade.** `brandGreen`, `brandMidnight`, `grey`
+  and the other hues have no default, so `bg-brandGreen` and
+  `border-brandGreen` are nothing: write `bg-brandGreen-100`. A few names are
+  also shadows, and `shadow-brandGreen`, `shadow-red` and the like are fine.
+
+`__tests__/palette-classes.test.ts` keeps both out of this library. It reads
+the names from Tailwind's palette and `import { colors } from
+'@nearform/quantum'`, so the same check can be copied into your own tests.
+
+#### Loading the typeface
+
+Quantum is set in [Inter](https://rsms.me/inter/). The theme names it, but the
+package does not ship the font files: load them yourself, or every visitor who
+has not installed Inter gets the system font instead.
+
+Self-hosting it means the page makes no third-party request for it:
+
+```
+npm install @fontsource-variable/inter
+```
+
+```js
+// your entry point, once
+import '@fontsource-variable/inter'
+```
+
+That package registers the family as `'Inter Variable'`, which the `font-sans`
+stack lists right after `'Inter'`, so nothing else is needed. Google Fonts and a
+local install register `'Inter'`, which the stack leads with.
+
+#### Opening in the right theme
+
+`ThemeToggle` stores the chosen theme and sets the `.dark` class, but it runs
+after your app renders, so on its own a dark page opens light and then
+switches. `themeInitScript` closes that gap: it applies the stored choice, or
+the operating system's, before the first paint. Inline it at the start of the
+page's `<head>`, ahead of your stylesheet.
+
+It is published on its own as `@nearform/quantum/theme-init`, which imports
+nothing, so a build config can load it without React or any component. With
+Vite, inject it into `index.html`:
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+import { themeInitScript } from '@nearform/quantum/theme-init'
+
+export default defineConfig({
+  plugins: [
+    {
+      name: 'quantum-theme-init',
+      transformIndexHtml: () => [
+        { tag: 'script', children: themeInitScript, injectTo: 'head-prepend' }
+      ]
+    }
+  ]
+})
+```
+
+Where you render the `<head>` yourself, as in a Next.js root layout, import it
+from the package root and inline it there:
+
+```jsx
+import { themeInitScript } from '@nearform/quantum'
+
+<html lang="en" suppressHydrationWarning>
+  <head>
+    <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+  </head>
+  ...
+</html>
+```
+
+`suppressHydrationWarning` is there because the script changes the `<html>`
+class before React hydrates it.
+
 ## Accessibility
 
 Components target [WCAG 2.2](https://www.w3.org/TR/WCAG22/) level AA. Every
@@ -203,11 +291,17 @@ props rather than guessing:
 - **Form controls need a label.** `Input`, `Password`, `DateInput` and
   `Textarea` take `labelText` (rendered and wired up with `htmlFor`) and
   `helpText` (exposed through `aria-describedby`). `Checkbox`, `Radio`,
-  `Switch` and `SelectTrigger` have no text of their own -- pair them with
+  `Switch`, `SelectTrigger` and `NativeSelect` have no text of their own -- pair them with
   `ControlLabel`, an external `<label htmlFor>`, or give them an `aria-label`.
   A placeholder is not a label. Inside a `CheckboxGroup` or a `RadioGroup`,
   the option's `label` prop does this, and its `description` is wired up with
   it.
+- **Form controls are drawn for a surface.** In light mode the resting fill
+  of `Input`, `Password`, `DateInput`, `Textarea`, `SelectTrigger` and
+  `NativeSelect` is `background-alt`, which is also the page's own colour, so
+  on the bare page a field is only its border. Put forms on a `Card`, or on
+  anything else painted `background-surface`, and the fill reads as a field
+  again.
 - **A control inside a `FormGroup` has to pass its props on.** The group
   derives the label's `htmlFor`, the message ids behind `aria-describedby` and
   the `aria-invalid` flag from one id and hands them to whichever direct child
