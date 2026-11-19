@@ -77,6 +77,20 @@ describe('Spinner', () => {
     expect(ringOf(el).getAttribute('aria-hidden')).toBe('true')
   })
 
+  // `status` is named from the author only (ARIA 1.2), so a test querying
+  // getByRole('status', { name }) finds nothing unless aria-label is set
+  it('names the status from its label', () => {
+    const el = render(<Spinner label="Loading comments" />)
+    const status = el.querySelector('[role="status"]') as HTMLElement
+    expect(status.getAttribute('aria-label')).toBe('Loading comments')
+  })
+
+  it('lets an explicit aria-label win over the label', () => {
+    const el = render(<Spinner label="Loading" aria-label="Loading comments" />)
+    const status = el.querySelector('[role="status"]') as HTMLElement
+    expect(status.getAttribute('aria-label')).toBe('Loading comments')
+  })
+
   it.each([undefined, '', '   '])(
     'is aria-hidden with no role when label is %p',
     label => {
@@ -84,6 +98,7 @@ describe('Spinner', () => {
       const spinner = el.firstElementChild as HTMLElement
       expect(spinner.getAttribute('aria-hidden')).toBe('true')
       expect(spinner.getAttribute('role')).toBeNull()
+      expect(spinner.getAttribute('aria-label')).toBeNull()
       expect(spinner.textContent).toBe('')
     }
   )
