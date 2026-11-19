@@ -101,7 +101,7 @@ const AccordionTrigger = React.forwardRef<
         >
           {children}
           <BsChevronDown
-            className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180 w-3 h-3 text-gray-800"
+            className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180 w-3 h-3"
             aria-hidden
           />
         </AccordionPrimitive.Trigger>

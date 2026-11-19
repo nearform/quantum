@@ -72,7 +72,8 @@ const rules = (
  * merges. Without these resets the default theme merges back in and reaches the
  * published `dist/global.css` with no error to show for it — measured at 322
  * bytes, `--font-mono`, `--color-gray-800`, and a `.text-gray-800` utility for
- * the misspelt class in Accordion that resolves to nothing today. Small only
+ * a misspelt class Accordion then had, which resolved to nothing with them
+ * (`__tests__/palette-classes.test.ts` now keeps such classes out). Small only
  * because `src/` happens not to use much of the default palette; nothing stops
  * the next component from picking up a token we never meant to offer.
  *
