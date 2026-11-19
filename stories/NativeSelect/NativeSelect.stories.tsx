@@ -25,10 +25,13 @@ const meta = {
 
 export default meta
 
-const Template: StoryFn<NativeSelectProps> = args => (
+// The docs page renders every story at once, so each takes its id from its
+// own story id rather than sharing one, which would point every label at the
+// first select
+const Template: StoryFn<NativeSelectProps> = (args, { id }) => (
   <div className="flex w-64 flex-col gap-2">
-    <Label htmlFor="native-select-fruit">Fruit</Label>
-    <NativeSelect id="native-select-fruit" defaultValue="" {...args}>
+    <Label htmlFor={`${id}-fruit`}>Fruit</Label>
+    <NativeSelect id={`${id}-fruit`} defaultValue="" {...args}>
       {/* A list box shows every option, so it has no placeholder */}
       {!args.multiple && (
         <option value="" disabled>
