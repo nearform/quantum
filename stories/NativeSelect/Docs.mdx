@@ -1,0 +1,57 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as NativeSelectStories from './NativeSelect.stories'
+
+<Meta of={NativeSelectStories} />
+
+# NativeSelect
+
+The browser's own `<select>`, drawn like `Select`'s trigger so the two can sit
+in one form. Its variants and sizes are `SelectTrigger`'s, class for class.
+
+Reach for it where the platform's picker is the better choice: on touch
+devices, in long forms, or where a test or a screen reader needs a real
+`<select>`. Use `Select` when the options themselves need styling -- the open
+list here is the browser's and cannot be styled. In dark mode it opens in the
+dark scheme, through `color-scheme`.
+
+## Default
+
+<Canvas of={NativeSelectStories.Default} />
+
+## Large
+
+<Canvas of={NativeSelectStories.Large} />
+
+## Error
+
+<Canvas of={NativeSelectStories.Error} />
+
+## Success
+
+<Canvas of={NativeSelectStories.Success} />
+
+## Disabled
+
+<Canvas of={NativeSelectStories.Disabled} />
+
+## Multiple
+
+With `multiple` it is a list box: it shows its options, takes their height and
+has no chevron.
+
+<Canvas of={NativeSelectStories.Multiple} />
+
+## Attributes
+
+This component accepts all native HTML `<select>` attributes, plus:
+
+- `variant`: 'default' | 'error' | 'success'
+- `size`: 'sm' | 'lg' -- the field's height, as on `SelectTrigger`, not the
+  HTML attribute of that name
+- `wrapperClassName`: classes for the wrapper that positions the chevron, such
+  as a width; `className` goes on the `<select>`
+
+It has no placeholder. Start with an empty, disabled option, as the stories do.
+It has no label either: pair it with `Label` or `<label htmlFor>`, or give it
+an `aria-label`.
