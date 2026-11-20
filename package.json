@@ -63,7 +63,7 @@
   "bugs": {
     "url": "https://github.com/nearform/quantum/issues"
   },
-  "homepage": "https://github.com/nearform/quantum#readme",
+  "homepage": "https://nearform.github.io/quantum/",
   "lint-staged": {
     "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}": [
       "oxlint --fix",
