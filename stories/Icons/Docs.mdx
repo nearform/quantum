@@ -1,0 +1,154 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import * as IconsStories from './Icons.stories'
+
+<Meta of={IconsStories} />
+
+# Icons
+
+Quantum ships two sets of icons, both exported from the package entry:
+
+- **Brand icons**: custom icons drawn for Quantum, kept in
+  `src/assets/build/`.
+- **Bootstrap icons**: every icon from
+  [Bootstrap Icons](https://icons.getbootstrap.com/), re-exported from
+  [react-icons](https://react-icons.github.io/react-icons/icons/bs/) with a
+  `Bs` prefix.
+
+```tsx
+import { OpenSourceIcon, BsSearch, type IconType } from '@nearform/quantum'
+```
+
+## Brand icons
+
+Every brand icon the package exports. The list is read from the exports
+themselves, so a new icon appears here as soon as it is exported.
+
+<Canvas of={IconsStories.BrandIcons} />
+
+## Usage
+
+An icon is a React component that renders an `<svg>`. It takes the standard
+SVG props (`className`, `style`, `aria-*`, `role` and so on) and passes them
+to that element.
+
+```tsx
+<OpenSourceIcon className="size-6" />
+<BsSearch className="size-4 text-foreground-muted dark:text-foreground-muted-dark" />
+```
+
+### Sizing
+
+Size icons with Tailwind classes: `size-*` for a square box, or `w-*` and
+`h-*` separately. The drawing scales to fit and keeps its aspect ratio.
+
+<Canvas of={IconsStories.Sizing} />
+
+The two sets differ when no size is given:
+
+- **Bootstrap icons** default to `1em`, so they match the font size of the
+  text around them. They also accept react-icons' `size` prop.
+- **Brand icons** have no default size and do not support `size`. Without a
+  class they grow to fill their container, so always give them one.
+
+A class works on both, which makes it the safest choice.
+
+### Colour
+
+Icons draw with `currentColor`, so they take the text colour of their parent,
+in both themes. Put a `text-*` class on the text and the icon matches it, or
+put one on the icon to colour it alone.
+
+Check contrast before you colour the text as well. Not every colour that
+works on an icon clears the 4.5:1 body text needs: the light
+`text-feedback-success` does not on a white page, so the example above puts
+it on the icon only. [Colours](?path=/docs/colours--docs) lists the pairs
+that pass.
+
+<Canvas of={IconsStories.Colour} />
+
+## Bootstrap icons
+
+Every Bootstrap icon is re-exported with the `Bs` prefix and its name in
+PascalCase: `search` is `BsSearch`, `check-circle-fill` is
+`BsCheckCircleFill`. There are around 2,000 of them, so they are not shown
+here. Browse the
+[react-icons Bootstrap catalogue](https://react-icons.github.io/react-icons/icons/bs/)
+to find one; the names it shows are the ones to import.
+
+```tsx
+import { BsCheckCircleFill, BsSearch } from '@nearform/quantum'
+```
+
+Use `IconType` to type a prop or variable that holds any icon from either set:
+
+```tsx
+import type { IconType } from '@nearform/quantum'
+
+type NavItem = { label: string; icon: IconType }
+```
+
+## Accessibility
+
+<Canvas of={IconsStories.Accessibility} />
+
+- **Hide decorative icons.** If text next to the icon already says what it
+  means, add `aria-hidden` so screen readers skip it. Most icons are
+  decorative.
+- **Label meaningful icons.** If the icon carries meaning that is not written
+  anywhere else, such as a status shown only as an icon, give it
+  `role="img"` and an `aria-label`. The `role` makes assistive technology
+  treat the `<svg>` as one image, and the label is its text alternative
+  (WCAG 1.1.1).
+- **Use `IconButton` for icon-only buttons.** Do not put a bare icon inside
+  a `<button>`. [IconButton](?path=/docs/form-iconbutton--docs) requires a
+  `label` and gives the button its accessible name.
+- **Do not rely on colour alone.** A green tick and a red warning look the
+  same to some people. Pair the icon with text or a label (WCAG 1.4.1).
+
+```tsx
+// Meaningful
+<OpenSourceIcon role="img" aria-label="Open source" className="size-6" />
+
+// Decorative
+<p>
+  <BsCheckCircleFill aria-hidden className="size-4" />
+  Changes saved
+</p>
+
+// Icon-only button
+<IconButton icon={<BsSearch />} label="Search articles" />
+```
+
+## Adding a brand icon
+
+- **Write it as a component.** Create `src/assets/build/<name>.icon.tsx`
+  that exports an `IconType` component. Spread `props` onto the `<svg>` so
+  classes and ARIA attributes reach it, keep the `viewBox`, and leave out
+  `width` and `height`.
+- **Draw it with `currentColor`.** Set `fill="currentColor"` (or
+  `stroke="currentColor"` for an outline icon) on every shape, so the icon
+  takes the colour of its text. Remove hard-coded colours and `id`
+  attributes from the exported SVG, and use the JSX names of SVG attributes
+  (`fillRule`, not `fill-rule`).
+- **Export it.** Add it to `src/assets/index.ts`. It then appears in the
+  [brand icons](#brand-icons) grid above.
+
+```tsx
+// src/assets/build/example.icon.tsx
+import { IconType } from 'react-icons'
+
+export const ExampleIcon: IconType = props => (
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path d="..." fill="currentColor" />
+  </svg>
+)
+```
+
+```ts
+// src/assets/index.ts
+export * from './build/example.icon.tsx'
+```
+
+Name the export with an `Icon` suffix, and not with a `Bs` prefix, which
+belongs to Bootstrap icons.
