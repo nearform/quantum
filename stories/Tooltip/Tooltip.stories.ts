@@ -6,7 +6,8 @@ const meta = {
   title: 'Components/Tooltip',
   component: ToolTipDemo,
   parameters: {
-    layout: 'centered'
+    layout: 'centered',
+    visual: { open: 'hover' }
   }
 } satisfies Meta<typeof ToolTipDemo>
 
